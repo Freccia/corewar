@@ -6,7 +6,7 @@
 /*   By: nfinkel <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/03/13 16:16:50 by nfinkel           #+#    #+#             */
-/*   Updated: 2018/03/13 18:06:45 by nfinkel          ###   ########.fr       */
+/*   Updated: 2018/03/13 19:24:35 by lfabbro          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,12 @@
 
 # define _CW_CARRY (1 << 0)
 # define _CW_PROCMAX (101010)
+
+typedef struct		s_opt
+{
+	uint8_t			v;
+	uint8_t			c;
+}					t_opt;
 
 typedef struct		s_proc
 {
@@ -38,6 +44,7 @@ typedef struct		s_cw
 	t_proc			procs[_CW_PROCMAX];
 	size_t			cycle;
 	uint16_t		cycle_to_die;
+	t_opt			opt;
 }					t_cw;
 
 typedef int			(t_instr)(t_cw *cw, uint8_t a1, uint8_t a2, uint8_t a3);
@@ -59,10 +66,10 @@ int					cw_lldi(t_cw *cw, uint8_t a1, uint8_t a2, uint8_t a3);
 int					cw_lfork(t_cw *cw, uint8_t a1, uint8_t a2, uint8_t a3);
 int					cw_aff(t_cw *cw, uint8_t a1, uint8_t a2, uint8_t a3);
 
-int					cw_ncinit(t_cw *cw);
-int					cw_ncupdate(t_cw *cw);
-int					cw_ncnotify(t_cw *cw, uint16_t i, uint16_t p, uint8_t val);
-int					cw_ncexit(t_cw *cw);
+int					cw_nc_init(t_cw *cw);
+int					cw_nc_update(t_cw *cw);
+int					cw_nc_notify(t_cw *cw, uint16_t i, uint16_t p, uint8_t val);
+int					cw_nc_exit(t_cw *cw);
 
 void				cw_mem_dump(uint8_t *mem);
 int					cw_mem_write(t_cw *cw, uint8_t *pc, uint8_t value);
