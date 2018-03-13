@@ -1,19 +1,20 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   nc/update.c                                        :+:      :+:    :+:   */
+/*   nc/internal.h                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: alucas- <marvin@42.fr>                     +#+  +:+       +#+        */
+/*   By: nfinkel <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2018/03/12 18:15:51 by alucas-           #+#    #+#             */
-/*   Updated: 2018/03/12 18:15:53 by alucas-          ###   ########.fr       */
+/*   Created: 2018/03/13 16:16:50 by nfinkel           #+#    #+#             */
+/*   Updated: 2018/03/13 18:06:45 by nfinkel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "corewar.h"
+#ifndef NC_INTERNAL_H
+# define NC_INTERNAL_H
 
-int	cw_nc_update(t_cw *cw)
-{
-	(void)cw;
-	return (WUT);
-}
+# include <ncurses.h>
+
+# include "corewar.h"
+
+#endif
