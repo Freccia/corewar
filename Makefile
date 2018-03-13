@@ -28,13 +28,14 @@ LIB_NAME = $(addsuffix .dev, $(LIBS))
 else ifneq (,$(findstring san,$(PROJECT)))
 LIB_NAME = $(addsuffix .san, $(LIBS))
 else
-LIB_NAME = $(LIBS)
+LIB_NAME = $(LIBS) ncurses
 endif
 3TH_NAME = libft
 SRCA_NAME = \
 	asm/parser.c
 SRCB_NAME = \
-	vm/vm.c
+	vm/vm.c \
+	nc/exit.c nc/init.c nc/notify.c nc/update.c
 
 3TH = $(addprefix $(3TH_PATH)/, $(3TH_NAME))
 OBJA = $(addprefix $(OBJ_PATH)/, $(SRCA_NAME:.c=.o))

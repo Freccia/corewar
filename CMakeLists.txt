@@ -31,7 +31,11 @@ else ()
 endif ()
 
 add_executable(corewar include/op.h include/corewar.h
-  src/vm/vm.c)
+  src/vm/vm.c
+  src/nc/exit.c
+  src/nc/init.c
+  src/nc/notify.c
+  src/nc/update.c)
 set_property(TARGET corewar PROPERTY C_STANDARD 90)
 target_include_directories(corewar PUBLIC include)
 target_link_libraries(corewar PUBLIC debug ft)
