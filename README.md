@@ -1,1 +1,1 @@
-# corer
+# corewar
