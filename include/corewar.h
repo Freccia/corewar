@@ -66,10 +66,10 @@ int					cw_lldi(t_cw *cw, uint8_t a1, uint8_t a2, uint8_t a3);
 int					cw_lfork(t_cw *cw, uint8_t a1, uint8_t a2, uint8_t a3);
 int					cw_aff(t_cw *cw, uint8_t a1, uint8_t a2, uint8_t a3);
 
-int					cw_ncinit(t_cw *cw);
-int					cw_ncupdate(t_cw *cw);
-int					cw_ncnotify(t_cw *cw, uint16_t i, uint16_t p, uint8_t val);
-int					cw_ncexit(t_cw *cw);
+int					cw_nc_init(t_cw *cw);
+int					cw_nc_update(t_cw *cw);
+int					cw_nc_notify(t_cw *cw, uint16_t i, uint16_t p, uint8_t val);
+int					cw_nc_exit(t_cw *cw);
 
 void				cw_mem_dump(uint8_t *mem);
 int					cw_mem_write(t_cw *cw, uint8_t *pc, uint8_t value);
