@@ -1,10 +1,14 @@
+# Project
+asm
+corewar
+*.cor
+
 # Prerequisites
 *.d
 *.dSYM
 .*.sw*
 .*sw*
 .sw*
-*.cor
 
 # Object files
 *.o

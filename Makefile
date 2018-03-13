@@ -6,7 +6,7 @@
 #    By: alucas- <alucas-@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2017/11/07 09:52:36 by alucas-           #+#    #+#              #
-#    Updated: 2018/02/20 12:04:56 by alucas-          ###   ########.fr        #
+#    Updated: 2018/03/13 21:43:49 by mcanal           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -14,9 +14,9 @@ PROJECTA ?= asm
 PROJECTB ?= corewar
 WFLAGS = -Werror -Wextra -Wall
 RCFLAGS = $(WFLAGS) -O2
-CC ?= gcc
+CC = clang
 
-INC_PATH = include
+INC_PATH = include src/asm
 SRC_PATH = src
 OBJ_DIR ?= obj
 OBJ_PATH ?= $(OBJ_DIR)/rel
@@ -32,7 +32,17 @@ LIB_NAME = $(LIBS)
 endif
 3TH_NAME = libft
 SRCA_NAME = \
-	asm/parser.c
+	asm/asm_main.c \
+	asm/init_data.c \
+	asm/error.c \
+	asm/encoder/asm_encoder.c \
+	asm/encoder/write_cor.c \
+	asm/lexer/asm_lexer.c \
+	asm/lexer/read_header.c \
+	asm/lexer/read_instruction.c \
+	asm/parser/asm_parser.c \
+	asm/parser/parse_args.c \
+
 SRCB_NAME = \
 	vm/vm.c
 
