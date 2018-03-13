@@ -1,20 +1,24 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   asm.h                                              :+:      :+:    :+:   */
+/*   printf.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nfinkel <marvin@42.fr>                     +#+  +:+       +#+        */
+/*   By: alucas- <alucas-@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2018/03/13 16:17:34 by nfinkel           #+#    #+#             */
-/*   Updated: 2018/03/13 16:31:46 by nfinkel          ###   ########.fr       */
+/*   Created: 2018/02/25 00:42:42 by alucas-           #+#    #+#             */
+/*   Updated: 2018/02/25 00:42:42 by alucas-          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef ASM_H
-# define ASM_H
+#include "libft/io.h"
 
-# include <libft.h>
+int	ft_printf(char const *fmt, ...)
+{
+	int		ret;
+	va_list	ap;
 
-# include "op.h"
-
-#endif
+	va_start(ap, fmt);
+	ret = ft_vfprintf(g_stdout, fmt, ap);
+	va_end(ap);
+	return (ret);
+}

@@ -1,20 +1,22 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   asm.h                                              :+:      :+:    :+:   */
+/*   libft/mem.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nfinkel <marvin@42.fr>                     +#+  +:+       +#+        */
+/*   By: alucas- <alucas-@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2018/03/13 16:17:34 by nfinkel           #+#    #+#             */
-/*   Updated: 2018/03/13 16:31:46 by nfinkel          ###   ########.fr       */
+/*   Created: 2017/11/07 09:52:30 by alucas-           #+#    #+#             */
+/*   Updated: 2017/11/17 09:57:12 by null             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef ASM_H
-# define ASM_H
+#ifndef LIBFT_MEM_H
+# define LIBFT_MEM_H
 
-# include <libft.h>
+# include "lib.h"
 
-# include "op.h"
+extern void	*ft_calloc(size_t sz);
+extern void	*ft_malloc(size_t sz);
+extern void	*ft_realloc(void const *ptr, size_t psz, size_t sz);
 
 #endif

@@ -1,20 +1,30 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   asm.h                                              :+:      :+:    :+:   */
+/*   ft_pow.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nfinkel <marvin@42.fr>                     +#+  +:+       +#+        */
+/*   By: alucas- <alucas-@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2018/03/13 16:17:34 by nfinkel           #+#    #+#             */
-/*   Updated: 2018/03/13 16:31:46 by nfinkel          ###   ########.fr       */
+/*   Created: 2017/11/07 09:52:30 by alucas-           #+#    #+#             */
+/*   Updated: 2017/11/18 17:19:30 by null             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef ASM_H
-# define ASM_H
+#include "libft/math.h"
 
-# include <libft.h>
+inline uint64_t	ft_pow(int64_t n, int16_t p)
+{
+	uint64_t	r;
+	int64_t		t;
 
-# include "op.h"
-
-#endif
+	r = 1;
+	t = n;
+	while (p)
+	{
+		if (p & 1)
+			r *= t;
+		t *= t;
+		p = p >> 1;
+	}
+	return (r);
+}

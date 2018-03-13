@@ -13,7 +13,7 @@
 #ifndef OP_H
 # define OP_H
 
-# include "../../libft/includes/dependencies.h"
+# include <stdint.h>
 
 # define IND_SIZE 2
 # define REG_SIZE 4

@@ -1,20 +1,28 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   asm.h                                              :+:      :+:    :+:   */
+/*   beg.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nfinkel <marvin@42.fr>                     +#+  +:+       +#+        */
+/*   By: alucas- <alucas-@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2018/03/13 16:17:34 by nfinkel           #+#    #+#             */
-/*   Updated: 2018/03/13 16:31:46 by nfinkel          ###   ########.fr       */
+/*   Created: 2017/11/07 09:52:33 by alucas-           #+#    #+#             */
+/*   Updated: 2017/11/07 09:53:34 by alucas-          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef ASM_H
-# define ASM_H
+#include "libft/ds.h"
 
-# include <libft.h>
+inline void	*ft_deqbeg(t_deq *self)
+{
+	return (self->buf + (self->cur * self->isz));
+}
 
-# include "op.h"
+inline char	*ft_sdsbeg(t_sds *self)
+{
+	return (self->buf);
+}
 
-#endif
+inline void	*ft_vecbeg(t_vec *self)
+{
+	return (self->buf);
+}

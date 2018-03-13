@@ -1,20 +1,23 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   asm.h                                              :+:      :+:    :+:   */
+/*   libft/tys.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nfinkel <marvin@42.fr>                     +#+  +:+       +#+        */
+/*   By: alucas- <alucas-@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2018/03/13 16:17:34 by nfinkel           #+#    #+#             */
-/*   Updated: 2018/03/13 16:31:46 by nfinkel          ###   ########.fr       */
+/*   Created: 2017/11/07 09:52:30 by alucas-           #+#    #+#             */
+/*   Updated: 2017/11/15 18:08:38 by null             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef ASM_H
-# define ASM_H
+#ifndef LIBFT_TYS_H
+# define LIBFT_TYS_H
 
-# include <libft.h>
+# include <limits.h>
+# include <stdint.h>
+# include <stddef.h>
+# include <sys/types.h>
 
-# include "op.h"
+typedef uint8_t	t_bool;
 
 #endif

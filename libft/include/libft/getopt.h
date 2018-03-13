@@ -1,20 +1,26 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   asm.h                                              :+:      :+:    :+:   */
+/*   ush/env.h                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nfinkel <marvin@42.fr>                     +#+  +:+       +#+        */
+/*   By: alucas- <alucas-@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2018/03/13 16:17:34 by nfinkel           #+#    #+#             */
-/*   Updated: 2018/03/13 16:31:46 by nfinkel          ###   ########.fr       */
+/*   Created: 2017/11/07 09:52:30 by cmalfroy          #+#    #+#             */
+/*   Updated: 2017/12/06 12:00:10 by alucas-          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef ASM_H
-# define ASM_H
+#ifndef LIBFT_GETOPT_H
+# define LIBFT_GETOPT_H
 
-# include <libft.h>
+# include "str.h"
+# include "io.h"
 
-# include "op.h"
+extern int		g_optind;
+extern char		*g_optarg;
+extern int		g_opterr;
+extern int		g_optopt;
+
+int				ft_getopt(int ac, char **av, const char *fmt);
 
 #endif

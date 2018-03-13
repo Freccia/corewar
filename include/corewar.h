@@ -13,7 +13,9 @@
 #ifndef COREWAR_H
 # define COREWAR_H
 
-# include "./op.h"
+# include <libft.h>
+
+# include "op.h"
 
 # define _CW_CARRY (1 << 0)
 # define _CW_PROCMAX (101010)
