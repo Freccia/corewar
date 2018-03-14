@@ -63,6 +63,7 @@ add_executable(corewar include/op.h include/corewar.h
   src/vm/cw_sub.c
   src/vm/cw_xor.c
   src/vm/cw_zjmp.c
+  src/vm/vm_tools.c
   src/nc/internal.h
   src/nc/exit.c
   src/nc/init.c

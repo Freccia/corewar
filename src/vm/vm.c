@@ -103,7 +103,7 @@ int		cw_vm_run(void)
 		}
 		if (cw_vm_eval(g_cw->current) == EXIT_FAILURE)
 			cw_vm_kill_process(&g_cw->current, g_cw->prev);
-		if (g_cw->cycle >= g_cw->cycle_to_die)
+		if (g_cw->cycle >= (size_t)g_cw->cycle_to_die)
 		{
 			g_cw->cycle = 0;
 			g_cw->cycle_to_die -= CYCLE_DELTA;
