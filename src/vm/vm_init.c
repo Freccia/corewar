@@ -55,7 +55,7 @@ int		cw_vm_init(t_cw *cw, int ac, char **av)
 	while (i < ac)
 	{
 		if ((ptr = cw_vm_parse(&(cw->mem[dist * plyrs_dist]), av[i])) == NULL)
-			return (cw_error("Failed parsing file.", 3));
+			return (cw_exit(EXIT_FAILURE, "%s: Failed parsing file.\n", av[i]));
 		ptr->next = cw->procs;
 		if (cw->procs)
 			cw->procs = ptr;

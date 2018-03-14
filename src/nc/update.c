@@ -20,7 +20,10 @@ int	cw_nc_update(t_cw *cw)
 		return (YEP);
 	if ((ch = getch()) != ERR)
 	{
+		if (ch == KEY_EXIT || ch == KEY_END)
+			cw_exit(EXIT_SUCCESS, NULL);
 		ft_printf("got %d\n", ch);
+		cw_nc_notify(cw, (uint16_t)ch, (uint16_t)(ch % 8), (uint8_t)ch);
 	}
 	return (YEP);
 }

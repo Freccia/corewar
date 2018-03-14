@@ -12,7 +12,9 @@
 
 #include "corewar.h"
 
-int		cw_vm_usage(int ac, char **av)
+static t_cw	*g_cw = NULL;
+
+static int	cw_vm_usage(int ac, char **av)
 {
 	(void)ac;
 	ft_printf("Usage: %s [ options ] <champ.cor> <...>\n", av[0]);
@@ -26,16 +28,23 @@ int		cw_vm_usage(int ac, char **av)
 	return (EXIT_FAILURE);
 }
 
-int		cw_error(char *msg, int err)
+int		cw_exit(int ecode, char const *fmt, ...)
 {
-	ft_printf("%s\n", msg);
-	return (err);
-}
+	va_list ap;
 
-int		cw_exit(int rcode, t_cw *cw)
-{
-	cw_nc_exit(cw);
-	exit(rcode);
+	if (fmt)
+	{
+		ft_fprintf(g_stderr, "corewar: ");
+		va_start(ap, fmt);
+		ft_vfprintf(g_stderr, fmt, ap);
+		va_end(ap);
+	}
+	if (g_cw)
+	{
+		cw_nc_exit(g_cw);
+		// todo: destruct things
+	}
+	exit(ecode);
 }
 
 int		cw_vm_run(t_cw *cw)
@@ -44,7 +53,7 @@ int		cw_vm_run(t_cw *cw)
 	while (1)
 	{
 		if (cw_nc_update(cw))
-			return (cw_exit(EXIT_FAILURE, cw));
+			return (cw_exit(EXIT_FAILURE, NULL));
 		++cw->cycle;
 	}
 }
@@ -69,9 +78,9 @@ int 	main(int ac, char **av)
 		else
 			return (cw_vm_usage(ac, av));
 	}
-	if (cw_vm_init(&cw, ac, av))
-		return (cw_exit(EXIT_FAILURE, &cw));
+	if (cw_vm_init(g_cw = &cw, ac, av))
+		return (cw_exit(EXIT_FAILURE, NULL));
 	if (cw_vm_run(&cw))
-		return (cw_exit(EXIT_FAILURE, &cw));
-	return (cw_exit(EXIT_SUCCESS, &cw));
+		return (cw_exit(EXIT_FAILURE, NULL));
+	return (cw_exit(EXIT_SUCCESS, NULL));
 }

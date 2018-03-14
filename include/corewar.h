@@ -95,6 +95,6 @@ int					cw_vm_eval(t_cw *cw, uint8_t *pc);
 t_proc				*cw_vm_parse(uint8_t *mem, const char *filename);
 int					cw_vm_init(t_cw *cw, int ac, char **av);
 int					cw_vm_run(t_cw *cw);
-int					cw_error(char *msg, int err);
+int					cw_exit(int ecode, char const *fmt, ...);
 
 #endif
