@@ -6,7 +6,7 @@
 #    By: alucas- <alucas-@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2017/11/07 09:52:36 by alucas-           #+#    #+#              #
-#    Updated: 2018/03/14 05:29:51 by mc               ###   ########.fr        #
+#    Updated: 2018/03/14 10:22:50 by lfabbro          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -33,7 +33,7 @@ SRCA_NAME = \
 	asm/parser/parse_args.c
 SRCB_NAME = \
 	op.c \
-	vm/vm.c \
+	vm/vm.c vm/vm_init.c\
   nc/exit.c nc/init.c nc/notify.c nc/update.c
 
 # folder-names of the sources
@@ -104,14 +104,14 @@ endif
 PRINTF = test $(VERBOSE)$(TRAVIS) || printf
 
 # some colors for pretty printing
-WHITE =		\x1b[37m
-RED =		\x1b[31m
-GREEN =		\x1b[32m
-YELLOW =	\x1b[33m
-BLUE =		\x1b[34m
-BASIC =		\x1b[0m
-TODO_A =	\x1b[0K  #TODO
-TODO_B =	\x1b[17C #TODO
+WHITE =		\033[37m
+RED =		\033[31m
+GREEN =		\033[32m
+YELLOW =	\033[33m
+BLUE =		\033[34m
+BASIC =		\033[0m
+TODO_A =	\033[0K  #TODO
+TODO_B =	\033[17C #TODO
 EVIL =		\r
 
 ##

@@ -6,13 +6,13 @@
 /*   By: alucas- <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/03/12 18:15:51 by alucas-           #+#    #+#             */
-/*   Updated: 2018/03/13 20:00:19 by lfabbro          ###   ########.fr       */
+/*   Updated: 2018/03/14 10:15:01 by lfabbro          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "corewar.h"
 
-int		print_usage(int ac, char **av)
+int		cw_vm_usage(int ac, char **av)
 {
 	(void)ac;
 	ft_printf("Usage: %s [ options ] <champ.cor> <...>\n", av[0]);
@@ -26,25 +26,24 @@ int		print_usage(int ac, char **av)
 	return (EXIT_FAILURE);
 }
 
-int		cw_init(t_cw *cw)
+int		cw_error(char *msg, int err)
 {
-	cw_nc_init(cw);
-	return (YEP);
+	ft_printf("%s\n", msg);
+	return (err);
 }
 
-int		cw_exit(t_cw *cw)
+int		cw_exit(int rcode, t_cw *cw)
 {
-
 	cw_nc_exit(cw);
-	exit(EXIT_SUCCESS);
+	exit(rcode);
 }
 
-int		cw_run(t_cw *cw)
+int		cw_vm_run(t_cw *cw)
 {
 	while (1)
 	{
 		if (cw_nc_update(cw))
-			return (cw_exit(cw));
+			return (cw_exit(EXIT_FAILURE, cw));
 		++cw->cycle;
 	}
 }
@@ -56,7 +55,7 @@ int 	main(int ac, char **av)
 
 	g_optind = 1;
 	if (ac < 2)
-		return (print_usage(ac, av));
+		return (cw_vm_usage(ac, av));
 	ft_bzero(&cw, sizeof(t_cw));
 	while ((opt = ft_getopt(ac, av, "nc:v:")) != -1)
 	{
@@ -67,9 +66,11 @@ int 	main(int ac, char **av)
 		else if (opt == 'n')
 			cw.opt.n ^= 1;
 		else
-			return (print_usage(ac, av));
+			return (cw_vm_usage(ac, av));
 	}
-	if (!cw_init(&cw))
-		cw_run(&cw);
-	return (cw_exit(&cw));
+	if (cw_vm_init(&cw, ac, av) == EXIT_FAILURE)
+		return (cw_exit(EXIT_FAILURE, &cw));
+	if (cw_vm_run(&cw) == EXIT_FAILURE)
+		return (cw_exit(EXIT_FAILURE, &cw));
+	return (cw_exit(EXIT_SUCCESS, &cw));
 }
