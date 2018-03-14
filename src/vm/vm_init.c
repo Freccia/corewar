@@ -6,7 +6,7 @@
 /*   By: lfabbro <>                                 +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/03/14 10:10:16 by lfabbro           #+#    #+#             */
-/*   Updated: 2018/03/14 12:15:10 by lfabbro          ###   ########.fr       */
+/*   Updated: 2018/03/14 13:35:08 by lfabbro          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ static int	cw_bin_stat(const char *filename)
 	if (stat(filename, &bin_stat) < 0)
 		return (-1);
 	bin_size = bin_stat.st_size - _CW_HEAD_SZ;
-	if (bin_size > CHAMP_MAX_SIZE)
+	if (bin_size > CHAMP_MAX_SIZE || bin_size < 0)
 		return (-1);
 	return (bin_size);
 }
@@ -47,11 +47,11 @@ t_proc		*cw_vm_parse(uint8_t *mem, const char *filename)
 	if (*(unsigned int*)buf != _CW_MAGIC)
 		return (NULL);
 
-	ft_printf("Magic: %x - %x\n", *(unsigned int*)buf, _CW_MAGIC);
+	ft_printf("Magic: %x - %x - %x\n", *(unsigned int*)buf, _CW_MAGIC, _CW_HEAD_SZ);
 
 	if (read(fd, &buf, bin_size) <= 0)
 		return (NULL);
-	ft_memcpy(mem, &(buf[0]), bin_size);
+	ft_memcpy(mem, buf, bin_size);
 	if (close(fd) < 0)
 		return (NULL);
 	proc = malloc(sizeof(t_proc));
