@@ -6,7 +6,7 @@
 /*   By: nfinkel <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/03/13 16:16:50 by nfinkel           #+#    #+#             */
-/*   Updated: 2018/03/14 10:42:58 by lfabbro          ###   ########.fr       */
+/*   Updated: 2018/03/14 11:41:11 by lfabbro          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,8 +17,15 @@
 
 # include "op.h"
 
-# define _CW_CARRY (1 << 0)
-# define _CW_PROCMAX (101010)
+// C'est degueulasse, mais c'est pour la norme...
+# define SWAP_INT_C(a)	((unsigned int)(a & 0xff) >> 24)
+# define SWAP_INT_B(a)	(((a) >> 8) & 0x0000ff00) | SWAP_INT_C(a) 
+# define SWAP_INT_A(a)	(((a) << 8) & 0x00ff0000) | SWAP_INT_B(a) 
+# define SWAP_INT(a)	(((a & 0xff) << 24) | SWAP_INT_A(a))
+
+# define _CW_CARRY		(1 << 0)
+# define _CW_PROCMAX	(101010)
+# define _CW_MAGIC		SWAP_INT(COREWAR_EXEC_MAGIC)
 
 typedef struct		s_opt
 {
@@ -84,8 +91,8 @@ int					cw_vm_eval(t_cw *cw, uint8_t *pc);
 /*
 ** parse fichier cor 
 */
+t_proc				*cw_vm_parse(uint8_t *mem, const char *filename);
 int					cw_vm_init(t_cw *cw, int ac, char **av);
-t_proc				*cw_vm_parse(t_cw *cw, const char *filename);
 int					cw_vm_run(t_cw *cw);
 int					cw_error(char *msg, int err);
 
