@@ -57,6 +57,7 @@ typedef struct		s_cw
 	size_t			cycle;
 	int				cycle_to_die;
 	t_opt			opt;
+	char			players[MAX_PLAYERS][PROG_NAME_LENGTH];
 }					t_cw;
 
 extern t_cw			*g_cw;

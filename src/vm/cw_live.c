@@ -28,7 +28,8 @@ int					cw_live(uint8_t a1, uint8_t a2, uint8_t a3)
 		if (ptr->color == a1)
 		{
 			ptr->lastlive = g_cw->cycle;
-			ft_printf("Player %d (%s) is alive!\n", ptr->color, ptr->name);
+			ft_printf("Player %d (%s) is alive!\n", ptr->color,
+				g_cw->players[ptr->color - 1]);
 			break ;
 		}
 		ptr = ptr->next;

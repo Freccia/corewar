@@ -39,6 +39,8 @@ uint16_t		cw_vm_parse(const char *filename, uint8_t *dest)
 	if (close(fd) < 0)
 		cw_exit(3, "Failed closing fd.\n");
 	ft_memcpy(dest, buf, (size_t)bin_size);
+	ft_memcpy(g_cw->players[g_player], dest + sizeof(_CW_MAGIC),
+		PROG_NAME_LENGTH);
 	return ((uint16_t)bin_size);
 }
 
