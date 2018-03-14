@@ -32,17 +32,17 @@ int		cw_exit(int ecode, char const *fmt, ...)
 {
 	va_list ap;
 
+	if (g_cw)
+	{
+		cw_nc_exit(g_cw);
+		// todo: destruct things
+	}
 	if (fmt)
 	{
 		ft_fprintf(g_stderr, "corewar: ");
 		va_start(ap, fmt);
 		ft_vfprintf(g_stderr, fmt, ap);
 		va_end(ap);
-	}
-	if (g_cw)
-	{
-		cw_nc_exit(g_cw);
-		// todo: destruct things
 	}
 	exit(ecode);
 }
