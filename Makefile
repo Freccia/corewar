@@ -6,7 +6,7 @@
 #    By: alucas- <alucas-@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2017/11/07 09:52:36 by alucas-           #+#    #+#              #
-#    Updated: 2018/03/14 10:22:50 by lfabbro          ###   ########.fr        #
+#    Updated: 2018/03/14 15:14:29 by lfabbro          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -34,7 +34,10 @@ SRCA_NAME = \
 SRCB_NAME = \
 	op.c \
 	vm/vm.c vm/vm_init.c\
-  nc/exit.c nc/init.c nc/notify.c nc/update.c
+	vm/cw_add.c vm/cw_aff.c vm/cw_and.c vm/cw_fork.c vm/cw_ld.c vm/cw_ldi.c \
+	vm/cw_lfork.c vm/cw_live.c vm/cw_lld.c vm/cw_lldi.c vm/cw_or.c vm/cw_st.c \
+	vm/cw_sti.c vm/cw_sub.c vm/cw_xor.c vm/cw_zjmp.c \
+	nc/exit.c nc/init.c nc/notify.c nc/update.c
 
 # folder-names of the sources
 SRC_PATH = src
