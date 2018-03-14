@@ -6,7 +6,7 @@
 /*   By: nfinkel <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/03/13 16:16:50 by nfinkel           #+#    #+#             */
-/*   Updated: 2018/03/14 16:34:28 by lfabbro          ###   ########.fr       */
+/*   Updated: 2018/03/14 17:24:30 by lfabbro          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,7 +60,7 @@ typedef struct		s_cw
 
 extern t_cw			*g_cw;
 
-typedef int			(t_instr)(uint8_t a1, uint8_t a2, uint8_t a3);
+typedef int			(*t_instr)(uint8_t a1, uint8_t a2, uint8_t a3);
 
 int					cw_live(uint8_t a1, uint8_t a2, uint8_t a3);
 int					cw_ld(uint8_t a1, uint8_t a2, uint8_t a3);

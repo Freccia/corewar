@@ -6,7 +6,7 @@
 /*   By: alucas- <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/03/12 18:15:51 by alucas-           #+#    #+#             */
-/*   Updated: 2018/03/14 16:42:37 by lfabbro          ###   ########.fr       */
+/*   Updated: 2018/03/14 17:30:37 by lfabbro          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,15 +57,14 @@ int		cw_vm_kill_process(t_proc **proc, t_proc *prev)
 	*proc = NULL;
 	return (EXIT_SUCCESS);
 }
-/*
-static t_instr *g_instrs[16] = {
-	[1] = cw_live
-};*/
 
 int		cw_vm_exec(uint8_t *pc)
 {
-	(void)pc;
-	//g_instrs[*pc]()
+	static t_instr	g_instr[16] = {cw_live, cw_ld, cw_st, cw_add, \
+		cw_sub, cw_and, cw_or, cw_xor, cw_zjmp, cw_ldi, cw_sti, \
+		cw_fork, cw_lld, cw_lldi, cw_lfork, cw_aff};
+
+	g_instr[*pc](pc[1], pc[2], pc[3]);
 	return (EXIT_FAILURE);
 }
 
@@ -74,6 +73,7 @@ int		cw_vm_eval(t_proc *proc)
 	t_instr		instr;
 	uint8_t		off;
 
+	(void)instr;
 	if (!proc)
 		return (EXIT_SUCCESS);
 	if (proc->wait > 0)
