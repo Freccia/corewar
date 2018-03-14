@@ -6,7 +6,7 @@
 /*   By: lfabbro <>                                 +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/03/14 10:10:16 by lfabbro           #+#    #+#             */
-/*   Updated: 2018/03/14 16:35:40 by lfabbro          ###   ########.fr       */
+/*   Updated: 2018/03/14 18:51:33 by lfabbro          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -93,7 +93,7 @@ static int		r1_checkvalid(int r1)
 int				cw_vm_init(int ac, char **av, int r1)
 {
 	int		opt;
-	uint8_t	buf[4096];
+	uint8_t	buf[MEM_SIZE];
 	uint8_t	*ptr;
 
 	ptr = buf;

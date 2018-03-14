@@ -6,7 +6,7 @@
 /*   By: nfinkel <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/03/13 16:16:50 by nfinkel           #+#    #+#             */
-/*   Updated: 2018/03/14 17:24:30 by lfabbro          ###   ########.fr       */
+/*   Updated: 2018/03/14 19:07:46 by lfabbro          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,6 +37,7 @@ typedef struct		s_opt
 
 typedef struct		s_proc
 {
+	char			name[128];
 	uint8_t			flags;
 	uint8_t			color;
 	uint8_t			*pc;
