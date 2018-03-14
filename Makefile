@@ -104,14 +104,14 @@ endif
 PRINTF = test $(VERBOSE)$(TRAVIS) || printf
 
 # some colors for pretty printing
-WHITE =		\x1b[37
-RED =		\x1b[31
-GREEN =		\x1b[32
-YELLOW =	\x1b[33
-BLUE =		\x1b[34
+WHITE =		\x1b[37m
+RED =		\x1b[31m
+GREEN =		\x1b[32m
+YELLOW =	\x1b[33m
+BLUE =		\x1b[34m
 BASIC =		\x1b[0m
 TODO_A =	\x1b[0K  #TODO
-TODO_B =	\x1b[20C #TODO
+TODO_B =	\x1b[17C #TODO
 EVIL =		\r
 
 ##

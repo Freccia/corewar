@@ -111,14 +111,14 @@ endif
 PRINTF = test $(VERBOSE)$(TRAVIS) || printf
 
 # some colors for pretty printing
-WHITE =		\x1b[37
-RED =		\x1b[31
-GREEN =		\x1b[32
-YELLOW =	\x1b[33
-BLUE =		\x1b[34
+WHITE =		\x1b[37m
+RED =		\x1b[31m
+GREEN =		\x1b[32m
+YELLOW =	\x1b[33m
+BLUE =		\x1b[34m
 BASIC =		\x1b[0m
 TODO_A =	\x1b[0K  #TODO
-TODO_B =	\x1b[20C #TODO
+TODO_B =	\x1b[17C #TODO
 EVIL =		\r
 
 # add define for os/arch
@@ -158,40 +158,40 @@ endif
 all:
 	@$(PRINTF) "%-20s" "$(PROJECT).a: lib"
 	$(MAKE) $(PROJECT).a "CFLAGS = $(RCFLAGS)" "OBJ_PATH = $(OBJ_DIR)/rel"
-	@$(PRINTF) "$(EVIL)$(TODO_B)$(TODO_A)$(GREEN)✔\$(BASIC)\n"
+	@$(PRINTF) "$(EVIL)$(TODO_B)$(TODO_A)$(GREEN)✔$(BASIC)\n"
 
 # build for gdb/valgrind debugging
 dev:
 	@$(PRINTF) "%-20s" "$(PROJECT).dev: exe"
 	$(MAKE) $(PROJECT).dev.a "PROJECT = $(PROJECT).dev" "CFLAGS = $(DCFLAGS)" \
 	  "OBJ_PATH = $(OBJ_DIR)/dev"
-	@$(PRINTF) "$(EVIL)$(TODO_B)$(TODO_A)$(GREEN)✔\$(BASIC)\n"
+	@$(PRINTF) "$(EVIL)$(TODO_B)$(TODO_A)$(GREEN)✔$(BASIC)\n"
 
 # build for runtime debugging (fsanitize)
 san:
 	@$(PRINTF) "%-20s" "$(PROJECT).san: exe"
 	$(MAKE) $(PROJECT).san.a "PROJECT = $(PROJECT).san" "CFLAGS = $(SCFLAGS)" \
 	  "OBJ_PATH = $(OBJ_DIR)/san"
-	@$(PRINTF) "$(EVIL)$(TODO_B)$(TODO_A)$(GREEN)✔\$(BASIC)\n"
+	@$(PRINTF) "$(EVIL)$(TODO_B)$(TODO_A)$(GREEN)✔$(BASIC)\n"
 
 # masochist build
 mecry:
 	@$(PRINTF) "%-20s" "$(PROJECT).a: gg"
 	$(MAKE) $(PROJECT).a "CFLAGS = $(WWFLAGS)" "OBJ_PATH = $(OBJ_DIR)/rel"
-	@$(PRINTF) "$(EVIL)$(TODO_B)$(TODO_A)$(GREEN)✔\$(BASIC)\n"
+	@$(PRINTF) "$(EVIL)$(TODO_B)$(TODO_A)$(GREEN)✔$(BASIC)\n"
 
 # remove all generated .o and .d
 clean:
 	$(RM) $(OBJ) $(DEP)
 	$(RM) $(OBJ:$(OBJ_DIR)/rel%=$(OBJ_DIR)/dev%) $(DEP:$(OBJ_DIR)/rel%=$(OBJ_DIR)/dev%)
 	$(RM) $(OBJ:$(OBJ_DIR)/rel%=$(OBJ_DIR)/san%) $(DEP:$(OBJ_DIR)/rel%=$(OBJ_DIR)/san%)
-	@$(PRINTF) "%-20s$(GREEN)✔\$(BASIC)\n" "$(PROJECT): $@"
+	@$(PRINTF) "%-20s$(GREEN)✔$(BASIC)\n" "$(PROJECT): $@"
 
 # remove the generated binary, and all .o and .d
 fclean: clean
 	test -d $(OBJ_DIR) && find $(OBJ_DIR) -type d | sort -r | xargs $(RMDIR) || true
 	$(RM) $(PROJECT){,.san,.dev}.a
-	@$(PRINTF) "%-20s$(GREEN)✔\$(BASIC)\n" "$(PROJECT): $@"
+	@$(PRINTF) "%-20s$(GREEN)✔$(BASIC)\n" "$(PROJECT): $@"
 
 # some people like it real clean
 mrproper:
