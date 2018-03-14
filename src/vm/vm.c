@@ -6,7 +6,7 @@
 /*   By: alucas- <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/03/12 18:15:51 by alucas-           #+#    #+#             */
-/*   Updated: 2018/03/14 15:39:26 by lfabbro          ###   ########.fr       */
+/*   Updated: 2018/03/14 16:42:37 by lfabbro          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,9 +47,45 @@ int		cw_exit(int ecode, char const *fmt, ...)
 	exit(ecode);
 }
 
+int		cw_vm_kill_process(t_proc *proc, t_proc *prev)
+{
+	t_proc		*tmp;
+
+	tmp = proc;
+	if (proc->next != NULL)
+		prev->next = proc->next;
+	free(proc);
+	proc = NULL;
+	return (EXIT_SUCCESS);
+}
+
+int		cw_vm_exec(uint8_t *pc)
+{
+	(void)pc;
+	return (EXIT_FAILURE);
+}
+
+int		cw_vm_eval(t_proc *proc)
+{
+	t_instr		instr;
+	uint8_t		off;
+
+	if (proc->wait > 0)
+	{
+		--proc->wait;
+		return (EXIT_SUCCESS);
+	}
+	off = cw_vm_exec(proc->pc);
+	if (off == EXIT_FAILURE)
+		return (EXIT_FAILURE);
+	proc->pc += off;
+	proc->wait = cw_instr_cycles(*proc->pc);
+	return (EXIT_SUCCESS);
+}
+
 int		cw_vm_run(void)
 {
-	while (1)
+	while (g_cw->cycle_to_die > 0)
 	{
 		if (cw_nc_update())
 			return (cw_exit(EXIT_FAILURE, NULL));
@@ -59,12 +95,18 @@ int		cw_vm_run(void)
 			// todo: dump mem
 			return (cw_exit(EXIT_SUCCESS, NULL));
 		}
+		if (cw_vm_eval(g_cw->current) == EXIT_FAILURE)
+			cw_vm_kill_process(g_cw->current, g_cw->prev);
 		if (g_cw->cycle >= g_cw->cycle_to_die)
 		{
 			g_cw->cycle = 0;
 			g_cw->cycle_to_die -= CYCLE_DELTA;
 		}
+		g_cw->prev = g_cw->current;
+		if ((g_cw->current = g_cw->current->next) == NULL)
+			g_cw->current = g_cw->procs;
 	}
+	return (EXIT_SUCCESS);
 }
 
 int 	main(int ac, char **av)

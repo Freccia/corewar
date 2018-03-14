@@ -6,7 +6,7 @@
 /*   By: nfinkel <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/03/13 16:16:50 by nfinkel           #+#    #+#             */
-/*   Updated: 2018/03/14 16:00:33 by lfabbro          ###   ########.fr       */
+/*   Updated: 2018/03/14 16:34:28 by lfabbro          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,6 +50,7 @@ typedef struct		s_cw
 {
 	uint8_t			mem[MEM_SIZE];
 	uint16_t		proc_count;
+	t_proc			*prev;
 	t_proc			*current;
 	t_proc			*procs;
 	size_t			cycle;
@@ -92,7 +93,7 @@ void				cw_mem_cpy(uint8_t *mem, uint8_t const *src, size_t len,
 ** parse instruction arguments 
 ** return the pc offset or -1 in case of zboub (error)
 */
-int					cw_vm_eval(t_cw *cw, uint8_t *pc);
+int					cw_vm_eval(t_proc *proc);
 
 /*
 ** takes instruction number, returns instruction cycles

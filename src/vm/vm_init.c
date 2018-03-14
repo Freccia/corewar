@@ -6,7 +6,7 @@
 /*   By: lfabbro <>                                 +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/03/14 10:10:16 by lfabbro           #+#    #+#             */
-/*   Updated: 2018/03/14 16:03:47 by lfabbro          ###   ########.fr       */
+/*   Updated: 2018/03/14 16:35:40 by lfabbro          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,6 +68,7 @@ int		cw_vm_init(int ac, char **av)
 		++dist;
 		++i;
 	}
+	g_cw->prev = g_cw->procs;
 	g_cw->current = g_cw->procs;
 	return (EXIT_SUCCESS);
 }
