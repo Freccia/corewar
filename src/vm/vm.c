@@ -27,14 +27,26 @@ int		print_usage(int ac, char **av)
 
 int		cw_init(t_cw *cw)
 {
-	memset(cw, 0, sizeof(t_cw));
-	return (EXIT_SUCCESS);
+
+	cw_nc_init(cw);
+	return (YEP);
+}
+
+int		cw_exit(t_cw *cw)
+{
+
+	cw_nc_exit(cw);
+	exit(EXIT_SUCCESS);
 }
 
 int		cw_run(t_cw *cw)
 {
-	(void)cw;
-	return (WUT);
+	while (1)
+	{
+		if (cw_nc_update(cw))
+			return (cw_exit(cw));
+		++cw->cycle;
+	}
 }
 
 int 	main(int ac, char **av)
@@ -45,7 +57,7 @@ int 	main(int ac, char **av)
 	g_optind = 1;
 	if (ac < 2)
 		return (print_usage(ac, av));
-	cw_init(&cw);
+	ft_bzero(&cw, sizeof(t_cw));
 	while ((opt = ft_getopt(ac, av, "c:v:")) != -1)
 	{
 		if (opt == 'v')
@@ -53,8 +65,9 @@ int 	main(int ac, char **av)
 		else if (opt == 'c')
 			cw.opt.c = (uint8_t)ft_atoi(g_optarg);
 		else
-			return (EXIT_FAILURE);
+			return (print_usage(ac, av));
 	}
-	cw_run(&cw);
-	return (EXIT_SUCCESS);
+	if (!cw_init(&cw))
+		cw_run(&cw);
+	return (cw_exit(&cw));
 }

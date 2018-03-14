@@ -18,7 +18,7 @@
 # include "op.h"
 
 # define _CW_CARRY (1 << 0)
-# define _CW_PROCMAX (101010)
+# define _CW_PROCMAX (10100)
 
 typedef struct		s_opt
 {
