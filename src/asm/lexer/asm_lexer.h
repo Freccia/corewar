@@ -6,7 +6,7 @@
 /*   By: mcanal <zboub@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2015/12/14 18:21:04 by mcanal            #+#    #+#             */
-/*   Updated: 2017/03/19 19:41:20 by mcanal           ###   ########.fr       */
+/*   Updated: 2018/03/14 05:21:42 by mc               ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,6 +35,6 @@ typedef enum		e_progress
 /*
 ** read_header.c
 */
-void					read_header(header_t *header);
+void					read_header(t_header *header);
 
 #endif

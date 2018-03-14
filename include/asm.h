@@ -6,7 +6,7 @@
 /*   By: mcanal <zboub@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2015/12/14 18:21:04 by mcanal            #+#    #+#             */
-/*   Updated: 2018/03/14 04:18:07 by mc               ###   ########.fr       */
+/*   Updated: 2018/03/14 05:35:56 by mc               ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,8 @@
 # define MAX_ARG_LENGTH		(MAX_LABEL_LENGTH + 3)
 # define MAX_LABEL_LENGTH	23
 # define MAX_OP_CODE_LENGTH	7
+
+extern t_op 			g_op_tab[];
 
 /*
 ** instruction struct (as read)

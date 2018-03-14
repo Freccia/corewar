@@ -6,7 +6,7 @@
 /*   By: mcanal <mcanal@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2014/11/29 13:23:15 by mcanal            #+#    #+#             */
-/*   Updated: 2018/03/13 21:45:51 by mcanal           ###   ########.fr       */
+/*   Updated: 2018/03/14 04:46:49 by mc               ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,15 +15,6 @@
 # define UTIL_H
 
 # include "libft.h"
-
-# ifndef TRUE
-#  define TRUE 1
-# endif
-
-# ifndef FALSE
-#  define FALSE 0
-# endif
-
 
 /*
 ** error code enum

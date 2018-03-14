@@ -6,7 +6,7 @@
 /*   By: mcanal <zboub@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/06/09 14:24:52 by mcanal            #+#    #+#             */
-/*   Updated: 2017/03/19 20:43:49 by mcanal           ###   ########.fr       */
+/*   Updated: 2018/03/14 05:36:14 by mc               ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,14 +26,14 @@ static t_op		*parse_op(char *op, t_instruct_parsed *instruct_p)
 {
 	t_op	*op_tab_swap;
 
-	op_tab_swap = op_tab;
+	op_tab_swap = g_op_tab;
 	while (op_tab_swap->name && ft_strcmp(op_tab_swap->name, op))
 		op_tab_swap++;
 	if (!op_tab_swap->name)
 		error(E_INVALID, "Invalid op (not found).");
 
 	instruct_p->op = op_tab_swap;
-	ft_arrpush(g_cor, (void *)(t_ulong)op_tab_swap->code, -1);
+	ft_arrpush(g_cor, (void *)(t_ulong)op_tab_swap->op_code, -1);
 	return (op_tab_swap);
 }
 

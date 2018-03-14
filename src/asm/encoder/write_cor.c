@@ -6,7 +6,7 @@
 /*   By: mc <mc.maxcanal@gmail.com>                 +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/03/20 00:19:15 by mcanal            #+#    #+#             */
-/*   Updated: 2018/03/13 22:04:47 by mcanal           ###   ########.fr       */
+/*   Updated: 2018/03/14 05:21:09 by mc               ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,7 +54,7 @@ static void		add_header(t_header *header)
 
 	header->magic = swap_dword(COREWAR_EXEC_MAGIC);
 	header->prog_size = swap_dword(g_cor->length);
-	size = sizeof(t_header);
+	size = (uint8_t)sizeof(t_header);
 	header_ptr = (t_byte *)header + size - 1;
 	while (size--)
 		ft_arrpush(g_cor, (void *)(t_ulong)*header_ptr--, 0); //TODO: ok this is ugly, soooorry
@@ -66,7 +66,9 @@ static char		*get_output_name(char *filename)
 	size_t	len;
 
 	len = ft_strlen(filename) + 3;
-	outname = ft_memalloc(len);
+	outname = malloc(len);
+    if (!outname)
+        return (NULL);
 	ft_memcpy(outname, filename, len - 4);
 	ft_memcpy(outname +  len - 4, "cor", 3); //TODO: do not hardcode "cor"
 
@@ -78,7 +80,7 @@ void			write_cor(char *filename, t_header *header)
 	char	*outname;
 
 	outname = get_output_name(filename);
-	if ((g_fd = open(outname, O_WRONLY)) == -1)
+	if (!outname || (g_fd = open(outname, O_WRONLY)) == -1)
 		error(E_OPEN, outname);
 
 	add_header(header);
