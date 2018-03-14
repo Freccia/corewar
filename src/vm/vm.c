@@ -57,10 +57,10 @@ int		cw_vm_kill_process(t_proc **proc, t_proc *prev)
 	*proc = NULL;
 	return (EXIT_SUCCESS);
 }
-
+/*
 static t_instr *g_instrs[16] = {
 	[1] = cw_live
-};
+};*/
 
 int		cw_vm_exec(uint8_t *pc)
 {

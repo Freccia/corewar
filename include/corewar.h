@@ -60,7 +60,7 @@ typedef struct		s_cw
 
 extern t_cw			*g_cw;
 
-typedef int			(t_instr)(t_cw *cw, uint8_t a1, uint8_t a2, uint8_t a3);
+typedef int			(t_instr)(uint8_t a1, uint8_t a2, uint8_t a3);
 
 int					cw_live(uint8_t a1, uint8_t a2, uint8_t a3);
 int					cw_ld(uint8_t a1, uint8_t a2, uint8_t a3);
