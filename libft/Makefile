@@ -6,37 +6,18 @@
 #    By: alucas- <alucas-@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2017/11/07 09:52:36 by alucas-           #+#    #+#              #
-#    Updated: 2018/03/14 01:25:45 by mc               ###   ########.fr        #
+#    Updated: 2018/03/14 05:25:04 by mc               ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
+##
+## CUSTOM CONFIG
+##
+
+# name of the binary to make
 PROJECT ?= libft
-WFLAGS = -Werror -Wextra -Wall
-WWFLAGS = $(WFLAGS) -Wpedantic -Wshadow -Wconversion -Wcast-align \
-  -Wstrict-prototypes -Wmissing-prototypes -Wunreachable-code -Winit-self \
-  -Wmissing-declarations -Wfloat-equal -Wbad-function-cast -Wundef \
-  -Waggregate-return -Wstrict-overflow=5 -Wold-style-definition -Wpadded \
-  -Wredundant-decls -Wall -Werror -Wextra
-RCFLAGS = $(WFLAGS) -O2
-DCFLAGS = $(WFLAGS) -g3 -DDEBUG
-SCFLAGS = $(DCFLAGS) -fsanitize=address,undefined -ferror-limit=5
-CC = clang
 
-INC_PATH = include
-SRC_PATH = src
-OBJ_DIR ?= obj
-OBJ_PATH ?= $(OBJ_DIR)/rel
-3TH_PATH =
-
-LIBS =
-ifneq (,$(findstring dev,$(PROJECT)))
-LIB_NAME = $(addsuffix .dev, $(LIBS))
-else ifneq (,$(findstring san,$(PROJECT)))
-LIB_NAME = $(addsuffix .san, $(LIBS))
-else
-LIB_NAME = $(LIBS)
-endif
-3TH_NAME =
+# file-names of the sources
 SRC_NAME = \
   cty/cty.c cty/cty_2.c cty/cty_3.c \
   ds/alloc.c ds/apd.c ds/at.c ds/aver.c ds/back.c ds/begin.c ds/clean.c \
@@ -73,17 +54,74 @@ SRC_NAME = \
   str/strncpy.c str/strndup.c str/strnlen.c str/strnstr.c str/strrchr.c \
   str/strscpy.c str/strspn.c str/strstr.c \
   getopt.c \
-  sort/ft_shellsort.c
+  sort/ft_shellsort.c str/ft_memdel.c io/get_next_line.c \
+  hsh/ft_hdel.c hsh/ft_hdelone.c hsh/ft_hfind.c hsh/ft_hget.c \
+  hsh/ft_hiter.c hsh/ft_hnew.c hsh/ft_hset.c \
+  arr/ft_arrdel.c arr/ft_arrfind.c arr/ft_arrmult.c arr/ft_arrpush.c arr/ft_arrswap.c \
+  arr/ft_arrdup.c arr/ft_arrget.c arr/ft_arrnew.c arr/ft_arrslice.c \
+  arr/ft_arrequ.c arr/ft_arrjoin.c arr/ft_arrpop.c arr/ft_arrsort.c
 
-3TH = $(addprefix $(3TH_PATH)/, $(3TH_NAME))
+# folder-names of the sources
+SRC_PATH = src
+
+# folder-names containing headers files
+INC_PATH = include
+
+# compilation flags
+CPPFLAGS =
+
+
+##
+## GLOBAL VARIABLES
+##
+
+# compilation/linking flags for the differents public rules
+WFLAGS = -Wextra -Wall  # warnings
+RCFLAGS = $(WFLAGS) -Werror -O2  # release
+DCFLAGS = $(WFLAGS) -g3 -DDEBUG  # debug
+SCFLAGS = $(DCFLAGS) -fsanitize=address,undefined -ferror-limit=5  # sanitize
+WWFLAGS = $(WFLAGS) -Wpedantic -Wshadow -Wconversion -Wcast-align \
+  -Wstrict-prototypes -Wmissing-prototypes -Wunreachable-code -Winit-self \
+  -Wmissing-declarations -Wfloat-equal -Wbad-function-cast -Wundef \
+  -Waggregate-return -Wstrict-overflow=5 -Wold-style-definition -Wpadded \
+  -Wredundant-decls  # moar warnings
+
+# folder used to store all compilations sub-products (.o and .d mostly)
+OBJ_DIR ?= obj
+OBJ_PATH ?= $(OBJ_DIR)/rel
 OBJ = $(addprefix $(OBJ_PATH)/, $(SRC_NAME:.c=.o))
-LNK = $(addprefix -L, $(3TH))
-INC = $(addprefix -I, $(INC_PATH) $(addsuffix /include, $(3TH)))
-LIB = $(addprefix -l, $(LIB_NAME))
 DEP = $(OBJ:%.o=%.d)
 
-PRINTF=test $(VERBOSE)$(TRAVIS) || printf
+# includes
+INC = $(addprefix -I, $(INC_PATH))
 
+# specify flags for commands used in the following rules
+RM =		rm -f
+RMDIR =		rmdir
+MKDIR =		mkdir -p
+CC =		clang
+MAKE ?=		make -j$(shell nproc 2>/dev/null)
+
+# default to "pretty" Makefile, but you can run ´VERBOSE=t make´
+ifndef VERBOSE
+ ifndef TRAVIS
+.SILENT:
+ endif
+endif
+PRINTF = test $(VERBOSE)$(TRAVIS) || printf
+
+# some colors for pretty printing
+WHITE =		\x1b[37
+RED =		\x1b[31
+GREEN =		\x1b[32
+YELLOW =	\x1b[33
+BLUE =		\x1b[34
+BASIC =		\x1b[0m
+TODO_A =	\x1b[0K  #TODO
+TODO_B =	\x1b[20C #TODO
+EVIL =		\r
+
+# add define for os/arch
 ifeq ($(OS), Windows_NT)
   CCFLAGS += -D WIN32
   ifeq ($(PROCESSOR_ARCHITECTURE), AMD64)
@@ -111,74 +149,88 @@ else
   endif
 endif
 
+
+##
+## PUBLIC RULES
+##
+
+# release build
 all:
-ifneq ($(3TH_NAME),)
-	+$(foreach 3th,$(3TH_NAME),$(MAKE) -C $(3TH_PATH)/$(3th) &&) true
-endif
 	@$(PRINTF) "%-20s" "$(PROJECT).a: lib"
-	+$(MAKE) -j4 $(PROJECT).a "CFLAGS = $(RCFLAGS)" "OBJ_PATH = $(OBJ_DIR)/rel"
-	@$(PRINTF) "\r\x1b[20C\x1b[0K\x1b[32m✔\x1b[0m\n"
+	$(MAKE) $(PROJECT).a "CFLAGS = $(RCFLAGS)" "OBJ_PATH = $(OBJ_DIR)/rel"
+	@$(PRINTF) "$(EVIL)$(TODO_B)$(TODO_A)$(GREEN)✔\$(BASIC)\n"
 
+# build for gdb/valgrind debugging
 dev:
-ifneq ($(3TH_NAME),)
-	+$(foreach 3th,$(3TH_NAME),$(MAKE) -C $(3TH_PATH)/$(3th) dev &&) true
-endif
 	@$(PRINTF) "%-20s" "$(PROJECT).dev: exe"
-	+$(MAKE) -j4 $(PROJECT).dev.a "PROJECT = $(PROJECT).dev" "CFLAGS = $(DCFLAGS)" \
+	$(MAKE) $(PROJECT).dev.a "PROJECT = $(PROJECT).dev" "CFLAGS = $(DCFLAGS)" \
 	  "OBJ_PATH = $(OBJ_DIR)/dev"
-	@$(PRINTF) "\r\x1b[20C\x1b[0K\x1b[32m✔\x1b[0m\n"
+	@$(PRINTF) "$(EVIL)$(TODO_B)$(TODO_A)$(GREEN)✔\$(BASIC)\n"
 
+# build for runtime debugging (fsanitize)
 san:
-ifneq ($(3TH_NAME),)
-	+$(foreach 3th,$(3TH_NAME),$(MAKE) -C $(3TH_PATH)/$(3th) san &&) true
-endif
 	@$(PRINTF) "%-20s" "$(PROJECT).san: exe"
-	+$(MAKE) -j4 $(PROJECT).san.a "PROJECT = $(PROJECT).san" "CFLAGS = $(SCFLAGS)" \
-	  "OBJ_PATH = $(OBJ_DIR)/san" "CC = clang"
-	@$(PRINTF) "\r\x1b[20C\x1b[0K\x1b[32m✔\x1b[0m\n"
+	$(MAKE) $(PROJECT).san.a "PROJECT = $(PROJECT).san" "CFLAGS = $(SCFLAGS)" \
+	  "OBJ_PATH = $(OBJ_DIR)/san"
+	@$(PRINTF) "$(EVIL)$(TODO_B)$(TODO_A)$(GREEN)✔\$(BASIC)\n"
 
+# masochist build
 mecry:
-ifneq ($(3TH_NAME),)
-	+$(foreach 3th,$(3TH_NAME),$(MAKE) -C $(3TH_PATH)/$(3th) mecry &&) true
-endif
-	@$(PRINTF) "%-20s" "$(PROJECT).a: make me cry.."
-	+$(MAKE) -j4 $(PROJECT).a "CFLAGS = $(WWFLAGS)" "OBJ_PATH = $(OBJ_DIR)/rel"
-	@$(PRINTF) "\r\x1b[20C\x1b[0K\x1b[32m✔\x1b[0m\n"
+	@$(PRINTF) "%-20s" "$(PROJECT).a: gg"
+	$(MAKE) $(PROJECT).a "CFLAGS = $(WWFLAGS)" "OBJ_PATH = $(OBJ_DIR)/rel"
+	@$(PRINTF) "$(EVIL)$(TODO_B)$(TODO_A)$(GREEN)✔\$(BASIC)\n"
 
+# remove all generated .o and .d
+clean:
+	$(RM) $(OBJ) $(DEP)
+	$(RM) $(OBJ:$(OBJ_DIR)/rel%=$(OBJ_DIR)/dev%) $(DEP:$(OBJ_DIR)/rel%=$(OBJ_DIR)/dev%)
+	$(RM) $(OBJ:$(OBJ_DIR)/rel%=$(OBJ_DIR)/san%) $(DEP:$(OBJ_DIR)/rel%=$(OBJ_DIR)/san%)
+	@$(PRINTF) "%-20s$(GREEN)✔\$(BASIC)\n" "$(PROJECT): $@"
+
+# remove the generated binary, and all .o and .d
+fclean: clean
+	test -d $(OBJ_DIR) && find $(OBJ_DIR) -type d | sort -r | xargs $(RMDIR) || true
+	$(RM) $(PROJECT){,.san,.dev}.a
+	@$(PRINTF) "%-20s$(GREEN)✔\$(BASIC)\n" "$(PROJECT): $@"
+
+# some people like it real clean
+mrproper:
+	$(RM) -r $(OBJ_DIR)
+	$(MAKE) fclean
+
+# clean build and recompile
+re: fclean all
+
+# run tests on project
+test: all
+	@$(PRINTF) "All tests passed!"
+
+# check coding-style
+norme:
+	norminette $(INC_PATH) $(SRC_PATH)
+
+
+##
+## PRIVATE RULES
+##
+
+# create binary (link)
 $(PROJECT).a: $(OBJ)
-	@$(PRINTF) "\r\x1b[20C\x1b[0K$@"
+	@$(PRINTF) "$(EVIL)$(TODO_B)$(TODO_A)$@"
 	ar -rc $(PROJECT).a $(OBJ)
 	ranlib $(PROJECT).a
 
+# create object files (compile)
 $(OBJ_PATH)/%.o: $(SRC_PATH)/%.c | $(OBJ_PATH)
-	@$(PRINTF) "\r\x1b[20C\x1b[0K$<"
+	@$(PRINTF) "$(EVIL)$(TODO_B)$(TODO_A)$<"
 	$(CC) $(CFLAGS) $(INC) -MMD -MP -c $< -o $@
 
+# create directory for compilation sub-products
 $(OBJ_PATH):
 	mkdir -p $(dir $(OBJ))
 
-clean:
-	rm -f $(OBJ) $(DEP)
-	rm -f $(OBJ:$(OBJ_DIR)/rel%=$(OBJ_DIR)/dev%) $(DEP:$(OBJ_DIR)/rel%=$(OBJ_DIR)/dev%)
-	rm -f $(OBJ:$(OBJ_DIR)/rel%=$(OBJ_DIR)/san%) $(DEP:$(OBJ_DIR)/rel%=$(OBJ_DIR)/san%)
-	@$(PRINTF) "%-20s\033[32m✔\033[0m\n" "$(PROJECT): $@"
-
-fclean: clean
-ifneq ($(3TH_NAME),)
-	+$(foreach 3th,$(3TH_NAME),$(MAKE) -C $(3TH_PATH)/$(3th) fclean &&) true
-endif
-	test -d $(OBJ_DIR) && find $(OBJ_DIR) -type d | sort -r | xargs rmdir || true
-	rm -f $(PROJECT){,.san,.dev}.a
-	@$(PRINTF) "%-20s\033[32m✔\033[0m\n" "$(PROJECT): $@"
-
-re: clean all
-
+# read dependencies list generated by -MMD flag
 -include $(DEP)
 
-ifndef VERBOSE
- ifndef TRAVIS
-.SILENT:
- endif
-endif
-
-.PHONY: all, dev, san, mecry, $(PROJECT).a, clean, fclean, re
+# just to avoid conflicts between rules and files/folders names
+.PHONY: all, dev, san, mecry, $(PROJECT).a, clean, fclean, mrproper, re, test, norme

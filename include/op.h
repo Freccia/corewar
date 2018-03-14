@@ -6,7 +6,7 @@
 /*   By: zaz <marvin@42.fr>                         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2013/10/04 11:33:27 by zaz               #+#    #+#             */
-/*   Updated: 2018/03/13 16:32:14 by nfinkel          ###   ########.fr       */
+/*   Updated: 2018/03/13 20:28:20 by mcanal           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,12 +69,12 @@ typedef struct		s_op
 {
 	char			*name;
 	int8_t			param_nb;
-	int8_t			param_type[3];
+	int8_t			param_type[MAX_ARGS_NUMBER];
 	int8_t			op_code;
 	int16_t			cycles;
 	char			*full_name;
 	int				flag;
-	int				f;
+	int				f; //TODO
 }					t_op;
 
 #endif
