@@ -6,7 +6,7 @@
 /*   By: lfabbro <>                                 +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/03/14 10:10:16 by lfabbro           #+#    #+#             */
-/*   Updated: 2018/03/14 14:53:09 by lfabbro          ###   ########.fr       */
+/*   Updated: 2018/03/14 15:16:35 by lfabbro          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,6 +67,7 @@ int		cw_vm_init(int ac, char **av)
 	plyrs_dist = MEM_SIZE / (ac - g_optind);
 	dist = 0;
 	cw_nc_init();
+	g_cw->cycle_to_die = CYCLE_TO_DIE;
 	while (i < ac && (i - g_optind) < MAX_PLAYERS)
 	{
 		ptr = cw_vm_parse(&(g_cw->mem[dist * plyrs_dist]), av[i], dist + 1);

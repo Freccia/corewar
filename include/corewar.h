@@ -6,7 +6,7 @@
 /*   By: nfinkel <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/03/13 16:16:50 by nfinkel           #+#    #+#             */
-/*   Updated: 2018/03/14 14:34:29 by lfabbro          ###   ########.fr       */
+/*   Updated: 2018/03/14 15:15:34 by lfabbro          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,22 +61,22 @@ extern t_cw			*g_cw;
 
 typedef int			(t_instr)(t_cw *cw, uint8_t a1, uint8_t a2, uint8_t a3);
 
-int					cw_live(t_cw *cw, uint8_t a1, uint8_t a2, uint8_t a3);
-int					cw_ld(t_cw *cw, uint8_t a1, uint8_t a2, uint8_t a3);
-int					cw_st(t_cw *cw, uint8_t a1, uint8_t a2, uint8_t a3);
-int					cw_add(t_cw *cw, uint8_t a1, uint8_t a2, uint8_t a3);
-int					cw_sub(t_cw *cw, uint8_t a1, uint8_t a2, uint8_t a3);
-int					cw_and(t_cw *cw, uint8_t a1, uint8_t a2, uint8_t a3);
-int					cw_or(t_cw *cw, uint8_t a1, uint8_t a2, uint8_t a3);
-int					cw_xor(t_cw *cw, uint8_t a1, uint8_t a2, uint8_t a3);
-int					cw_zjmp(t_cw *cw, uint8_t a1, uint8_t a2, uint8_t a3);
-int					cw_ldi(t_cw *cw, uint8_t a1, uint8_t a2, uint8_t a3);
-int					cw_sti(t_cw *cw, uint8_t a1, uint8_t a2, uint8_t a3);
-int					cw_fork(t_cw *cw, uint8_t a1, uint8_t a2, uint8_t a3);
-int					cw_lld(t_cw *cw, uint8_t a1, uint8_t a2, uint8_t a3);
-int					cw_lldi(t_cw *cw, uint8_t a1, uint8_t a2, uint8_t a3);
-int					cw_lfork(t_cw *cw, uint8_t a1, uint8_t a2, uint8_t a3);
-int					cw_aff(t_cw *cw, uint8_t a1, uint8_t a2, uint8_t a3);
+int					cw_live(uint8_t a1, uint8_t a2, uint8_t a3);
+int					cw_ld(uint8_t a1, uint8_t a2, uint8_t a3);
+int					cw_st(uint8_t a1, uint8_t a2, uint8_t a3);
+int					cw_add(uint8_t a1, uint8_t a2, uint8_t a3);
+int					cw_sub(uint8_t a1, uint8_t a2, uint8_t a3);
+int					cw_and(uint8_t a1, uint8_t a2, uint8_t a3);
+int					cw_or(uint8_t a1, uint8_t a2, uint8_t a3);
+int					cw_xor(uint8_t a1, uint8_t a2, uint8_t a3);
+int					cw_zjmp(uint8_t a1, uint8_t a2, uint8_t a3);
+int					cw_ldi(uint8_t a1, uint8_t a2, uint8_t a3);
+int					cw_sti(uint8_t a1, uint8_t a2, uint8_t a3);
+int					cw_fork(uint8_t a1, uint8_t a2, uint8_t a3);
+int					cw_lld(uint8_t a1, uint8_t a2, uint8_t a3);
+int					cw_lldi(uint8_t a1, uint8_t a2, uint8_t a3);
+int					cw_lfork(uint8_t a1, uint8_t a2, uint8_t a3);
+int					cw_aff(uint8_t a1, uint8_t a2, uint8_t a3);
 
 int					cw_nc_init(void);
 int					cw_nc_update(void);
