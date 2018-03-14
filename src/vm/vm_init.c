@@ -39,21 +39,21 @@ t_proc		*cw_vm_parse(uint8_t *mem, const char *filename)
 	(void)mem;
 	proc = NULL;
 	if ((bin_size = cw_bin_stat(filename)) < 0)
-		cw_exit(3, "Stat error.");
+		cw_exit(3, "Stat error.\n");
 	if ((fd = open(filename, O_RDONLY)) < 0)
-		cw_exit(3, "Failed opening file.");
+		cw_exit(3, "Failed opening file.\n");
 	if (read(fd, &buf, _CW_HEAD_SZ) < _CW_HEAD_SZ)
-		cw_exit(3, "Failed reading file.");
+		cw_exit(3, "Failed reading file.\n");
 	if (*(unsigned int*)buf != _CW_MAGIC)
-		cw_exit(3, "Wrong file: magic number.");
+		cw_exit(3, "Wrong file: magic number.\n");
 
 	ft_printf("Magic: %x - %x - %x\n", *(unsigned int*)buf, _CW_MAGIC, _CW_HEAD_SZ);
 
 	if (read(fd, &buf, bin_size) <= 0)
-		cw_exit(3, "Failed reading file.");
+		cw_exit(3, "Failed reading file.\n");
 	ft_memcpy(mem, buf, bin_size);
 	if (close(fd) < 0)
-		cw_exit(3, "Failed closing fd.");
+		cw_exit(3, "Failed closing fd.\n");
 	proc = malloc(sizeof(t_proc));
 	return (proc);
 }
@@ -74,7 +74,7 @@ int		cw_vm_init(t_cw *cw, int ac, char **av)
 	{
 		ft_printf("MEM: %p - %p\n", cw->mem, &(cw->mem[dist * plyrs_dist]));
 		if ((ptr = cw_vm_parse(&(cw->mem[dist * plyrs_dist]), av[i])) == NULL)
-			cw_exit(3, "Failed parsing file.");
+			return (cw_exit(EXIT_FAILURE, "%s: Failed parsing file.\n", av[i]));
 		ptr->next = cw->procs;
 		if (cw->procs)
 			cw->procs = ptr;

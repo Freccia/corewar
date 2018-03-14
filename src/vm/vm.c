@@ -54,7 +54,7 @@ int		cw_vm_run(t_cw *cw)
 	{
 		if (cw_nc_update(cw))
 			return (cw_exit(EXIT_FAILURE, NULL));
-		if (cw->opt.d && ++cw->cycle == cw->opt.d)
+		if (cw->opt.d > 0 && ++cw->cycle == (size_t)cw->opt.d)
 		{
 			// todo: dump mem
 			return (cw_exit(EXIT_SUCCESS, NULL));
