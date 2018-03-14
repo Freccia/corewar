@@ -6,7 +6,7 @@
 /*   By: nfinkel <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/03/13 16:16:50 by nfinkel           #+#    #+#             */
-/*   Updated: 2018/03/13 19:24:35 by lfabbro          ###   ########.fr       */
+/*   Updated: 2018/03/14 13:46:32 by lfabbro          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,13 +17,22 @@
 
 # include "op.h"
 
-# define _CW_CARRY (1 << 0)
-# define _CW_PROCMAX (101010)
+// C'est degueulasse, mais c'est pour la norme...
+# define SWAP_INT_C(a)	((unsigned int)(a & 0xff) >> 24)
+# define SWAP_INT_B(a)	(((a) >> 8) & 0x0000ff00) | SWAP_INT_C(a) 
+# define SWAP_INT_A(a)	(((a) << 8) & 0x00ff0000) | SWAP_INT_B(a) 
+# define SWAP_INT(a)	(((a & 0xff) << 24) | SWAP_INT_A(a))
+
+# define _CW_CARRY		(1 << 0)
+# define _CW_PROCMAX	(101010)
+# define _CW_MAGIC		SWAP_INT(COREWAR_EXEC_MAGIC)
+# define _CW_HEAD_SZ	(16 + PROG_NAME_LENGTH + COMMENT_LENGTH)
 
 typedef struct		s_opt
 {
 	uint8_t			v;
-	uint8_t			c;
+	int64_t			d;
+	uint8_t			n : 1;
 }					t_opt;
 
 typedef struct		s_proc
@@ -34,6 +43,7 @@ typedef struct		s_proc
 	uint8_t			reg[REG_NUMBER][REG_SIZE];
 	size_t			lastlive;
 	uint16_t		wait;
+	struct s_proc	*next;
 }					t_proc;
 
 typedef struct		s_cw
@@ -41,7 +51,7 @@ typedef struct		s_cw
 	uint8_t			mem[MEM_SIZE];
 	uint16_t		proc_count;
 	uint16_t		proc_idx;
-	t_proc			procs[_CW_PROCMAX];
+	t_proc			*procs;
 	size_t			cycle;
 	uint16_t		cycle_to_die;
 	t_opt			opt;
@@ -83,7 +93,9 @@ int					cw_vm_eval(t_cw *cw, uint8_t *pc);
 /*
 ** parse fichier cor 
 */
-int					cw_vm_parse(uint8_t *mem, const char *filename);
+t_proc				*cw_vm_parse(uint8_t *mem, const char *filename);
+int					cw_vm_init(t_cw *cw, int ac, char **av);
 int					cw_vm_run(t_cw *cw);
+int					cw_exit(int ecode, char const *fmt, ...);
 
 #endif

@@ -11,8 +11,21 @@ set(CMAKE_CXX_FLAGS_DEBUG "${CMAKE_CXX_FLAGS_DEBUG}
 set(CMAKE_LINKER_FLAGS_DEBUG "${CMAKE_STATIC_LINKER_FLAGS_DEBUG}
   -fno-omit-frame-pointer -fsanitize=address")
 
-add_executable(asm include/op.h include/asm.h
-  src/asm/parser.c)
+add_executable(asm
+  include/op.h
+  include/asm.h
+  include/asm/asm_util.h
+  src/op.c
+  src/asm/asm_main.c
+  src/asm/init_data.c
+  src/asm/error.c
+  src/asm/encoder/asm_encoder.c
+  src/asm/encoder/write_cor.c
+  src/asm/lexer/asm_lexer.c
+  src/asm/lexer/read_header.c
+  src/asm/lexer/read_instruction.c
+  src/asm/parser/asm_parser.c
+  src/asm/parser/parse_args.c)
 set_property(TARGET asm PROPERTY C_STANDARD 90)
 target_include_directories(asm PUBLIC include)
 target_link_libraries(asm PUBLIC debug ft)
@@ -31,10 +44,17 @@ else ()
 endif ()
 
 add_executable(corewar include/op.h include/corewar.h
-  src/vm/vm.c)
+  src/op.c
+  src/vm/vm.c
+  src/vm/vm_init.c
+  src/nc/internal.h
+  src/nc/exit.c
+  src/nc/init.c
+  src/nc/notify.c
+  src/nc/update.c)
 set_property(TARGET corewar PROPERTY C_STANDARD 90)
 target_include_directories(corewar PUBLIC include)
-target_link_libraries(corewar PUBLIC debug ft)
+target_link_libraries(corewar PUBLIC debug ft ncurses)
 
 target_compile_definitions(corewar
   PRIVATE $<$<CONFIG:Debug>:DEBUG>$<$<CONFIG:Release>:NDEBUG>)

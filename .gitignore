@@ -2,6 +2,8 @@
 /asm
 /corewar
 *.cor
+*.dev
+*.san
 
 # Prerequisites
 *.d
@@ -59,3 +61,9 @@ modules.order
 Module.symvers
 Mkfile.old
 dkms.conf
+
+# CMake
+cmake-build-*/
+
+# Clion
+.idea/

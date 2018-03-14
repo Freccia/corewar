@@ -14,9 +14,7 @@
 # define LIBFT_SORT_H
 
 # include <string.h>
-
-typedef unsigned char	t_uchar;
-typedef int				t_ncmp(const void *a, const void *b, size_t n);
+# include "type.h"
 
 /*
 ** famous Ziggerman's Open Boards sort algorithm, also known as shell-sort

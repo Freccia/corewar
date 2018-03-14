@@ -15,14 +15,30 @@
 
 # include "io.h"
 
-# define COLOR_RESET "\033[0m"
-# define COLOR_RED "\033[31m"
-# define COLOR_YELLOW "\033[33m"
-# define COLOR_CYAN "\033[36m"
-# define COLOR_BOLD "\033[1m"
-# define COLOR_BRED COLOR_BOLD"\033[31m"
-# define COLOR_BYELLOW COLOR_BOLD"\033[33m"
-# define COLOR_BCYAN COLOR_BOLD"\033[36m"
+# ifndef COLOR_RESET
+#  define COLOR_RESET "\033[0m"
+# endif
+# ifndef COLOR_RED
+#  define COLOR_RED "\033[31m"
+# endif
+# ifndef COLOR_YELLOW
+#  define COLOR_YELLOW "\033[33m"
+# endif
+# ifndef COLOR_CYAN
+#  define COLOR_CYAN "\033[36m"
+# endif
+# ifndef COLOR_BOLD
+#  define COLOR_BOLD "\033[1m"
+# endif
+# ifndef COLOR_BRED
+#  define COLOR_BRED COLOR_BOLD"\033[31m"
+# endif
+# ifndef COLOR_BYELLOW
+#  define COLOR_BYELLOW COLOR_BOLD"\033[33m"
+# endif
+# ifndef COLOR_BCYAN
+#  define COLOR_BCYAN COLOR_BOLD"\033[36m"
+# endif
 
 extern char	const	*ft_basename(char const *path);
 extern t_bool		ft_isdots(char const *path);
