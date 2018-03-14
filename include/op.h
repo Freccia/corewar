@@ -6,7 +6,7 @@
 /*   By: zaz <marvin@42.fr>                         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2013/10/04 11:33:27 by zaz               #+#    #+#             */
-/*   Updated: 2018/03/13 20:28:20 by mcanal           ###   ########.fr       */
+/*   Updated: 2018/03/14 18:47:09 by nfinkel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,8 +73,8 @@ typedef struct		s_op
 	int8_t			op_code;
 	int16_t			cycles;
 	char			*full_name;
-	int				flag;
-	int				f; //TODO
+	int				ocp;
+	int				short_dir;
 }					t_op;
 
 #endif

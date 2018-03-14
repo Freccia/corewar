@@ -6,7 +6,7 @@
 /*   By: alucas- <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/03/12 18:15:51 by alucas-           #+#    #+#             */
-/*   Updated: 2018/03/14 17:30:37 by lfabbro          ###   ########.fr       */
+/*   Updated: 2018/03/14 19:06:06 by lfabbro          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,18 +60,25 @@ int		cw_vm_kill_process(t_proc **proc, t_proc *prev)
 
 int		cw_vm_exec(uint8_t *pc)
 {
-	static t_instr	g_instr[16] = {cw_live, cw_ld, cw_st, cw_add, \
+	static t_instr	s_instr[16] = {cw_live, cw_ld, cw_st, cw_add, \
 		cw_sub, cw_and, cw_or, cw_xor, cw_zjmp, cw_ldi, cw_sti, \
-		cw_fork, cw_lld, cw_lldi, cw_lfork, cw_aff};
+		cw_fork, cw_lld, cw_lldi, cw_lfork, cw_aff};	
+	uint8_t			ocp;
 
-	g_instr[*pc](pc[1], pc[2], pc[3]);
+	// todo: eval arguments
+	ocp = 0;
+	if (*pc >= 0x1 && *pc <= 0x10)
+	{
+		s_instr[*pc](pc[1], pc[2], pc[3]);
+		return (ocp);
+	}
 	return (EXIT_FAILURE);
 }
 
 int		cw_vm_eval(t_proc *proc)
 {
 	t_instr		instr;
-	uint8_t		off;
+	int16_t		ocp;
 
 	(void)instr;
 	if (!proc)
@@ -81,10 +88,9 @@ int		cw_vm_eval(t_proc *proc)
 		--proc->wait;
 		return (EXIT_SUCCESS);
 	}
-	off = cw_vm_exec(proc->pc);
-	if (off == EXIT_FAILURE)
+	if ((ocp = cw_vm_exec(proc->pc)) == EXIT_FAILURE)
 		return (EXIT_FAILURE);
-	proc->pc += off;
+	proc->pc += ocp;
 	proc->wait = cw_instr_cycles(*proc->pc);
 	return (EXIT_SUCCESS);
 }
