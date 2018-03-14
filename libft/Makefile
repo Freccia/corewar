@@ -6,7 +6,7 @@
 #    By: alucas- <alucas-@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2017/11/07 09:52:36 by alucas-           #+#    #+#              #
-#    Updated: 2018/03/04 17:39:11 by mc               ###   ########.fr        #
+#    Updated: 2018/03/14 01:25:45 by mc               ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -20,7 +20,7 @@ WWFLAGS = $(WFLAGS) -Wpedantic -Wshadow -Wconversion -Wcast-align \
 RCFLAGS = $(WFLAGS) -O2
 DCFLAGS = $(WFLAGS) -g3 -DDEBUG
 SCFLAGS = $(DCFLAGS) -fsanitize=address,undefined -ferror-limit=5
-CC ?= gcc
+CC = clang
 
 INC_PATH = include
 SRC_PATH = src
