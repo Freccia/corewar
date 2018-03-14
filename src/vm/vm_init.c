@@ -6,7 +6,7 @@
 /*   By: lfabbro <>                                 +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/03/14 10:10:16 by lfabbro           #+#    #+#             */
-/*   Updated: 2018/03/14 14:35:59 by lfabbro          ###   ########.fr       */
+/*   Updated: 2018/03/14 14:53:09 by lfabbro          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,19 +15,6 @@
 #include <sys/stat.h>
 #include <fcntl.h>
 #include <unistd.h>
-
-static int	cw_bin_stat(const char *filename)
-{
-	struct stat		bin_stat;
-	int				bin_size;
-
-	if (stat(filename, &bin_stat) < 0)
-		return (-1);
-	bin_size = bin_stat.st_size - _CW_HEAD_SZ;
-	if (bin_size > CHAMP_MAX_SIZE || bin_size < 0)
-		return (-1);
-	return (bin_size);
-}
 
 void		cw_mem_cpy(uint8_t *mem, uint8_t const *src, size_t len, uint16_t p)
 {
@@ -48,16 +35,17 @@ t_proc		*cw_vm_parse(uint8_t *mem, const char *filename, uint16_t color)
 
 	(void)mem;
 	proc = NULL;
-	if ((bin_size = cw_bin_stat(filename)) < 0)
-		cw_exit(3, "Stat error.\n");
+	ft_printf("filename: %s\n", filename);
 	if ((fd = open(filename, O_RDONLY)) < 0)
 		cw_exit(3, "Failed opening file.\n");
 	if (read(fd, &buf, _CW_HEAD_SZ) < _CW_HEAD_SZ)
-		cw_exit(3, "Failed reading file.\n");
+		cw_exit(3, "Failed reading file header.\n");
 	if (*(unsigned int*)buf != _CW_MAGIC)
 		cw_exit(3, "Wrong file: magic number.\n");
-	if (read(fd, &buf, bin_size) <= 0)
-		cw_exit(3, "Failed reading file.\n");
+	if ((bin_size = read(fd, &buf, CHAMP_MAX_SIZE + 1)) <= 0)
+		cw_exit(3, "Failed reading file binary.\n");
+	if (bin_size > CHAMP_MAX_SIZE)
+		cw_exit(3, "Champion exceeding size: %d\n", bin_size);
 	proc = malloc(sizeof(t_proc));
 	proc->color = color;
 	proc->pc = mem;
@@ -79,14 +67,15 @@ int		cw_vm_init(int ac, char **av)
 	plyrs_dist = MEM_SIZE / (ac - g_optind);
 	dist = 0;
 	cw_nc_init();
-	while (i < ac || (i - g_optind) >= MAX_PLAYERS)
+	while (i < ac && (i - g_optind) < MAX_PLAYERS)
 	{
-		ptr = cw_vm_parse(&(g_cw->mem[dist * plyrs_dist]), av[i], dist);
+		ptr = cw_vm_parse(&(g_cw->mem[dist * plyrs_dist]), av[i], dist + 1);
 		if (ptr == NULL)
 			return (cw_exit(EXIT_FAILURE, "%s: Failed parsing file.\n", av[i]));
 		ptr->next = g_cw->procs;
 		if (g_cw->procs)
 			g_cw->procs = ptr;
+		++g_cw->proc_count;
 		++dist;
 		++i;
 	}
