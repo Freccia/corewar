@@ -50,8 +50,8 @@ static int		vm_init(void)
 
 	plyrs_dist = MEM_SIZE / g_player;
 	i = -1;
-	cw_nc_init();
 	g_cw->cycle_to_die = CYCLE_TO_DIE;
+	cw_nc_init();
 	while (++i < g_player)
 	{
 		if (!(ptr = malloc(sizeof(t_proc))))
@@ -68,7 +68,7 @@ static int		vm_init(void)
 	}
 	g_cw->prev = g_cw->procs;
 	g_cw->current = g_cw->procs;
-	return (EXIT_SUCCESS);
+	return (YEP);
 }
 
 static int		r1_checkvalid(int r1)

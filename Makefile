@@ -38,7 +38,7 @@ SRCB_NAME = \
 	vm/cw_lfork.c vm/cw_live.c vm/cw_lld.c vm/cw_lldi.c vm/cw_or.c vm/cw_st.c \
 	vm/cw_sti.c vm/cw_sub.c vm/cw_xor.c vm/cw_zjmp.c \
 	vm/vm_tools.c \
-	nc/exit.c nc/init.c nc/notify.c nc/update.c
+	nc/exit.c nc/init.c nc/keys.c nc/ui.c
 
 # folder-names of the sources
 SRC_PATH = src

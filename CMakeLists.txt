@@ -67,8 +67,8 @@ add_executable(corewar include/op.h include/corewar.h
   src/nc/internal.h
   src/nc/exit.c
   src/nc/init.c
-  src/nc/notify.c
-  src/nc/update.c)
+  src/nc/keys.c
+  src/nc/ui.c)
 set_property(TARGET corewar PROPERTY C_STANDARD 90)
 target_include_directories(corewar PUBLIC include)
 target_link_libraries(corewar PUBLIC debug ft ncurses)
