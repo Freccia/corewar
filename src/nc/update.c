@@ -16,7 +16,8 @@ int	cw_nc_update(t_cw *cw)
 {
 	int ch;
 
-	(void)cw;
+	if (!cw->opt.n)
+		return (YEP);
 	if ((ch = getch()) != ERR)
 	{
 		ft_printf("got %d\n", ch);

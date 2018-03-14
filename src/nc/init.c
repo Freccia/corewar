@@ -83,7 +83,8 @@ int				cw_nc_init(t_cw *cw)
 {
 	int sq;
 
-	(void)cw;
+	if (!cw->opt.n)
+		return (YEP);
 	initscr();
 	cbreak();
 	noecho();

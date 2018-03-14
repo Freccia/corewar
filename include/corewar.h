@@ -24,6 +24,7 @@ typedef struct		s_opt
 {
 	uint8_t			v;
 	uint8_t			c;
+	uint8_t			n : 1;
 }					t_opt;
 
 typedef struct		s_proc
