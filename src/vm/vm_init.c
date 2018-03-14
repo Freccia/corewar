@@ -29,6 +29,16 @@ static int	cw_bin_stat(const char *filename)
 	return (bin_size);
 }
 
+void		cw_mem_cpy(uint8_t *mem, uint8_t const *src, size_t len, uint16_t p)
+{
+	while (len)
+	{
+		cw_nc_notify((uint16_t)(mem - g_cw->mem), p, *src);
+		*mem++ = *src++;
+		--len;
+	}
+}
+
 t_proc		*cw_vm_parse(uint8_t *mem, const char *filename)
 {
 	int				fd;
@@ -51,37 +61,36 @@ t_proc		*cw_vm_parse(uint8_t *mem, const char *filename)
 
 	if (read(fd, &buf, bin_size) <= 0)
 		cw_exit(3, "Failed reading file.\n");
-	ft_memcpy(mem, buf, bin_size);
+	cw_mem_cpy(mem, (const uint8_t *)buf, bin_size, 3);
 	if (close(fd) < 0)
 		cw_exit(3, "Failed closing fd.\n");
 	proc = malloc(sizeof(t_proc));
 	return (proc);
 }
 
-int		cw_vm_init(t_cw *cw, int ac, char **av)
+int		cw_vm_init(int ac, char **av)
 {
 	int		i;
 	int		plyrs_dist;
 	int		dist;
 	t_proc	*ptr;
 
-	(void)cw;
 	(void)ac;
 	i = g_optind;
 	plyrs_dist = MEM_SIZE / (ac - g_optind);
 	dist = 0;
+	cw_nc_init();
 	while (i < ac)
 	{
-		ft_printf("MEM: %p - %p\n", cw->mem, &(cw->mem[dist * plyrs_dist]));
-		if ((ptr = cw_vm_parse(&(cw->mem[dist * plyrs_dist]), av[i])) == NULL)
+		ft_printf("MEM: %p - %p\n", g_cw->mem, &(g_cw->mem[dist * plyrs_dist]));
+		if ((ptr = cw_vm_parse(&(g_cw->mem[dist * plyrs_dist]), av[i])) == NULL)
 			return (cw_exit(EXIT_FAILURE, "%s: Failed parsing file.\n", av[i]));
-		ptr->next = cw->procs;
-		if (cw->procs)
-			cw->procs = ptr;
+		ptr->next = g_cw->procs;
+		if (g_cw->procs)
+			g_cw->procs = ptr;
 		++dist;
 		++i;
 	}
-	ft_print_memory(&(cw->mem[0]), MEM_SIZE);
-	cw_nc_init(cw);
+	ft_print_memory(g_cw->mem, MEM_SIZE);
 	return (EXIT_SUCCESS);
 }

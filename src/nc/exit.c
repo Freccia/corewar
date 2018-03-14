@@ -12,9 +12,9 @@
 
 #include "internal.h"
 
-int	cw_nc_exit(t_cw *cw)
+int	cw_nc_exit(void)
 {
-	if (!cw->opt.n)
+	if (!g_cw->opt.n)
 		return (YEP);
 	delwin(g_wboard);
 	delwin(g_wstats);

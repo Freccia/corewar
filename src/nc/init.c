@@ -77,11 +77,11 @@ static int		nc_draw(t_cw *cw)
 	return (YEP);
 }
 
-int				cw_nc_init(t_cw *cw)
+int				cw_nc_init()
 {
 	int sq;
 
-	if (!cw->opt.n)
+	if (!g_cw->opt.n)
 		return (YEP);
 	initscr();
 	cbreak();
@@ -102,6 +102,5 @@ int				cw_nc_init(t_cw *cw)
 	box(g_wstats, 0x2a, 0x2a);
 	wattr_off(g_wstats, 0x242a00, 0);
 	wrefresh(g_wstats);
-	return (nc_draw(cw));
+	return (nc_draw(g_cw));
 }
-

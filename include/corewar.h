@@ -57,6 +57,8 @@ typedef struct		s_cw
 	t_opt			opt;
 }					t_cw;
 
+extern t_cw			*g_cw;
+
 typedef int			(t_instr)(t_cw *cw, uint8_t a1, uint8_t a2, uint8_t a3);
 
 int					cw_live(t_cw *cw, uint8_t a1, uint8_t a2, uint8_t a3);
@@ -76,10 +78,10 @@ int					cw_lldi(t_cw *cw, uint8_t a1, uint8_t a2, uint8_t a3);
 int					cw_lfork(t_cw *cw, uint8_t a1, uint8_t a2, uint8_t a3);
 int					cw_aff(t_cw *cw, uint8_t a1, uint8_t a2, uint8_t a3);
 
-int					cw_nc_init(t_cw *cw);
-int					cw_nc_update(t_cw *cw);
-int					cw_nc_notify(t_cw *cw, uint16_t i, uint16_t p, uint8_t val);
-int					cw_nc_exit(t_cw *cw);
+int					cw_nc_init(void);
+int					cw_nc_update(void);
+int					cw_nc_notify(uint16_t i, uint16_t p, uint8_t val);
+int					cw_nc_exit(void);
 
 void				cw_mem_dump(uint8_t *mem);
 int					cw_mem_write(t_cw *cw, uint8_t *pc, uint8_t value);
@@ -94,8 +96,8 @@ int					cw_vm_eval(t_cw *cw, uint8_t *pc);
 ** parse fichier cor 
 */
 t_proc				*cw_vm_parse(uint8_t *mem, const char *filename);
-int					cw_vm_init(t_cw *cw, int ac, char **av);
-int					cw_vm_run(t_cw *cw);
+int					cw_vm_init(int ac, char **av);
+int					cw_vm_run(void);
 int					cw_exit(int ecode, char const *fmt, ...);
 
 #endif

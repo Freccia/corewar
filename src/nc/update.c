@@ -11,6 +11,10 @@
 /* ************************************************************************** */
 
 #include "internal.h"
+/*
+static int	g_stats[10][2] = {
+
+};*/
 
 static void	nc_pause(int *running)
 {
@@ -25,12 +29,17 @@ static void	nc_pause(int *running)
 	*running = 1;
 }
 
-int			cw_nc_update(t_cw *cw)
+static int	nc_stats(void)
+{
+	return (YEP);
+}
+
+int			cw_nc_update()
 {
 	int ch;
 	static int running = 0;
 
-	if (!cw->opt.n)
+	if (!g_cw->opt.n)
 		return (YEP);
 	if (!running)
 		nc_pause(&running);
@@ -43,8 +52,8 @@ int			cw_nc_update(t_cw *cw)
 		else
 		{
 			ft_printf("got %d\n", ch);
-			cw_nc_notify(cw, (uint16_t)ch, (uint16_t)(ch % 8), (uint8_t)ch);
 		}
 	}
+	nc_stats();
 	return (YEP);
 }

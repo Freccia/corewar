@@ -12,7 +12,7 @@
 
 #include "corewar.h"
 
-static t_cw	*g_cw = NULL;
+t_cw		*g_cw = NULL;
 
 static int	cw_vm_usage(int ac, char **av)
 {
@@ -34,7 +34,7 @@ int		cw_exit(int ecode, char const *fmt, ...)
 
 	if (g_cw)
 	{
-		cw_nc_exit(g_cw);
+		cw_nc_exit();
 		// todo: destruct things
 	}
 	if (fmt)
@@ -47,14 +47,13 @@ int		cw_exit(int ecode, char const *fmt, ...)
 	exit(ecode);
 }
 
-int		cw_vm_run(t_cw *cw)
+int		cw_vm_run(void)
 {
-	(void)cw;
 	while (1)
 	{
-		if (cw_nc_update(cw))
+		if (cw_nc_update())
 			return (cw_exit(EXIT_FAILURE, NULL));
-		if (cw->opt.d > 0 && ++cw->cycle == (size_t)cw->opt.d)
+		if (g_cw->opt.d > 0 && ++g_cw->cycle == (size_t)g_cw->opt.d)
 		{
 			// todo: dump mem
 			return (cw_exit(EXIT_SUCCESS, NULL));
@@ -82,9 +81,10 @@ int 	main(int ac, char **av)
 		else
 			return (cw_vm_usage(ac, av));
 	}
-	if (cw_vm_init(g_cw = &cw, ac, av))
+	g_cw = &cw;
+	if (cw_vm_init(ac, av))
 		return (cw_exit(EXIT_FAILURE, NULL));
-	if (cw_vm_run(&cw))
+	if (cw_vm_run())
 		return (cw_exit(EXIT_FAILURE, NULL));
 	return (cw_exit(EXIT_SUCCESS, NULL));
 }

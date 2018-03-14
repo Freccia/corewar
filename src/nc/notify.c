@@ -12,17 +12,17 @@
 
 #include "internal.h"
 
-int	cw_nc_notify(t_cw *cw, uint16_t i, uint16_t p, uint8_t val)
+int	cw_nc_notify(uint16_t i, uint16_t p, uint8_t val)
 {
 	int sq;
 	int x;
 	int y;
 
-	if (!cw->opt.n)
+	if (!g_cw->opt.n)
 		return (YEP);
 	sq = getmaxy(g_wboard) - 2;
-	x = 2 + ((i / sq) * 3);
-	y = 1 + (i % sq);
+	x = 2 + ((i % sq) * 3);
+	y = 1 + (i / sq);
 	mvwaddch(g_wboard, y, x++, (chtype)DIGITS[(val / 16) % 16] | COLOR_PAIR(p));
 	mvwaddch(g_wboard, y, x++, (chtype)DIGITS[val % 16] | COLOR_PAIR(p));
 	mvwaddch(g_wboard, y, x++, ' ');
