@@ -10,10 +10,11 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "corewar.h"
+#include "internal.h"
 
 int	cw_nc_exit(t_cw *cw)
 {
 	(void)cw;
-	return (WUT);
+	endwin();
+	return (YEP);
 }

@@ -6,7 +6,7 @@
 /*   By: nfinkel <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/03/13 16:16:50 by nfinkel           #+#    #+#             */
-/*   Updated: 2018/03/14 11:41:11 by lfabbro          ###   ########.fr       */
+/*   Updated: 2018/03/14 11:43:43 by lfabbro          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,6 +31,7 @@ typedef struct		s_opt
 {
 	uint8_t			v;
 	uint8_t			c;
+	uint8_t			n : 1;
 }					t_opt;
 
 typedef struct		s_proc

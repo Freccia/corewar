@@ -17,6 +17,7 @@
 
 # include "corewar.h"
 
-extern WINDOW	*g_win;
+extern WINDOW	*g_wboard;
+extern WINDOW	*g_wstats;
 
 #endif

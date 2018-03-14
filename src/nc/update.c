@@ -10,10 +10,17 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "corewar.h"
+#include "internal.h"
 
 int	cw_nc_update(t_cw *cw)
 {
-	(void)cw;
-	return (WUT);
+	int ch;
+
+	if (!cw->opt.n)
+		return (YEP);
+	if ((ch = getch()) != ERR)
+	{
+		ft_printf("got %d\n", ch);
+	}
+	return (YEP);
 }

@@ -6,7 +6,7 @@
 /*   By: lfabbro <>                                 +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/03/14 10:10:16 by lfabbro           #+#    #+#             */
-/*   Updated: 2018/03/14 11:41:23 by lfabbro          ###   ########.fr       */
+/*   Updated: 2018/03/14 11:43:25 by lfabbro          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,6 +59,8 @@ int		cw_vm_init(t_cw *cw, int ac, char **av)
 		if (cw->procs)
 			cw->procs = ptr;
 		++dist;
+		++i;
 	}
+	cw_nc_init(cw);
 	return (EXIT_SUCCESS);
 }
