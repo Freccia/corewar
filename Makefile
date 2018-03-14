@@ -6,7 +6,7 @@
 #    By: alucas- <alucas-@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2017/11/07 09:52:36 by alucas-           #+#    #+#              #
-#    Updated: 2018/03/14 09:36:50 by lfabbro          ###   ########.fr        #
+#    Updated: 2018/03/14 10:22:50 by lfabbro          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -33,7 +33,7 @@ SRCA_NAME = \
 	asm/parser/parse_args.c
 SRCB_NAME = \
 	op.c \
-	vm/vm.c \
+	vm/vm.c vm/vm_init.c\
   nc/exit.c nc/init.c nc/notify.c nc/update.c
 
 # folder-names of the sources

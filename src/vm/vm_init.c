@@ -6,7 +6,7 @@
 /*   By: lfabbro <>                                 +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/03/14 10:10:16 by lfabbro           #+#    #+#             */
-/*   Updated: 2018/03/14 10:36:40 by lfabbro          ###   ########.fr       */
+/*   Updated: 2018/03/14 10:43:23 by lfabbro          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,7 @@ t_proc		*cw_vm_parse(t_cw *cw, const char *filename)
 	t_proc	*proc;
 
 	(void)cw;
+	(void)proc;
 	if ((fd = open(filename, O_RDONLY)) < 0)
 		return (NULL);
 	if (close(fd) < 0)
@@ -39,7 +40,7 @@ int		cw_vm_init(t_cw *cw, int ac, char **av)
 	while (i < ac)
 	{
 		if ((ptr = cw_vm_parse(cw, av[i])) == NULL)
-			return (error("Failed parsing file.", 3));
+			return (cw_error("Failed parsing file.", 3));
 		ptr->next = cw->procs;
 		if (cw->procs)
 			cw->procs = ptr;

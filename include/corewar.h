@@ -6,7 +6,7 @@
 /*   By: nfinkel <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/03/13 16:16:50 by nfinkel           #+#    #+#             */
-/*   Updated: 2018/03/13 19:24:35 by lfabbro          ###   ########.fr       */
+/*   Updated: 2018/03/14 10:42:58 by lfabbro          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,6 +34,7 @@ typedef struct		s_proc
 	uint8_t			reg[REG_NUMBER][REG_SIZE];
 	size_t			lastlive;
 	uint16_t		wait;
+	struct s_proc	*next;
 }					t_proc;
 
 typedef struct		s_cw
@@ -41,7 +42,7 @@ typedef struct		s_cw
 	uint8_t			mem[MEM_SIZE];
 	uint16_t		proc_count;
 	uint16_t		proc_idx;
-	t_proc			procs[_CW_PROCMAX];
+	t_proc			*procs;
 	size_t			cycle;
 	uint16_t		cycle_to_die;
 	t_opt			opt;
@@ -83,7 +84,9 @@ int					cw_vm_eval(t_cw *cw, uint8_t *pc);
 /*
 ** parse fichier cor 
 */
-int					cw_vm_parse(uint8_t *mem, const char *filename);
+int					cw_vm_init(t_cw *cw, int ac, char **av);
+t_proc				*cw_vm_parse(t_cw *cw, const char *filename);
 int					cw_vm_run(t_cw *cw);
+int					cw_error(char *msg, int err);
 
 #endif
