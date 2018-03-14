@@ -6,7 +6,7 @@
 /*   By: alucas- <alucas-@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/11/07 09:52:30 by alucas-           #+#    #+#             */
-/*   Updated: 2018/02/14 15:03:26 by mc               ###   ########.fr       */
+/*   Updated: 2018/03/14 04:40:32 by mc               ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,5 +29,7 @@
 # include "libft/tys.h"
 # include "libft/sort.h"
 # include "libft/getopt.h"
+# include "libft/hsh.h"
+# include "libft/arr.h"
 
 #endif

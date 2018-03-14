@@ -1,27 +1,26 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   lib/error.c                                        :+:      :+:    :+:   */
+/*   asm_parser.h                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: alucas- <alucas-@student.42.fr>            +#+  +:+       +#+        */
+/*   By: mcanal <zboub@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2017/11/07 09:44:14 by alucas-           #+#    #+#             */
-/*   Updated: 2018/03/14 01:25:17 by mc               ###   ########.fr       */
+/*   Created: 2015/12/14 18:21:04 by mcanal            #+#    #+#             */
+/*   Updated: 2017/03/19 20:44:41 by mcanal           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <errno.h>
-#ifndef EQFULL
-# define EQFULL 106
-#endif
+#ifndef ASM_PARSER_H
 
-int	ft_error(int rno, int eno)
-{
-	if (eno <= 0 || eno > EQFULL)
-	{
-		errno = EINVAL;
-		return (-1);
-	}
-	errno = eno;
-	return (rno);
-}
+# define ASM_PARSER_H
+
+# include "asm.h"
+
+
+/*
+** parse_args.c
+*/
+void				parse_args(t_instruct_read *instruct_r, \
+							   t_instruct_parsed *instruct_p);
+
+#endif

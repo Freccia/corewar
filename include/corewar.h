@@ -6,7 +6,7 @@
 /*   By: nfinkel <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/03/13 16:16:50 by nfinkel           #+#    #+#             */
-/*   Updated: 2018/03/13 18:06:45 by nfinkel          ###   ########.fr       */
+/*   Updated: 2018/03/13 19:24:35 by lfabbro          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,12 @@
 
 # define _CW_CARRY (1 << 0)
 # define _CW_PROCMAX (101010)
+
+typedef struct		s_opt
+{
+	uint8_t			v;
+	uint8_t			c;
+}					t_opt;
 
 typedef struct		s_proc
 {
@@ -38,6 +44,7 @@ typedef struct		s_cw
 	t_proc			procs[_CW_PROCMAX];
 	size_t			cycle;
 	uint16_t		cycle_to_die;
+	t_opt			opt;
 }					t_cw;
 
 typedef int			(t_instr)(t_cw *cw, uint8_t a1, uint8_t a2, uint8_t a3);

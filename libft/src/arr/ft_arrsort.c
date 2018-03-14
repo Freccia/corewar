@@ -1,18 +1,23 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   asm/parser.c                                       :+:      :+:    :+:   */
+/*   ft_arrsort.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: alucas- <marvin@42.fr>                     +#+  +:+       +#+        */
+/*   By: mcanal <zboub@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2018/03/12 18:15:51 by alucas-           #+#    #+#             */
-/*   Updated: 2018/03/12 18:15:53 by alucas-          ###   ########.fr       */
+/*   Created: 2016/03/16 01:45:46 by mcanal            #+#    #+#             */
+/*   Updated: 2018/03/14 05:19:11 by mc               ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "asm.h"
+/*
+** sort an array using shell_sort (based on arr->cmp)
+*/
 
-int main(void)
+#include "libft/arr.h"
+#include "libft/sort.h"
+
+void			ft_arrsort(t_arr *arr)
 {
-	return (EXIT_SUCCESS);
+	ft_shellsort(arr->ptr, arr->length, arr->sizeof_element, arr->cmp);
 }

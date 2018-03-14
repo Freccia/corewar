@@ -1,27 +1,28 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   lib/error.c                                        :+:      :+:    :+:   */
+/*   ft_memdel.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: alucas- <alucas-@student.42.fr>            +#+  +:+       +#+        */
+/*   By: mcanal <mcanal@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2017/11/07 09:44:14 by alucas-           #+#    #+#             */
-/*   Updated: 2018/03/14 01:25:17 by mc               ###   ########.fr       */
+/*   Created: 2014/11/06 14:34:47 by mcanal            #+#    #+#             */
+/*   Updated: 2014/11/09 22:40:19 by mcanal           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <errno.h>
-#ifndef EQFULL
-# define EQFULL 106
-#endif
+/*
+** Takes in parameter the address of a pointer whose pointed zone has to be
+** freed with free (3), then the pointer is set to NULL.
+*/
 
-int	ft_error(int rno, int eno)
+#include "libft/str.h"
+#include <stdlib.h>
+
+void	ft_memdel(void **ap)
 {
-	if (eno <= 0 || eno > EQFULL)
+	if (ap)
 	{
-		errno = EINVAL;
-		return (-1);
+		free(*ap);
+		*ap = NULL;
 	}
-	errno = eno;
-	return (rno);
 }
