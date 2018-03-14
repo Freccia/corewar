@@ -1,6 +1,6 @@
 # Project
-./asm
-./corewar
+/asm
+/corewar
 *.cor
 
 # Prerequisites

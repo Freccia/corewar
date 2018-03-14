@@ -6,7 +6,7 @@
 #    By: alucas- <alucas-@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2017/11/07 09:52:36 by alucas-           #+#    #+#              #
-#    Updated: 2018/03/14 04:22:45 by mc               ###   ########.fr        #
+#    Updated: 2018/03/14 05:29:51 by mc               ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -20,6 +20,7 @@ PROJECTB ?= corewar
 
 # file-names of the sources
 SRCA_NAME = \
+	op.c \
 	asm/asm_main.c \
 	asm/init_data.c \
 	asm/error.c \
@@ -29,8 +30,9 @@ SRCA_NAME = \
 	asm/lexer/read_header.c \
 	asm/lexer/read_instruction.c \
 	asm/parser/asm_parser.c \
-	asm/parser/parse_args.c \
+	asm/parser/parse_args.c
 SRCB_NAME = \
+	op.c \
 	vm/vm.c
 
 # folder-names of the sources
