@@ -40,10 +40,12 @@ int		cw_vm_init(t_cw *cw, int ac, char **av)
 	while (i < ac)
 	{
 		if ((ptr = cw_vm_parse(cw, av[i])) == NULL)
-			return (cw_error("Failed parsing file.", 3));
+			return (cw_error("Failed parsing file.", EXIT_FAILURE));
 		ptr->next = cw->procs;
 		if (cw->procs)
 			cw->procs = ptr;
+		++i;
 	}
+	cw_nc_init(cw);
 	return (EXIT_SUCCESS);
 }

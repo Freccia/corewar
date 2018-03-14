@@ -46,6 +46,7 @@ endif ()
 add_executable(corewar include/op.h include/corewar.h
   src/op.c
   src/vm/vm.c
+  src/vm/vm_init.c
   src/nc/internal.h
   src/nc/exit.c
   src/nc/init.c
@@ -53,7 +54,7 @@ add_executable(corewar include/op.h include/corewar.h
   src/nc/update.c)
 set_property(TARGET corewar PROPERTY C_STANDARD 90)
 target_include_directories(corewar PUBLIC include)
-target_link_libraries(corewar PUBLIC debug ft)
+target_link_libraries(corewar PUBLIC debug ft ncurses)
 
 target_compile_definitions(corewar
   PRIVATE $<$<CONFIG:Debug>:DEBUG>$<$<CONFIG:Release>:NDEBUG>)
