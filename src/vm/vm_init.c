@@ -6,7 +6,7 @@
 /*   By: lfabbro <>                                 +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/03/14 10:10:16 by lfabbro           #+#    #+#             */
-/*   Updated: 2018/03/14 13:35:08 by lfabbro          ###   ########.fr       */
+/*   Updated: 2018/03/14 13:40:24 by lfabbro          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,21 +39,21 @@ t_proc		*cw_vm_parse(uint8_t *mem, const char *filename)
 	(void)mem;
 	proc = NULL;
 	if ((bin_size = cw_bin_stat(filename)) < 0)
-		return (NULL);
+		cw_exit(3, "Stat error.");
 	if ((fd = open(filename, O_RDONLY)) < 0)
-		return (NULL);
+		cw_exit(3, "Failed opening file.");
 	if (read(fd, &buf, _CW_HEAD_SZ) < _CW_HEAD_SZ)
-		return (NULL);
+		cw_exit(3, "Failed reading file.");
 	if (*(unsigned int*)buf != _CW_MAGIC)
-		return (NULL);
+		cw_exit(3, "Wrong file: magic number.");
 
 	ft_printf("Magic: %x - %x - %x\n", *(unsigned int*)buf, _CW_MAGIC, _CW_HEAD_SZ);
 
 	if (read(fd, &buf, bin_size) <= 0)
-		return (NULL);
+		cw_exit(3, "Failed reading file.");
 	ft_memcpy(mem, buf, bin_size);
 	if (close(fd) < 0)
-		return (NULL);
+		cw_exit(3, "Failed closing fd.");
 	proc = malloc(sizeof(t_proc));
 	return (proc);
 }
@@ -74,7 +74,7 @@ int		cw_vm_init(t_cw *cw, int ac, char **av)
 	{
 		ft_printf("MEM: %p - %p\n", cw->mem, &(cw->mem[dist * plyrs_dist]));
 		if ((ptr = cw_vm_parse(&(cw->mem[dist * plyrs_dist]), av[i])) == NULL)
-			return (cw_exit(EXIT_FAILURE, "%s: Failed parsing file.\n", av[i]));
+			cw_exit(3, "Failed parsing file.");
 		ptr->next = cw->procs;
 		if (cw->procs)
 			cw->procs = ptr;
