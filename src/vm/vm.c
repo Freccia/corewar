@@ -33,7 +33,8 @@ int		cw_init(t_cw *cw)
 
 int		cw_run(t_cw *cw)
 {
-	
+	(void)cw;
+	return (WUT);
 }
 
 int 	main(int ac, char **av)
@@ -45,12 +46,12 @@ int 	main(int ac, char **av)
 	if (ac < 2)
 		return (print_usage(ac, av));
 	cw_init(&cw);
-	while ((o = ft_getopt(ac, av, "c:v:")) != -1)
+	while ((opt = ft_getopt(ac, av, "c:v:")) != -1)
 	{
-		if (o == 'v')
-			cw.opt.v = ft_atoi(g_optarg);
-		else if (o == 'c')
-			cw.opt.c = ft_atoi(g_optarg;
+		if (opt == 'v')
+			cw.opt.v = (uint8_t)ft_atoi(g_optarg);
+		else if (opt == 'c')
+			cw.opt.c = (uint8_t)ft_atoi(g_optarg);
 		else
 			return (EXIT_FAILURE);
 	}

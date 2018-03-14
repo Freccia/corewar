@@ -171,7 +171,7 @@ clean:
 
 # remove the generated binary, and all .o and .d
 fclean: clean
-	test -d $(OBJ_DIR) && find $(OBJ_DIR) -type d | sort -r | xargs $(RMDIR) || true
+	test -d $(OBJ_DIR) && $(RM) -r $(OBJ_DIR)
 	$(RM) {$(PROJECTA),$(PROJECTB)}{,.san,.dev}
 	@$(PRINTF) "%-20s$(GREEN)✔$(BASIC)\n" "$(PROJECTB): $@"
 
