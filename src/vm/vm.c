@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   vm/vm.c                                            :+:      :+:    :+:   */
+/*   vm.c                                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: alucas- <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/03/12 18:15:51 by alucas-           #+#    #+#             */
-/*   Updated: 2018/03/14 19:06:06 by lfabbro          ###   ########.fr       */
+/*   Updated: 2018/03/14 22:39:00 by nfinkel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,10 +66,11 @@ int		cw_vm_exec(uint8_t *pc)
 	uint8_t			ocp;
 
 	// todo: eval arguments
+	// FAUT CHANGER CETTE MERDE, J'AI CHANGE LES PROTOS DES FONCTIONS
 	ocp = 0;
 	if (*pc >= 0x1 && *pc <= 0x10)
 	{
-		s_instr[*pc](pc[1], pc[2], pc[3]);
+		s_instr[*pc](g_cw->current->pc);
 		return (ocp);
 	}
 	return (EXIT_FAILURE);

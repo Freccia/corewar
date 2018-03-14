@@ -3,38 +3,31 @@
 /*                                                        :::      ::::::::   */
 /*   cw_live.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lfabbro <marvin@42.fr>                     +#+  +:+       +#+        */
+/*   By: nfinkel <nfinkel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2018/03/14 15:01:10 by lfabbro           #+#    #+#             */
-/*   Updated: 2018/03/14 18:46:52 by lfabbro          ###   ########.fr       */
+/*   Created: 2018/03/14 19:10:47 by nfinkel           #+#    #+#             */
+/*   Updated: 2018/03/14 21:52:22 by nfinkel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "corewar.h"
 
-/*
-** OP: 0x1	-- instruction len: 5
-*/
-
-int					cw_live(uint8_t a1, uint8_t a2, uint8_t a3)
+int			cw_live(uint8_t *mem)
 {
-	t_proc	*ptr;
+	int8_t		k;
+	int			id;
 
-	(void)a2;
-	(void)a3;
-	ptr = g_cw->procs;
-	while (ptr)
-	{
-		if (ptr->color == a1)
-		{
-			ptr->lastlive = g_cw->cycle;
-			ft_printf("Player %d (%s) is alive!\n", ptr->color,
-				g_cw->players[ptr->color - 1]);
+	id = ft_mtoi(mem, 4);
+	k = -1;
+	while (g_cw->champs[++k])
+		if (g_cw->champs[k]->id == id)
 			break ;
-		}
-		ptr = ptr->next;
+	if (!g_cw->champs[k])
+		ft_printf("A live has been made... But nobody came.\n");
+	else
+	{
+		g_cw->current->lastlive = g_cw->cycle;
+		ft_printf("Player %s[%hhd] is alive!\n", g_cw->champs[k]->name, k);
 	}
-	if (ptr == NULL)
-		ft_printf("A non-existent player (%d) is telling he's alive...", a1);
-	return (EXIT_SUCCESS);
+	return (5);
 }

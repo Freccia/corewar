@@ -3,19 +3,17 @@
 /*                                                        :::      ::::::::   */
 /*   cw_st.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lfabbro <marvin@42.fr>                     +#+  +:+       +#+        */
+/*   By: nfinkel <nfinkel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2018/03/14 15:02:09 by lfabbro           #+#    #+#             */
-/*   Updated: 2018/03/14 15:18:38 by lfabbro          ###   ########.fr       */
+/*   Created: 2018/03/14 19:16:28 by nfinkel           #+#    #+#             */
+/*   Updated: 2018/03/14 20:32:36 by nfinkel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "corewar.h"
 
-int					cw_st(uint8_t a1, uint8_t a2, uint8_t a3)
+int			cw_st(uint8_t *mem)
 {
-	(void)a1;
-	(void)a2;
-	(void)a3;
+	(void)mem;
 	return (YEP);
 }

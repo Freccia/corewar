@@ -6,7 +6,7 @@
 /*   By: nfinkel <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/03/13 16:16:50 by nfinkel           #+#    #+#             */
-/*   Updated: 2018/03/14 19:07:46 by lfabbro          ###   ########.fr       */
+/*   Updated: 2018/03/14 22:43:23 by nfinkel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,6 +27,12 @@
 # define _CW_PROCMAX	(101010)
 # define _CW_MAGIC		SWAP_INT(COREWAR_EXEC_MAGIC)
 # define _CW_HEAD_SZ	(16 + PROG_NAME_LENGTH + COMMENT_LENGTH)
+
+typedef struct		s_champs
+{
+	const char		*name;
+	const int		id;
+}					t_champs;
 
 typedef struct		s_opt
 {
@@ -57,29 +63,30 @@ typedef struct		s_cw
 	size_t			cycle;
 	int				cycle_to_die;
 	t_opt			opt;
+	t_champs		*champs[4];
 	char			players[MAX_PLAYERS][PROG_NAME_LENGTH];
 }					t_cw;
 
 extern t_cw			*g_cw;
 
-typedef int			(*t_instr)(uint8_t a1, uint8_t a2, uint8_t a3);
+typedef int			(*t_instr)(uint8_t *);
 
-int					cw_live(uint8_t a1, uint8_t a2, uint8_t a3);
-int					cw_ld(uint8_t a1, uint8_t a2, uint8_t a3);
-int					cw_st(uint8_t a1, uint8_t a2, uint8_t a3);
-int					cw_add(uint8_t a1, uint8_t a2, uint8_t a3);
-int					cw_sub(uint8_t a1, uint8_t a2, uint8_t a3);
-int					cw_and(uint8_t a1, uint8_t a2, uint8_t a3);
-int					cw_or(uint8_t a1, uint8_t a2, uint8_t a3);
-int					cw_xor(uint8_t a1, uint8_t a2, uint8_t a3);
-int					cw_zjmp(uint8_t a1, uint8_t a2, uint8_t a3);
-int					cw_ldi(uint8_t a1, uint8_t a2, uint8_t a3);
-int					cw_sti(uint8_t a1, uint8_t a2, uint8_t a3);
-int					cw_fork(uint8_t a1, uint8_t a2, uint8_t a3);
-int					cw_lld(uint8_t a1, uint8_t a2, uint8_t a3);
-int					cw_lldi(uint8_t a1, uint8_t a2, uint8_t a3);
-int					cw_lfork(uint8_t a1, uint8_t a2, uint8_t a3);
-int					cw_aff(uint8_t a1, uint8_t a2, uint8_t a3);
+int					cw_live(uint8_t *mem);
+int					cw_ld(uint8_t *mem);
+int					cw_st(uint8_t *mem);
+int					cw_add(uint8_t *mem);
+int					cw_sub(uint8_t *mem);
+int					cw_and(uint8_t *mem);
+int					cw_or(uint8_t *mem);
+int					cw_xor(uint8_t *mem);
+int					cw_zjmp(uint8_t *mem);
+int					cw_ldi(uint8_t *mem);
+int					cw_sti(uint8_t *mem);
+int					cw_fork(uint8_t *mem);
+int					cw_lld(uint8_t *mem);
+int					cw_lldi(uint8_t *mem);
+int					cw_lfork(uint8_t *mem);
+int					cw_aff(uint8_t *mem);
 
 int					cw_nc_init(void);
 int					cw_nc_update(void);

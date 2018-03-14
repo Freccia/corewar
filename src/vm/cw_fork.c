@@ -3,19 +3,17 @@
 /*                                                        :::      ::::::::   */
 /*   cw_fork.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lfabbro <marvin@42.fr>                     +#+  +:+       +#+        */
+/*   By: nfinkel <nfinkel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2018/03/14 15:08:45 by lfabbro           #+#    #+#             */
-/*   Updated: 2018/03/14 15:17:28 by lfabbro          ###   ########.fr       */
+/*   Created: 2018/03/14 19:09:54 by nfinkel           #+#    #+#             */
+/*   Updated: 2018/03/14 20:30:54 by nfinkel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "corewar.h"
 
-int					cw_fork(uint8_t a1, uint8_t a2, uint8_t a3)
+int			cw_fork(uint8_t *mem)
 {
-	(void)a1;
-	(void)a2;
-	(void)a3;
+	(void)mem;
 	return (YEP);
 }
