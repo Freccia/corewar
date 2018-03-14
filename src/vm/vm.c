@@ -18,8 +18,8 @@ static int	cw_vm_usage(int ac, char **av)
 {
 	(void)ac;
 	ft_printf("Usage: %s [ options ] <champ.cor> <...>\n", av[0]);
-	ft_printf("	-c N    : Dumps memory after N execution cycles\n");
-	ft_printf("	-v N    : Sets everbosity level to N (bitwise)\n");
+	ft_printf("	-d N    : Dumps memory after N execution cycles\n");
+	ft_printf("	-v N    : Sets verbosity level to N (bitwise)\n");
 	ft_printf("	-n      : Ncurses output mode\n");
 	ft_printf("		- 0 : Essential\n");
 	ft_printf("		- 1 : Lives\n");
@@ -54,7 +54,11 @@ int		cw_vm_run(t_cw *cw)
 	{
 		if (cw_nc_update(cw))
 			return (cw_exit(EXIT_FAILURE, NULL));
-		++cw->cycle;
+		if (cw->opt.d && ++cw->cycle == cw->opt.d)
+		{
+			// todo: dump mem
+			return (cw_exit(EXIT_SUCCESS, NULL));
+		}
 	}
 }
 
@@ -67,12 +71,12 @@ int 	main(int ac, char **av)
 	if (ac < 2)
 		return (cw_vm_usage(ac, av));
 	ft_bzero(&cw, sizeof(t_cw));
-	if ((opt = ft_getopt(ac, av, "nc:v:")) != -1)
+	if ((opt = ft_getopt(ac, av, "nd:v:")) != -1)
 	{
 		if (opt == 'v')
 			cw.opt.v = (uint8_t)ft_atoi(g_optarg);
-		else if (opt == 'c')
-			cw.opt.c = (uint8_t)ft_atoi(g_optarg);
+		else if (opt == 'd')
+			cw.opt.d = ft_atoi(g_optarg);
 		else if (opt == 'n')
 			cw.opt.n ^= 1;
 		else

@@ -30,7 +30,7 @@
 typedef struct		s_opt
 {
 	uint8_t			v;
-	uint8_t			c;
+	int64_t			d;
 	uint8_t			n : 1;
 }					t_opt;
 
