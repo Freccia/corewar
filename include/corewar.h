@@ -6,7 +6,7 @@
 /*   By: nfinkel <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/03/13 16:16:50 by nfinkel           #+#    #+#             */
-/*   Updated: 2018/03/14 13:46:32 by lfabbro          ###   ########.fr       */
+/*   Updated: 2018/03/14 14:34:29 by lfabbro          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,7 +50,7 @@ typedef struct		s_cw
 {
 	uint8_t			mem[MEM_SIZE];
 	uint16_t		proc_count;
-	uint16_t		proc_idx;
+	uint16_t		proc_cur;
 	t_proc			*procs;
 	size_t			cycle;
 	uint16_t		cycle_to_die;
@@ -95,7 +95,7 @@ int					cw_vm_eval(t_cw *cw, uint8_t *pc);
 /*
 ** parse fichier cor 
 */
-t_proc				*cw_vm_parse(uint8_t *mem, const char *filename);
+t_proc				*cw_vm_parse(uint8_t *mem, const char *filename, uint16_t color);
 int					cw_vm_init(int ac, char **av);
 int					cw_vm_run(void);
 int					cw_exit(int ecode, char const *fmt, ...);

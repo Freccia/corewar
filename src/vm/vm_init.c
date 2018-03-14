@@ -6,7 +6,7 @@
 /*   By: lfabbro <>                                 +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/03/14 10:10:16 by lfabbro           #+#    #+#             */
-/*   Updated: 2018/03/14 13:40:24 by lfabbro          ###   ########.fr       */
+/*   Updated: 2018/03/14 14:35:59 by lfabbro          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,7 @@ void		cw_mem_cpy(uint8_t *mem, uint8_t const *src, size_t len, uint16_t p)
 	}
 }
 
-t_proc		*cw_vm_parse(uint8_t *mem, const char *filename)
+t_proc		*cw_vm_parse(uint8_t *mem, const char *filename, uint16_t color)
 {
 	int				fd;
 	int				bin_size;
@@ -56,15 +56,14 @@ t_proc		*cw_vm_parse(uint8_t *mem, const char *filename)
 		cw_exit(3, "Failed reading file.\n");
 	if (*(unsigned int*)buf != _CW_MAGIC)
 		cw_exit(3, "Wrong file: magic number.\n");
-
-	ft_printf("Magic: %x - %x - %x\n", *(unsigned int*)buf, _CW_MAGIC, _CW_HEAD_SZ);
-
 	if (read(fd, &buf, bin_size) <= 0)
 		cw_exit(3, "Failed reading file.\n");
-	cw_mem_cpy(mem, (const uint8_t *)buf, bin_size, 3);
+	proc = malloc(sizeof(t_proc));
+	proc->color = color;
+	proc->pc = mem;
+	cw_mem_cpy(mem, (const uint8_t *)buf, bin_size, proc->color);
 	if (close(fd) < 0)
 		cw_exit(3, "Failed closing fd.\n");
-	proc = malloc(sizeof(t_proc));
 	return (proc);
 }
 
@@ -80,10 +79,10 @@ int		cw_vm_init(int ac, char **av)
 	plyrs_dist = MEM_SIZE / (ac - g_optind);
 	dist = 0;
 	cw_nc_init();
-	while (i < ac)
+	while (i < ac || (i - g_optind) >= MAX_PLAYERS)
 	{
-		ft_printf("MEM: %p - %p\n", g_cw->mem, &(g_cw->mem[dist * plyrs_dist]));
-		if ((ptr = cw_vm_parse(&(g_cw->mem[dist * plyrs_dist]), av[i])) == NULL)
+		ptr = cw_vm_parse(&(g_cw->mem[dist * plyrs_dist]), av[i], dist);
+		if (ptr == NULL)
 			return (cw_exit(EXIT_FAILURE, "%s: Failed parsing file.\n", av[i]));
 		ptr->next = g_cw->procs;
 		if (g_cw->procs)
@@ -91,6 +90,5 @@ int		cw_vm_init(int ac, char **av)
 		++dist;
 		++i;
 	}
-	ft_print_memory(g_cw->mem, MEM_SIZE);
 	return (EXIT_SUCCESS);
 }
