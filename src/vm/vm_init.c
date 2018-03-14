@@ -6,7 +6,7 @@
 /*   By: lfabbro <>                                 +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/03/14 10:10:16 by lfabbro           #+#    #+#             */
-/*   Updated: 2018/03/14 11:43:25 by lfabbro          ###   ########.fr       */
+/*   Updated: 2018/03/14 11:55:05 by lfabbro          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,6 +34,7 @@ t_proc		*cw_vm_parse(uint8_t *mem, const char *filename)
 		return (NULL);
 	if (*(unsigned int*)buf != _CW_MAGIC)
 		return (NULL);
+	ft_printf("Magic: %x - %x\n", *(unsigned int*)buf, _CW_MAGIC);
 	if (close(fd) < 0)
 		return (NULL);
 	return (proc);

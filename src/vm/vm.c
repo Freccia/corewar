@@ -6,7 +6,7 @@
 /*   By: alucas- <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/03/12 18:15:51 by alucas-           #+#    #+#             */
-/*   Updated: 2018/03/14 10:15:01 by lfabbro          ###   ########.fr       */
+/*   Updated: 2018/03/14 11:54:38 by lfabbro          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,12 +40,14 @@ int		cw_exit(int rcode, t_cw *cw)
 
 int		cw_vm_run(t_cw *cw)
 {
-	while (1)
-	{
-		if (cw_nc_update(cw))
-			return (cw_exit(EXIT_FAILURE, cw));
-		++cw->cycle;
-	}
+	(void)cw;
+//	while (1)
+//	{
+//		if (cw_nc_update(cw))
+//			return (cw_exit(EXIT_FAILURE, cw));
+//		++cw->cycle;
+//	}
+	return (EXIT_SUCCESS);
 }
 
 int 	main(int ac, char **av)
@@ -57,7 +59,7 @@ int 	main(int ac, char **av)
 	if (ac < 2)
 		return (cw_vm_usage(ac, av));
 	ft_bzero(&cw, sizeof(t_cw));
-	while ((opt = ft_getopt(ac, av, "nc:v:")) != -1)
+	if ((opt = ft_getopt(ac, av, "nc:v:")) != -1)
 	{
 		if (opt == 'v')
 			cw.opt.v = (uint8_t)ft_atoi(g_optarg);
