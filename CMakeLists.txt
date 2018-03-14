@@ -47,6 +47,22 @@ add_executable(corewar include/op.h include/corewar.h
   src/op.c
   src/vm/vm.c
   src/vm/vm_init.c
+  src/vm/cw_add.c
+  src/vm/cw_aff.c
+  src/vm/cw_and.c
+  src/vm/cw_fork.c
+  src/vm/cw_ld.c
+  src/vm/cw_ldi.c
+  src/vm/cw_lfork.c
+  src/vm/cw_live.c
+  src/vm/cw_lld.c
+  src/vm/cw_lldi.c
+  src/vm/cw_or.c
+  src/vm/cw_st.c
+  src/vm/cw_sti.c
+  src/vm/cw_sub.c
+  src/vm/cw_xor.c
+  src/vm/cw_zjmp.c
   src/nc/internal.h
   src/nc/exit.c
   src/nc/init.c

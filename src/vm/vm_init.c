@@ -6,7 +6,7 @@
 /*   By: lfabbro <>                                 +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/03/14 10:10:16 by lfabbro           #+#    #+#             */
-/*   Updated: 2018/03/14 16:01:41 by lfabbro          ###   ########.fr       */
+/*   Updated: 2018/03/14 16:03:47 by lfabbro          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,11 +19,10 @@
 t_proc		*cw_vm_parse(uint8_t *mem, const char *filename, uint16_t color)
 {
 	int				fd;
-	int				bin_size;
+	ssize_t			bin_size;
 	char			buf[4096];
 	t_proc			*proc;
 
-	(void)mem;
 	proc = NULL;
 	if ((fd = open(filename, O_RDONLY)) < 0)
 		cw_exit(3, "Failed opening file.\n");
@@ -38,7 +37,7 @@ t_proc		*cw_vm_parse(uint8_t *mem, const char *filename, uint16_t color)
 	proc = malloc(sizeof(t_proc));
 	proc->color = color;
 	proc->pc = mem;
-	cw_mem_cpy(mem, (const uint8_t *)buf, bin_size, proc->color);
+	cw_mem_cpy(mem, (const uint8_t *)buf, (size_t)bin_size, proc->color);
 	proc->wait = cw_instr_cycles(*(uint8_t*)mem);
 	if (close(fd) < 0)
 		cw_exit(3, "Failed closing fd.\n");
@@ -52,7 +51,6 @@ int		cw_vm_init(int ac, char **av)
 	int		dist;
 	t_proc	*ptr;
 
-	(void)ac;
 	i = g_optind;
 	plyrs_dist = MEM_SIZE / (ac - g_optind);
 	dist = 0;

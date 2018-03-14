@@ -14,7 +14,7 @@
 
 int	cw_nc_exit(void)
 {
-	if (!g_cw->opt.n)
+	if (!g_cw->opt.g)
 		return (YEP);
 	delwin(g_wboard);
 	delwin(g_wstats);
