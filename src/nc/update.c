@@ -14,9 +14,14 @@
 
 static void	nc_pause(int *running)
 {
+	int ch;
+
 	*running = 0;
-	while (getch() != 32)
-		;
+	while ((ch = getch()) != 32)
+	{
+		if (ch == 27)
+			cw_exit(EXIT_SUCCESS, "Good bye!\n");
+	}
 	*running = 1;
 }
 
