@@ -6,7 +6,7 @@
 /*   By: nfinkel <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/03/13 16:16:50 by nfinkel           #+#    #+#             */
-/*   Updated: 2018/03/14 11:43:43 by lfabbro          ###   ########.fr       */
+/*   Updated: 2018/03/14 13:33:31 by lfabbro          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,6 +26,7 @@
 # define _CW_CARRY		(1 << 0)
 # define _CW_PROCMAX	(101010)
 # define _CW_MAGIC		SWAP_INT(COREWAR_EXEC_MAGIC)
+# define _CW_HEAD_SZ	(4 + PROG_NAME_LENGTH + COMMENT_LENGTH)
 
 typedef struct		s_opt
 {
