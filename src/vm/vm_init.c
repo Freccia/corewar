@@ -29,12 +29,10 @@ void		cw_mem_cpy(uint8_t *mem, uint8_t const *src, size_t len, uint16_t p)
 t_proc		*cw_vm_parse(uint8_t *mem, const char *filename, uint16_t color)
 {
 	int				fd;
-	int				bin_size;
+	ssize_t			bin_size;
 	char			buf[4096];
 	t_proc			*proc;
 
-	(void)mem;
-	proc = NULL;
 	ft_printf("filename: %s\n", filename);
 	if ((fd = open(filename, O_RDONLY)) < 0)
 		cw_exit(3, "Failed opening file.\n");
@@ -49,7 +47,7 @@ t_proc		*cw_vm_parse(uint8_t *mem, const char *filename, uint16_t color)
 	proc = malloc(sizeof(t_proc));
 	proc->color = color;
 	proc->pc = mem;
-	cw_mem_cpy(mem, (const uint8_t *)buf, bin_size, proc->color);
+	cw_mem_cpy(mem, (const uint8_t *)buf, (size_t)bin_size, proc->color);
 	if (close(fd) < 0)
 		cw_exit(3, "Failed closing fd.\n");
 	return (proc);
@@ -62,7 +60,6 @@ int		cw_vm_init(int ac, char **av)
 	int		dist;
 	t_proc	*ptr;
 
-	(void)ac;
 	i = g_optind;
 	plyrs_dist = MEM_SIZE / (ac - g_optind);
 	dist = 0;
