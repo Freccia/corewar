@@ -6,7 +6,7 @@
 /*   By: alucas- <alucas-@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/11/07 09:52:30 by alucas-           #+#    #+#             */
-/*   Updated: 2018/03/14 12:10:41 by lfabbro          ###   ########.fr       */
+/*   Updated: 2018/03/14 22:20:27 by nfinkel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,6 +32,8 @@
 # include "libft/hsh.h"
 # include "libft/arr.h"
 
-void		ft_print_memory(const void *addr, size_t size);
+void			ft_print_memory(const void *addr, size_t size);
+int				ft_mtoi(const unsigned char *mem, size_t len);
+int32_t			ft_32npow(const int32_t nb, int power);
 
 #endif

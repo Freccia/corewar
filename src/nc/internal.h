@@ -19,7 +19,26 @@
 
 # define DIGITS "0123456789abcdefg"
 
+# define STATS_PAUSED 0
+# define STATS_CYCLEL 1
+# define STATS_CYCLE 2
+# define STATS_PROCS 3
+# define STATS_CYCLE_TO_DIE 4
+# define STATS_CYCLE_DELTA 5
+# define STATS_NBR_LIVE 6
+# define STATS_MAX_CHECKS 7
+# define STATS_PLAYERS 8
+# define STATS_STEPI 9
+
+typedef int		(t_keyh)(int ch);
+
 extern WINDOW	*g_wboard;
 extern WINDOW	*g_wstats;
+extern int		g_cyclel;
+extern int		g_running;
+extern int		g_stepi;
+
+int				cw_nc_onkey(int ch);
+void			cw_nc_stats(uint8_t id, int value);
 
 #endif

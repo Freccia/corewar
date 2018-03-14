@@ -1,23 +1,23 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   nc/exit.c                                          :+:      :+:    :+:   */
+/*   mtoi.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: alucas- <marvin@42.fr>                     +#+  +:+       +#+        */
+/*   By: nfinkel <nfinkel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2018/03/12 18:15:51 by alucas-           #+#    #+#             */
-/*   Updated: 2018/03/12 18:15:53 by alucas-          ###   ########.fr       */
+/*   Created: 2017/08/24 10:16:33 by nfinkel           #+#    #+#             */
+/*   Updated: 2018/03/14 22:20:49 by nfinkel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "internal.h"
+#include "libft.h"
 
-int	cw_nc_exit(void)
+int				ft_mtoi(const unsigned char *mem, size_t len)
 {
-	if (!g_cw->opt.g)
-		return (YEP);
-	delwin(g_wboard);
-	delwin(g_wstats);
-	endwin();
-	return (YEP);
+	int		sum;
+
+	sum = 0;
+	while (len)
+		sum += (int)*mem++ * ft_32npow(16, (int)(--len * 2));
+	return (sum);
 }

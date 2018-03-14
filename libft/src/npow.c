@@ -1,23 +1,25 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   nc/exit.c                                          :+:      :+:    :+:   */
+/*   npow.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: alucas- <marvin@42.fr>                     +#+  +:+       +#+        */
+/*   By: nfinkel <nfinkel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2018/03/12 18:15:51 by alucas-           #+#    #+#             */
-/*   Updated: 2018/03/12 18:15:53 by alucas-          ###   ########.fr       */
+/*   Created: 2018/03/14 21:08:34 by nfinkel           #+#    #+#             */
+/*   Updated: 2018/03/14 22:20:41 by nfinkel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "internal.h"
+#include <sys/types.h>
 
-int	cw_nc_exit(void)
+int32_t			ft_32npow(const int32_t nb, int power)
 {
-	if (!g_cw->opt.g)
-		return (YEP);
-	delwin(g_wboard);
-	delwin(g_wstats);
-	endwin();
-	return (YEP);
+	int32_t		sum;
+
+	if (!power)
+		return (1);
+	sum = nb;
+	while (--power)
+		sum *= nb;
+	return (sum);
 }
