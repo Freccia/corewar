@@ -6,7 +6,7 @@
 /*   By: alucas- <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/03/12 18:15:51 by alucas-           #+#    #+#             */
-/*   Updated: 2018/03/14 11:54:38 by lfabbro          ###   ########.fr       */
+/*   Updated: 2018/03/14 15:23:30 by lfabbro          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,6 +58,11 @@ int		cw_vm_run(void)
 		{
 			// todo: dump mem
 			return (cw_exit(EXIT_SUCCESS, NULL));
+		}
+		if (g_cw->cycle == g_cw->cycle_to_die)
+		{
+			g_cw->cycle = 0;
+			g_cw->cycle_to_die -= CYCLE_DELTA;
 		}
 	}
 }
