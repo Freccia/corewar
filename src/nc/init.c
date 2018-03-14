@@ -12,10 +12,8 @@
 
 #include "internal.h"
 
-#define DIGITS "0123456789abcdefg"
-
-WINDOW			*g_wboard;
-WINDOW			*g_wstats;
+WINDOW			*g_wboard = NULL;
+WINDOW			*g_wstats = NULL;
 
 static float	ft_sqrt7(float x)
 {

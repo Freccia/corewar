@@ -17,6 +17,8 @@
 
 # include "corewar.h"
 
+# define DIGITS "0123456789abcdefg"
+
 extern WINDOW	*g_wboard;
 extern WINDOW	*g_wstats;
 

@@ -14,7 +14,10 @@
 
 int	cw_nc_exit(t_cw *cw)
 {
-	(void)cw;
+	if (!cw->opt.n)
+		return (YEP);
+	delwin(g_wboard);
+	delwin(g_wstats);
 	endwin();
 	return (YEP);
 }
