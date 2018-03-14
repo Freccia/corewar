@@ -41,13 +41,12 @@ int		cw_exit(int rcode, t_cw *cw)
 int		cw_vm_run(t_cw *cw)
 {
 	(void)cw;
-//	while (1)
-//	{
-//		if (cw_nc_update(cw))
-//			return (cw_exit(EXIT_FAILURE, cw));
-//		++cw->cycle;
-//	}
-	return (EXIT_SUCCESS);
+	while (1)
+	{
+		if (cw_nc_update(cw))
+			return (cw_exit(EXIT_FAILURE, cw));
+		++cw->cycle;
+	}
 }
 
 int 	main(int ac, char **av)
@@ -70,9 +69,9 @@ int 	main(int ac, char **av)
 		else
 			return (cw_vm_usage(ac, av));
 	}
-	if (cw_vm_init(&cw, ac, av) == EXIT_FAILURE)
+	if (cw_vm_init(&cw, ac, av))
 		return (cw_exit(EXIT_FAILURE, &cw));
-	if (cw_vm_run(&cw) == EXIT_FAILURE)
+	if (cw_vm_run(&cw))
 		return (cw_exit(EXIT_FAILURE, &cw));
 	return (cw_exit(EXIT_SUCCESS, &cw));
 }
