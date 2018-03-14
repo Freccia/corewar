@@ -18,10 +18,10 @@
 # include "op.h"
 
 // C'est degueulasse, mais c'est pour la norme...
-# define SWAP_INT_C(a)	((unsigned int)(a & 0xff) >> 24)
-# define SWAP_INT_B(a)	(((a) >> 8) & 0x0000ff00) | SWAP_INT_C(a) 
-# define SWAP_INT_A(a)	(((a) << 8) & 0x00ff0000) | SWAP_INT_B(a) 
-# define SWAP_INT(a)	(((a & 0xff) << 24) | SWAP_INT_A(a))
+# define SWAP_INT_C(a)	((unsigned int)((a) & 0xff) >> 24)
+# define SWAP_INT_B(a)	((((a) >> 8) & 0x0000ff00) | SWAP_INT_C(a))
+# define SWAP_INT_A(a)	((((a) << 8) & 0x00ff0000) | SWAP_INT_B(a))
+# define SWAP_INT(a)	((((a) & 0xff) << 24) | SWAP_INT_A(a))
 
 # define _CW_CARRY		(1 << 0)
 # define _CW_PROCMAX	(101010)
@@ -50,7 +50,7 @@ typedef struct		s_cw
 {
 	uint8_t			mem[MEM_SIZE];
 	uint16_t		proc_count;
-	uint16_t		proc_cur;
+	t_proc			*current;
 	t_proc			*procs;
 	size_t			cycle;
 	uint16_t		cycle_to_die;
@@ -80,7 +80,7 @@ int					cw_aff(uint8_t a1, uint8_t a2, uint8_t a3);
 
 int					cw_nc_init(void);
 int					cw_nc_update(void);
-int					cw_nc_notify(uint16_t i, uint16_t p, uint8_t val);
+int					cw_nc_notify(uint16_t i, uint16_t c, uint8_t val);
 int					cw_nc_exit(void);
 
 void				cw_mem_dump(uint8_t *mem);
