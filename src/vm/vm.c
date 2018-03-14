@@ -6,13 +6,13 @@
 /*   By: alucas- <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/03/12 18:15:51 by alucas-           #+#    #+#             */
-/*   Updated: 2018/03/13 20:00:19 by lfabbro          ###   ########.fr       */
+/*   Updated: 2018/03/14 10:15:01 by lfabbro          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "corewar.h"
 
-int		print_usage(int ac, char **av)
+int		cw_vm_usage(int ac, char **av)
 {
 	(void)ac;
 	ft_printf("Usage: %s [ options ] <champ.cor> <...>\n", av[0]);
@@ -25,13 +25,13 @@ int		print_usage(int ac, char **av)
 	return (EXIT_FAILURE);
 }
 
-int		cw_init(t_cw *cw)
+int		cw_error(char *msg, int err)
 {
-	memset(cw, 0, sizeof(t_cw));
-	return (EXIT_SUCCESS);
+	ft_printf("%s\n", msg);
+	return (err);
 }
 
-int		cw_run(t_cw *cw)
+int		cw_vm_run(t_cw *cw)
 {
 	(void)cw;
 	return (WUT);
@@ -44,8 +44,8 @@ int 	main(int ac, char **av)
 
 	g_optind = 1;
 	if (ac < 2)
-		return (print_usage(ac, av));
-	cw_init(&cw);
+		return (cw_vm_usage(ac, av));
+	memset(&cw, 0, sizeof(t_cw));
 	while ((opt = ft_getopt(ac, av, "c:v:")) != -1)
 	{
 		if (opt == 'v')
@@ -55,6 +55,9 @@ int 	main(int ac, char **av)
 		else
 			return (EXIT_FAILURE);
 	}
-	cw_run(&cw);
+	if (cw_vm_init(&cw, ac, av) == EXIT_FAILURE)
+		return (EXIT_FAILURE);
+	if (cw_vm_run(&cw) == EXIT_FAILURE)
+		return (EXIT_FAILURE);
 	return (EXIT_SUCCESS);
 }
