@@ -81,7 +81,7 @@ int				cw_nc_init(void)
 {
 	int sq;
 
-	if (!g_cw->opt.n)
+	if (!g_cw->opt.g)
 		return (YEP);
 	initscr();
 	cbreak();

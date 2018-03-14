@@ -18,7 +18,7 @@ int	cw_nc_notify(uint16_t i, uint16_t c, uint8_t val)
 	int x;
 	int y;
 
-	if (!g_cw->opt.n)
+	if (!g_cw->opt.g)
 		return (YEP);
 	sq = getmaxy(g_wboard) - 2;
 	x = 2 + ((i % sq) * 3);

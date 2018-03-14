@@ -106,7 +106,7 @@ int			cw_nc_update(void)
 	int ch;
 	static int running = 0;
 
-	if (!g_cw->opt.n)
+	if (!g_cw->opt.g)
 		return (YEP);
 	wattr_on(g_wstats, 0x200000, 0x0);
 	nc_stats();

@@ -20,7 +20,7 @@ static int	cw_vm_usage(int ac, char **av)
 	ft_printf("Usage: %s [ options ] <champ.cor> <...>\n", av[0]);
 	ft_printf("	-d N    : Dumps memory after N execution cycles\n");
 	ft_printf("	-v N    : Sets verbosity level to N (bitwise)\n");
-	ft_printf("	-n      : Ncurses output mode\n");
+	ft_printf("	-g      : Ncurses GUI\n");
 	ft_printf("		- 0 : Essential\n");
 	ft_printf("		- 1 : Lives\n");
 	ft_printf("		- 2 : Cycles\n");
@@ -71,14 +71,14 @@ int 	main(int ac, char **av)
 	if (ac < 2)
 		return (cw_vm_usage(ac, av));
 	ft_bzero(&cw, sizeof(t_cw));
-	if ((opt = ft_getopt(ac, av, "nd:v:")) != -1)
+	if ((opt = ft_getopt(ac, av, "gd:v:")) != -1)
 	{
 		if (opt == 'v')
 			cw.opt.v = (uint8_t)ft_atoi(g_optarg);
 		else if (opt == 'd')
 			cw.opt.d = ft_atoi(g_optarg);
-		else if (opt == 'n')
-			cw.opt.n ^= 1;
+		else if (opt == 'g')
+			cw.opt.g ^= 1;
 		else
 			return (cw_vm_usage(ac, av));
 	}
