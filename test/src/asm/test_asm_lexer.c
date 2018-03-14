@@ -1,31 +1,19 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   asm_encoder.h                                      :+:      :+:    :+:   */
+/*   test_asm_lexer.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: mcanal <zboub@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2015/12/14 18:21:04 by mcanal            #+#    #+#             */
-/*   Updated: 2018/03/14 22:16:33 by mc               ###   ########.fr       */
+/*   Created: 2015/11/29 15:38:59 by mcanal            #+#    #+#             */
+/*   Updated: 2018/03/14 14:42:53 by mc               ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef ASM_ENCODER_H
+#include "super_test_3000.h"
+#include "asm_lexer.h"
 
-# define ASM_ENCODER_H
-
-# include "asm.h"
-
-/*
-** open
-*/
-# include <sys/types.h>
-# include <sys/stat.h>
-# include <fcntl.h>
-
-/*
-** write/close
-*/
-# include <unistd.h>
-
-#endif
+void test_asm_lexer()
+{
+    MU_ASSERT(42 > 0, "you're doing it wrong");
+}

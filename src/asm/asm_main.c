@@ -6,7 +6,7 @@
 /*   By: mcanal <mcanal@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2015/01/10 00:12:49 by mcanal            #+#    #+#             */
-/*   Updated: 2017/03/19 20:04:08 by mcanal           ###   ########.fr       */
+/*   Updated: 2018/03/14 22:14:44 by mc               ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,12 +16,9 @@
 
 #include "asm.h"
 
-char			*g_exec_name = NULL;
-int				g_fd = -1;
-
 int				main(int ac, char **av)
 {
-	g_exec_name = *av++;
+	init_exec_name(*av++);
 
 	if (ac != 2)
 		error(E_USAGE_ASM, NULL);

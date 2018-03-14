@@ -6,7 +6,7 @@
 /*   By: mc <mc.maxcanal@gmail.com>                 +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/03/19 20:49:51 by mcanal            #+#    #+#             */
-/*   Updated: 2017/03/19 20:55:44 by mcanal           ###   ########.fr       */
+/*   Updated: 2018/03/14 22:08:49 by mc               ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,8 +21,11 @@
 */
 # include <stdlib.h>
 
+//TODO: calm down on globals
 t_arr					*g_cor = NULL;
 t_htable				*g_labels = NULL;
+char        			*g_exec_name = NULL;
+int                 	g_fd = -1;
 
 static void			free_string(void *content, size_t content_size)
 {
@@ -63,4 +66,9 @@ void				init_data(void)
 	g_labels->key_del = free_string;
 	g_labels->key_cmp = cmp_string;
 	g_labels->hash = jenkins_hash_str;
+}
+
+void                init_exec_name(char *s)
+{
+    g_exec_name = s;
 }

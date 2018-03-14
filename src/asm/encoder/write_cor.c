@@ -6,7 +6,7 @@
 /*   By: mc <mc.maxcanal@gmail.com>                 +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/03/20 00:19:15 by mcanal            #+#    #+#             */
-/*   Updated: 2018/03/14 05:21:09 by mc               ###   ########.fr       */
+/*   Updated: 2018/03/14 22:16:20 by mc               ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,23 +15,6 @@
 */
 
 #include "asm_encoder.h"
-
-/*
-** open
-*/
-# include <sys/types.h>
-# include <sys/stat.h>
-# include <fcntl.h>
-
-/*
-** write
-*/
-#include <unistd.h>
-
-/*
-** close
-*/
-# include <unistd.h>
 
 /* static t_word	swap_word(t_word w) */
 /* { */

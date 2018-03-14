@@ -1,31 +1,19 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   asm_encoder.h                                      :+:      :+:    :+:   */
+/*   test_asm_parser.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: mcanal <zboub@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2015/12/14 18:21:04 by mcanal            #+#    #+#             */
-/*   Updated: 2018/03/14 22:16:33 by mc               ###   ########.fr       */
+/*   Created: 2015/11/29 15:38:59 by mcanal            #+#    #+#             */
+/*   Updated: 2018/03/14 14:41:31 by mc               ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef ASM_ENCODER_H
+#include "super_test_3000.h"
+#include "asm_parser.h"
 
-# define ASM_ENCODER_H
-
-# include "asm.h"
-
-/*
-** open
-*/
-# include <sys/types.h>
-# include <sys/stat.h>
-# include <fcntl.h>
-
-/*
-** write/close
-*/
-# include <unistd.h>
-
-#endif
+void test_asm_parser()
+{
+    MU_ASSERT(42 > 0, "you're doing it wrong");
+}
