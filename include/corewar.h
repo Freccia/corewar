@@ -55,7 +55,7 @@ typedef struct		s_cw
 	t_proc			*current;
 	t_proc			*procs;
 	size_t			cycle;
-	uint16_t		cycle_to_die;
+	int				cycle_to_die;
 	t_opt			opt;
 }					t_cw;
 
