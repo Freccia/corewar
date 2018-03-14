@@ -6,7 +6,7 @@
 /*   By: nfinkel <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/03/13 16:16:50 by nfinkel           #+#    #+#             */
-/*   Updated: 2018/03/14 15:15:34 by lfabbro          ###   ########.fr       */
+/*   Updated: 2018/03/14 16:00:33 by lfabbro          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,12 +85,19 @@ int					cw_nc_exit(void);
 
 void				cw_mem_dump(uint8_t *mem);
 int					cw_mem_write(t_cw *cw, uint8_t *pc, uint8_t value);
+void				cw_mem_cpy(uint8_t *mem, uint8_t const *src, size_t len,
+		uint16_t p);
 
 /*
 ** parse instruction arguments 
 ** return the pc offset or -1 in case of zboub (error)
 */
 int					cw_vm_eval(t_cw *cw, uint8_t *pc);
+
+/*
+** takes instruction number, returns instruction cycles
+*/
+uint16_t			cw_instr_cycles(uint8_t instr);
 
 /*
 ** parse fichier cor 

@@ -6,7 +6,7 @@
 /*   By: lfabbro <>                                 +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/03/14 10:10:16 by lfabbro           #+#    #+#             */
-/*   Updated: 2018/03/14 15:16:35 by lfabbro          ###   ########.fr       */
+/*   Updated: 2018/03/14 16:01:41 by lfabbro          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,16 +15,6 @@
 #include <sys/stat.h>
 #include <fcntl.h>
 #include <unistd.h>
-
-void		cw_mem_cpy(uint8_t *mem, uint8_t const *src, size_t len, uint16_t p)
-{
-	while (len)
-	{
-		cw_nc_notify((uint16_t)(mem - g_cw->mem), p, *src);
-		*mem++ = *src++;
-		--len;
-	}
-}
 
 t_proc		*cw_vm_parse(uint8_t *mem, const char *filename, uint16_t color)
 {
@@ -35,7 +25,6 @@ t_proc		*cw_vm_parse(uint8_t *mem, const char *filename, uint16_t color)
 
 	(void)mem;
 	proc = NULL;
-	ft_printf("filename: %s\n", filename);
 	if ((fd = open(filename, O_RDONLY)) < 0)
 		cw_exit(3, "Failed opening file.\n");
 	if (read(fd, &buf, _CW_HEAD_SZ) < _CW_HEAD_SZ)
@@ -50,6 +39,7 @@ t_proc		*cw_vm_parse(uint8_t *mem, const char *filename, uint16_t color)
 	proc->color = color;
 	proc->pc = mem;
 	cw_mem_cpy(mem, (const uint8_t *)buf, bin_size, proc->color);
+	proc->wait = cw_instr_cycles(*(uint8_t*)mem);
 	if (close(fd) < 0)
 		cw_exit(3, "Failed closing fd.\n");
 	return (proc);
@@ -80,5 +70,6 @@ int		cw_vm_init(int ac, char **av)
 		++dist;
 		++i;
 	}
+	g_cw->current = g_cw->procs;
 	return (EXIT_SUCCESS);
 }
