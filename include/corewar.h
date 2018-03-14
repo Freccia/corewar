@@ -103,8 +103,8 @@ uint16_t			cw_instr_cycles(uint8_t instr);
 /*
 ** parse fichier cor 
 */
-t_proc				*cw_vm_parse(uint8_t *mem, const char *filename, uint16_t color);
-int					cw_vm_init(int ac, char **av);
+uint16_t			cw_vm_parse(const char *filename, uint8_t *dest);
+int					cw_vm_init(int ac, char **av, int r1);
 int					cw_vm_run(void);
 int					cw_exit(int ecode, char const *fmt, ...);
 
