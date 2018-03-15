@@ -6,7 +6,7 @@
 /*   By: mcanal <zboub@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2015/11/29 15:38:59 by mcanal            #+#    #+#             */
-/*   Updated: 2018/03/14 14:42:25 by mc               ###   ########.fr       */
+/*   Updated: 2018/03/15 00:06:16 by mc               ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,5 +15,7 @@
 
 void test_asm()
 {
+	init_exec_name("asm3000");
+    lex("data/test_asm/zork.s");
     MU_ASSERT(42 > 0, "you're doing it wrong");
 }
