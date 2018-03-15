@@ -6,7 +6,7 @@
 #    By: alucas- <alucas-@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2017/11/07 09:52:36 by alucas-           #+#    #+#              #
-#    Updated: 2018/03/14 15:59:04 by lfabbro          ###   ########.fr        #
+#    Updated: 2018/03/14 22:54:04 by mc               ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -96,7 +96,7 @@ RM =		rm -f
 RMDIR =		rmdir
 MKDIR =		mkdir -p
 CC =		clang
-MAKE ?=		make -j$(shell nproc 2>/dev/null)
+MAKE ?=		make -j$(shell nproc 2>/dev/null || echo 4)
 SUB_MAKE =	make -C
 
 # default to "pretty" Makefile, but you can run ´VERBOSE=t make´
@@ -124,46 +124,46 @@ EVIL =		\r
 
 # release build
 all:
-	$(SUB_MAKE) $(LFT_DIR)
+	+$(SUB_MAKE) $(LFT_DIR)
 	@$(PRINTF) "%-20s" "$(PROJECTA): exe"
-	$(MAKE) $(PROJECTA) "CFLAGS = $(RCFLAGS)" "OBJ_PATH = $(OBJ_DIR)/rel"
+	+$(MAKE) $(PROJECTA) "CFLAGS = $(RCFLAGS)" "OBJ_PATH = $(OBJ_DIR)/rel"
 	@$(PRINTF) "$(EVIL)$(TODO_B)$(TODO_A)$(GREEN)✔$(BASIC)\n"
 	@$(PRINTF) "%-20s" "$(PROJECTB): exe"
-	$(MAKE) $(PROJECTB) "CFLAGS = $(RCFLAGS)" "OBJ_PATH = $(OBJ_DIR)/rel"
+	+$(MAKE) $(PROJECTB) "CFLAGS = $(RCFLAGS)" "OBJ_PATH = $(OBJ_DIR)/rel"
 	@$(PRINTF) "$(EVIL)$(TODO_B)$(TODO_A)$(GREEN)✔$(BASIC)\n"
 
 # build for gdb/valgrind debugging
 dev:
-	$(SUB_MAKE) $(LFT_DIR) dev
+	+$(SUB_MAKE) $(LFT_DIR) dev
 	@$(PRINTF) "%-20s" "$(PROJECTA).dev: exe"
-	$(MAKE) $(PROJECTA).dev "PROJECTA = $(PROJECTA).dev" "CFLAGS = $(DCFLAGS)" \
+	+$(MAKE) $(PROJECTA).dev "PROJECTA = $(PROJECTA).dev" "CFLAGS = $(DCFLAGS)" \
 	  "OBJ_PATH = $(OBJ_DIR)/dev" "LFT = libft.dev.a"
 	@$(PRINTF) "$(EVIL)$(TODO_B)$(TODO_A)$(GREEN)✔$(BASIC)\n"
 	@$(PRINTF) "%-20s" "$(PROJECTB).dev: exe"
-	$(MAKE) $(PROJECTB).dev "PROJECTB = $(PROJECTB).dev" "CFLAGS = $(DCFLAGS)" \
+	+$(MAKE) $(PROJECTB).dev "PROJECTB = $(PROJECTB).dev" "CFLAGS = $(DCFLAGS)" \
 	  "OBJ_PATH = $(OBJ_DIR)/dev" "LFT = libft.dev.a"
 	@$(PRINTF) "$(EVIL)$(TODO_B)$(TODO_A)$(GREEN)✔$(BASIC)\n"
 
 # build for runtime debugging (fsanitize)
 san:
-	$(SUB_MAKE) $(LFT_DIR) san
+	+$(SUB_MAKE) $(LFT_DIR) san
 	@$(PRINTF) "%-20s" "$(PROJECTA).san: exe"
-	$(MAKE) $(PROJECTA).san "PROJECTA = $(PROJECTA).san" "CFLAGS = $(SCFLAGS)" \
+	+$(MAKE) $(PROJECTA).san "PROJECTA = $(PROJECTA).san" "CFLAGS = $(SCFLAGS)" \
 	  "OBJ_PATH = $(OBJ_DIR)/san" "LFT = libft.san.a"
 	@$(PRINTF) "$(EVIL)$(TODO_B)$(TODO_A)$(GREEN)✔$(BASIC)\n"
 	@$(PRINTF) "%-20s" "$(PROJECTB).san: exe"
-	$(MAKE) $(PROJECTB).san "PROJECTB = $(PROJECTB).san" "CFLAGS = $(SCFLAGS)" \
+	+$(MAKE) $(PROJECTB).san "PROJECTB = $(PROJECTB).san" "CFLAGS = $(SCFLAGS)" \
 	  "OBJ_PATH = $(OBJ_DIR)/san" "LFT = libft.san.a"
 	@$(PRINTF) "$(EVIL)$(TODO_B)$(TODO_A)$(GREEN)✔$(BASIC)\n"
 
 # masochist build
 mecry:
-	$(SUB_MAKE) $(LFT_DIR) mecry
+	+$(SUB_MAKE) $(LFT_DIR) mecry
 	@$(PRINTF) "%-20s" "$(PROJECTA): gg"
-	$(MAKE) $(PROJECTA) "CFLAGS = $(WWFLAGS)" "OBJ_PATH = $(OBJ_DIR)/rel"
+	+$(MAKE) $(PROJECTA) "CFLAGS = $(WWFLAGS)" "OBJ_PATH = $(OBJ_DIR)/rel"
 	@$(PRINTF) "$(EVIL)$(TODO_B)$(TODO_A)$(GREEN)✔$(BASIC)\n"
 	@$(PRINTF) "%-20s" "$(PROJECTB): gg"
-	$(MAKE) $(PROJECTB) "CFLAGS = $(WWFLAGS)" "OBJ_PATH = $(OBJ_DIR)/rel"
+	+$(MAKE) $(PROJECTB) "CFLAGS = $(WWFLAGS)" "OBJ_PATH = $(OBJ_DIR)/rel"
 	@$(PRINTF) "$(EVIL)$(TODO_B)$(TODO_A)$(GREEN)✔$(BASIC)\n"
 
 # remove all generated .o and .d
@@ -171,31 +171,33 @@ clean:
 	$(RM) $(OBJ) $(DEP)
 	$(RM) $(OBJ:$(OBJ_DIR)/rel%=$(OBJ_DIR)/dev%) $(DEP:$(OBJ_DIR)/rel%=$(OBJ_DIR)/dev%)
 	$(RM) $(OBJ:$(OBJ_DIR)/rel%=$(OBJ_DIR)/san%) $(DEP:$(OBJ_DIR)/rel%=$(OBJ_DIR)/san%)
+	test -d $(OBJ_DIR) && find $(OBJ_DIR) -name '*.[od]' | xargs $(RM) || true
 	@$(PRINTF) "%-20s$(GREEN)✔$(BASIC)\n" "$(PROJECTB): $@"
 
 # remove the generated binary, and all .o and .d
 fclean: clean
-	test -d $(OBJ_DIR) && $(RM) -r $(OBJ_DIR)
+	test -d $(OBJ_DIR) && find $(OBJ_DIR) -type d | sort -r | xargs $(RMDIR) || true
 	$(RM) {$(PROJECTA),$(PROJECTB)}{,.san,.dev}
 	@$(PRINTF) "%-20s$(GREEN)✔$(BASIC)\n" "$(PROJECTB): $@"
 
 # some people like it real clean
 mrproper:
-	$(SUB_MAKE) $(LFT_DIR) fclean
+	+$(SUB_MAKE) $(LFT_DIR) fclean
 	$(RM) -r $(OBJ_DIR)
-	$(MAKE) fclean
+	+$(MAKE) fclean
 
 # clean build and recompile
 re: fclean all
 
 # run tests on project
 test: all
-	$(SUB_MAKE) $(LFT_DIR) test
+	+$(SUB_MAKE) $(LFT_DIR) test
+	+test -d $(TEST_DIR) && $(SUB_MAKE) $(TEST_DIR)
 	@$(PRINTF) "All tests passed!"
 
 # check coding-style
 norme:
-	$(SUB_MAKE) $(LFT_DIR) norme
+	+$(SUB_MAKE) $(LFT_DIR) norme
 	norminette $(INC_PATH) $(SRC_PATH)
 
 
@@ -204,12 +206,12 @@ norme:
 ##
 
 # create binary A (link)
-$(PROJECTA): $(3DE) $(OBJA)
+$(PROJECTA): $(LFT_DIR)/$(LFT) $(OBJA)
 	@$(PRINTF) "$(EVIL)$(TODO_B)$(TODO_A)$@"
 	$(CC) $(CFLAGS) $(INC) $(LDFLAGS) $(OBJA) $(LDLIBS) -o $@
 
 # create binary B (link)
-$(PROJECTB): $(3DE) $(OBJB)
+$(PROJECTB): $(LFT_DIR)/$(LFT) $(OBJB)
 	@$(PRINTF) "$(EVIL)$(TODO_B)$(TODO_A)$@"
 	$(CC) $(CFLAGS) $(INC) $(LDFLAGS) $(OBJB) $(LDLIBS) -o $@
 

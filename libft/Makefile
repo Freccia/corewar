@@ -6,7 +6,7 @@
 #    By: alucas- <alucas-@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2017/11/07 09:52:36 by alucas-           #+#    #+#              #
-#    Updated: 2018/03/14 22:34:14 by nfinkel          ###   ########.fr        #
+#    Updated: 2018/03/14 22:54:14 by mc               ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -100,7 +100,7 @@ RM =		rm -f
 RMDIR =		rmdir
 MKDIR =		mkdir -p
 CC =		clang
-MAKE ?=		make -j$(shell nproc 2>/dev/null)
+MAKE ?=		make -j$(shell nproc 2>/dev/null || echo 4)
 
 # default to "pretty" Makefile, but you can run ´VERBOSE=t make´
 ifndef VERBOSE
@@ -157,27 +157,27 @@ endif
 # release build
 all:
 	@$(PRINTF) "%-20s" "$(PROJECT).a: lib"
-	$(MAKE) $(PROJECT).a "CFLAGS = $(RCFLAGS)" "OBJ_PATH = $(OBJ_DIR)/rel"
+	+$(MAKE) $(PROJECT).a "CFLAGS = $(RCFLAGS)" "OBJ_PATH = $(OBJ_DIR)/rel"
 	@$(PRINTF) "$(EVIL)$(TODO_B)$(TODO_A)$(GREEN)✔$(BASIC)\n"
 
 # build for gdb/valgrind debugging
 dev:
 	@$(PRINTF) "%-20s" "$(PROJECT).dev: exe"
-	$(MAKE) $(PROJECT).dev.a "PROJECT = $(PROJECT).dev" "CFLAGS = $(DCFLAGS)" \
+	+$(MAKE) $(PROJECT).dev.a "PROJECT = $(PROJECT).dev" "CFLAGS = $(DCFLAGS)" \
 	  "OBJ_PATH = $(OBJ_DIR)/dev"
 	@$(PRINTF) "$(EVIL)$(TODO_B)$(TODO_A)$(GREEN)✔$(BASIC)\n"
 
 # build for runtime debugging (fsanitize)
 san:
 	@$(PRINTF) "%-20s" "$(PROJECT).san: exe"
-	$(MAKE) $(PROJECT).san.a "PROJECT = $(PROJECT).san" "CFLAGS = $(SCFLAGS)" \
+	+$(MAKE) $(PROJECT).san.a "PROJECT = $(PROJECT).san" "CFLAGS = $(SCFLAGS)" \
 	  "OBJ_PATH = $(OBJ_DIR)/san"
 	@$(PRINTF) "$(EVIL)$(TODO_B)$(TODO_A)$(GREEN)✔$(BASIC)\n"
 
 # masochist build
 mecry:
 	@$(PRINTF) "%-20s" "$(PROJECT).a: gg"
-	$(MAKE) $(PROJECT).a "CFLAGS = $(WWFLAGS)" "OBJ_PATH = $(OBJ_DIR)/rel"
+	+$(MAKE) $(PROJECT).a "CFLAGS = $(WWFLAGS)" "OBJ_PATH = $(OBJ_DIR)/rel"
 	@$(PRINTF) "$(EVIL)$(TODO_B)$(TODO_A)$(GREEN)✔$(BASIC)\n"
 
 # remove all generated .o and .d
@@ -185,6 +185,7 @@ clean:
 	$(RM) $(OBJ) $(DEP)
 	$(RM) $(OBJ:$(OBJ_DIR)/rel%=$(OBJ_DIR)/dev%) $(DEP:$(OBJ_DIR)/rel%=$(OBJ_DIR)/dev%)
 	$(RM) $(OBJ:$(OBJ_DIR)/rel%=$(OBJ_DIR)/san%) $(DEP:$(OBJ_DIR)/rel%=$(OBJ_DIR)/san%)
+	test -d $(OBJ_DIR) && find $(OBJ_DIR) -name '*.[od]' | xargs $(RM) || true
 	@$(PRINTF) "%-20s$(GREEN)✔$(BASIC)\n" "$(PROJECT): $@"
 
 # remove the generated binary, and all .o and .d
@@ -196,7 +197,7 @@ fclean: clean
 # some people like it real clean
 mrproper:
 	$(RM) -r $(OBJ_DIR)
-	$(MAKE) fclean
+	+$(MAKE) fclean
 
 # clean build and recompile
 re: fclean all
