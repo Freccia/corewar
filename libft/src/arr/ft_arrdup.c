@@ -6,7 +6,7 @@
 /*   By: mcanal <zboub@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2015/12/13 22:11:05 by mcanal            #+#    #+#             */
-/*   Updated: 2018/03/14 05:14:08 by mc               ###   ########.fr       */
+/*   Updated: 2018/03/15 12:40:22 by mc               ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,9 +25,9 @@ t_arr			*ft_arrdup(t_arr *arr)
 	t_uchar		*a_dup;
 	size_t		i;
 
-	dup = malloc(sizeof(t_arr));
+	dup = ft_memalloc(sizeof(t_arr));
 	ft_memcpy(dup, arr, sizeof(t_arr));
-	dup->ptr = malloc(arr->alloc_len);
+	dup->ptr = ft_memalloc(arr->alloc_len);
 	a_src = (t_uchar *)arr->ptr;
 	a_dup = (t_uchar *)dup->ptr;
 	i = arr->length;

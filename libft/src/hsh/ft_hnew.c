@@ -6,7 +6,7 @@
 /*   By: mcanal <zboub@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/03/17 04:59:46 by mcanal            #+#    #+#             */
-/*   Updated: 2018/03/14 05:14:51 by mc               ###   ########.fr       */
+/*   Updated: 2018/03/15 12:40:44 by mc               ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,9 +42,9 @@ t_htable			*ft_hnew(size_t bucket_size)
 
 	if (!bucket_size)
 		bucket_size = 241;
-	new = (t_htable *)malloc(sizeof(t_htable));
+	new = (t_htable *)ft_memalloc(sizeof(t_htable));
 	new->bucket = (t_hnode **)\
-		malloc(sizeof(t_hnode *) * (bucket_size + 1));
+		ft_memalloc(sizeof(t_hnode *) * (bucket_size + 1));
 	new->bucket_size = bucket_size;
 	new->hash = jenkins_hash;
 	new->key_cmp = ft_memcmp;

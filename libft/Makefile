@@ -6,7 +6,7 @@
 #    By: alucas- <alucas-@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2017/11/07 09:52:36 by alucas-           #+#    #+#              #
-#    Updated: 2018/03/14 22:54:14 by mc               ###   ########.fr        #
+#    Updated: 2018/03/15 12:39:23 by mc               ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -54,7 +54,7 @@ SRC_NAME = \
   str/strncpy.c str/strndup.c str/strnlen.c str/strnstr.c str/strrchr.c \
   str/strscpy.c str/strspn.c str/strstr.c \
   getopt.c ft_print_memory.c mtoi.c npow.c\
-  sort/ft_shellsort.c str/ft_memdel.c io/get_next_line.c \
+  sort/ft_shellsort.c str/ft_memalloc.c str/ft_memdel.c io/get_next_line.c \
   hsh/ft_hdel.c hsh/ft_hdelone.c hsh/ft_hfind.c hsh/ft_hget.c \
   hsh/ft_hiter.c hsh/ft_hnew.c hsh/ft_hset.c \
   arr/ft_arrdel.c arr/ft_arrfind.c arr/ft_arrmult.c arr/ft_arrpush.c arr/ft_arrswap.c \

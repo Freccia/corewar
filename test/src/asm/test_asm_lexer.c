@@ -6,7 +6,7 @@
 /*   By: mcanal <zboub@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2015/11/29 15:38:59 by mcanal            #+#    #+#             */
-/*   Updated: 2018/03/15 00:05:43 by mc               ###   ########.fr       */
+/*   Updated: 2018/03/15 13:09:14 by mc               ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,5 +15,8 @@
 
 void test_asm_lexer()
 {
+    lex("data/test_asm/Gagnant.s");
+    lex("data/test_asm/zork.s");
+    lex("data/test_asm/42.s");
     MU_ASSERT(42 > 0, "you're doing it wrong");
 }
