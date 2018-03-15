@@ -41,7 +41,7 @@ done
 for f in $VALID_FILES; do
 	base_f="$(basename "$f")"
 	"$ROOT/asm" "$f" &> "$LOG_FOLDER/$base_f.log" || error "$base_f (valid file) failed :/" "$f"
-    diff "$f" "$(echo "$f" | sed -E 's|(.*)s$|\1cor|' | sed -E 's|test_asm|ctrl_cor|')" || error "$base_f (valid file) cor files diff :/" "$f"
+    diff -y <(hexdump -vC "$f") <(hexdump -vC "$(echo "$f" | sed -E 's|(.*)s$|\1cor|' | sed -E 's|test_asm|ctrl_cor|')") || error "$base_f (valid file) cor files diff :/" "$f"
 	test $VERBOSE && echo && cat "$f" && cat "$LOG_FOLDER/$base_f.log"
 	success "$base_f (valid file) ok!"
 done
