@@ -6,7 +6,7 @@
 /*   By: mcanal <zboub@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2015/12/14 18:21:04 by mcanal            #+#    #+#             */
-/*   Updated: 2018/03/15 01:35:11 by mc               ###   ########.fr       */
+/*   Updated: 2018/03/15 01:37:05 by mc               ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@
 # include "libft.h"
 # include "op.h"
 
-/* # define ANNOYING_DEBUG         /\* DEBUG *\/ */
+# define ANNOYING_DEBUG         /* DEBUG */
 # ifdef ANNOYING_DEBUG
 #  include <stdio.h>
 #  define CLR_BLACK "\033[30;01m"

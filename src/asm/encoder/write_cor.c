@@ -6,7 +6,7 @@
 /*   By: mc <mc.maxcanal@gmail.com>                 +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/03/20 00:19:15 by mcanal            #+#    #+#             */
-/*   Updated: 2018/03/14 22:16:20 by mc               ###   ########.fr       */
+/*   Updated: 2018/03/15 02:49:14 by mc               ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,7 +53,7 @@ static char		*get_output_name(char *filename)
     if (!outname)
         return (NULL);
 	ft_memcpy(outname, filename, len - 4);
-	ft_memcpy(outname +  len - 4, "cor", 3); //TODO: do not hardcode "cor"
+	ft_memcpy(outname +  len - 4, "cor", 4); //TODO: do not hardcode "cor"
 
 	return (outname);
 }
@@ -63,8 +63,9 @@ void			write_cor(char *filename, t_header *header)
 	char	*outname;
 
 	outname = get_output_name(filename);
-	if (!outname || (g_fd = open(outname, O_WRONLY)) == -1)
+	if (!outname || (g_fd = open(outname, O_CREAT | O_WRONLY, 0644)) == -1)
 		error(E_OPEN, outname);
+    //TODO: should we throw an error if the file already exists?
 
 	add_header(header);
 	if (write(g_fd, g_cor->ptr, g_cor->length) == -1)
