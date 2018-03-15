@@ -6,7 +6,7 @@
 /*   By: mc <mc.maxcanal@gmail.com>                 +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/03/20 00:19:15 by mcanal            #+#    #+#             */
-/*   Updated: 2018/03/15 21:08:07 by mc               ###   ########.fr       */
+/*   Updated: 2018/03/15 22:28:35 by mc               ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,6 +67,9 @@ static char		*get_output_name(char *filename)
 void			write_cor(char *filename, t_header *header)
 {
 	char	*outname;
+
+	if (!g_cor->length)
+		error(E_INVALID, "You must write at least one byte! (don't be lazy)");
 
 	outname = get_output_name(filename);
 	if (!outname || (g_err.fd = open(outname, O_CREAT | O_WRONLY, 0644)) == -1)
