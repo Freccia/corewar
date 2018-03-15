@@ -6,7 +6,7 @@
 /*   By: nfinkel <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/03/13 16:16:50 by nfinkel           #+#    #+#             */
-/*   Updated: 2018/03/15 12:56:30 by lfabbro          ###   ########.fr       */
+/*   Updated: 2018/03/15 15:49:17 by lfabbro          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,6 +31,7 @@
 
 typedef struct		s_champs
 {
+	char			file_name[PROG_NAME_LENGTH];
 	const char		name[PROG_NAME_LENGTH];
 	int				id;
 }					t_champs;

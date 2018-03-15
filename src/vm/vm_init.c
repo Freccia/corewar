@@ -6,7 +6,7 @@
 /*   By: lfabbro <>                                 +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/03/14 10:10:16 by lfabbro           #+#    #+#             */
-/*   Updated: 2018/03/15 12:00:58 by lfabbro          ###   ########.fr       */
+/*   Updated: 2018/03/15 15:43:36 by lfabbro          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 #include "corewar.h"
 
 static uint8_t	*g_players[MAX_PLAYERS];
-static uint16_t	g_player_lens[MAX_PLAYERS];
+static uint16_t	g_player_len[MAX_PLAYERS];
 static int		g_player_r1[MAX_PLAYERS];
 static uint8_t	g_player = 0;
 
@@ -33,6 +33,9 @@ uint16_t		cw_vm_parse(const char *filename, uint8_t *dest)
 		cw_exit(3, "Failed reading file header.\n");
 	if (*(unsigned int*)buf != _CW_MAGIC)
 		cw_exit(3, "Wrong file: magic number.\n");
+	ptr = (void*)&(g_cw->champs[g_player].name);
+	ft_memcpy(ptr, dest + sizeof(_CW_MAGIC),
+		PROG_NAME_LENGTH);
 	if ((bin_size = read(fd, &buf, CHAMP_MAX_SIZE + 1)) <= 0)
 		cw_exit(3, "Failed reading file binary.\n");
 	if (bin_size > CHAMP_MAX_SIZE)
@@ -40,9 +43,6 @@ uint16_t		cw_vm_parse(const char *filename, uint8_t *dest)
 	if (close(fd) < 0)
 		cw_exit(3, "Failed closing fd.\n");
 	ft_memcpy(dest, buf, (size_t)bin_size);
-	ptr = (void*)&(g_cw->champs[g_player].name);
-	ft_memcpy(ptr, dest + sizeof(_CW_MAGIC),
-		PROG_NAME_LENGTH);
 	g_cw->champs[g_player].id = g_player_r1[g_player];
 	return ((uint16_t)bin_size);
 }
@@ -63,10 +63,10 @@ static int		vm_init(void)
 			return (cw_exit(EXIT_FAILURE, "%m\n"));
 		ft_bzero(ptr, sizeof(t_proc));
 		ptr->pc = g_cw->mem + (i * plyrs_dist);
-		ptr->wait = cw_instr_cycles(*ptr->pc);
+		ptr->wait = g_op_tab[*ptr->pc].cycles;
 		ft_memcpy(ptr->reg[1], g_player_r1 + i, REG_SIZE);
 		ptr->color = (uint8_t)(i + 1);
-		cw_mem_cpy(ptr->pc, g_players[i], g_player_lens[i], ptr->color);
+		cw_mem_cpy(ptr->pc, g_players[i], g_player_len[i], ptr->color);
 		++g_cw->proc_count;
 		g_cw->procs ? (ptr->next = g_cw->procs) : 0;
 		g_cw->procs = ptr;
@@ -108,9 +108,9 @@ int				cw_vm_init(int ac, char **av, int r1)
 		if (g_player >= MAX_PLAYERS)
 			return (cw_exit(EXIT_FAILURE, "Too much players\n"));
 		g_player_r1[g_player] = r1_checkvalid(r1);
-		g_player_lens[g_player] = cw_vm_parse(av[g_optind], ptr);
+		g_player_len[g_player] = cw_vm_parse(av[g_optind], ptr);
 		g_players[g_player] = buf;
-		ptr += g_player_lens[g_player];
+		ptr += g_player_len[g_player];
 		if (++g_optind < ac)
 		{
 			if ((opt = ft_getopt(ac, av, "n:")) == WUT)
