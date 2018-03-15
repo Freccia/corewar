@@ -6,7 +6,7 @@
 /*   By: lfabbro <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/03/14 15:58:23 by lfabbro           #+#    #+#             */
-/*   Updated: 2018/03/15 18:25:05 by nfinkel          ###   ########.fr       */
+/*   Updated: 2018/03/15 18:28:23 by nfinkel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,7 +71,7 @@ inline int				cw_mem_read_dir(uint8_t **pc, size_t len, size_t move,
 	if (move)
 		*pc = cw_move_pc(*pc, move);
 	if (range == E_SHORT)
-		pos = &g_cw->mem[ft_mtoi(cw_map_mem(mem, *pc), len) % MEM_SIZE];
+		pos = &g_cw->mem[ft_mtoi(cw_map_mem(mem, *pc), len) % IDX_MOD];
 	else
 		pos = &g_cw->mem[ft_mtoi(cw_map_mem(mem, *pc), len)];
 	*pc = cw_move_pc(*pc, len);
@@ -87,7 +87,7 @@ inline int				cw_mem_read_ind(uint8_t **pc, size_t len, size_t move,
 	if (move)
 		*pc = cw_move_pc(*pc, move);
 	if (range == E_SHORT)
-		pos = cw_move_pc(*pc, ft_mtoi(cw_map_mem(mem, *pc), len) % MEM_SIZE);
+		pos = cw_move_pc(*pc, ft_mtoi(cw_map_mem(mem, *pc), len) % IDX_MOD);
 	else
 		pos = cw_move_pc(*pc, ft_mtoi(cw_map_mem(mem, *pc), len));
 	*pc = cw_move_pc(*pc, len);
