@@ -6,7 +6,7 @@
 /*   By: mcanal <mcanal@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2014/11/28 17:07:11 by mcanal            #+#    #+#             */
-/*   Updated: 2018/03/15 12:35:58 by mc               ###   ########.fr       */
+/*   Updated: 2018/03/15 13:05:01 by mc               ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,12 +24,9 @@
 #include <unistd.h>
 
 #define BUFF_SIZE		127
-#include <stdio.h>             /* DEBUG */
 
 static int		dup_line(t_arr *arr, char **line)
 {
-    fprintf(stderr, "<len:%d>\n", (int)arr->length);      /* DEBUG */
-    fprintf(stderr, "<ptr:%s>\n", (char *)arr->ptr);      /* DEBUG */
 	if (!(*line = ft_strdup(arr->ptr)))
 		return (-1);
 	while ((char)(long)(char *)ft_arrpop(arr, 0))
