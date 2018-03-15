@@ -120,7 +120,7 @@ void					read_loop(void)
 	t_instruct_read	instruct;
 
 	ft_bzero(&instruct, sizeof(t_instruct_read));
-	g_err.line = NULL;
+	ft_memdel((void **)&(g_err.line));
 	if (!(ret = get_next_line(g_err.fd, &(g_err.line))))
 		return ;
 	else if (ret == -1)
@@ -128,7 +128,6 @@ void					read_loop(void)
     g_err.line_pos += 1;
 
 	progress = read_instruction(g_err.line, P_NOPROGRESS, &instruct);
-	ft_memdel((void **)&(g_err.line));
 	if (!(!progress //nothing found
 		  || (progress & P_LABEL && !(progress & P_OP)) //just a label
 		  || (progress & P_OP && progress & P_ARG))) //(label +) op + arg

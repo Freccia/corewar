@@ -6,7 +6,7 @@
 /*   By: mcanal <zboub@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/03/12 21:43:56 by mcanal            #+#    #+#             */
-/*   Updated: 2018/03/15 17:27:43 by mc               ###   ########.fr       */
+/*   Updated: 2018/03/15 18:08:06 by mc               ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,7 @@
 */
 static void				read_quoted_string(char *line)
 {
+    //TODO: handle multiline quoted string
 	if (*line != '"')
 		error(E_INVALID, "Invalid header (missing 1st quote).");
 	++line;
@@ -118,3 +119,4 @@ void					read_header(t_header *header)
 		ft_memdel((void **)&(g_err.line));
 	}
 }
+//TODO: don't parse header *then* instructions, but both each time
