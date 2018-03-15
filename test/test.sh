@@ -15,7 +15,8 @@ VALID_FILES="$(find "$DATA_FOLDER/test_asm" -name \*.s)"
 
 error() {
 	echo -e "\n$RED$1$NORMAL"
-    test $2 && tail -n 42 "$2"
+    tail -n 42 "$2"
+    cat "$3"
 	exit 1
 }
 
@@ -40,8 +41,10 @@ done
 
 for f in $VALID_FILES; do
 	base_f="$(basename "$f")"
-	"$ROOT/asm" "$f" &> "$LOG_FOLDER/$base_f.log" || error "$base_f (valid file) failed :/" "$f"
-    diff -y <(hexdump -vC "$f") <(hexdump -vC "$(echo "$f" | sed -E 's|(.*)s$|\1cor|' | sed -E 's|test_asm|ctrl_cor|')") || error "$base_f (valid file) cor files diff :/" "$f"
+	"$ROOT/asm" "$f" &> "$LOG_FOLDER/$base_f.log" \
+		|| error "$base_f (valid file) failed :/" "$f" "$LOG_FOLDER/$base_f.log"
+    diff -y <(hexdump -vC "$f") <(hexdump -vC "$(echo "$f" | sed -E 's|(.*)s$|\1cor|' | sed -E 's|test_asm|ctrl_cor|')") \
+		|| error "$base_f (valid file) cor files diff :/" "$f" "$LOG_FOLDER/$base_f.log"
 	test $VERBOSE && echo && cat "$f" && cat "$LOG_FOLDER/$base_f.log"
 	success "$base_f (valid file) ok!"
 done
