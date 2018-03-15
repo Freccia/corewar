@@ -6,7 +6,7 @@
 /*   By: nfinkel <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/03/13 16:16:50 by nfinkel           #+#    #+#             */
-/*   Updated: 2018/03/15 17:47:29 by nfinkel          ###   ########.fr       */
+/*   Updated: 2018/03/15 18:11:13 by nfinkel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,6 +28,12 @@
 # define _CW_MAGIC		SWAP_INT(COREWAR_EXEC_MAGIC)
 # define _CW_HEAD_SZ	(16 + PROG_NAME_LENGTH + COMMENT_LENGTH)
 # define _CW_N_OP		16
+
+typedef enum		e_range
+{
+	E_SHORT,
+	E_LONG
+}					t_range;
 
 typedef struct		s_champs
 {
@@ -102,6 +108,8 @@ void				cw_mem_cpy(uint8_t *mem, uint8_t const *src, size_t len,
 		uint16_t p);
 uint8_t				*cw_map_mem(uint8_t *mem, uint8_t *pc);
 uint8_t				*cw_move_pc(uint8_t *pc, size_t len);
+int					cw_mem_read(uint8_t *pc, size_t len, size_t move,
+					t_range range);
 
 /*
 ** parse instruction arguments 
