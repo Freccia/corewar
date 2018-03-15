@@ -6,7 +6,7 @@
 /*   By: nfinkel <nfinkel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/03/14 19:10:47 by nfinkel           #+#    #+#             */
-/*   Updated: 2018/03/14 21:52:22 by nfinkel          ###   ########.fr       */
+/*   Updated: 2018/03/15 12:35:50 by lfabbro          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,15 +19,15 @@ int			cw_live(uint8_t *mem)
 
 	id = ft_mtoi(mem, 4);
 	k = -1;
-	while (g_cw->champs[++k])
-		if (g_cw->champs[k]->id == id)
-			break ;
-	if (!g_cw->champs[k])
-		ft_printf("A live has been made... But nobody came.\n");
-	else
+	while (++k < g_cw->n_champs)
 	{
-		g_cw->current->lastlive = g_cw->cycle;
-		ft_printf("Player %s[%hhd] is alive!\n", g_cw->champs[k]->name, k);
+		if (g_cw->champs[k].id == id)
+		{
+			g_cw->current->lastlive = g_cw->cycle;
+			ft_printf("Player %s[%hhd] is alive!\n", g_cw->champs[k].name, k);
+			return (5);
+		}
 	}
+	ft_printf("A live has been made... But nobody came.\n");
 	return (5);
 }

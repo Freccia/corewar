@@ -6,13 +6,33 @@
 /*   By: alucas- <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/03/12 18:15:51 by alucas-           #+#    #+#             */
-/*   Updated: 2018/03/14 22:51:24 by nfinkel          ###   ########.fr       */
+/*   Updated: 2018/03/15 12:54:49 by lfabbro          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "corewar.h"
 
 t_cw		*g_cw = NULL;
+
+t_instr		g_instr[16] =
+{
+	cw_live,
+	cw_ld,
+	cw_st,
+	cw_add,
+	cw_sub,
+	cw_and,
+	cw_or,
+	cw_xor,
+	cw_zjmp,
+	cw_ldi,
+	cw_sti,
+	cw_fork,
+	cw_lld,
+	cw_lldi,
+	cw_lfork,
+	cw_aff
+};	
 
 static int	cw_vm_usage(int ac, char **av)
 {
@@ -60,12 +80,8 @@ int		cw_vm_kill_process(t_proc **proc, t_proc *prev)
 
 int		cw_vm_exec(uint8_t *pc)
 {
-	static t_instr	s_instr[16] = {cw_live, cw_ld, cw_st, cw_add, \
-		cw_sub, cw_and, cw_or, cw_xor, cw_zjmp, cw_ldi, cw_sti, \
-		cw_fork, cw_lld, cw_lldi, cw_lfork, cw_aff};	
-
 	if (*pc >= 0x1 && *pc <= 0x10)
-		return(s_instr[*pc](g_cw->current->pc));
+		return(g_instr[*pc](g_cw->current->pc));
 	return (EXIT_FAILURE);
 }
 
@@ -84,8 +100,9 @@ int		cw_vm_eval(t_proc *proc)
 	}
 	if ((ocp = cw_vm_exec(proc->pc)) == EXIT_FAILURE)
 		return (EXIT_FAILURE);
-	proc->pc += ocp;
-	proc->wait = cw_instr_cycles(*proc->pc);
+	proc->pc += ocp % MEM_SIZE;
+	//proc->wait = cw_instr_cycles(*proc->pc);
+	proc->wait = g_op_tab[*proc->pc].cycles;
 	return (EXIT_SUCCESS);
 }
 
