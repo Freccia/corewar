@@ -6,7 +6,7 @@
 /*   By: lfabbro <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/03/14 15:58:23 by lfabbro           #+#    #+#             */
-/*   Updated: 2018/03/15 18:10:37 by nfinkel          ###   ########.fr       */
+/*   Updated: 2018/03/15 18:25:05 by nfinkel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,16 +62,34 @@ inline uint8_t			*cw_move_pc(uint8_t *pc, size_t len)
 	return (pc);
 }
 
-inline int				cw_mem_read(uint8_t *pc, size_t len, size_t move,
+inline int				cw_mem_read_dir(uint8_t **pc, size_t len, size_t move,
 						t_range range)
 {
 	uint8_t		mem[4];
 	uint8_t		*pos;
 
-	pc = cw_move_pc(pc, move);
+	if (move)
+		*pc = cw_move_pc(*pc, move);
 	if (range == E_SHORT)
-		pos = cw_move_pc(pc, ft_mtoi(cw_map_mem(mem, pc), len) % IDX_MOD);
+		pos = &g_cw->mem[ft_mtoi(cw_map_mem(mem, *pc), len) % MEM_SIZE];
 	else
-		pos = cw_move_pc(pc, ft_mtoi(cw_map_mem(mem, pc), len));
-	return (ft_mtoi(pos, len));
+		pos = &g_cw->mem[ft_mtoi(cw_map_mem(mem, *pc), len)];
+	*pc = cw_move_pc(*pc, len);
+	return (ft_mtoi(cw_map_mem(mem, pos), len));
+}
+
+inline int				cw_mem_read_ind(uint8_t **pc, size_t len, size_t move,
+						t_range range)
+{
+	uint8_t		mem[4];
+	uint8_t		*pos;
+
+	if (move)
+		*pc = cw_move_pc(*pc, move);
+	if (range == E_SHORT)
+		pos = cw_move_pc(*pc, ft_mtoi(cw_map_mem(mem, *pc), len) % MEM_SIZE);
+	else
+		pos = cw_move_pc(*pc, ft_mtoi(cw_map_mem(mem, *pc), len));
+	*pc = cw_move_pc(*pc, len);
+	return (ft_mtoi(cw_map_mem(mem, pos), len));
 }
