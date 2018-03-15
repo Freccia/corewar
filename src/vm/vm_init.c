@@ -6,7 +6,7 @@
 /*   By: lfabbro <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/03/15 15:30:43 by lfabbro           #+#    #+#             */
-/*   Updated: 2018/03/15 18:36:58 by lfabbro          ###   ########.fr       */
+/*   Updated: 2018/03/15 18:39:43 by lfabbro          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,40 +63,6 @@ uint16_t		cw_vm_parse_champ(const char *filename, int r1)
 	return ((uint16_t)bin_size);
 }
 
-//static void		cw_sort_exec_order(void)
-//{
-//	t_proc		*ptr;
-//	t_proc		*pmin;
-//	t_proc		*new;
-//	int			i;
-//
-//	i = -1;
-//	new = NULL;
-//	while (++i < g_cw->n_champs)
-//	{
-//		ptr = g_cw->procs;
-//		pmin = g_cw->procs;
-//		while (ptr)
-//		{
-//			if (!pmin || ptr->id < pmin->id)
-//			{
-//				pmin = ptr;
-//			}
-//			ptr = ptr->next;
-//		}
-//		ft_printf("ID: %d\n", pmin->id);
-//		pmin->next = (new) ? new : NULL;
-//		new = pmin;
-//	}
-//	g_cw->procs = new;
-//	ptr = new;
-//	while (ptr)
-//	{
-//		ft_printf("ID: %d\n", ptr->id);
-//		ptr = ptr->next;
-//	}
-//}
-
 static int		cw_vm_load_champs(void)
 {
 	int		plyrs_dist;
@@ -124,7 +90,6 @@ static int		cw_vm_load_champs(void)
 	}
 	g_cw->prev = g_cw->procs;
 	g_cw->current = g_cw->procs;
-	//cw_sort_exec_order();
 	return (YEP);
 }
 
