@@ -6,7 +6,7 @@
 /*   By: mcanal <zboub@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/06/09 14:24:52 by mcanal            #+#    #+#             */
-/*   Updated: 2018/03/15 01:33:36 by mc               ###   ########.fr       */
+/*   Updated: 2018/03/15 02:11:53 by mc               ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,30 +33,33 @@ static t_progress		read_arg(char *arg, size_t len, t_instruct_read *instruct)
 {
 	char	*arg_start;
 	char	*arg_swap;
-	int		param_nb;
 
-	param_nb = 0;
+	if (instruct->argc)
+        return (P_ARG);
+
+    (void)len;
 	arg_swap = arg;
-	while ((size_t)(arg_swap - arg) < len && param_nb < MAX_ARGS_NUMBER)
+	while (!IS_EOL(*arg_swap) && instruct->argc < MAX_ARGS_NUMBER)
 	{
+        while (!IS_EOL(*arg_swap) && ft_isspace(*arg_swap))
+			arg_swap++;
 		arg_start = arg_swap;
-		while ((size_t)(arg_swap - arg) < len && *arg_swap != SEPARATOR_CHAR)
+		while (!IS_EOL(*arg_swap) && *arg_swap != SEPARATOR_CHAR)
 			arg_swap++;
 
 		if ((size_t)(arg_swap - arg_start) > MAX_ARG_LENGTH)
 			error(E_INVALID, "Invalid arg (too long).");
-		ft_memcpy(instruct->argv + param_nb, arg_start,	\
+		ft_memcpy(instruct->argv + instruct->argc, arg_start,	\
 				  (size_t)(arg_swap - arg_start));
-		*(*(instruct->argv + param_nb) + (size_t)(arg_swap - arg_start)) = 0;
+		*(*(instruct->argv + instruct->argc) + (size_t)(arg_swap - arg_start)) = 0;
 
 		if (*arg_swap == SEPARATOR_CHAR)
 			arg_swap++;
-		param_nb++;
+		instruct->argc++;
 	}
-	if (param_nb > MAX_ARGS_NUMBER)
+	if (instruct->argc > MAX_ARGS_NUMBER)
 		error(E_INVALID, "Invalid arg (too many).");
 
-	instruct->argc = param_nb;
 	return (P_ARG);
 }
 

@@ -6,7 +6,7 @@
 /*   By: mc <mc.maxcanal@gmail.com>                 +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/03/19 20:43:23 by mcanal            #+#    #+#             */
-/*   Updated: 2018/03/15 01:34:33 by mc               ###   ########.fr       */
+/*   Updated: 2018/03/15 02:18:38 by mc               ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,15 +19,16 @@
 #ifdef ANNOYING_DEBUG
 static void			debug_type(t_arg_type type)
 {
+    fprintf(stderr, DEBUG_HEADER "<type");
 	if (type & T_REG)
-		DEBUGF("type: T_REG");
+		fprintf(stderr, ": T_REG");
 	if (type & T_DIR)
-		DEBUGF("type: T_DIR");
+		fprintf(stderr, ": T_DIR");
 	if (type & T_IND)
-		DEBUGF("type: T_IND");
+		fprintf(stderr, ": T_IND");
 	if (type & T_LAB)
-		DEBUGF("type: T_LAB");
-	fprintf(stderr, "-");
+		fprintf(stderr, ": T_LAB");
+    fprintf(stderr, ">\n");
 }
 #endif  /* DEBUG */
 
