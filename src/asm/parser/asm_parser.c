@@ -6,7 +6,7 @@
 /*   By: mcanal <zboub@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/06/09 14:24:52 by mcanal            #+#    #+#             */
-/*   Updated: 2018/03/14 05:36:14 by mc               ###   ########.fr       */
+/*   Updated: 2018/03/15 21:08:01 by mc               ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@
 ** -push arg-type in cor
 ** -push argv.len empty bytes in cor
 ** -if label in argv:
-** 	-recurse to read_loop()
+**	-recurse to read_loop()
 ** -ninja-copy argv in cor
 */
 

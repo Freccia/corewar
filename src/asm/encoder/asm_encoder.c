@@ -6,7 +6,7 @@
 /*   By: mc <mc.maxcanal@gmail.com>                 +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/03/17 22:20:39 by mcanal            #+#    #+#             */
-/*   Updated: 2018/03/13 22:06:19 by mcanal           ###   ########.fr       */
+/*   Updated: 2018/03/15 21:08:06 by mc               ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,9 +86,9 @@ static t_bool			push_empty_args(t_instruct_parsed *instruct_p)
 			  || (*(instruct_p->arg_type + 3) & T_LAB)));
 }
 
-/* encoded  <->  (type[0] << 6) | (type[1] << 4) | (type[2] << 2) | type[3] */
+/* encoded	<->	 (type[0] << 6) | (type[1] << 4) | (type[2] << 2) | type[3] */
 /* Avec type: rien=0, registre=1, direct=2, indirect=3 */
-/* Et: (arg_type >> 1) + 1  <->  type */
+/* Et: (arg_type >> 1) + 1	<->	 type */
 static void				encode_arg_type(t_arg_type (*arg_type)[])
 {
 	t_byte	encoded_type;

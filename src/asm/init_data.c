@@ -6,7 +6,7 @@
 /*   By: mc <mc.maxcanal@gmail.com>                 +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/03/19 20:49:51 by mcanal            #+#    #+#             */
-/*   Updated: 2018/03/15 16:54:21 by mc               ###   ########.fr       */
+/*   Updated: 2018/03/15 21:08:05 by mc               ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@
 # include <stdlib.h>
 
 //TODO: calm down on globals
-t_error_report          g_err = {};
+t_error_report			g_err = {};
 t_arr					*g_cor = NULL;
 t_htable				*g_labels = NULL;
 
@@ -67,9 +67,9 @@ void				init_data(void)
 	g_labels->hash = jenkins_hash_str;
 }
 
-void                init_error_report(char *exec_name)
+void				init_error_report(char *exec_name)
 {
-    ft_bzero(&g_err, sizeof(t_error_report));
-    g_err.exec_name = exec_name;
-    g_err.fd = -1;
+	ft_bzero(&g_err, sizeof(t_error_report));
+	g_err.exec_name = exec_name;
+	g_err.fd = -1;
 }

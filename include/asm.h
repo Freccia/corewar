@@ -6,7 +6,7 @@
 /*   By: mcanal <zboub@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2015/12/14 18:21:04 by mcanal            #+#    #+#             */
-/*   Updated: 2018/03/15 17:25:10 by mc               ###   ########.fr       */
+/*   Updated: 2018/03/15 21:22:35 by mc               ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,14 +30,14 @@
 # define CLR_WHITE "\033[37;01m"
 # define CLR_RESET "\033[0m"
 
-/* # define ANNOYING_DEBUG         /\* DEBUG *\/ */
+/* # define ANNOYING_DEBUG			/\* DEBUG *\/ */
 # ifdef ANNOYING_DEBUG
 #  include <stdio.h>
 #  define DEBUG_HEADER CLR_MAGENTA "[DEBUG] " CLR_RESET
 #  define DEBUGF(str, ...) fprintf(stderr, DEBUG_HEADER "<" str ">" CLR_RESET "\n", ##__VA_ARGS__)
 # else
 #  define DEBUGF(str, ...) do {} while (0)
-# endif  /* DEBUG */
+# endif	 /* DEBUG */
 
 # define MAX_ARG_LENGTH		(MAX_LABEL_LENGTH + 3)
 # define MAX_LABEL_LENGTH	23
@@ -77,11 +77,11 @@ typedef struct		s_instruct_parsed
 */
 typedef struct		s_error_report
 {
-    char				*exec_name;
-    char				*file_name;
-    char                *line;
-    unsigned int        line_pos;
-    int 				fd;
+	char				*exec_name;
+	char				*file_name;
+	char				*line;
+	unsigned int		line_pos;
+	int					fd;
 }					t_error_report;
 
 /*
@@ -102,16 +102,16 @@ enum					e_error
 /*
 ** globad
 */
-extern t_error_report   g_err;
+extern t_error_report	g_err;
 extern t_arr			*g_cor;
 extern t_htable			*g_labels;
-extern t_op 			g_op_tab[];
+extern t_op				g_op_tab[];
 
 /*
 ** init_data.c
 */
 void					init_data(void);
-void                    init_error_report(char *exec_name);
+void					init_error_report(char *exec_name);
 
 /*
 ** error.c
@@ -142,7 +142,7 @@ void					parse_instruct(t_instruct_read *instruct);
 void					encode(t_instruct_read *instruct_r, \
 							   t_instruct_parsed *instruct_p);
 /*
-**  write_cor.c
+** write_cor.c
 */
 void					write_cor(char *filename, t_header *header);
 

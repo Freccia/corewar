@@ -6,7 +6,7 @@
 /*   By: mc <mc.maxcanal@gmail.com>                 +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/03/17 22:30:58 by mcanal            #+#    #+#             */
-/*   Updated: 2018/03/15 17:10:22 by mc               ###   ########.fr       */
+/*   Updated: 2018/03/15 21:07:58 by mc               ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,7 @@ static void				debug_labels()
 	ft_hiter(g_labels, debug_hnode);
 	fprintf(stderr, "\n");
 }
-#endif  /* DEBUG */
+#endif	/* DEBUG */
 
 
 static void				check_filename(char *filename)
@@ -48,7 +48,7 @@ static void				check_filename(char *filename)
 	len = ft_strlen(filename);
 	if (len < 3 || ft_strcmp(".s", filename + len - 2))
 		error(E_INVALID, "Invalid file name.");
-    g_err.file_name = filename;
+	g_err.file_name = filename;
 }
 
 void					lex(char *filename)
@@ -63,13 +63,13 @@ void					lex(char *filename)
 	read_header(&header);
 #ifdef ANNOYING_DEBUG
 	debug_header(&header);
-#endif                          /* DEBUG */
+#endif							/* DEBUG */
 
 	init_data();
 	read_loop();
 #ifdef ANNOYING_DEBUG
 	debug_labels();
-#endif                          /* DEBUG */
+#endif							/* DEBUG */
 
 	ft_hdel(&g_labels);
 	if (close(g_err.fd) == -1)
