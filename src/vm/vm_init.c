@@ -6,7 +6,7 @@
 /*   By: lfabbro <>                                 +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/03/14 10:10:16 by lfabbro           #+#    #+#             */
-/*   Updated: 2018/03/15 10:07:54 by lfabbro          ###   ########.fr       */
+/*   Updated: 2018/03/15 12:00:58 by lfabbro          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,6 +24,7 @@ uint16_t		cw_vm_parse(const char *filename, uint8_t *dest)
 	int		fd;
 	ssize_t	bin_size;
 	char	buf[4096];
+	void	*ptr;
 
 	//ft_printf("filename: %s\n", filename);
 	if ((fd = open(filename, O_RDONLY)) < 0)
@@ -39,8 +40,10 @@ uint16_t		cw_vm_parse(const char *filename, uint8_t *dest)
 	if (close(fd) < 0)
 		cw_exit(3, "Failed closing fd.\n");
 	ft_memcpy(dest, buf, (size_t)bin_size);
-	ft_memcpy(g_cw->players[g_player], dest + sizeof(_CW_MAGIC),
+	ptr = (void*)&(g_cw->champs[g_player].name);
+	ft_memcpy(ptr, dest + sizeof(_CW_MAGIC),
 		PROG_NAME_LENGTH);
+	g_cw->champs[g_player].id = g_player_r1[g_player];
 	return ((uint16_t)bin_size);
 }
 
@@ -70,6 +73,7 @@ static int		vm_init(void)
 	}
 	g_cw->prev = g_cw->procs;
 	g_cw->current = g_cw->procs;
+	g_cw->n_champs = g_player;
 	return (YEP);
 }
 

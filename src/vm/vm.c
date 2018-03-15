@@ -6,13 +6,33 @@
 /*   By: alucas- <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/03/12 18:15:51 by alucas-           #+#    #+#             */
-/*   Updated: 2018/03/15 11:23:36 by lfabbro          ###   ########.fr       */
+/*   Updated: 2018/03/15 11:37:33 by lfabbro          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "corewar.h"
 
 t_cw		*g_cw = NULL;
+
+t_instr		g_instr[16] =
+{
+	cw_live,
+	cw_ld,
+	cw_st,
+	cw_add,
+	cw_sub,
+	cw_and,
+	cw_or,
+	cw_xor,
+	cw_zjmp,
+	cw_ldi,
+	cw_sti,
+	cw_fork,
+	cw_lld,
+	cw_lldi,
+	cw_lfork,
+	cw_aff
+};	
 
 static int	cw_vm_usage(int ac, char **av)
 {
