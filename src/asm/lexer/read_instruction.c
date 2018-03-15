@@ -6,7 +6,7 @@
 /*   By: mcanal <zboub@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/06/09 14:24:52 by mcanal            #+#    #+#             */
-/*   Updated: 2018/03/15 13:23:12 by mc               ###   ########.fr       */
+/*   Updated: 2018/03/15 13:28:49 by mc               ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,6 +29,9 @@ static void				debug_instruct(t_instruct_read *instruct)
 }
 #endif  /* DEBUG */
 
+/*
+** arg tokenizer
+*/
 static t_progress		read_arg(char *arg, size_t len, t_instruct_read *instruct)
 {
     if (len > MAX_ARG_LENGTH)
@@ -43,6 +46,9 @@ static t_progress		read_arg(char *arg, size_t len, t_instruct_read *instruct)
 	return (P_ARG);
 }
 
+/*
+** op tokenizer
+*/
 static t_progress		read_op(char *op, size_t len, t_instruct_read *instruct)
 {
 	if (len > MAX_OP_CODE_LENGTH)
@@ -53,6 +59,9 @@ static t_progress		read_op(char *op, size_t len, t_instruct_read *instruct)
 	return (P_OP);
 }
 
+/*
+** label tokenizer
+*/
 static t_progress		read_label(char *label, size_t len, t_instruct_read *instruct)
 {
 	char	*label_swap;
@@ -70,6 +79,9 @@ static t_progress		read_label(char *label, size_t len, t_instruct_read *instruct
 	return (P_LABEL);
 }
 
+/*
+** tokenize the current asm line
+*/
 static t_progress		read_instruction(char *line, \
 											t_progress progress, \
 											t_instruct_read *instruct)
@@ -98,6 +110,9 @@ static t_progress		read_instruction(char *line, \
 	return (read_instruction(line, progress, instruct));
 }
 
+/*
+** read instruction lines from asm file
+*/
 void					read_loop(void)
 {
 	int				ret;

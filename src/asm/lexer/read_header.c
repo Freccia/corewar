@@ -6,7 +6,7 @@
 /*   By: mcanal <zboub@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/03/12 21:43:56 by mcanal            #+#    #+#             */
-/*   Updated: 2018/03/15 00:43:26 by mc               ###   ########.fr       */
+/*   Updated: 2018/03/15 13:34:43 by mc               ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,27 @@
 
 #include "asm_lexer.h"
 
+/*
+** helper function to extract string from a pair of double-quotes
+*/
+static void				read_quoted_string(char *line)
+{
+	if (*line != '"')
+		error(E_INVALID, "Invalid header (missing 1st quote).");
+	++line;
+	while (*line && *line != '"')
+		line++;
+	if (*line != '"')
+		error(E_INVALID, "Invalid header (missing 2nd quote).");
+	*line++ = 0;
+	while (!IS_EOL(*line))
+		if (!ft_isspace(*line++))
+			error(E_INVALID, "Invalid header (weird stuffs after quotes).");
+}
+
+/*
+** identifier (.name/.comment) tokenizer
+*/
 static void				parse_header(char *line, t_progress progress, t_header *header)
 {
 	static
@@ -36,21 +57,9 @@ static void				parse_header(char *line, t_progress progress, t_header *header)
 	//TODO: count header->prog_size
 }
 
-static void				read_quoted_string(char *line)
-{
-	if (*line != '"')
-		error(E_INVALID, "Invalid header (missing 1st quote).");
-	++line;
-	while (*line && *line != '"')
-		line++;
-	if (*line != '"')
-		error(E_INVALID, "Invalid header (missing 2nd quote).");
-	*line++ = 0;
-	while (!IS_EOL(*line))
-		if (!ft_isspace(*line++))
-			error(E_INVALID, "Invalid header (weird stuffs after quotes).");
-}
-
+/*
+** identifier (.name/.comment) lexer
+*/
 static t_progress		read_identifier(char *line)
 {
 	if (!ft_strncmp(line, NAME_CMD_STRING, ft_strlen(NAME_CMD_STRING)))
@@ -62,6 +71,9 @@ static t_progress		read_identifier(char *line)
 	return (P_NOPROGRESS);
 }
 
+/*
+** lex/parse the current header line
+*/
 static t_progress		check_header(char *line, t_header *header)
 {
 	t_progress	progress;
@@ -85,6 +97,9 @@ static t_progress		check_header(char *line, t_header *header)
 	return (progress);
 }
 
+/*
+** read header lines from asm file
+*/
 void					read_header(t_header *header)
 {
 	int				ret;
