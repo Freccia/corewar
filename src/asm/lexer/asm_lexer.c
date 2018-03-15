@@ -6,7 +6,7 @@
 /*   By: mc <mc.maxcanal@gmail.com>                 +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/03/17 22:30:58 by mcanal            #+#    #+#             */
-/*   Updated: 2018/03/15 01:30:22 by mc               ###   ########.fr       */
+/*   Updated: 2018/03/15 16:56:21 by mc               ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,15 +24,6 @@ static void				debug_header(t_header *header)
 	DEBUGF("prog_size: %d", (int)header->prog_size);
 	DEBUGF(COMMENT_CMD_STRING ": %s", header->comment);
 	/* fprintf(stderr, "\n"); */
-}
-
-static void				debug_cor()
-{
-	DEBUGF("cor.length: %d", (int)g_cor->length);
-	DEBUGF("cor.alloc_len: %d", (int)g_cor->alloc_len);
-	for (size_t i = 0; i < g_cor->length; i++)
-		fprintf(stderr, "0x%x ", *(t_byte *)ft_arrget(g_cor, i));
-	fprintf(stderr, g_cor->length ? "\n" : "");
 }
 
 static void				debug_hnode(t_hnode *node)
@@ -64,7 +55,7 @@ void					lex(char *filename)
 	t_header	header;
 
 	check_filename(filename);
-	if ((g_fd = open(filename, O_RDONLY)) == -1)
+	if ((g_err.fd = open(filename, O_RDONLY)) == -1)
 		error(E_OPEN, filename);
 
 	ft_bzero(&header, sizeof(t_header));
@@ -76,17 +67,12 @@ void					lex(char *filename)
 	init_data();
 	read_loop();
 #ifdef ANNOYING_DEBUG
-	debug_cor();
 	debug_labels();
 #endif                          /* DEBUG */
 
 	ft_hdel(&g_labels);
-	if (close(g_fd) == -1)
+	if (close(g_err.fd) == -1)
 		error(E_CLOSE, filename);
 
 	write_cor(filename, &header);
-#ifdef ANNOYING_DEBUG
-	debug_cor();
-#endif                          /* DEBUG */
-	ft_arrdel(&g_cor);
 }

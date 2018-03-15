@@ -6,7 +6,7 @@
 /*   By: mcanal <mcanal@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2015/01/12 03:39:12 by mcanal            #+#    #+#             */
-/*   Updated: 2018/03/14 22:00:57 by mc               ###   ########.fr       */
+/*   Updated: 2018/03/15 16:55:01 by mc               ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,7 +65,7 @@ t_bool			error(uint8_t flag, char *msg)
 
 	if (flag & E_USAGE_COREWAR || flag & E_USAGE_ASM)
 		fail("Usage: ");
-	fail(g_exec_name);
+	fail(g_err.exec_name);
 	if (msg)
 	{
 		fail(error[get_index(flag & (uint8_t)~E_NOEXIT)]);
@@ -73,8 +73,8 @@ t_bool			error(uint8_t flag, char *msg)
 	}
 	else
 		failn(error[get_index(flag & (uint8_t)~E_NOEXIT)]);
-	if (g_fd != -1)
-		close(g_fd);
+	if (g_err.fd != -1)
+		close(g_err.fd);
 	if (!(flag & E_NOEXIT))
 		exit(EXIT_FAILURE);
 	return (FALSE);

@@ -6,7 +6,7 @@
 /*   By: mcanal <zboub@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/03/12 21:43:56 by mcanal            #+#    #+#             */
-/*   Updated: 2018/03/15 13:34:43 by mc               ###   ########.fr       */
+/*   Updated: 2018/03/15 16:56:12 by mc               ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -110,7 +110,7 @@ void					read_header(t_header *header)
 	progress = P_NOPROGRESS;
 	while (!(progress & P_NAME && progress & P_COMMENT))
 	{
-		if (!(ret = get_next_line(g_fd, &line)) || ret == -1)
+		if (!(ret = get_next_line(g_err.fd, &line)) || ret == -1)
 			error(E_READ, NULL);
 
 		progress |= check_header(line, header);

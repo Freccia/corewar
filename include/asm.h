@@ -6,7 +6,7 @@
 /*   By: mcanal <zboub@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2015/12/14 18:21:04 by mcanal            #+#    #+#             */
-/*   Updated: 2018/03/15 01:37:05 by mc               ###   ########.fr       */
+/*   Updated: 2018/03/15 16:52:21 by mc               ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,6 +69,18 @@ typedef struct		s_instruct_parsed
 }					t_instruct_parsed;
 
 /*
+** error reporting struct
+*/
+typedef struct		s_error_report
+{
+    char				*exec_name;
+    char                *line;
+    unsigned int        line_pos;
+    unsigned int        col_pos;
+    int 				fd;
+}					t_error_report;
+
+/*
 ** error code enum
 */
 enum					e_error
@@ -87,17 +99,16 @@ enum					e_error
 /*
 ** globad
 */
+extern t_error_report   g_err;
 extern t_arr			*g_cor;
 extern t_htable			*g_labels;
-extern char				*g_exec_name;
-extern int				g_fd;
 extern t_op 			g_op_tab[];
 
 /*
 ** init_data.c
 */
 void					init_data(void);
-void                    init_exec_name(char *s);
+void                    init_error_report(char *exec_name);
 
 /*
 ** error.c

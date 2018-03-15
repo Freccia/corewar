@@ -6,7 +6,7 @@
 /*   By: mcanal <zboub@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/06/09 14:24:52 by mcanal            #+#    #+#             */
-/*   Updated: 2018/03/15 13:28:49 by mc               ###   ########.fr       */
+/*   Updated: 2018/03/15 16:56:30 by mc               ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -122,7 +122,7 @@ void					read_loop(void)
 
 	ft_bzero(&instruct, sizeof(t_instruct_read));
 	line = NULL;
-	if (!(ret = get_next_line(g_fd, &line)))
+	if (!(ret = get_next_line(g_err.fd, &line)))
 		return ;
 	else if (ret == -1)
 		error(E_READ, NULL);

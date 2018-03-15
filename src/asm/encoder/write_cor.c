@@ -6,7 +6,7 @@
 /*   By: mc <mc.maxcanal@gmail.com>                 +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/03/20 00:19:15 by mcanal            #+#    #+#             */
-/*   Updated: 2018/03/15 02:49:14 by mc               ###   ########.fr       */
+/*   Updated: 2018/03/15 16:55:54 by mc               ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,10 +16,16 @@
 
 #include "asm_encoder.h"
 
-/* static t_word	swap_word(t_word w) */
-/* { */
-/* 	return ((w >> 8) | (w << 8)); */
-/* } */
+#ifdef ANNOYING_DEBUG
+static void				debug_cor()
+{
+	DEBUGF("cor.length: %d", (int)g_cor->length);
+	DEBUGF("cor.alloc_len: %d", (int)g_cor->alloc_len);
+	for (size_t i = 0; i < g_cor->length; i++)
+		fprintf(stderr, "0x%x ", *(t_byte *)ft_arrget(g_cor, i));
+	fprintf(stderr, g_cor->length ? "\n" : "");
+}
+#endif  /* DEBUG */
 
 //TODO: use that somewhere in asm_encoder.c
 static t_dword	swap_dword(t_dword d)
@@ -63,16 +69,20 @@ void			write_cor(char *filename, t_header *header)
 	char	*outname;
 
 	outname = get_output_name(filename);
-	if (!outname || (g_fd = open(outname, O_CREAT | O_WRONLY, 0644)) == -1)
+	if (!outname || (g_err.fd = open(outname, O_CREAT | O_WRONLY, 0644)) == -1)
 		error(E_OPEN, outname);
     //TODO: should we throw an error if the file already exists?
 
 	add_header(header);
-	if (write(g_fd, g_cor->ptr, g_cor->length) == -1)
+	if (write(g_err.fd, g_cor->ptr, g_cor->length) == -1)
 		error(E_WRITE, outname);
 
-	if (close(g_fd) == -1)
+	if (close(g_err.fd) == -1)
 		error(E_CLOSE, outname);
 
+#ifdef ANNOYING_DEBUG
+	debug_cor();
+#endif                          /* DEBUG */
 	ft_memdel((void *)&outname);
+	ft_arrdel(&g_cor);
 }

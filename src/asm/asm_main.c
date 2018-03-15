@@ -6,7 +6,7 @@
 /*   By: mcanal <mcanal@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2015/01/10 00:12:49 by mcanal            #+#    #+#             */
-/*   Updated: 2018/03/14 22:14:44 by mc               ###   ########.fr       */
+/*   Updated: 2018/03/15 16:53:26 by mc               ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@
 
 int				main(int ac, char **av)
 {
-	init_exec_name(*av++);
+	init_error_report(*av++);
 
 	if (ac != 2)
 		error(E_USAGE_ASM, NULL);
