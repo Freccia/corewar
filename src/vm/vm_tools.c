@@ -6,7 +6,7 @@
 /*   By: lfabbro <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/03/14 15:58:23 by lfabbro           #+#    #+#             */
-/*   Updated: 2018/03/15 17:50:33 by nfinkel          ###   ########.fr       */
+/*   Updated: 2018/03/15 17:52:45 by nfinkel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,10 +40,10 @@ uint8_t		*cw_map_mem(uint8_t *mem, uint8_t *pc)
 	while (++k < 4)
 	{
 		mem[k] = *pc;
-		if (pc == g_cw->mem[MEM_SIZE - 1])
-			pc = g_cw->mem[0];
+		if (pc == &g_cw->mem[MEM_SIZE - 1])
+			pc = &g_cw->mem[0];
 		else
-			++pc
+			++pc;
 	}
 	return (mem);
 }
@@ -54,9 +54,9 @@ uint8_t		*cw_move_pc(uint8_t *pc, size_t len)
 
 	k = -1;
 	while (++k < len)
-		if (pc == g_cw->mem[MEM_SIZE - 1])
-			pc = g_cw->mem[0];
+		if (pc == &g_cw->mem[MEM_SIZE - 1])
+			pc = &g_cw->mem[0];
 		else
-			++pc
+			++pc;
 	return (pc);
 }

@@ -6,7 +6,7 @@
 /*   By: alucas- <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/03/12 18:15:51 by alucas-           #+#    #+#             */
-/*   Updated: 2018/03/15 16:01:14 by lfabbro          ###   ########.fr       */
+/*   Updated: 2018/03/15 17:52:02 by nfinkel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,14 +81,13 @@ int		cw_vm_kill_process(t_proc **proc, t_proc *prev)
 int		cw_vm_exec(uint8_t *pc)
 {
 	if (*pc >= 0x1 && *pc <= 0x10)
-		return(g_instr[*pc](g_cw->current->pc));
+		return (g_instr[*pc](g_cw->current->pc));
 	return (EXIT_FAILURE);
 }
 
 int		cw_vm_eval(t_proc *proc)
 {
 	t_instr		instr;
-	int16_t		ocp;
 
 	(void)instr;
 	if (!proc)
@@ -98,7 +97,7 @@ int		cw_vm_eval(t_proc *proc)
 		--proc->wait;
 		return (EXIT_SUCCESS);
 	}
-	if ((ocp = cw_vm_exec(proc->pc)) == EXIT_FAILURE)
+	if (cw_vm_exec(proc->pc) == EXIT_FAILURE)
 		return (EXIT_FAILURE);
 	//proc->wait = cw_instr_cycles(*proc->pc);
 	proc->wait = g_op_tab[*proc->pc].cycles;
