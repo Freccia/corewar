@@ -6,7 +6,7 @@
 #    By: alucas- <alucas-@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2017/11/07 09:52:36 by alucas-           #+#    #+#              #
-#    Updated: 2018/03/14 22:54:04 by mc               ###   ########.fr        #
+#    Updated: 2018/03/15 12:58:12 by mc               ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -50,7 +50,7 @@ TEST_DIR =	test
 LFT_DIR = libft
 LFT_INC_PATH = $(LFT_DIR)/include
 LFT_LDFLAGS = -L $(LFT_DIR)
-LFT_LDLIBS = -lft
+LFT_LDLIBS ?= -lft
 LFT ?= libft.a
 
 # folder-names containing headers files
@@ -137,11 +137,11 @@ dev:
 	+$(SUB_MAKE) $(LFT_DIR) dev
 	@$(PRINTF) "%-20s" "$(PROJECTA).dev: exe"
 	+$(MAKE) $(PROJECTA).dev "PROJECTA = $(PROJECTA).dev" "CFLAGS = $(DCFLAGS)" \
-	  "OBJ_PATH = $(OBJ_DIR)/dev" "LFT = libft.dev.a"
+	  "OBJ_PATH = $(OBJ_DIR)/dev" "LFT = libft.dev.a" "LFT_LDLIBS = -lft.dev"
 	@$(PRINTF) "$(EVIL)$(TODO_B)$(TODO_A)$(GREEN)✔$(BASIC)\n"
 	@$(PRINTF) "%-20s" "$(PROJECTB).dev: exe"
 	+$(MAKE) $(PROJECTB).dev "PROJECTB = $(PROJECTB).dev" "CFLAGS = $(DCFLAGS)" \
-	  "OBJ_PATH = $(OBJ_DIR)/dev" "LFT = libft.dev.a"
+	  "OBJ_PATH = $(OBJ_DIR)/dev" "LFT = libft.dev.a" "LFT_LDLIBS = -lft.dev"
 	@$(PRINTF) "$(EVIL)$(TODO_B)$(TODO_A)$(GREEN)✔$(BASIC)\n"
 
 # build for runtime debugging (fsanitize)
@@ -149,11 +149,11 @@ san:
 	+$(SUB_MAKE) $(LFT_DIR) san
 	@$(PRINTF) "%-20s" "$(PROJECTA).san: exe"
 	+$(MAKE) $(PROJECTA).san "PROJECTA = $(PROJECTA).san" "CFLAGS = $(SCFLAGS)" \
-	  "OBJ_PATH = $(OBJ_DIR)/san" "LFT = libft.san.a"
+	  "OBJ_PATH = $(OBJ_DIR)/san" "LFT = libft.san.a" "LFT_LDLIBS = -lft.san"
 	@$(PRINTF) "$(EVIL)$(TODO_B)$(TODO_A)$(GREEN)✔$(BASIC)\n"
 	@$(PRINTF) "%-20s" "$(PROJECTB).san: exe"
 	+$(MAKE) $(PROJECTB).san "PROJECTB = $(PROJECTB).san" "CFLAGS = $(SCFLAGS)" \
-	  "OBJ_PATH = $(OBJ_DIR)/san" "LFT = libft.san.a"
+	  "OBJ_PATH = $(OBJ_DIR)/san" "LFT = libft.san.a" "LFT_LDLIBS = -lft.san"
 	@$(PRINTF) "$(EVIL)$(TODO_B)$(TODO_A)$(GREEN)✔$(BASIC)\n"
 
 # masochist build

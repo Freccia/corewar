@@ -6,7 +6,7 @@
 /*   By: mcanal <mcanal@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2014/11/06 14:24:25 by mcanal            #+#    #+#             */
-/*   Updated: 2015/12/05 21:46:20 by mcanal           ###   ########.fr       */
+/*   Updated: 2018/03/15 12:44:40 by mc               ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@
 ** the function returns NULL.
 */
 
-#include "libft.h"
+#include "libft/str.h"
 #include <stdlib.h>
 
 void	*ft_memalloc(size_t size)
