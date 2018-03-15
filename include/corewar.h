@@ -6,7 +6,7 @@
 /*   By: nfinkel <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/03/13 16:16:50 by nfinkel           #+#    #+#             */
-/*   Updated: 2018/03/15 12:01:32 by lfabbro          ###   ########.fr       */
+/*   Updated: 2018/03/15 12:56:30 by lfabbro          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,6 +27,7 @@
 # define _CW_PROCMAX	(101010)
 # define _CW_MAGIC		SWAP_INT(COREWAR_EXEC_MAGIC)
 # define _CW_HEAD_SZ	(16 + PROG_NAME_LENGTH + COMMENT_LENGTH)
+# define _CW_N_OP		16
 
 typedef struct		s_champs
 {
@@ -68,6 +69,7 @@ typedef struct		s_cw
 }					t_cw;
 
 extern t_cw			*g_cw;
+extern t_op			g_op_tab[_CW_N_OP];
 
 typedef int			(*t_instr)(uint8_t *);
 

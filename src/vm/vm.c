@@ -6,7 +6,7 @@
 /*   By: alucas- <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/03/12 18:15:51 by alucas-           #+#    #+#             */
-/*   Updated: 2018/03/15 12:42:06 by lfabbro          ###   ########.fr       */
+/*   Updated: 2018/03/15 12:54:49 by lfabbro          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -102,7 +102,7 @@ int		cw_vm_eval(t_proc *proc)
 		return (EXIT_FAILURE);
 	proc->pc += ocp % MEM_SIZE;
 	//proc->wait = cw_instr_cycles(*proc->pc);
-	proc->wait = g_op_tab[*proc->pc][4];
+	proc->wait = g_op_tab[*proc->pc].cycles;
 	return (EXIT_SUCCESS);
 }
 
