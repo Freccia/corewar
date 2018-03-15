@@ -6,7 +6,7 @@
 /*   By: mcanal <zboub@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/06/09 14:24:52 by mcanal            #+#    #+#             */
-/*   Updated: 2018/03/15 16:56:30 by mc               ###   ########.fr       */
+/*   Updated: 2018/03/15 17:27:08 by mc               ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -116,19 +116,19 @@ static t_progress		read_instruction(char *line, \
 void					read_loop(void)
 {
 	int				ret;
-	char			*line;
 	t_progress		progress;
 	t_instruct_read	instruct;
 
 	ft_bzero(&instruct, sizeof(t_instruct_read));
-	line = NULL;
-	if (!(ret = get_next_line(g_err.fd, &line)))
+	g_err.line = NULL;
+	if (!(ret = get_next_line(g_err.fd, &(g_err.line))))
 		return ;
 	else if (ret == -1)
 		error(E_READ, NULL);
+    g_err.line_pos += 1;
 
-	progress = read_instruction(line, P_NOPROGRESS, &instruct);
-	ft_memdel((void **)&line);
+	progress = read_instruction(g_err.line, P_NOPROGRESS, &instruct);
+	ft_memdel((void **)&(g_err.line));
 	if (!(!progress //nothing found
 		  || (progress & P_LABEL && !(progress & P_OP)) //just a label
 		  || (progress & P_OP && progress & P_ARG))) //(label +) op + arg

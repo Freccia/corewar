@@ -6,7 +6,7 @@
 /*   By: mcanal <zboub@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2015/12/14 18:21:04 by mcanal            #+#    #+#             */
-/*   Updated: 2018/03/15 16:52:21 by mc               ###   ########.fr       */
+/*   Updated: 2018/03/15 17:25:10 by mc               ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,23 +17,27 @@
 # include "libft.h"
 # include "op.h"
 
-# define ANNOYING_DEBUG         /* DEBUG */
+/*
+** some colors for pretty printing
+*/
+# define CLR_BLACK "\033[30;01m"
+# define CLR_RED "\033[31;01m"
+# define CLR_GREEN "\033[32;01m"
+# define CLR_YELLOW "\033[33;01m"
+# define CLR_BLUE "\033[34;01m"
+# define CLR_MAGENTA "\033[35;01m"
+# define CLR_CYAN "\033[36;01m"
+# define CLR_WHITE "\033[37;01m"
+# define CLR_RESET "\033[0m"
+
+/* # define ANNOYING_DEBUG         /\* DEBUG *\/ */
 # ifdef ANNOYING_DEBUG
 #  include <stdio.h>
-#  define CLR_BLACK "\033[30;01m"
-#  define CLR_RED "\033[31;01m"
-#  define CLR_GREEN "\033[32;01m"
-#  define CLR_YELLOW "\033[33;01m"
-#  define CLR_BLUE "\033[34;01m"
-#  define CLR_MAGENTA "\033[35;01m"
-#  define CLR_CYAN "\033[36;01m"
-#  define CLR_WHITE "\033[37;01m"
-#  define CLR_RESET "\033[0m"
 #  define DEBUG_HEADER CLR_MAGENTA "[DEBUG] " CLR_RESET
 #  define DEBUGF(str, ...) fprintf(stderr, DEBUG_HEADER "<" str ">" CLR_RESET "\n", ##__VA_ARGS__)
 # else
 #  define DEBUGF(str, ...) do {} while (0)
-# endif
+# endif  /* DEBUG */
 
 # define MAX_ARG_LENGTH		(MAX_LABEL_LENGTH + 3)
 # define MAX_LABEL_LENGTH	23
@@ -74,9 +78,9 @@ typedef struct		s_instruct_parsed
 typedef struct		s_error_report
 {
     char				*exec_name;
+    char				*file_name;
     char                *line;
     unsigned int        line_pos;
-    unsigned int        col_pos;
     int 				fd;
 }					t_error_report;
 
@@ -87,13 +91,12 @@ enum					e_error
 {
 	E_NOERROR = 0,
 	E_NOEXIT = (1 << 0),
-	E_USAGE_COREWAR = (1 << 1),
-	E_USAGE_ASM = (1 << 2),
-	E_READ = (1 << 3),
-	E_OPEN = (1 << 4),
-	E_CLOSE = (1 << 5),
-	E_INVALID = (1 << 6),
-	E_WRITE = (1 << 7)
+	E_USAGE_ASM = (1 << 1),
+	E_READ = (1 << 2),
+	E_OPEN = (1 << 3),
+	E_CLOSE = (1 << 4),
+	E_WRITE = (1 << 5),
+	E_INVALID = (1 << 6)
 };
 
 /*

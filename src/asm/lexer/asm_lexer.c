@@ -6,7 +6,7 @@
 /*   By: mc <mc.maxcanal@gmail.com>                 +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/03/17 22:30:58 by mcanal            #+#    #+#             */
-/*   Updated: 2018/03/15 16:56:21 by mc               ###   ########.fr       */
+/*   Updated: 2018/03/15 17:10:22 by mc               ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,6 +48,7 @@ static void				check_filename(char *filename)
 	len = ft_strlen(filename);
 	if (len < 3 || ft_strcmp(".s", filename + len - 2))
 		error(E_INVALID, "Invalid file name.");
+    g_err.file_name = filename;
 }
 
 void					lex(char *filename)

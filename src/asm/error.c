@@ -6,7 +6,7 @@
 /*   By: mcanal <mcanal@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2015/01/12 03:39:12 by mcanal            #+#    #+#             */
-/*   Updated: 2018/03/15 16:55:01 by mc               ###   ########.fr       */
+/*   Updated: 2018/03/15 17:37:15 by mc               ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,25 +51,54 @@ static int      failn(char const *s)
     return (fail(s) + write(2, "\n", 1));
 }
 
+//TODO: use ft_fprintf for all these
+static void     pretty_error(char *error_type)
+{
+    char *line_pos;
+
+    fail(CLR_WHITE);
+    fail(g_err.file_name);
+    fail(":");
+    line_pos = ft_itoa(g_err.line_pos, 10);
+    fail(line_pos);
+    free(line_pos);
+    /* fail(":"); */
+    /* fail(col_pos); */
+    fail(": ");
+    fail(CLR_RED);
+    fail(error_type);
+    failn(CLR_RESET);
+    if (g_err.line)
+    {
+        failn(g_err.line);
+        failn("\t" CLR_GREEN "^" CLR_RESET); //TODO: handle col_pos
+    }
+    failn("");
+}
+
 t_bool			error(uint8_t flag, char *msg)
 {
 	const char	*error[] = {
-		" [-dump NBR_CYCLES] [[-n NUMBER] FILE.cor]...",
 		" FILE.s",
 		": Ouch... can't read this.",
 		": Damn! Can't open file: ",
 		": Dang. Can't close file: ",
-		": What the heck is that file? Nah, just try with something else. - ",
 		": Ooops! Can't write to file: ",
 	};
 
-	if (flag & E_USAGE_COREWAR || flag & E_USAGE_ASM)
+	if (flag & E_USAGE_ASM)
 		fail("Usage: ");
+    if (!(flag & E_INVALID))
 	fail(g_err.exec_name);
 	if (msg)
 	{
-		fail(error[get_index(flag & (uint8_t)~E_NOEXIT)]);
-		failn(msg);
+        if (flag & E_INVALID)
+            pretty_error(msg);
+        else
+        {
+            fail(error[get_index(flag & (uint8_t)~E_NOEXIT)]);
+            failn(msg);
+        }
 	}
 	else
 		failn(error[get_index(flag & (uint8_t)~E_NOEXIT)]);

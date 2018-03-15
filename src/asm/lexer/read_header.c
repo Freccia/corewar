@@ -6,7 +6,7 @@
 /*   By: mcanal <zboub@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/03/12 21:43:56 by mcanal            #+#    #+#             */
-/*   Updated: 2018/03/15 16:56:12 by mc               ###   ########.fr       */
+/*   Updated: 2018/03/15 17:27:43 by mc               ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -103,18 +103,18 @@ static t_progress		check_header(char *line, t_header *header)
 void					read_header(t_header *header)
 {
 	int				ret;
-	char			*line;
 	t_progress	progress;
 
-    line = NULL;
+    g_err.line = NULL;
 	progress = P_NOPROGRESS;
 	while (!(progress & P_NAME && progress & P_COMMENT))
 	{
-		if (!(ret = get_next_line(g_err.fd, &line)) || ret == -1)
+		if (!(ret = get_next_line(g_err.fd, &(g_err.line))) || ret == -1)
 			error(E_READ, NULL);
 
-		progress |= check_header(line, header);
+        g_err.line_pos += 1;
+		progress |= check_header(g_err.line, header);
 
-		ft_memdel((void **)&line);
+		ft_memdel((void **)&(g_err.line));
 	}
 }
