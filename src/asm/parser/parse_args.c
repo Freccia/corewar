@@ -6,7 +6,7 @@
 /*   By: mc <mc.maxcanal@gmail.com>                 +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/03/19 20:43:23 by mcanal            #+#    #+#             */
-/*   Updated: 2018/03/15 02:18:38 by mc               ###   ########.fr       */
+/*   Updated: 2018/03/15 13:37:57 by mc               ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,6 +62,8 @@ static t_arg_type	parse_arg_type(char *arg)
 
 	if (*arg == LABEL_CHAR && ret != T_REG)
 		return (T_LAB | ret); //TODO: check if label exists, eventually after...
+    if (*arg == '-' && ft_isdigit(*(arg + 1)))
+        arg++;
 	while (*arg)
 		if (!ft_isdigit(*arg++))
 			error(E_INVALID, "Invalid arg (not a number).");
