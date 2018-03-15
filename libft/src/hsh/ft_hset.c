@@ -6,7 +6,7 @@
 /*   By: mcanal <zboub@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/03/18 00:16:50 by mcanal            #+#    #+#             */
-/*   Updated: 2018/03/14 05:15:03 by mc               ###   ########.fr       */
+/*   Updated: 2018/03/15 12:40:55 by mc               ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,7 +62,7 @@ static void		resize_table(t_htable *table)
 	size = table->bucket_size;
 	table->bucket_size = get_new_size(size);
 	new_bucket = (t_hnode **)\
-		malloc(sizeof(t_hnode *) * table->bucket_size);
+		ft_memalloc(sizeof(t_hnode *) * table->bucket_size);
 	bucket = table->bucket;
 	while (size--)
 	{
@@ -95,7 +95,7 @@ static void		add_node(t_htable *table, void *key, void *value)
 		}
 		swap = swap->next;
 	}
-	swap = (t_hnode *)malloc(sizeof(t_hnode));
+	swap = (t_hnode *)ft_memalloc(sizeof(t_hnode));
 	table->key_cpy(&swap->key, &key, table->key_size);
 	table->value_cpy(&swap->value, &value, table->value_size);
 	swap->hash = hash;
