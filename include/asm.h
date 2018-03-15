@@ -6,7 +6,7 @@
 /*   By: mcanal <zboub@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2015/12/14 18:21:04 by mcanal            #+#    #+#             */
-/*   Updated: 2018/03/14 22:13:58 by mc               ###   ########.fr       */
+/*   Updated: 2018/03/15 01:35:11 by mc               ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,24 @@
 
 # include "libft.h"
 # include "op.h"
+
+/* # define ANNOYING_DEBUG         /\* DEBUG *\/ */
+# ifdef ANNOYING_DEBUG
+#  include <stdio.h>
+#  define CLR_BLACK "\033[30;01m"
+#  define CLR_RED "\033[31;01m"
+#  define CLR_GREEN "\033[32;01m"
+#  define CLR_YELLOW "\033[33;01m"
+#  define CLR_BLUE "\033[34;01m"
+#  define CLR_MAGENTA "\033[35;01m"
+#  define CLR_CYAN "\033[36;01m"
+#  define CLR_WHITE "\033[37;01m"
+#  define CLR_RESET "\033[0m"
+#  define DEBUG_HEADER CLR_MAGENTA "[DEBUG] " CLR_RESET
+#  define DEBUGF(str, ...) fprintf(stderr, DEBUG_HEADER "<" str ">" CLR_RESET "\n", ##__VA_ARGS__)
+# else
+#  define DEBUGF(str, ...) do {} while (0)
+# endif
 
 # define MAX_ARG_LENGTH		(MAX_LABEL_LENGTH + 3)
 # define MAX_LABEL_LENGTH	23

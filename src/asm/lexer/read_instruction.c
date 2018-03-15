@@ -6,7 +6,7 @@
 /*   By: mcanal <zboub@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/06/09 14:24:52 by mcanal            #+#    #+#             */
-/*   Updated: 2018/03/13 22:05:34 by mcanal           ###   ########.fr       */
+/*   Updated: 2018/03/15 01:33:36 by mc               ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,19 +16,18 @@
 
 #include "asm_lexer.h"
 
-/* // <--- DEBUG */
-/* static void				debug_instruct(t_instruct_read *instruct) */
-/* { */
-/* 	ft_putendl(""); */
-/* 	ft_debugstr("label", instruct->label); */
-/* 	ft_debugstr("op", instruct->op); */
-/* 	ft_debugnbr("argc", instruct->argc); */
+#ifdef ANNOYING_DEBUG
+static void				debug_instruct(t_instruct_read *instruct)
+{
+	fprintf(stderr, "\n");
+	DEBUGF("label: %s", instruct->label);
+	DEBUGF("op: %s", instruct->op);
+	DEBUGF("argc: %d", instruct->argc);
 
-/* 	for (int i = 0; i < instruct->argc; i++) */
-/* 		ft_debugstr("argv", instruct->argv[i]); */
-/* } */
-/* // DEBUG ---> */
-
+	for (int i = 0; i < instruct->argc; i++)
+		DEBUGF("argv: %s", instruct->argv[i]);
+}
+#endif  /* DEBUG */
 
 static t_progress		read_arg(char *arg, size_t len, t_instruct_read *instruct)
 {
@@ -139,7 +138,9 @@ void					read_loop(void)
 
 	if (progress)
 	{
-		/* debug_instruct(&instruct);			/\* DEBUG *\/ */
+#ifdef ANNOYING_DEBUG
+		debug_instruct(&instruct);
+#endif                                      /* DEBUG */
 		parse_instruct(&instruct);
 	}
 

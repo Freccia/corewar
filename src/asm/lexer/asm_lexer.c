@@ -6,7 +6,7 @@
 /*   By: mc <mc.maxcanal@gmail.com>                 +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/03/17 22:30:58 by mcanal            #+#    #+#             */
-/*   Updated: 2018/03/13 22:04:47 by mcanal           ###   ########.fr       */
+/*   Updated: 2018/03/15 01:30:22 by mc               ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,52 +16,39 @@
 
 #include "asm_lexer.h"
 
-/*
-** open
-*/
-# include <sys/types.h>
-# include <sys/stat.h>
-# include <fcntl.h>
+#ifdef ANNOYING_DEBUG
+static void				debug_header(t_header *header)
+{
+	DEBUGF("magic: %d", (int)header->magic);
+	DEBUGF(NAME_CMD_STRING ": %s", header->prog_name);
+	DEBUGF("prog_size: %d", (int)header->prog_size);
+	DEBUGF(COMMENT_CMD_STRING ": %s", header->comment);
+	/* fprintf(stderr, "\n"); */
+}
 
-/*
-** close
-*/
-# include <unistd.h>
+static void				debug_cor()
+{
+	DEBUGF("cor.length: %d", (int)g_cor->length);
+	DEBUGF("cor.alloc_len: %d", (int)g_cor->alloc_len);
+	for (size_t i = 0; i < g_cor->length; i++)
+		fprintf(stderr, "0x%x ", *(t_byte *)ft_arrget(g_cor, i));
+	fprintf(stderr, g_cor->length ? "\n" : "");
+}
 
-/* // <--- DEBUG */
-/* static void				debug_header(t_header *header) */
-/* { */
-/* 	ft_debugnbr("magic", (int)header->magic); */
-/* 	ft_debugstr(NAME_CMD_STRING, header->prog_name); */
-/* 	ft_debugnbr("prog_size", (int)header->prog_size); */
-/* 	ft_debugstr(COMMENT_CMD_STRING, header->comment); */
-/* 	/\* ft_putendl(""); *\/ */
-/* } */
+static void				debug_hnode(t_hnode *node)
+{
+	DEBUGF("labels.key: %s", (char *)node->key);
+	DEBUGF("labels.value: %d", (int)node->value);
+}
 
-/* #include <stdio.h> */
-/* static void				debug_cor() */
-/* { */
-/* 	ft_debugnbr("cor.length", (int)g_cor->length); */
-/* 	ft_debugnbr("cor.alloc_len", (int)g_cor->alloc_len); */
-/* 	for (size_t i = 0; i < g_cor->length; i++) */
-/* 		printf("0x%x ", *(t_byte *)ft_arrget(g_cor, i)); */
-/* 	fflush(stdout); */
-/* 	ft_putendl(g_cor->length ? "\n" : ""); */
-/* } */
+static void				debug_labels()
+{
+	DEBUGF("labels.length: %d", (int)g_labels->length);
+	ft_hiter(g_labels, debug_hnode);
+	fprintf(stderr, "\n");
+}
+#endif  /* DEBUG */
 
-/* static void				debug_hnode(t_hnode *node) */
-/* { */
-/* 	ft_debugstr("labels.key", (char *)node->key); */
-/* 	ft_debugnbr("labels.value", (int)node->value); */
-/* } */
-
-/* static void				debug_labels() */
-/* { */
-/* 	ft_debugnbr("labels.length", (int)g_labels->length); */
-/* 	ft_hiter(g_labels, debug_hnode); */
-/* 	ft_putendl(""); */
-/* } */
-/* // DEBUG ---> */
 
 static void				check_filename(char *filename)
 {
@@ -82,18 +69,24 @@ void					lex(char *filename)
 
 	ft_bzero(&header, sizeof(t_header));
 	read_header(&header);
-	/* debug_header(&header);		/\* DEBUG *\/ */
+#ifdef ANNOYING_DEBUG
+	debug_header(&header);
+#endif                          /* DEBUG */
 
 	init_data();
 	read_loop();
-	/* debug_cor();	/\* DEBUG *\/ */
-	/* debug_labels();	/\* DEBUG *\/ */
+#ifdef ANNOYING_DEBUG
+	debug_cor();
+	debug_labels();
+#endif                          /* DEBUG */
 
 	ft_hdel(&g_labels);
 	if (close(g_fd) == -1)
 		error(E_CLOSE, filename);
 
 	write_cor(filename, &header);
-	/* debug_cor();	/\* DEBUG *\/ */
+#ifdef ANNOYING_DEBUG
+	debug_cor();
+#endif                          /* DEBUG */
 	ft_arrdel(&g_cor);
 }
