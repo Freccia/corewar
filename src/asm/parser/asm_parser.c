@@ -6,7 +6,7 @@
 /*   By: mcanal <zboub@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/06/09 14:24:52 by mcanal            #+#    #+#             */
-/*   Updated: 2018/03/15 21:08:01 by mc               ###   ########.fr       */
+/*   Updated: 2018/03/15 21:46:50 by mc               ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,9 +27,10 @@ static t_op		*parse_op(char *op, t_instruct_parsed *instruct_p)
 	t_op	*op_tab_swap;
 
 	op_tab_swap = g_op_tab;
-	while (op_tab_swap->name && ft_strcmp(op_tab_swap->name, op))
+	while ((size_t)(op_tab_swap - g_op_tab) < MAX_OP \
+		   && ft_strcmp(op_tab_swap->name, op))
 		op_tab_swap++;
-	if (!op_tab_swap->name)
+	if ((size_t)(op_tab_swap - g_op_tab) == MAX_OP)
 		error(E_INVALID, "Invalid op (not found).");
 
 	instruct_p->op = op_tab_swap;
