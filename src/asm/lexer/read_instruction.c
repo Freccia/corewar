@@ -6,7 +6,7 @@
 /*   By: mcanal <zboub@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/06/09 14:24:52 by mcanal            #+#    #+#             */
-/*   Updated: 2018/03/15 02:11:53 by mc               ###   ########.fr       */
+/*   Updated: 2018/03/15 13:23:12 by mc               ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,34 +31,14 @@ static void				debug_instruct(t_instruct_read *instruct)
 
 static t_progress		read_arg(char *arg, size_t len, t_instruct_read *instruct)
 {
-	char	*arg_start;
-	char	*arg_swap;
+    if (len > MAX_ARG_LENGTH)
+        error(E_INVALID, "Invalid arg (too long).");
+    if (instruct->argc + 1 > MAX_ARGS_NUMBER)
+        error(E_INVALID, "Invalid arg (too many).");
 
-	if (instruct->argc)
-        return (P_ARG);
-
-    (void)len;
-	arg_swap = arg;
-	while (!IS_EOL(*arg_swap) && instruct->argc < MAX_ARGS_NUMBER)
-	{
-        while (!IS_EOL(*arg_swap) && ft_isspace(*arg_swap))
-			arg_swap++;
-		arg_start = arg_swap;
-		while (!IS_EOL(*arg_swap) && *arg_swap != SEPARATOR_CHAR)
-			arg_swap++;
-
-		if ((size_t)(arg_swap - arg_start) > MAX_ARG_LENGTH)
-			error(E_INVALID, "Invalid arg (too long).");
-		ft_memcpy(instruct->argv + instruct->argc, arg_start,	\
-				  (size_t)(arg_swap - arg_start));
-		*(*(instruct->argv + instruct->argc) + (size_t)(arg_swap - arg_start)) = 0;
-
-		if (*arg_swap == SEPARATOR_CHAR)
-			arg_swap++;
-		instruct->argc++;
-	}
-	if (instruct->argc > MAX_ARGS_NUMBER)
-		error(E_INVALID, "Invalid arg (too many).");
+    ft_memcpy(instruct->argv + instruct->argc, arg,	len);
+    *(*(instruct->argv + instruct->argc) + len) = 0;
+    instruct->argc++;
 
 	return (P_ARG);
 }
@@ -96,12 +76,12 @@ static t_progress		read_instruction(char *line, \
 {
 	char		*word_start;
 
-	while (!IS_EOL(*line) && ft_isspace(*line))
+	while (!IS_EOL(*line) && (ft_isspace(*line) || *line == SEPARATOR_CHAR))
 		line++;
 	if (IS_EOL(*line))
 		return (progress);
 	word_start = line;
-	while (!IS_EOL(*line) && !ft_isspace(*line))
+	while (!IS_EOL(*line) && !ft_isspace(*line) && *line != SEPARATOR_CHAR)
 		line++;
 
 	if (*(line - 1) == LABEL_CHAR)
