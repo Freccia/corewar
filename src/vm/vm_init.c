@@ -6,7 +6,7 @@
 /*   By: lfabbro <>                                 +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/03/14 10:10:16 by lfabbro           #+#    #+#             */
-/*   Updated: 2018/03/14 18:51:33 by lfabbro          ###   ########.fr       */
+/*   Updated: 2018/03/15 10:07:54 by lfabbro          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@ uint16_t		cw_vm_parse(const char *filename, uint8_t *dest)
 	ssize_t	bin_size;
 	char	buf[4096];
 
-	ft_printf("filename: %s\n", filename);
+	//ft_printf("filename: %s\n", filename);
 	if ((fd = open(filename, O_RDONLY)) < 0)
 		cw_exit(3, "Failed opening file.\n");
 	if (read(fd, &buf, _CW_HEAD_SZ) < _CW_HEAD_SZ)

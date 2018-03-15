@@ -6,7 +6,7 @@
 /*   By: zaz <marvin@42.fr>                         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2013/10/04 11:43:01 by zaz               #+#    #+#             */
-/*   Updated: 2018/03/13 17:29:19 by nfinkel          ###   ########.fr       */
+/*   Updated: 2018/03/15 11:23:01 by lfabbro          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,3 +37,23 @@ t_op		g_op_tab[16] =
 	{"lfork", 1, {T_DIR}, 15, 1000, "long fork", 0, 1},
 	{"aff", 1, {T_REG}, 16, 2, "aff", 1, 0},
 };
+
+t_instr		g_instr[16] =
+{
+	cw_live,
+	cw_ld,
+	cw_st,
+	cw_add,
+	cw_sub,
+	cw_and,
+	cw_or,
+	cw_xor,
+	cw_zjmp,
+	cw_ldi,
+	cw_sti,
+	cw_fork,
+	cw_lld,
+	cw_lldi,
+	cw_lfork,
+	cw_aff
+};	
