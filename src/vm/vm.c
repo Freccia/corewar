@@ -6,7 +6,7 @@
 /*   By: alucas- <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/03/12 18:15:51 by alucas-           #+#    #+#             */
-/*   Updated: 2018/03/15 16:01:14 by lfabbro          ###   ########.fr       */
+/*   Updated: 2018/03/15 17:18:53 by lfabbro          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -161,6 +161,8 @@ int 	main(int ac, char **av)
 	g_cw = &cw;
 	if (cw_vm_init(ac, av, r1))
 		return (cw_exit(EXIT_FAILURE, NULL));
+	ft_printf("---------------------------------------------------------\n");
+	ft_print_memory(g_cw->mem, MEM_SIZE);
 	if (cw_vm_run())
 		return (cw_exit(EXIT_FAILURE, NULL));
 	return (cw_exit(EXIT_SUCCESS, NULL));

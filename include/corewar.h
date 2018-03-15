@@ -6,7 +6,7 @@
 /*   By: nfinkel <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/03/13 16:16:50 by nfinkel           #+#    #+#             */
-/*   Updated: 2018/03/15 15:49:17 by lfabbro          ###   ########.fr       */
+/*   Updated: 2018/03/15 18:27:21 by lfabbro          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,11 +29,15 @@
 # define _CW_HEAD_SZ	(16 + PROG_NAME_LENGTH + COMMENT_LENGTH)
 # define _CW_N_OP		16
 
+# define _CW_N_CHAMPS	g_cw->n_champs
+# define _CW_CHAMPS		g_cw->champs
+
 typedef struct		s_champs
 {
-	char			file_name[PROG_NAME_LENGTH];
-	const char		name[PROG_NAME_LENGTH];
+	const char		name[PROG_NAME_LENGTH + 1];
 	int				id;
+	size_t			size;
+	uint8_t			bin[CHAMP_MAX_SIZE + 1];
 }					t_champs;
 
 typedef struct		s_opt
@@ -45,7 +49,7 @@ typedef struct		s_opt
 
 typedef struct		s_proc
 {
-	char			name[128];
+	int				id;
 	uint8_t			flags;
 	uint8_t			color;
 	uint8_t			*pc;
