@@ -11,7 +11,7 @@ RED="\033[31;01m"
 NORMAL="\033[0m"
 
 INVALID_FILES="$(find "$DATA_FOLDER/invalid_asm" -name \*.s)"
-VALID_FILES="$(find "$DATA_FOLDER/test_asm" -name \*.s)"
+VALID_FILES="$(find "$ROOT/ressources" -name \*.s)"
 
 error() {
 	echo -e "\n$RED$1$NORMAL"
@@ -23,11 +23,6 @@ error() {
 success() {
 	echo -e "$GREEN$1$NORMAL"
 }
-
-# unit tests
-./flextest3000
-UNIT_RET=$?
-
 
 # functional tests
 mkdir -p "$LOG_FOLDER"
@@ -49,4 +44,4 @@ for f in $VALID_FILES; do
 	success "$base_f (valid file) ok!"
 done
 
-test $UNIT_RET == 0 && success "yay" || exit $UNIT_RET
+test "$UNIT_RET" = "0" && success "yay" || exit $UNIT_RET
