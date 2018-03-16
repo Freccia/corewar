@@ -6,7 +6,7 @@
 /*   By: nfinkel <nfinkel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/03/14 19:10:02 by nfinkel           #+#    #+#             */
-/*   Updated: 2018/03/16 16:04:25 by lfabbro          ###   ########.fr       */
+/*   Updated: 2018/03/16 19:28:16 by lfabbro          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,8 +17,10 @@ int					cw_ld(uint8_t *pc)
 	int			reg;
 	int			value;
 	uint8_t		mem[4];
+	uint8_t		*ptr;
 
-	if (ft_mtoi(mem, 1) == (T_DIR | T_REG))
+	ptr = pc;
+	if ((ft_mtoi(pc, 1) & 0xc0) >> 6 | T_DIR)
 		value = cw_mem_read_dir(&pc, 4, 1, E_SHORT);
 	else
 		value = cw_mem_read_ind(&pc, 2, 1, E_SHORT);
@@ -30,6 +32,6 @@ int					cw_ld(uint8_t *pc)
 		g_cw->current->flags |= _CW_CARRY;
 	else
 		g_cw->current->flags &= ~(_CW_CARRY);
-	g_cw->current->pc = cw_move_pc(pc, 1);
+	g_cw->current->pc = cw_move_pc(pc, pc - ptr);
 	return (EXIT_SUCCESS);
 }
