@@ -6,7 +6,7 @@
 /*   By: nfinkel <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/03/13 16:16:50 by nfinkel           #+#    #+#             */
-/*   Updated: 2018/03/15 18:27:21 by lfabbro          ###   ########.fr       */
+/*   Updated: 2018/03/16 10:32:09 by lfabbro          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,13 +38,14 @@ typedef enum		e_range
 	E_LONG
 }					t_range;
 
-typedef struct		s_champs
+typedef struct		s_champ
 {
 	const char		name[PROG_NAME_LENGTH + 1];
 	int				id;
 	size_t			size;
 	uint8_t			bin[CHAMP_MAX_SIZE + 1];
-}					t_champs;
+	struct s_champ	*next;
+}					t_champ;
 
 typedef struct		s_opt
 {
@@ -76,7 +77,7 @@ typedef struct		s_cw
 	int				cycle_to_die;
 	t_opt			opt;
 	uint8_t			n_champs;
-	t_champs		champs[MAX_PLAYERS];
+	t_champ			*champs;
 }					t_cw;
 
 extern t_cw			*g_cw;
