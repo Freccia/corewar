@@ -6,7 +6,7 @@
 /*   By: mc <mc.maxcanal@gmail.com>                 +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/03/19 20:43:23 by mcanal            #+#    #+#             */
-/*   Updated: 2018/03/15 13:37:57 by mc               ###   ########.fr       */
+/*   Updated: 2018/03/15 21:27:47 by mc               ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@
 #ifdef ANNOYING_DEBUG
 static void			debug_type(t_arg_type type)
 {
-    fprintf(stderr, DEBUG_HEADER "<type");
+	fprintf(stderr, DEBUG_HEADER "<type");
 	if (type & T_REG)
 		fprintf(stderr, ": T_REG");
 	if (type & T_DIR)
@@ -28,9 +28,9 @@ static void			debug_type(t_arg_type type)
 		fprintf(stderr, ": T_IND");
 	if (type & T_LAB)
 		fprintf(stderr, ": T_LAB");
-    fprintf(stderr, ">\n");
+	fprintf(stderr, ">\n");
 }
-#endif  /* DEBUG */
+#endif	/* DEBUG */
 
 static uint8_t		parse_arg_length(t_arg_type arg_type, t_byte op_code)
 {
@@ -62,8 +62,8 @@ static t_arg_type	parse_arg_type(char *arg)
 
 	if (*arg == LABEL_CHAR && ret != T_REG)
 		return (T_LAB | ret); //TODO: check if label exists, eventually after...
-    if (*arg == '-' && ft_isdigit(*(arg + 1)))
-        arg++;
+	if (*arg == '-' && ft_isdigit(*(arg + 1)))
+		arg++;
 	while (*arg)
 		if (!ft_isdigit(*arg++))
 			error(E_INVALID, "Invalid arg (not a number).");
@@ -90,7 +90,7 @@ void				parse_args(t_instruct_read *instruct_r, \
 
 #ifdef ANNOYING_DEBUG
 		debug_type(*(instruct_p->arg_type + i));
-#endif  /* DEBUG */
+#endif	/* DEBUG */
 
 		if ((!(*(instruct_p->arg_type + i) & ~T_LAB)) &	\
 				*(instruct_p->op->param_type + i))

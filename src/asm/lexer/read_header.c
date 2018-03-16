@@ -6,7 +6,7 @@
 /*   By: mcanal <zboub@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/03/12 21:43:56 by mcanal            #+#    #+#             */
-/*   Updated: 2018/03/15 13:34:43 by mc               ###   ########.fr       */
+/*   Updated: 2018/03/15 21:07:57 by mc               ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,7 @@
 */
 static void				read_quoted_string(char *line)
 {
+	//TODO: handle multiline quoted string
 	if (*line != '"')
 		error(E_INVALID, "Invalid header (missing 1st quote).");
 	++line;
@@ -103,18 +104,19 @@ static t_progress		check_header(char *line, t_header *header)
 void					read_header(t_header *header)
 {
 	int				ret;
-	char			*line;
 	t_progress	progress;
 
-    line = NULL;
+	g_err.line = NULL;
 	progress = P_NOPROGRESS;
 	while (!(progress & P_NAME && progress & P_COMMENT))
 	{
-		if (!(ret = get_next_line(g_fd, &line)) || ret == -1)
+		if (!(ret = get_next_line(g_err.fd, &(g_err.line))) || ret == -1)
 			error(E_READ, NULL);
 
-		progress |= check_header(line, header);
+		g_err.line_pos += 1;
+		progress |= check_header(g_err.line, header);
 
-		ft_memdel((void **)&line);
+		ft_memdel((void **)&(g_err.line));
 	}
 }
+//TODO: don't parse header *then* instructions, but both each time

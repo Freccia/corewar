@@ -6,7 +6,7 @@
 #    By: alucas- <alucas-@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2017/11/07 09:52:36 by alucas-           #+#    #+#              #
-#   Updated: 2018/03/16 13:02:15 by lfabbro          ###   ########.fr         #
+#    Updated: 2018/03/16 16:46:09 by mcanal           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -192,6 +192,7 @@ re: fclean all
 # run tests on project
 test: all
 	+$(SUB_MAKE) $(LFT_DIR) test
+	$(TEST_DIR)/test.sh
 	+test -d $(TEST_DIR) && $(SUB_MAKE) $(TEST_DIR)
 	@$(PRINTF) "All tests passed!"
 

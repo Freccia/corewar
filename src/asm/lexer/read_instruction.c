@@ -6,7 +6,7 @@
 /*   By: mcanal <zboub@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/06/09 14:24:52 by mcanal            #+#    #+#             */
-/*   Updated: 2018/03/15 13:28:49 by mc               ###   ########.fr       */
+/*   Updated: 2018/03/16 11:16:49 by mc               ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,21 +27,46 @@ static void				debug_instruct(t_instruct_read *instruct)
 	for (int i = 0; i < instruct->argc; i++)
 		DEBUGF("argv: %s", instruct->argv[i]);
 }
-#endif  /* DEBUG */
+#endif	/* DEBUG */
 
 /*
 ** arg tokenizer
 */
 static t_progress		read_arg(char *arg, size_t len, t_instruct_read *instruct)
 {
-    if (len > MAX_ARG_LENGTH)
-        error(E_INVALID, "Invalid arg (too long).");
-    if (instruct->argc + 1 > MAX_ARGS_NUMBER)
-        error(E_INVALID, "Invalid arg (too many).");
+	char	*arg_swap;
+	char	*arg_start;
 
-    ft_memcpy(instruct->argv + instruct->argc, arg,	len);
-    *(*(instruct->argv + instruct->argc) + len) = 0;
-    instruct->argc++;
+	if (instruct->argc)
+		return (P_ARG);
+
+	arg_swap = arg;
+	while (!IS_EOL(*arg_swap) && instruct->argc < MAX_ARGS_NUMBER)
+	{
+		while (!IS_EOL(*arg_swap) && ft_isspace(*arg_swap))
+			arg_swap++;
+		arg_start = arg_swap;
+		while (!IS_EOL(*arg_swap) && *arg_swap != SEPARATOR_CHAR)
+			arg_swap++;
+		while (arg_swap != arg_start && \
+			   (ft_isspace(*arg_swap) || *arg_swap == SEPARATOR_CHAR || IS_EOL(*arg_swap)))
+			arg_swap--;
+
+		len = (size_t)(arg_swap - arg_start) + 1;
+		if (len > MAX_ARG_LENGTH)
+			error(E_INVALID, "Invalid arg (too long).");
+		if (instruct->argc + 1 > MAX_ARGS_NUMBER)
+			error(E_INVALID, "Invalid arg (too many).");
+
+		ft_memcpy(instruct->argv + instruct->argc, arg_start, len);
+		*(*(instruct->argv + instruct->argc) + len) = 0;
+		instruct->argc++;
+
+		while (!IS_EOL(*arg_swap) && *arg_swap != SEPARATOR_CHAR)
+			arg_swap++;
+		if (*arg_swap == SEPARATOR_CHAR)
+			arg_swap++;
+	}
 
 	return (P_ARG);
 }
@@ -88,13 +113,17 @@ static t_progress		read_instruction(char *line, \
 {
 	char		*word_start;
 
-	while (!IS_EOL(*line) && (ft_isspace(*line) || *line == SEPARATOR_CHAR))
+	while (!IS_EOL(*line) && ft_isspace(*line))
 		line++;
 	if (IS_EOL(*line))
 		return (progress);
 	word_start = line;
-	while (!IS_EOL(*line) && !ft_isspace(*line) && *line != SEPARATOR_CHAR)
+	while (!IS_EOL(*line) && !ft_isspace(*line))
 		line++;
+
+	//TODO: this is just an ugly workaround to skip .extend/.code/etc statements...
+	if (*word_start == '.' && progress == P_NOPROGRESS)
+		return (P_NOPROGRESS);
 
 	if (*(line - 1) == LABEL_CHAR)
 	{
@@ -116,19 +145,18 @@ static t_progress		read_instruction(char *line, \
 void					read_loop(void)
 {
 	int				ret;
-	char			*line;
 	t_progress		progress;
 	t_instruct_read	instruct;
 
 	ft_bzero(&instruct, sizeof(t_instruct_read));
-	line = NULL;
-	if (!(ret = get_next_line(g_fd, &line)))
+	ft_memdel((void **)&(g_err.line));
+	if (!(ret = get_next_line(g_err.fd, &(g_err.line))))
 		return ;
 	else if (ret == -1)
 		error(E_READ, NULL);
+	g_err.line_pos += 1;
 
-	progress = read_instruction(line, P_NOPROGRESS, &instruct);
-	ft_memdel((void **)&line);
+	progress = read_instruction(g_err.line, P_NOPROGRESS, &instruct);
 	if (!(!progress //nothing found
 		  || (progress & P_LABEL && !(progress & P_OP)) //just a label
 		  || (progress & P_OP && progress & P_ARG))) //(label +) op + arg
@@ -138,7 +166,7 @@ void					read_loop(void)
 	{
 #ifdef ANNOYING_DEBUG
 		debug_instruct(&instruct);
-#endif                                      /* DEBUG */
+#endif										/* DEBUG */
 		parse_instruct(&instruct);
 	}
 

@@ -6,7 +6,7 @@
 /*   By: zaz <marvin@42.fr>                         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2013/10/04 11:33:27 by zaz               #+#    #+#             */
-/*   Updated: 2018/03/15 16:05:59 by lfabbro          ###   ########.fr       */
+/*   Updated: 2018/03/16 16:24:34 by mcanal           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,8 @@
 # define OP_H
 
 # include <stdint.h>
+
+# define MAX_OP 16
 
 # define IND_SIZE 2
 # define REG_SIZE 4
