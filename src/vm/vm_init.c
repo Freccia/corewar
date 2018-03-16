@@ -6,7 +6,7 @@
 /*   By: lfabbro <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/03/15 15:30:43 by lfabbro           #+#    #+#             */
-/*   Updated: 2018/03/16 12:36:30 by lfabbro          ###   ########.fr       */
+/*   Updated: 2018/03/16 12:43:03 by lfabbro          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,11 +75,10 @@ static int		cw_vm_load_champs(uint8_t i)
 	cw_nc_init();
 	while (champ)
 	{
-		ft_printf("ID: %d\n", champ->id);
 		if (!(ptr = malloc(sizeof(t_proc))))
 			return (cw_exit(EXIT_FAILURE, "%m\n"));
 		ft_bzero(ptr, sizeof(t_proc));
-		ptr->color = ++i;
+		ptr->color = i + 1;
 		ptr->pc = g_cw->mem + (i * plyrs_dist);
 		ptr->wait = g_op_tab[*ptr->pc].cycles;
 		ptr->id = champ->id;
@@ -89,6 +88,7 @@ static int		cw_vm_load_champs(uint8_t i)
 		g_cw->procs ? (ptr->next = g_cw->procs) : 0;
 		g_cw->procs = ptr;
 		champ = champ->next;
+		++i;
 	}
 	g_cw->prev = g_cw->procs;
 	g_cw->current = g_cw->procs;
