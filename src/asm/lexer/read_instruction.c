@@ -6,7 +6,7 @@
 /*   By: mcanal <zboub@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/06/09 14:24:52 by mcanal            #+#    #+#             */
-/*   Updated: 2018/03/16 11:16:49 by mc               ###   ########.fr       */
+/*   Updated: 2018/03/17 00:15:21 by mcanal           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,8 +31,10 @@ static void				debug_instruct(t_instruct_read *instruct)
 
 /*
 ** arg tokenizer
+** TODO: norme this
 */
-static t_progress		read_arg(char *arg, size_t len, t_instruct_read *instruct)
+static t_progress		read_arg(char *arg, size_t len, \
+								t_instruct_read *instruct)
 {
 	char	*arg_swap;
 	char	*arg_start;
@@ -49,7 +51,8 @@ static t_progress		read_arg(char *arg, size_t len, t_instruct_read *instruct)
 		while (!IS_EOL(*arg_swap) && *arg_swap != SEPARATOR_CHAR)
 			arg_swap++;
 		while (arg_swap != arg_start && \
-			   (ft_isspace(*arg_swap) || *arg_swap == SEPARATOR_CHAR || IS_EOL(*arg_swap)))
+			(ft_isspace(*arg_swap) \
+				|| *arg_swap == SEPARATOR_CHAR || IS_EOL(*arg_swap)))
 			arg_swap--;
 
 		len = (size_t)(arg_swap - arg_start) + 1;
@@ -87,7 +90,8 @@ static t_progress		read_op(char *op, size_t len, t_instruct_read *instruct)
 /*
 ** label tokenizer
 */
-static t_progress		read_label(char *label, size_t len, t_instruct_read *instruct)
+static t_progress		read_label(char *label, size_t len, \
+								t_instruct_read *instruct)
 {
 	char	*label_swap;
 
@@ -129,7 +133,8 @@ static t_progress		read_instruction(char *line, \
 	{
 		if (progress & P_LABEL || progress & P_OP)
 			error(E_INVALID, "Invalid label (label/op already found).");
-		progress |= read_label(word_start, (size_t)(line - word_start - 1), instruct);
+		progress |= read_label(word_start, \
+							(size_t)(line - word_start - 1), instruct);
 	}
 	else if (!(progress & P_OP))
 		progress |= read_op(word_start, (size_t)(line - word_start), instruct);
@@ -158,8 +163,8 @@ void					read_loop(void)
 
 	progress = read_instruction(g_err.line, P_NOPROGRESS, &instruct);
 	if (!(!progress //nothing found
-		  || (progress & P_LABEL && !(progress & P_OP)) //just a label
-		  || (progress & P_OP && progress & P_ARG))) //(label +) op + arg
+		|| (progress & P_LABEL && !(progress & P_OP)) //just a label
+		|| (progress & P_OP && progress & P_ARG))) //(label +) op + arg
 		error(E_INVALID, "Something's wrong with that instruction.");
 
 	if (progress)

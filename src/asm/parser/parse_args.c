@@ -6,7 +6,7 @@
 /*   By: mc <mc.maxcanal@gmail.com>                 +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/03/19 20:43:23 by mcanal            #+#    #+#             */
-/*   Updated: 2018/03/15 21:27:47 by mc               ###   ########.fr       */
+/*   Updated: 2018/03/17 00:17:01 by mcanal           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,8 @@ static uint8_t		parse_arg_length(t_arg_type arg_type, t_byte op_code)
 {
 	if (arg_type & T_REG)
 		return (sizeof(t_byte));
-	else if ((arg_type & T_IND) || (arg_type && (op_code >= 9 && op_code <= 15)))
+	else if ((arg_type & T_IND) \
+			|| (arg_type && (op_code >= 9 && op_code <= 15)))
 		return (sizeof(t_word)); //TODO: if "blabla index", then it's just a word?
 	else if (arg_type & T_DIR)
 		return (sizeof(t_dword));
@@ -71,7 +72,7 @@ static t_arg_type	parse_arg_type(char *arg)
 }
 
 void				parse_args(t_instruct_read *instruct_r, \
-							   t_instruct_parsed *instruct_p)
+							t_instruct_parsed *instruct_p)
 {
 	int	i;
 
@@ -86,14 +87,15 @@ void				parse_args(t_instruct_read *instruct_r, \
 		*(instruct_p->arg_type + i) = parse_arg_type(*(instruct_r->argv + i));
 
 		*(instruct_p->arg_length + i) = \
-			parse_arg_length(*(instruct_p->arg_type + i), instruct_p->op->op_code);
+			parse_arg_length(*(instruct_p->arg_type + i), \
+							instruct_p->op->op_code);
 
 #ifdef ANNOYING_DEBUG
 		debug_type(*(instruct_p->arg_type + i));
 #endif	/* DEBUG */
 
-		if ((!(*(instruct_p->arg_type + i) & ~T_LAB)) &	\
-				*(instruct_p->op->param_type + i))
+		if ((!(*(instruct_p->arg_type + i) & ~T_LAB)) \
+				& *(instruct_p->op->param_type + i))
 			error(E_INVALID, "Invalid arg (wrong arg type).");
 
 		i++;

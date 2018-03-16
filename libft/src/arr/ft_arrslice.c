@@ -6,7 +6,7 @@
 /*   By: mcanal <zboub@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/03/16 22:08:23 by mcanal            #+#    #+#             */
-/*   Updated: 2018/03/14 05:18:03 by mc               ###   ########.fr       */
+/*   Updated: 2018/03/17 00:01:40 by mcanal           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,6 +87,8 @@ void			ft_arrslice(t_arr *arr, int start, int stop, int slide)
 		stop += (int)arr->length;
 	if (stop < 0 || stop >= (int)arr->length)
 		stop = (int)arr->length - 1;
-	slide > 0 ? cpy(arr, ft_i32min(start, stop), ft_i32max(start, stop), slide) : \
+	if (slide > 0)
+		cpy(arr, ft_i32min(start, stop), ft_i32max(start, stop), slide);
+	else
 		cpy_rev(arr, ft_i32min(start, stop), ft_i32max(start, stop), slide);
 }

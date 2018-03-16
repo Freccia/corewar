@@ -6,7 +6,7 @@
 /*   By: mcanal <zboub@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2015/12/14 18:21:04 by mcanal            #+#    #+#             */
-/*   Updated: 2018/03/16 18:09:28 by lfabbro          ###   ########.fr       */
+/*   Updated: 2018/03/17 00:04:10 by mcanal           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,9 +47,9 @@
 /*
 ** some types for handling memory
 */
-typedef unsigned char			t_byte;
-typedef unsigned short			t_word;
-typedef unsigned int			t_dword;
+typedef unsigned char	t_byte;
+typedef unsigned short	t_word;
+typedef unsigned int	t_dword;
 
 /*
 ** instruction struct (as read)
@@ -65,26 +65,26 @@ typedef struct			s_instruct_read
 /*
 ** instruction struct (after parsing)
 */
-typedef struct		s_instruct_parsed
+typedef struct			s_instruct_parsed
 {
 	t_op				*op;
 	t_arg_type			arg_type[MAX_ARGS_NUMBER];
 	t_byte				arg_length[MAX_ARGS_NUMBER];
 	t_dword				addr;
-	t_byte				_padding[4];
-}					t_instruct_parsed;
+	t_byte				padding[4];
+}						t_instruct_parsed;
 
 /*
 ** error reporting struct
 */
-typedef struct		s_error_report
+typedef struct			s_error_report
 {
 	char				*exec_name;
 	char				*file_name;
 	char				*line;
 	unsigned int		line_pos;
 	int					fd;
-}					t_error_report;
+}						t_error_report;
 
 /*
 ** error code enum
@@ -142,7 +142,7 @@ void					parse_instruct(t_instruct_read *instruct);
 ** asm_encoder.c
 */
 void					encode(t_instruct_read *instruct_r, \
-							   t_instruct_parsed *instruct_p);
+							t_instruct_parsed *instruct_p);
 /*
 ** write_cor.c
 */

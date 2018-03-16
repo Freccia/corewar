@@ -6,7 +6,7 @@
 /*   By: mcanal <zboub@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/03/12 21:43:56 by mcanal            #+#    #+#             */
-/*   Updated: 2018/03/15 21:07:57 by mc               ###   ########.fr       */
+/*   Updated: 2018/03/17 00:12:04 by mcanal           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,8 @@ static void				read_quoted_string(char *line)
 /*
 ** identifier (.name/.comment) tokenizer
 */
-static void				parse_header(char *line, t_progress progress, t_header *header)
+static void				parse_header(char *line, \
+									t_progress progress, t_header *header)
 {
 	static
 	size_t			len;
@@ -104,7 +105,7 @@ static t_progress		check_header(char *line, t_header *header)
 void					read_header(t_header *header)
 {
 	int				ret;
-	t_progress	progress;
+	t_progress		progress;
 
 	g_err.line = NULL;
 	progress = P_NOPROGRESS;
