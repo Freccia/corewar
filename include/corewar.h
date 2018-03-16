@@ -32,6 +32,12 @@
 # define _CW_N_CHAMPS	g_cw->n_champs
 # define _CW_CHAMPS		g_cw->champs
 
+typedef enum		e_range
+{
+	E_SHORT,
+	E_LONG
+}					t_range;
+
 typedef struct		s_champs
 {
 	const char		name[PROG_NAME_LENGTH + 1];
@@ -104,6 +110,12 @@ void				cw_mem_dump(uint8_t *mem);
 int					cw_mem_write(t_cw *cw, uint8_t *pc, uint8_t value);
 void				cw_mem_cpy(uint8_t *mem, uint8_t const *src, size_t len,
 		uint16_t p);
+uint8_t				*cw_map_mem(uint8_t *mem, uint8_t *pc);
+uint8_t				*cw_move_pc(uint8_t *pc, size_t len);
+int					cw_mem_read_dir(uint8_t **pc, size_t len, size_t move,
+					t_range range);
+int					cw_mem_read_ind(uint8_t **pc, size_t len, size_t move,
+					t_range range);
 
 /*
 ** parse instruction arguments 

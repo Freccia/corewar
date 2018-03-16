@@ -6,15 +6,13 @@
 /*   By: lfabbro <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/03/15 15:30:43 by lfabbro           #+#    #+#             */
-/*   Updated: 2018/03/15 18:39:43 by lfabbro          ###   ########.fr       */
+/*   Updated: 2018/03/16 10:16:45 by lfabbro          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <fcntl.h>
 
 #include "corewar.h"
-
-char	g_champ_files[PROG_NAME_LENGTH];
 
 static int		cw_vm_check_r1(int r1)
 {
@@ -83,7 +81,8 @@ static int		cw_vm_load_champs(void)
 		ptr->wait = g_op_tab[*ptr->pc].cycles;
 		ptr->id = g_cw->champs[i].id;
 		ft_memcpy(ptr->reg[1], &(g_cw->champs[i].id), REG_SIZE);
-		cw_mem_cpy(ptr->pc, g_cw->champs[i].bin, g_cw->champs[i].size, ptr->color);
+		cw_mem_cpy(ptr->pc, g_cw->champs[i].bin, g_cw->champs[i].size,
+			ptr->color);
 		++g_cw->proc_count;
 		g_cw->procs ? (ptr->next = g_cw->procs) : 0;
 		g_cw->procs = ptr;
