@@ -6,7 +6,7 @@
 /*   By: alucas- <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/03/12 18:15:51 by alucas-           #+#    #+#             */
-/*   Updated: 2018/03/16 17:10:25 by lfabbro          ###   ########.fr       */
+/*   Updated: 2018/03/16 17:56:57 by lfabbro          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,7 +49,7 @@ static int	cw_vm_usage(int ac, char **av)
 	return (EXIT_FAILURE);
 }
 
-inline int		cw_check_ctmo(int ctmo)
+int		cw_vm_check_ctmo(int ctmo)
 {
 	return (ctmo <= 0 ? 0 : ctmo);
 }
@@ -74,7 +74,7 @@ int 	main(int ac, char **av)
 		else if (opt == 'g')
 			cw.opt.g ^= 1;
 		else if (opt == 'c')
-			cw.opt.ctmo = cw_check_ctmo(ft_atoi(g_optarg));
+			cw.opt.ctmo = cw_vm_check_ctmo(ft_atoi(g_optarg));
 		else if (opt == 'n')
 		{
 			r1 = (int)ft_atoi(g_optarg);

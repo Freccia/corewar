@@ -6,7 +6,7 @@
 /*   By: lfabbro <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/03/15 15:30:43 by lfabbro           #+#    #+#             */
-/*   Updated: 2018/03/16 16:46:49 by lfabbro          ###   ########.fr       */
+/*   Updated: 2018/03/16 18:16:55 by lfabbro          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,18 +37,18 @@ static t_champ	*cw_vm_parse_champ(const char *filename, int r1, t_champ *next)
 {
 	int		fd;
 	ssize_t	bin_size;
-	char	buf[4096];
+	uint8_t	buf[4096];
 	t_champ	*new;
 
 	if ((fd = open(filename, O_RDONLY)) < 0)
 		cw_exit(3, "Failed opening file.\n");
 	if (read(fd, &buf, _CW_HEAD_SZ) < _CW_HEAD_SZ)
 		cw_exit(3, "Failed reading file header.\n");
-	if (*(unsigned int*)buf != _CW_MAGIC)
+	if (*(uint32_t *)buf != swap_uint32(COREWAR_EXEC_MAGIC))
 		cw_exit(3, "Wrong file: magic number.\n");
 	if ((new = malloc(sizeof(t_champ))) == NULL)
 		cw_exit(EXIT_FAILURE, "%m\n");
-	ft_memcpy((void*)(new->name), buf + sizeof(_CW_MAGIC),
+	ft_memcpy((void*)(new->name), buf + sizeof(uint32_t),
 		PROG_NAME_LENGTH);
 	if ((bin_size = read(fd, &buf, CHAMP_MAX_SIZE + 1)) <= 0)
 		cw_exit(3, "Failed reading file binary.\n");
