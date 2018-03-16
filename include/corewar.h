@@ -6,7 +6,7 @@
 /*   By: nfinkel <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/03/13 16:16:50 by nfinkel           #+#    #+#             */
-/*   Updated: 2018/03/16 18:13:32 by lfabbro          ###   ########.fr       */
+/*   Updated: 2018/03/16 20:10:43 by lfabbro          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -100,10 +100,10 @@ int					cw_nc_notify(uint16_t i, uint16_t c, uint8_t val);
 int					cw_nc_exit(void);
 
 void				cw_mem_dump(uint8_t *mem);
-int					cw_mem_write(t_cw *cw, uint8_t *pc, uint8_t value);
-void				cw_mem_cpy(uint8_t *mem, uint8_t const *src, size_t len,
+void				cw_mem_cpy(uint8_t *dst, uint8_t const *src, size_t len,
 					uint16_t p);
 uint8_t				*cw_map_mem(uint8_t *mem, uint8_t *pc);
+uint8_t				*cw_move_ptr(uint8_t *pc, size_t len);
 uint8_t				*cw_move_pc(uint8_t *pc, size_t len);
 int					cw_mem_read_dir(uint8_t **pc, size_t len, size_t move,
 					t_range range);
