@@ -6,20 +6,21 @@
 /*   By: lfabbro <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/03/14 15:58:23 by lfabbro           #+#    #+#             */
-/*   Updated: 2018/03/16 18:29:54 by lfabbro          ###   ########.fr       */
+/*   Updated: 2018/03/16 20:18:00 by lfabbro          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "corewar.h"
 
-void					cw_mem_cpy(uint8_t *mem, uint8_t const *src, size_t len,
+void					cw_mem_cpy(uint8_t *dst, uint8_t *src, size_t len,
 						uint16_t p)
 {
-	while (len)
+	while (len--)
 	{
-		cw_nc_notify((uint16_t)(mem - g_cw->mem), p, *src);
-		*mem++ = *src++;
-		--len;
+		*dst = *src;
+		cw_nc_notify((uint16_t)((dst - g_cw->mem) % MEM_SIZE), p, *src);
+		src = cw_move_ptr(src, 1);
+		dst = cw_move_ptr(dst, 1);
 	}
 }
 
@@ -58,9 +59,14 @@ inline uint8_t			*cw_map_mem(uint8_t *mem, uint8_t *pc)
 	return (mem);
 }
 
+inline uint8_t			*cw_move_ptr(uint8_t *pc, size_t size)
+{
+	return (pc + (size_t)((pc - g_cw->mem + size) % MEM_SIZE));
+}
+
 inline uint8_t			*cw_move_pc(uint8_t *pc, size_t len)
 {
-	return (pc + (size_t)((pc - g_cw->mem + len) % MEM_SIZE));
+	return (cw_move_ptr(pc, len));
 }
 
 inline int				cw_mem_read_dir(uint8_t **pc, size_t len, size_t move,
@@ -70,12 +76,12 @@ inline int				cw_mem_read_dir(uint8_t **pc, size_t len, size_t move,
 	uint8_t		*pos;
 
 	if (move)
-		*pc = cw_move_pc(*pc, move);
+		*pc = cw_move_ptr(*pc, move);
 	if (range == E_SHORT)
 		pos = &g_cw->mem[ft_mtoi(cw_map_mem(mem, *pc), len) % IDX_MOD];
 	else
 		pos = &g_cw->mem[ft_mtoi(cw_map_mem(mem, *pc), len)];
-	*pc = cw_move_pc(*pc, len);
+	*pc = cw_move_ptr(*pc, len);
 	return (ft_mtoi(cw_map_mem(mem, pos), len));
 }
 
@@ -86,11 +92,11 @@ inline int				cw_mem_read_ind(uint8_t **pc, size_t len, size_t move,
 	uint8_t		*pos;
 
 	if (move)
-		*pc = cw_move_pc(*pc, move);
+		*pc = cw_move_ptr(*pc, move);
 	if (range == E_SHORT)
-		pos = cw_move_pc(*pc, ft_mtoi(cw_map_mem(mem, *pc), len) % IDX_MOD);
+		pos = cw_move_ptr(*pc, ft_mtoi(cw_map_mem(mem, *pc), len) % IDX_MOD);
 	else
-		pos = cw_move_pc(*pc, ft_mtoi(cw_map_mem(mem, *pc), len));
-	*pc = cw_move_pc(*pc, len);
+		pos = cw_move_ptr(*pc, ft_mtoi(cw_map_mem(mem, *pc), len));
+	*pc = cw_move_ptr(*pc, len);
 	return (ft_mtoi(cw_map_mem(mem, pos), len));
 }
