@@ -6,7 +6,7 @@
 /*   By: alucas- <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/03/12 18:15:51 by alucas-           #+#    #+#             */
-/*   Updated: 2018/03/16 12:51:45 by lfabbro          ###   ########.fr       */
+/*   Updated: 2018/03/16 16:25:19 by lfabbro          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,8 +39,9 @@ static int	cw_vm_usage(int ac, char **av)
 	(void)ac;
 	ft_printf("Usage: %s [ options ] <champ.cor> <...>\n", av[0]);
 	ft_printf("	-d N    : Dumps memory after N execution cycles\n");
-	ft_printf("	-v N    : Sets verbosity level to N (bitwise)\n");
 	ft_printf("	-g      : Ncurses GUI\n");
+	ft_printf("	-c N    : CTMO - Cycles till memory opens\n");
+	ft_printf("	-v N    : Sets verbosity level to N (bitwise)\n");
 	ft_printf("		- 0 : Essential\n");
 	ft_printf("		- 1 : Lives\n");
 	ft_printf("		- 2 : Cycles\n");
@@ -78,10 +79,29 @@ int		cw_vm_kill_process(t_proc **proc, t_proc *prev)
 	return (EXIT_SUCCESS);
 }
 
+int		cw_check_ocp(uint8_t *pc)
+{
+	uint8_t		*ocp;
+
+	g_cw->current->pc = cw_move_pc(pc, 1);
+	ocp = g_cw->current->pc;
+	if (!(((*ocp & 0xc0) >> 6) & g_op_tab[*pc].param_type[0]))
+		return (EXIT_FAILURE);
+	if (!(((*ocp & 0x30) >> 4) & g_op_tab[*pc].param_type[1]))
+		return (EXIT_FAILURE);
+	if (!(((*ocp & 0x0c) >> 2) & g_op_tab[*pc].param_type[2]))
+		return (EXIT_FAILURE);
+	return (EXIT_SUCCESS);
+}
+
 int		cw_vm_exec(uint8_t *pc)
 {
 	if (*pc >= 0x1 && *pc <= 0x10)
-		return (g_instr[*pc](g_cw->current->pc));
+		if (!g_op_tab[*pc].ocp || cw_check_ocp(pc) == EXIT_SUCCESS)
+		{
+			//ft_printf("OCP: \n", g_instr[*pc](g_cw->current->pc));
+			return (g_instr[*pc](g_cw->current->pc));
+		}
 	return (EXIT_FAILURE);
 }
 
@@ -129,6 +149,11 @@ int		cw_vm_run(void)
 	return (EXIT_SUCCESS);
 }
 
+inline int		cw_check_ctmo(int ctmo)
+{
+	return (ctmo <= 0 ? 0 : ctmo);
+}
+
 int 	main(int ac, char **av)
 {
 	int 	opt;
@@ -140,7 +165,7 @@ int 	main(int ac, char **av)
 		return (cw_vm_usage(ac, av));
 	ft_bzero(&cw, sizeof(t_cw));
 	r1 = 1;
-	while ((opt = ft_getopt(ac, av, "gd:v:n:")) != -1)
+	while ((opt = ft_getopt(ac, av, "gd:v:n:c:")) != -1)
 	{
 		if (opt == 'v')
 			cw.opt.v = (uint8_t)ft_atoi(g_optarg);
@@ -148,6 +173,8 @@ int 	main(int ac, char **av)
 			cw.opt.d = ft_atoi(g_optarg);
 		else if (opt == 'g')
 			cw.opt.g ^= 1;
+		else if (opt == 'c')
+			cw.opt.ctmo = cw_check_ctmo(ft_atoi(g_optarg));
 		else if (opt == 'n')
 		{
 			r1 = (int)ft_atoi(g_optarg);
