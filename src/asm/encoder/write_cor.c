@@ -6,7 +6,7 @@
 /*   By: mc <mc.maxcanal@gmail.com>                 +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/03/20 00:19:15 by mcanal            #+#    #+#             */
-/*   Updated: 2018/03/16 16:37:24 by mcanal           ###   ########.fr       */
+/*   Updated: 2018/03/16 18:14:54 by lfabbro          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,22 +27,13 @@ static void				debug_cor()
 }
 #endif	/* DEBUG */
 
-//TODO: use that somewhere in asm_encoder.c
-static t_dword	swap_dword(t_dword d)
-{
-	return ((d & 0x000000ff) << 24
-			| (d & 0x0000ff00) << 8
-			| (d & 0x00ff0000) >> 8
-			| (d & 0xff000000) >> 24);
-}
-
 static void		add_header(t_header *header)
 {
 	t_byte	*header_ptr;
 	uint8_t	size;
 
-	header->magic = swap_dword(COREWAR_EXEC_MAGIC);
-	header->prog_size = swap_dword(g_cor->length);
+	header->magic = swap_uint32(COREWAR_EXEC_MAGIC);
+	header->prog_size = swap_uint32(g_cor->length);
 	size = (uint8_t)sizeof(t_header);
 	header_ptr = (t_byte *)header + size - 1;
 	while (size--)

@@ -6,7 +6,7 @@
 /*   By: lfabbro <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/03/14 15:58:23 by lfabbro           #+#    #+#             */
-/*   Updated: 2018/03/16 16:58:51 by nfinkel          ###   ########.fr       */
+/*   Updated: 2018/03/16 18:29:54 by lfabbro          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,15 +60,7 @@ inline uint8_t			*cw_map_mem(uint8_t *mem, uint8_t *pc)
 
 inline uint8_t			*cw_move_pc(uint8_t *pc, size_t len)
 {
-	size_t		k;
-
-	k = -1;
-	while (++k < len)
-		if (pc == &g_cw->mem[MEM_SIZE - 1])
-			pc = &g_cw->mem[0];
-		else
-			++pc;
-	return (pc);
+	return (pc + (size_t)((pc - g_cw->mem + len) % MEM_SIZE));
 }
 
 inline int				cw_mem_read_dir(uint8_t **pc, size_t len, size_t move,

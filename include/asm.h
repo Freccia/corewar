@@ -6,7 +6,7 @@
 /*   By: mcanal <zboub@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2015/12/14 18:21:04 by mcanal            #+#    #+#             */
-/*   Updated: 2018/03/16 11:24:14 by mc               ###   ########.fr       */
+/*   Updated: 2018/03/16 18:09:28 by lfabbro          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,7 @@
 
 # include "libft.h"
 # include "op.h"
+# include "cw_common.h"
 
 /*
 ** some colors for pretty printing

@@ -6,7 +6,7 @@
 /*   By: nfinkel <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/03/13 16:16:50 by nfinkel           #+#    #+#             */
-/*   Updated: 2018/03/16 17:08:44 by lfabbro          ###   ########.fr       */
+/*   Updated: 2018/03/16 18:13:32 by lfabbro          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,18 +15,12 @@
 
 # include <libft.h>
 
+# include "cw_common.h"
 # include "op.h"
-
-# define SWAP_INT_C(a)	((unsigned int)((a) & 0xff) >> 24)
-# define SWAP_INT_B(a)	((((a) >> 8) & 0x0000ff00) | SWAP_INT_C(a))
-# define SWAP_INT_A(a)	((((a) << 8) & 0x00ff0000) | SWAP_INT_B(a))
-# define SWAP_INT(a)	((((a) & 0xff) << 24) | SWAP_INT_A(a))
 
 # define _CW_CARRY		(1 << 0)
 # define _CW_PROCMAX	(101010)
-# define _CW_MAGIC		SWAP_INT(COREWAR_EXEC_MAGIC)
 # define _CW_HEAD_SZ	(16 + PROG_NAME_LENGTH + COMMENT_LENGTH)
-# define _CW_N_OP		16
 
 typedef int			(*t_instr)(uint8_t *);
 
@@ -80,8 +74,8 @@ typedef struct		s_cw
 }					t_cw;
 
 extern t_cw			*g_cw;
-extern t_op			g_op_tab[_CW_N_OP];
-extern t_instr		g_instr[_CW_N_OP];
+extern t_op			g_op_tab[MAX_OP];
+extern t_instr		g_instr[MAX_OP];
 
 int					cw_live(uint8_t *pc);
 int					cw_ld(uint8_t *pc);
