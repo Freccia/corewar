@@ -6,7 +6,7 @@
 /*   By: alucas- <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/03/12 18:15:51 by alucas-           #+#    #+#             */
-/*   Updated: 2018/03/16 16:25:19 by lfabbro          ###   ########.fr       */
+/*   Updated: 2018/03/16 16:49:38 by lfabbro          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,25 +47,6 @@ static int	cw_vm_usage(int ac, char **av)
 	ft_printf("		- 2 : Cycles\n");
 	ft_printf("...\n");
 	return (EXIT_FAILURE);
-}
-
-int		cw_exit(int ecode, char const *fmt, ...)
-{
-	va_list ap;
-
-	if (g_cw)
-	{
-		cw_nc_exit();
-		// todo: destruct things
-	}
-	if (fmt)
-	{
-		ft_fprintf(g_stderr, "corewar: ");
-		va_start(ap, fmt);
-		ft_vfprintf(g_stderr, fmt, ap);
-		va_end(ap);
-	}
-	exit(ecode);
 }
 
 int		cw_vm_kill_process(t_proc **proc, t_proc *prev)
