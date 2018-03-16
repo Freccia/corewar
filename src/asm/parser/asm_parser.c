@@ -6,7 +6,7 @@
 /*   By: mcanal <zboub@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/06/09 14:24:52 by mcanal            #+#    #+#             */
-/*   Updated: 2018/03/15 21:46:50 by mc               ###   ########.fr       */
+/*   Updated: 2018/03/16 13:43:11 by mc               ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,7 +44,7 @@ static void		parse_label(char *label, t_dword addr)
 		return ;
 	if (ft_hget(g_labels, label))
 		error(E_INVALID, "Invalid label (appears twice).");
-	ft_hset(g_labels, ft_strdup(label), (void *)(t_ulong)addr);
+	ft_hset(g_labels, ft_strdup(label), (void *)(t_ulong)addr + 1);
 }
 
 void			parse_instruct(t_instruct_read *instruct_r)

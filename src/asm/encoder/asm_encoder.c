@@ -6,7 +6,7 @@
 /*   By: mc <mc.maxcanal@gmail.com>                 +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/03/17 22:20:39 by mcanal            #+#    #+#             */
-/*   Updated: 2018/03/16 11:23:16 by mc               ###   ########.fr       */
+/*   Updated: 2018/03/16 13:41:56 by mc               ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,7 @@
 */
 
 #include "asm_encoder.h"
+#define BIG_ENOUGH 4095
 
 static void				copy_addr(char *arg, \
 								  t_byte *cor_swap, \
@@ -24,15 +25,22 @@ static void				copy_addr(char *arg, \
 	void	*ret;
 	t_dword	addr;
 	uint8_t	i;
+	char	debug_buf[BIG_ENOUGH + 1];	/* DEBUG */
 
 	if (*arg == DIRECT_CHAR) //TODO: what the difference between {,in}direct except size?
 		arg++;
 
 	if (*arg == LABEL_CHAR)
 	{
-		if (!(ret = ft_hget(g_labels, arg + 1))) //TODO: be sure 0 pass
-			error(E_INVALID, "Invalid arg (label not found).");
-		addr = (t_dword)ret - current_addr;
+		if (!(ret = ft_hget(g_labels, arg + 1)))
+		{
+			ft_strcpy(debug_buf, "Invalid arg (label not found): ");
+			ft_memcpy(debug_buf + ft_strlen(debug_buf), arg + 1, \
+					  ft_strlen(arg) - 1); /* DEBUG */
+			*(debug_buf + ft_strlen(debug_buf) + ft_strlen(arg)) = 0; /* DEBUG */
+			error(E_INVALID, debug_buf);
+		}
+		addr = (t_dword)ret - current_addr - 1;
 	}
 	else
 		addr = (t_dword)ft_atoi(arg); //TODO: catch > INT_MAX ?
