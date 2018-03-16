@@ -6,7 +6,7 @@
 /*   By: alucas- <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/03/12 18:15:51 by alucas-           #+#    #+#             */
-/*   Updated: 2018/03/16 16:25:19 by lfabbro          ###   ########.fr       */
+/*   Updated: 2018/03/16 16:43:10 by nfinkel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -132,7 +132,7 @@ int		cw_vm_run(void)
 		++g_cw->cycle;
 		if (g_cw->opt.d > 0 && g_cw->cycle == (size_t)g_cw->opt.d)
 		{
-			// todo: dump mem
+			cw_mem_dump(&g_cw->mem[0]);
 			return (cw_exit(EXIT_SUCCESS, NULL));
 		}
 		if (cw_vm_eval(g_cw->current) == EXIT_FAILURE)

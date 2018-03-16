@@ -6,7 +6,7 @@
 /*   By: lfabbro <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/03/14 15:58:23 by lfabbro           #+#    #+#             */
-/*   Updated: 2018/03/16 12:51:53 by lfabbro          ###   ########.fr       */
+/*   Updated: 2018/03/16 16:58:51 by nfinkel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,24 @@ void					cw_mem_cpy(uint8_t *mem, uint8_t const *src, size_t len,
 		cw_nc_notify((uint16_t)(mem - g_cw->mem), p, *src);
 		*mem++ = *src++;
 		--len;
+	}
+}
+
+void					cw_mem_dump(uint8_t *mem)
+{
+	int		k;
+	int		p;
+	int		q;
+
+	k = -1;
+	q = -40;
+	ft_printf("0x");
+	while (++k < MEM_SIZE / 64 && (p = -1))
+	{
+		ft_printf("%#.4x : ", (q += 40));
+		while (++p < MEM_SIZE / 64)
+			ft_printf("%.2x ", *mem++);
+		ft_printf("\n");
 	}
 }
 
