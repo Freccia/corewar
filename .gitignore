@@ -4,6 +4,7 @@
 *.cor
 *.dev
 *.san
+.DS_Store
 
 # Prerequisites
 *.d

@@ -6,7 +6,7 @@
 /*   By: alucas- <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/03/12 18:15:51 by alucas-           #+#    #+#             */
-/*   Updated: 2018/03/15 12:54:49 by lfabbro          ###   ########.fr       */
+/*   Updated: 2018/03/16 12:51:45 by lfabbro          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,14 +81,13 @@ int		cw_vm_kill_process(t_proc **proc, t_proc *prev)
 int		cw_vm_exec(uint8_t *pc)
 {
 	if (*pc >= 0x1 && *pc <= 0x10)
-		return(g_instr[*pc](g_cw->current->pc));
+		return (g_instr[*pc](g_cw->current->pc));
 	return (EXIT_FAILURE);
 }
 
 int		cw_vm_eval(t_proc *proc)
 {
 	t_instr		instr;
-	int16_t		ocp;
 
 	(void)instr;
 	if (!proc)
@@ -98,10 +97,8 @@ int		cw_vm_eval(t_proc *proc)
 		--proc->wait;
 		return (EXIT_SUCCESS);
 	}
-	if ((ocp = cw_vm_exec(proc->pc)) == EXIT_FAILURE)
+	if (cw_vm_exec(proc->pc) == EXIT_FAILURE)
 		return (EXIT_FAILURE);
-	proc->pc += ocp % MEM_SIZE;
-	//proc->wait = cw_instr_cycles(*proc->pc);
 	proc->wait = g_op_tab[*proc->pc].cycles;
 	return (EXIT_SUCCESS);
 }
@@ -136,13 +133,13 @@ int 	main(int ac, char **av)
 {
 	int 	opt;
 	t_cw	cw;
-	int		n;
+	int		r1;
 
 	g_optind = 1;
 	if (ac < 2)
 		return (cw_vm_usage(ac, av));
 	ft_bzero(&cw, sizeof(t_cw));
-	n = 1;
+	r1 = 1;
 	while ((opt = ft_getopt(ac, av, "gd:v:n:")) != -1)
 	{
 		if (opt == 'v')
@@ -153,14 +150,14 @@ int 	main(int ac, char **av)
 			cw.opt.g ^= 1;
 		else if (opt == 'n')
 		{
-			n = (int)ft_atoi(g_optarg);
+			r1 = (int)ft_atoi(g_optarg);
 			break ;
 		}
 		else
 			return (cw_vm_usage(ac, av));
 	}
 	g_cw = &cw;
-	if (cw_vm_init(ac, av, n))
+	if (cw_vm_init(ac, av, r1))
 		return (cw_exit(EXIT_FAILURE, NULL));
 	if (cw_vm_run())
 		return (cw_exit(EXIT_FAILURE, NULL));
