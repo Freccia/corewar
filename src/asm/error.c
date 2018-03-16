@@ -6,7 +6,7 @@
 /*   By: mcanal <mcanal@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2015/01/12 03:39:12 by mcanal            #+#    #+#             */
-/*   Updated: 2018/03/15 21:08:26 by mc               ###   ########.fr       */
+/*   Updated: 2018/03/16 11:22:43 by mc               ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,12 +43,12 @@ static int		get_index(uint8_t flag)
 
 static int		fail(char const *s)
 {
-	return (write(2, s, ft_strlen(s)));
+	return ((int)write(2, s, ft_strlen(s)));
 }
 
 static int		failn(char const *s)
 {
-	return (fail(s) + write(2, "\n", 1));
+	return (fail(s) + (int)write(2, "\n", 1));
 }
 
 //TODO: use ft_fprintf for all these

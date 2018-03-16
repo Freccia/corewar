@@ -6,7 +6,7 @@
 /*   By: mcanal <zboub@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2015/12/14 18:21:04 by mcanal            #+#    #+#             */
-/*   Updated: 2018/03/15 21:22:35 by mc               ###   ########.fr       */
+/*   Updated: 2018/03/16 11:24:14 by mc               ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,6 +70,7 @@ typedef struct		s_instruct_parsed
 	t_arg_type			arg_type[MAX_ARGS_NUMBER];
 	t_byte				arg_length[MAX_ARGS_NUMBER];
 	t_dword				addr;
+	t_byte				_padding[4];
 }					t_instruct_parsed;
 
 /*

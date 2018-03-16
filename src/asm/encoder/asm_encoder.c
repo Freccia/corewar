@@ -6,7 +6,7 @@
 /*   By: mc <mc.maxcanal@gmail.com>                 +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/03/17 22:20:39 by mcanal            #+#    #+#             */
-/*   Updated: 2018/03/15 21:08:06 by mc               ###   ########.fr       */
+/*   Updated: 2018/03/16 11:23:16 by mc               ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,7 +51,7 @@ static void				encode_arg(t_instruct_read *instruct_r, \
 	uint8_t	arg_length;
 	t_byte	*cor_swap;
 
-	cor_swap = g_cor->ptr + empty_args_pos;
+	cor_swap = (t_byte *)g_cor->ptr + empty_args_pos;
 	i = 0;
 	while (i < MAX_ARGS_NUMBER && (arg_length = *(instruct_p->arg_length + i)))
 	{
@@ -114,7 +114,7 @@ void					encode(t_instruct_read *instruct_r, \
 
 		if (instruct_p->op->param_nb > 1 || instruct_p->op->op_code == 16) // aff
 			encode_arg_type(&(instruct_p->arg_type));
-		empty_args_pos = g_cor->length;
+		empty_args_pos = (uint8_t)g_cor->length;
 		if (!push_empty_args(instruct_p))
 			read_loop();
 		encode_arg(instruct_r, instruct_p, empty_args_pos);
