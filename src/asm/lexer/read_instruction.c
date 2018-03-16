@@ -6,7 +6,7 @@
 /*   By: mcanal <zboub@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/06/09 14:24:52 by mcanal            #+#    #+#             */
-/*   Updated: 2018/03/15 21:56:51 by mc               ###   ########.fr       */
+/*   Updated: 2018/03/16 11:16:49 by mc               ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -121,6 +121,10 @@ static t_progress		read_instruction(char *line, \
 	while (!IS_EOL(*line) && !ft_isspace(*line))
 		line++;
 
+	//TODO: this is just an ugly workaround to skip .extend/.code/etc statements...
+	if (*word_start == '.' && progress == P_NOPROGRESS)
+		return (P_NOPROGRESS);
+
 	if (*(line - 1) == LABEL_CHAR)
 	{
 		if (progress & P_LABEL || progress & P_OP)
@@ -151,10 +155,6 @@ void					read_loop(void)
 	else if (ret == -1)
 		error(E_READ, NULL);
 	g_err.line_pos += 1;
-
-	//TODO: this is just an ugly workaround to skip ".extend" statements...
-	if (!ft_strcmp(g_err.line, ".extend"))
-		return (read_loop());
 
 	progress = read_instruction(g_err.line, P_NOPROGRESS, &instruct);
 	if (!(!progress //nothing found
