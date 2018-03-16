@@ -6,7 +6,7 @@
 /*   By: nfinkel <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/03/13 16:16:50 by nfinkel           #+#    #+#             */
-/*   Updated: 2018/03/16 12:51:59 by lfabbro          ###   ########.fr       */
+/*   Updated: 2018/03/16 15:11:06 by lfabbro          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,6 +30,24 @@
 
 # define _CW_NCHAMPS	g_cw->n_champs
 # define _CW_CHAMPS		g_cw->champs
+
+# define _CW_FIRST_ARG	0xc0
+# define _CW_SECOND_ARG	0x30
+# define _CW_THIRD_ARG	0x0c
+# define _CW_WHAT_ARG	0x03
+/*
+** >>> print(0b11000000)
+** 92
+** >> hex(0b11000000)
+** '0xc0'
+** >>> hex(0b00110000)
+** '0x30'
+** >>> hex(0b00001100)
+** '0xc'
+** >>> hex(0b00000011)
+** `'0x3'
+*/
+
 
 typedef enum		e_range
 {
