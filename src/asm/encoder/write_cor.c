@@ -6,7 +6,7 @@
 /*   By: mc <mc.maxcanal@gmail.com>                 +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/03/20 00:19:15 by mcanal            #+#    #+#             */
-/*   Updated: 2018/03/16 18:14:54 by lfabbro          ###   ########.fr       */
+/*   Updated: 2018/03/17 00:18:07 by mcanal           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@
 #include "asm_encoder.h"
 
 #ifdef ANNOYING_DEBUG
-static void				debug_cor()
+static void		debug_cor()
 {
 	DEBUGF("cor.length: %d", (int)g_cor->length);
 	DEBUGF("cor.alloc_len: %d", (int)g_cor->alloc_len);
@@ -50,8 +50,7 @@ static char		*get_output_name(char *filename)
 	if (!outname)
 		return (NULL);
 	ft_memcpy(outname, filename, len - 4);
-	ft_memcpy(outname +	 len - 4, "cor", 4); //TODO: do not hardcode "cor"
-
+	ft_memcpy(outname +	len - 4, "cor", 4); //TODO: do not hardcode "cor"
 	return (outname);
 }
 

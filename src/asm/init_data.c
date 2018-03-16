@@ -6,7 +6,7 @@
 /*   By: mc <mc.maxcanal@gmail.com>                 +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/03/19 20:49:51 by mcanal            #+#    #+#             */
-/*   Updated: 2018/03/16 11:22:20 by mc               ###   ########.fr       */
+/*   Updated: 2018/03/17 00:06:03 by mcanal           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@
 /*
 ** free
 */
-# include <stdlib.h>
+#include <stdlib.h>
 
 //TODO: calm down on globals
 t_error_report			g_err;
@@ -35,7 +35,7 @@ static void			free_string(void *content, size_t content_size)
 static int			cmp_string(const void *a, const void *b, size_t n)
 {
 	(void)n;
-	return ft_strcmp(*(char **)a, *(char **)b);
+	return (ft_strcmp(*(char **)a, *(char **)b));
 }
 
 static size_t		jenkins_hash_str(const void *content, size_t content_size)

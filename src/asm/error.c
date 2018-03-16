@@ -6,7 +6,7 @@
 /*   By: mcanal <mcanal@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2015/01/12 03:39:12 by mcanal            #+#    #+#             */
-/*   Updated: 2018/03/16 11:22:43 by mc               ###   ########.fr       */
+/*   Updated: 2018/03/17 00:07:51 by mcanal           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,10 +26,10 @@
 /*
 ** close
 */
-# include <unistd.h>
+#include <unistd.h>
 
 /*
-** I'm pretty sure there is another way...
+** I'm pretty sure there is another way
 */
 static int		get_index(uint8_t flag)
 {
@@ -102,8 +102,6 @@ t_bool			error(uint8_t flag, char *msg)
 	}
 	else
 		failn(error[get_index(flag & (uint8_t)~E_NOEXIT)]);
-	if (g_err.fd != -1)
-		close(g_err.fd);
 	if (!(flag & E_NOEXIT))
 		exit(EXIT_FAILURE);
 	return (FALSE);
