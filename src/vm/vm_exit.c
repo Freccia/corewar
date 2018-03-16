@@ -6,24 +6,26 @@
 /*   By: lfabbro <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/03/16 16:49:29 by lfabbro           #+#    #+#             */
-/*   Updated: 2018/03/16 16:52:35 by lfabbro          ###   ########.fr       */
+/*   Updated: 2018/03/16 17:09:36 by lfabbro          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "corewar.h"
 
-static int		cw_free(void)
+static void		cw_free(void)
 {
 	t_proc		*proc;
 	t_champ		*champ;
 	void		*tmp;
 
+	proc = g_cw->procs;
 	while (proc)
 	{
 		tmp = proc->next;
 		free(proc);
 		proc = (t_proc *)tmp;
 	}
+	champ = g_cw->champs;
 	while (champ)
 	{
 		tmp = champ->next;
