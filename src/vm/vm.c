@@ -161,8 +161,6 @@ int 	main(int ac, char **av)
 	g_cw = &cw;
 	if (cw_vm_init(ac, av, r1))
 		return (cw_exit(EXIT_FAILURE, NULL));
-	ft_printf("---------------------------------------------------------\n");
-	ft_print_memory(g_cw->mem, MEM_SIZE);
 	if (cw_vm_run())
 		return (cw_exit(EXIT_FAILURE, NULL));
 	return (cw_exit(EXIT_SUCCESS, NULL));
