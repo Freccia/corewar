@@ -6,7 +6,7 @@
 /*   By: mc <mc.maxcanal@gmail.com>                 +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/03/20 00:19:15 by mcanal            #+#    #+#             */
-/*   Updated: 2018/03/15 22:28:35 by mc               ###   ########.fr       */
+/*   Updated: 2018/03/16 16:37:24 by mcanal           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,6 +77,11 @@ void			write_cor(char *filename, t_header *header)
 	//TODO: should we throw an error if the file already exists?
 
 	add_header(header);
+
+	write(1, "Writing output program to ", 26);
+	write(1, outname, ft_strlen(outname));
+	write(1, "\n", 1);
+
 	if (write(g_err.fd, g_cor->ptr, g_cor->length) == -1)
 		error(E_WRITE, outname);
 
