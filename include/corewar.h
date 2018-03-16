@@ -6,7 +6,7 @@
 /*   By: nfinkel <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/03/13 16:16:50 by nfinkel           #+#    #+#             */
-/*   Updated: 2018/03/16 12:37:11 by lfabbro          ###   ########.fr       */
+/*   Updated: 2018/03/16 12:51:59 by lfabbro          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,6 @@
 
 # include "op.h"
 
-// C'est degueulasse, mais c'est pour la norme...
 # define SWAP_INT_C(a)	((unsigned int)((a) & 0xff) >> 24)
 # define SWAP_INT_B(a)	((((a) >> 8) & 0x0000ff00) | SWAP_INT_C(a))
 # define SWAP_INT_A(a)	((((a) << 8) & 0x00ff0000) | SWAP_INT_B(a))
@@ -29,7 +28,7 @@
 # define _CW_HEAD_SZ	(16 + PROG_NAME_LENGTH + COMMENT_LENGTH)
 # define _CW_N_OP		16
 
-# define _CW_N_CHAMPS	g_cw->n_champs
+# define _CW_NCHAMPS	g_cw->n_champs
 # define _CW_CHAMPS		g_cw->champs
 
 typedef enum		e_range

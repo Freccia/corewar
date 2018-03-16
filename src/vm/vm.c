@@ -6,7 +6,7 @@
 /*   By: alucas- <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/03/12 18:15:51 by alucas-           #+#    #+#             */
-/*   Updated: 2018/03/16 10:14:29 by lfabbro          ###   ########.fr       */
+/*   Updated: 2018/03/16 12:51:45 by lfabbro          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -99,7 +99,6 @@ int		cw_vm_eval(t_proc *proc)
 	}
 	if (cw_vm_exec(proc->pc) == EXIT_FAILURE)
 		return (EXIT_FAILURE);
-	//proc->wait = cw_instr_cycles(*proc->pc);
 	proc->wait = g_op_tab[*proc->pc].cycles;
 	return (EXIT_SUCCESS);
 }
