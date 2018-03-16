@@ -6,7 +6,7 @@
 /*   By: nfinkel <nfinkel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/03/14 19:10:02 by nfinkel           #+#    #+#             */
-/*   Updated: 2018/03/16 19:32:55 by lfabbro          ###   ########.fr       */
+/*   Updated: 2018/03/16 20:15:03 by lfabbro          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,6 +32,6 @@ int					cw_ld(uint8_t *ocp)
 		g_cw->current->flags |= _CW_CARRY;
 	else
 		g_cw->current->flags &= ~(_CW_CARRY);
-	g_cw->current->ocp = cw_move_ocp(ocp, ocp - ptr);
+	g_cw->current->pc = cw_move_ptr(ocp, ocp - ptr);
 	return (EXIT_SUCCESS);
 }

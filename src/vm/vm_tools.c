@@ -6,19 +6,19 @@
 /*   By: lfabbro <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/03/14 15:58:23 by lfabbro           #+#    #+#             */
-/*   Updated: 2018/03/16 20:10:11 by lfabbro          ###   ########.fr       */
+/*   Updated: 2018/03/16 20:18:00 by lfabbro          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "corewar.h"
 
-void					cw_mem_cpy(uint8_t *dst, uint8_t const *src, size_t len,
+void					cw_mem_cpy(uint8_t *dst, uint8_t *src, size_t len,
 						uint16_t p)
 {
 	while (len--)
 	{
 		*dst = *src;
-		cw_nc_notify((uint16_t)((dst - g_cw->dest) % MEM_SIZE), p, *src);
+		cw_nc_notify((uint16_t)((dst - g_cw->mem) % MEM_SIZE), p, *src);
 		src = cw_move_ptr(src, 1);
 		dst = cw_move_ptr(dst, 1);
 	}
