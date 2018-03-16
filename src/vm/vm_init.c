@@ -6,7 +6,7 @@
 /*   By: lfabbro <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/03/15 15:30:43 by lfabbro           #+#    #+#             */
-/*   Updated: 2018/03/16 11:06:01 by lfabbro          ###   ########.fr       */
+/*   Updated: 2018/03/16 12:36:30 by lfabbro          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,19 +16,19 @@
 
 static int		cw_vm_check_r1(int r1)
 {
-	uint8_t	i;
+	t_champ		*champ;
 
 	if (r1 > UINT16_MAX || r1 < 0)
 	{
 		errno = EOVERFLOW;
 		cw_exit(EXIT_FAILURE, "%d: Invalid champion number: %m\n", r1);
 	}
-	i = 0;
-	while (i < _CW_N_CHAMPS)
+	champ = g_cw->champs;
+	while (champ)
 	{
-		if (g_cw->champs[_CW_N_CHAMPS].id == (uint16_t)r1)
+		if (champ->id == (uint16_t)r1)
 			cw_exit(EXIT_FAILURE, "%d: Duplicate champion number\n", r1);
-		++i;
+		champ = champ->next;
 	}
 	return (r1);
 }
@@ -60,7 +60,6 @@ static t_champ	*cw_vm_parse_champ(const char *filename, int r1, t_champ *next)
 	new->size = bin_size;
 	ft_memcpy(new->bin, buf, (size_t)bin_size);
 	new->next = next;
-	ft_printf("ID: %d\n", new->id);
 	return (new);
 }
 
@@ -76,6 +75,7 @@ static int		cw_vm_load_champs(uint8_t i)
 	cw_nc_init();
 	while (champ)
 	{
+		ft_printf("ID: %d\n", champ->id);
 		if (!(ptr = malloc(sizeof(t_proc))))
 			return (cw_exit(EXIT_FAILURE, "%m\n"));
 		ft_bzero(ptr, sizeof(t_proc));
@@ -98,25 +98,28 @@ static int		cw_vm_load_champs(uint8_t i)
 int				cw_vm_init(int ac, char **av, int r1)
 {
 	int		opt;
+	int		id;
 
-	r1 = (!r1) ? 1 : r1;
+	r1 = (!r1) ? 0 : r1;
+	id = 0;
 	while (g_optind < ac)
 	{
 		if (g_cw->n_champs >= MAX_PLAYERS)
 			return (cw_exit(EXIT_FAILURE, "Too much players\n"));
 		r1 = cw_vm_check_r1(r1);
+		r1 = (r1) ? r1 : ++id;
 		g_cw->champs = cw_vm_parse_champ(av[g_optind], r1, g_cw->champs);
 		++g_cw->n_champs;
 		if (++g_optind < ac)
 		{
 			if ((opt = ft_getopt(ac, av, "n:")) == WUT)
-				++r1;
+				r1 = 0;
 			else if (opt != 'n')
 				return (cw_exit(EXIT_FAILURE, NULL));
 			else
 				r1 = (uint16_t)ft_atoi(g_optarg);
 		}
 	}
-	//cw_vm_sort_champs();
+	cw_vm_insert_sort(&(g_cw->champs));
 	return (cw_vm_load_champs(0));
 }

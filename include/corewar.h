@@ -6,7 +6,7 @@
 /*   By: nfinkel <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/03/13 16:16:50 by nfinkel           #+#    #+#             */
-/*   Updated: 2018/03/16 10:32:09 by lfabbro          ###   ########.fr       */
+/*   Updated: 2018/03/16 12:37:11 by lfabbro          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -133,6 +133,7 @@ uint16_t			cw_instr_cycles(uint8_t instr);
 ** parse fichier cor 
 */
 uint16_t			cw_vm_parse(const char *filename, uint8_t *dest);
+void				cw_vm_insert_sort(t_champ **head);
 int					cw_vm_init(int ac, char **av, int r1);
 int					cw_vm_run(void);
 int					cw_exit(int ecode, char const *fmt, ...);
