@@ -6,7 +6,7 @@
 /*   By: lfabbro <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/03/16 16:55:56 by lfabbro           #+#    #+#             */
-/*   Updated: 2018/03/17 17:21:29 by nfinkel          ###   ########.fr       */
+/*   Updated: 2018/03/17 18:17:02 by lfabbro          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,9 +43,9 @@ int		cw_vm_kill_process(t_proc **proc, t_proc *prev)
 	return (EXIT_SUCCESS);
 }
 
-int		cw_check_ocp(uint8_t *pc) // Segfault
+int		cw_check_ocp(uint8_t *pc)
 {
-/*	uint8_t		*ocp;
+	uint8_t		*ocp;
 
 	ocp = cw_mem_inc(pc, 1);
 	if (!(((*ocp & 0xc0) >> 6) & g_op_tab[*pc].param_type[0]))
@@ -53,7 +53,7 @@ int		cw_check_ocp(uint8_t *pc) // Segfault
 	if (!(((*ocp & 0x30) >> 4) & g_op_tab[*pc].param_type[1]))
 		return (EXIT_FAILURE);
 	if (!(((*ocp & 0x0c) >> 2) & g_op_tab[*pc].param_type[2]))
-		return (EXIT_FAILURE);*/
+		return (EXIT_FAILURE);
 	(void)pc;
 	return (EXIT_SUCCESS);
 }
