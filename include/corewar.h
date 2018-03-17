@@ -6,7 +6,7 @@
 /*   By: nfinkel <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/03/13 16:16:50 by nfinkel           #+#    #+#             */
-/*   Updated: 2018/03/17 17:28:51 by nfinkel          ###   ########.fr       */
+/*   Updated: 2018/03/17 18:31:47 by nfinkel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,9 +26,8 @@ typedef int			(*t_instr)(uint8_t *);
 typedef enum		e_flag
 {
 	E_DIR,
-	E_IND,
-	E_SHORT,
-	E_LONG
+	E_IND_LONG,
+	E_IND_SHORT
 }					t_flag;
 
 typedef struct		s_champ

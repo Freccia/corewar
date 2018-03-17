@@ -6,7 +6,7 @@
 /*   By: lfabbro <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/03/16 16:55:56 by lfabbro           #+#    #+#             */
-/*   Updated: 2018/03/17 18:17:02 by lfabbro          ###   ########.fr       */
+/*   Updated: 2018/03/17 18:47:56 by lfabbro          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -102,7 +102,8 @@ int		cw_vm_run(void)
 				return (cw_exit(EXIT_SUCCESS, NULL));
 			}
 			if (cw_vm_eval(g_cw->current) == EXIT_FAILURE)
-				cw_vm_kill_process(&g_cw->current, g_cw->prev);
+			//	cw_vm_kill_process(&g_cw->current, g_cw->prev); - segfault
+				;
 			if (g_cw->cycle >= (size_t)g_cw->cycle_to_die)
 			{
 				g_cw->cycle = 0;
