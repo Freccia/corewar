@@ -6,14 +6,14 @@
 /*   By: mc <mc.maxcanal@gmail.com>                 +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/03/14 04:41:12 by mc                #+#    #+#             */
-/*   Updated: 2018/03/14 04:50:13 by mc               ###   ########.fr       */
+/*   Updated: 2018/03/16 23:59:19 by mcanal           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef ARR_H
 # define ARR_H
 
-#include "type.h"
+# include "type.h"
 
 /*
 ** arr struct - dynamic array

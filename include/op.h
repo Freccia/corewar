@@ -6,7 +6,7 @@
 /*   By: zaz <marvin@42.fr>                         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2013/10/04 11:33:27 by zaz               #+#    #+#             */
-/*   Updated: 2018/03/15 16:05:59 by lfabbro          ###   ########.fr       */
+/*   Updated: 2018/03/17 08:30:32 by alucas-          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,8 @@
 # define OP_H
 
 # include <stdint.h>
+
+# define MAX_OP 16
 
 # define IND_SIZE 2
 # define REG_SIZE 4
@@ -25,7 +27,7 @@
 
 # define MAX_ARGS_NUMBER 4
 # define MAX_PLAYERS 4
-# define MEM_SIZE (4*1024)
+# define MEM_SIZE (4*1024) //todo: see with mcanal
 # define IDX_MOD (MEM_SIZE / 8)
 # define CHAMP_MAX_SIZE (MEM_SIZE / 6)
 

@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   vm_init_bis.c                                      :+:      :+:    :+:   */
+/*   vm_init.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: lfabbro <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/03/15 15:30:43 by lfabbro           #+#    #+#             */
-/*   Updated: 2018/03/16 12:43:03 by lfabbro          ###   ########.fr       */
+/*   Updated: 2018/03/17 15:27:46 by lfabbro          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,18 +37,18 @@ static t_champ	*cw_vm_parse_champ(const char *filename, int r1, t_champ *next)
 {
 	int		fd;
 	ssize_t	bin_size;
-	char	buf[4096];
+	uint8_t	buf[4096];
 	t_champ	*new;
 
 	if ((fd = open(filename, O_RDONLY)) < 0)
 		cw_exit(3, "Failed opening file.\n");
 	if (read(fd, &buf, _CW_HEAD_SZ) < _CW_HEAD_SZ)
 		cw_exit(3, "Failed reading file header.\n");
-	if (*(unsigned int*)buf != _CW_MAGIC)
+	if (*(uint32_t *)buf != swap_uint32(COREWAR_EXEC_MAGIC))
 		cw_exit(3, "Wrong file: magic number.\n");
 	if ((new = malloc(sizeof(t_champ))) == NULL)
 		cw_exit(EXIT_FAILURE, "%m\n");
-	ft_memcpy((void*)(new->name), buf + sizeof(_CW_MAGIC),
+	ft_memcpy((void*)(new->name), buf + sizeof(uint32_t),
 		PROG_NAME_LENGTH);
 	if ((bin_size = read(fd, &buf, CHAMP_MAX_SIZE + 1)) <= 0)
 		cw_exit(3, "Failed reading file binary.\n");
@@ -57,8 +57,8 @@ static t_champ	*cw_vm_parse_champ(const char *filename, int r1, t_champ *next)
 	if (close(fd) < 0)
 		cw_exit(3, "Failed closing fd.\n");
 	new->id = r1;
-	new->size = bin_size;
-	ft_memcpy(new->bin, buf, (size_t)bin_size);
+	new->size = (size_t)bin_size;
+	ft_memcpy(new->bin, buf, new->size);
 	new->next = next;
 	return (new);
 }
@@ -78,11 +78,11 @@ static int		cw_vm_load_champs(uint8_t i)
 		if (!(ptr = malloc(sizeof(t_proc))))
 			return (cw_exit(EXIT_FAILURE, "%m\n"));
 		ft_bzero(ptr, sizeof(t_proc));
-		ptr->color = i + 1;
+		ptr->color = (uint8_t)(i + 1);
 		ptr->pc = g_cw->mem + (i * plyrs_dist);
 		ptr->wait = g_op_tab[*ptr->pc].cycles;
 		ptr->id = champ->id;
-		ft_memcpy(ptr->reg[1], &(champ->id), REG_SIZE);
+		ft_memcpy(ptr->reg[1], &champ->id, REG_SIZE);
 		cw_mem_cpy(ptr->pc, champ->bin, champ->size, ptr->color);
 		++g_cw->proc_count;
 		g_cw->procs ? (ptr->next = g_cw->procs) : 0;
@@ -120,6 +120,8 @@ int				cw_vm_init(int ac, char **av, int r1)
 				r1 = (uint16_t)ft_atoi(g_optarg);
 		}
 	}
+	if (g_cw->n_champs == 0)
+		cw_exit(EXIT_FAILURE, "No players.\n");
 	cw_vm_insert_sort(&(g_cw->champs));
 	return (cw_vm_load_champs(0));
 }

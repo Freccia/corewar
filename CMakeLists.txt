@@ -11,10 +11,7 @@ set(CMAKE_CXX_FLAGS_DEBUG "${CMAKE_CXX_FLAGS_DEBUG}
 set(CMAKE_LINKER_FLAGS_DEBUG "${CMAKE_STATIC_LINKER_FLAGS_DEBUG}
   -fno-omit-frame-pointer -fsanitize=address")
 
-add_executable(asm
-  include/op.h
-  include/asm.h
-  include/asm/asm_util.h
+add_executable(asm include/op.h include/asm.h include/cw_common.h
   src/op.c
   src/asm/asm_main.c
   src/asm/init_data.c
@@ -43,10 +40,14 @@ else ()
     PRIVATE -O$<$<CONFIG:Debug>:0 -g3>$<$<CONFIG:Release>:3>)
 endif ()
 
-add_executable(corewar include/op.h include/corewar.h
+add_executable(corewar include/op.h include/corewar.h include/cw_common.h
   src/op.c
+  src/utils.c
   src/vm/vm.c
+  src/vm/vm_exit.c
   src/vm/vm_init.c
+  src/vm/vm_run.c
+  src/vm/vm_insert_sort.c
   src/vm/cw_add.c
   src/vm/cw_aff.c
   src/vm/cw_and.c

@@ -6,7 +6,7 @@
 /*   By: mcanal <zboub@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2015/11/29 15:38:59 by mcanal            #+#    #+#             */
-/*   Updated: 2018/03/15 13:09:07 by mc               ###   ########.fr       */
+/*   Updated: 2018/03/15 16:52:49 by mc               ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,6 @@
 
 void test_asm()
 {
-	init_exec_name("asm3000");
+	init_error_report("asm3000");
     MU_ASSERT(42 > 0, "you're doing it wrong");
 }

@@ -6,7 +6,7 @@
 /*   By: mc <mc.maxcanal@gmail.com>                 +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/03/14 04:44:08 by mc                #+#    #+#             */
-/*   Updated: 2018/03/15 12:39:02 by mc               ###   ########.fr       */
+/*   Updated: 2018/03/17 00:00:23 by mcanal           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,7 +52,7 @@ typedef size_t			t_hash(const void *content, size_t content_size);
 /*
 ** eheh
 */
-void                    *ft_memalloc(size_t size);
+void					*ft_memalloc(size_t size);
 void					ft_memdel(void **ap);
 int						get_next_line(int const fd, char **line);
 
