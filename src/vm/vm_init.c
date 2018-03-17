@@ -57,8 +57,8 @@ static t_champ	*cw_vm_parse_champ(const char *filename, int r1, t_champ *next)
 	if (close(fd) < 0)
 		cw_exit(3, "Failed closing fd.\n");
 	new->id = r1;
-	new->size = bin_size;
-	ft_memcpy(new->bin, buf, (size_t)bin_size);
+	new->size = (size_t)bin_size;
+	ft_memcpy(new->bin, buf, new->size);
 	new->next = next;
 	return (new);
 }
@@ -78,11 +78,11 @@ static int		cw_vm_load_champs(uint8_t i)
 		if (!(ptr = malloc(sizeof(t_proc))))
 			return (cw_exit(EXIT_FAILURE, "%m\n"));
 		ft_bzero(ptr, sizeof(t_proc));
-		ptr->color = i + 1;
+		ptr->color = (uint8_t)(i + 1);
 		ptr->pc = g_cw->mem + (i * plyrs_dist);
 		ptr->wait = g_op_tab[*ptr->pc].cycles;
 		ptr->id = champ->id;
-		ft_memcpy(ptr->reg[1], &(champ->id), REG_SIZE);
+		ft_memcpy(ptr->reg[1], &champ->id, REG_SIZE);
 		cw_mem_cpy(ptr->pc, champ->bin, champ->size, ptr->color);
 		++g_cw->proc_count;
 		g_cw->procs ? (ptr->next = g_cw->procs) : 0;

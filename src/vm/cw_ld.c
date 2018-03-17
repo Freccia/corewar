@@ -32,6 +32,6 @@ int					cw_ld(uint8_t *ocp)
 		g_cw->current->flags |= _CW_CARRY;
 	else
 		g_cw->current->flags &= ~(_CW_CARRY);
-	g_cw->current->pc = cw_move_ptr(ocp, ocp - ptr);
+	g_cw->current->pc = cw_mem_inc(ocp, ocp - ptr);
 	return (EXIT_SUCCESS);
 }

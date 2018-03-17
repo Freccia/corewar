@@ -19,7 +19,6 @@
 # include "op.h"
 
 # define _CW_CARRY		(1 << 0)
-# define _CW_PROCMAX	(101010)
 # define _CW_HEAD_SZ	(16 + PROG_NAME_LENGTH + COMMENT_LENGTH)
 
 typedef int			(*t_instr)(uint8_t *);
@@ -53,7 +52,7 @@ typedef struct		s_proc
 	uint8_t			flags;
 	uint8_t			color;
 	uint8_t			*pc;
-	uint8_t			reg[REG_NUMBER][REG_SIZE];
+	uint8_t			reg[REG_NUMBER + 1][REG_SIZE];
 	size_t			lastlive;
 	uint16_t		wait;
 	struct s_proc	*next;
@@ -101,10 +100,9 @@ int					cw_nc_exit(void);
 
 void				cw_mem_dump(uint8_t *mem);
 void				cw_mem_cpy(uint8_t *dst, uint8_t *src, size_t len,
-		uint16_t p);
+					uint16_t p);
 uint8_t				*cw_map_mem(uint8_t *mem, uint8_t *pc);
-uint8_t				*cw_move_ptr(uint8_t *pc, size_t len);
-uint8_t				*cw_move_pc(uint8_t *pc, size_t len);
+uint8_t				*cw_mem_inc(uint8_t const *pc, size_t len);
 int					cw_mem_read_dir(uint8_t **pc, size_t len, size_t move,
 					t_range range);
 int					cw_mem_read_ind(uint8_t **pc, size_t len, size_t move,
@@ -124,7 +122,6 @@ uint16_t			cw_instr_cycles(uint8_t instr);
 /*
 ** parse fichier cor 
 */
-uint16_t			cw_vm_parse(const char *filename, uint8_t *dest);
 void				cw_vm_insert_sort(t_champ **head);
 int					cw_vm_init(int ac, char **av, int r1);
 int					cw_vm_run(void);

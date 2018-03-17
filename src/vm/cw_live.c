@@ -26,12 +26,12 @@ int			cw_live(uint8_t *pc)
 		{
 			g_cw->current->lastlive = g_cw->cycle;
 			ft_printf("Player %s [%hd] is alive!\n", champ->name, champ->id);
-			g_cw->current->pc = cw_move_pc(pc, 4);
+			g_cw->current->pc = cw_mem_inc(pc, 4);
 			return (EXIT_SUCCESS);
 		}
 		champ = champ->next;
 	}
 	ft_printf("A live has been made... But nobody came.\n");
-	g_cw->current->pc = cw_move_pc(pc, 4);
+	g_cw->current->pc = cw_mem_inc(pc, 4);
 	return (EXIT_SUCCESS);
 }

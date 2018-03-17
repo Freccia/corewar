@@ -24,20 +24,20 @@ int			cw_ldi(uint8_t *mem)
 
 	ocp = mem;
 	if ((*ocp & 0xc0) >> 6 | T_REG)
-		a1 = (uint32_t)g_cw->current->reg[ft_mtoi(cw_move_ptr(mem, 1), 1)];
+		a1 = (uint32_t)g_cw->current->reg[ft_mtoi(cw_mem_inc(mem, 1), 1)];
 	else if ((*ocp & 0xc0) >> 6 | T_DIR)
 		a1 = cw_mem_read_dir(&mem, 4, 2, E_SHORT);
 	else if ((*ocp & 0xc0) >> 6 | T_IND)
 		a1 = cw_mem_read_ind(&mem, 4, 2, E_SHORT);
 
 	if ((*ocp & 0x30) >> 4 | T_REG)
-		a2 = ft_mtoi(cw_move_ptr(mem, 1), 1);
+		a2 = ft_mtoi(cw_mem_inc(mem, 1), 1);
 	else if ((*ocp & 0x30) >> 4 | T_DIR)
 		a2 = cw_mem_read_dir(&mem, 4, 1, E_SHORT);
 
 	reg = ft_mtoi(cw_map_mem(mem, mem), 1);
 
 
-	g_cw->current->pc = cw_move_ptr(ocp, mem - ocp);
+	g_cw->current->pc = cw_mem_inc(ocp, mem - ocp);
 	return (YEP);
 }
