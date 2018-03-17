@@ -6,7 +6,7 @@
 /*   By: lfabbro <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/03/16 16:55:56 by lfabbro           #+#    #+#             */
-/*   Updated: 2018/03/17 18:47:56 by lfabbro          ###   ########.fr       */
+/*   Updated: 2018/03/17 19:49:52 by lfabbro          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,7 +47,7 @@ int		cw_check_ocp(uint8_t *pc)
 {
 	uint8_t		*ocp;
 
-	ocp = cw_mem_inc(pc, 1);
+	ocp = cw_move_ptr(pc, 1);
 	if (!(((*ocp & 0xc0) >> 6) & g_op_tab[*pc].param_type[0]))
 		return (EXIT_FAILURE);
 	if (!(((*ocp & 0x30) >> 4) & g_op_tab[*pc].param_type[1]))
@@ -66,7 +66,7 @@ int		cw_vm_exec(uint8_t *pc)
 			//ft_printf("OCP: \n", g_instr[*pc](g_cw->current->pc));
 			//g_cw->current->pc = cw_move_ptr(pc, 1);
 			// TODO: update g_cw->current->pc
-			return (g_instr[*pc - 1](cw_mem_inc(pc, 1)));
+			return (g_instr[*pc - 1](cw_move_ptr(pc, 1)));
 		}
 	return (EXIT_FAILURE);
 }

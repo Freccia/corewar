@@ -6,7 +6,7 @@
 /*   By: lfabbro <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/03/14 15:58:23 by lfabbro           #+#    #+#             */
-/*   Updated: 2018/03/17 18:38:24 by nfinkel          ###   ########.fr       */
+/*   Updated: 2018/03/17 19:49:57 by lfabbro          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ void			cw_mem_cpy(uint8_t *dst, uint8_t *src, size_t len, uint16_t p)
 		*dst = *src;
 		cw_nc_notify((uint16_t)(dst - g_cw->mem), p, *src);
 		++src;
-		dst = cw_mem_inc(dst, 1);
+		dst = cw_move_ptr(dst, 1);
 	}
 }
 
@@ -50,12 +50,12 @@ uint8_t			*cw_map_mem(uint8_t *mem, uint8_t *pc)
 	while (++k < 4)
 	{
 		mem[k] = *pc;
-		pc = cw_mem_inc(pc, 1);
+		pc = cw_move_ptr(pc, 1);
 	}
 	return (mem);
 }
 
-uint8_t			*cw_mem_inc(uint8_t const *pc, size_t size)
+uint8_t			*cw_move_ptr(uint8_t const *pc, size_t size)
 {
 	// OK, mais penser a rajouter en fonction de -ctmo
 	return (g_cw->mem + (size_t)((pc - g_cw->mem + size) % MEM_SIZE));
@@ -68,14 +68,14 @@ int				cw_mem_read(uint8_t **pc, size_t len, size_t move,
 	uint8_t		*pos;
 
 	if (move)
-		*pc = cw_mem_inc(*pc, move);
+		*pc = cw_move_ptr(*pc, move);
 	if (flags == E_DIR)
 		pos = *pc;
 	else if (flags == E_IND_LONG)
-		pos = cw_mem_inc(*pc,\
+		pos = cw_move_ptr(*pc,\
 			(size_t)(ft_mtoi(cw_map_mem(mem, *pc), len) % IDX_MOD));
 	else
-		pos = cw_mem_inc(*pc, (size_t)ft_mtoi(cw_map_mem(mem, *pc), len));
-	*pc = cw_mem_inc(*pc, len);
+		pos = cw_move_ptr(*pc, (size_t)ft_mtoi(cw_map_mem(mem, *pc), len));
+	*pc = cw_move_ptr(*pc, len);
 	return (ft_mtoi(cw_map_mem(mem, pos), len));
 }
