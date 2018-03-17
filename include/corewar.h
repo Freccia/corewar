@@ -6,7 +6,7 @@
 /*   By: nfinkel <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/03/13 16:16:50 by nfinkel           #+#    #+#             */
-/*   Updated: 2018/03/16 20:18:23 by lfabbro          ###   ########.fr       */
+/*   Updated: 2018/03/17 17:28:51 by nfinkel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,11 +23,13 @@
 
 typedef int			(*t_instr)(uint8_t *);
 
-typedef enum		e_range
+typedef enum		e_flag
 {
+	E_DIR,
+	E_IND,
 	E_SHORT,
 	E_LONG
-}					t_range;
+}					t_flag;
 
 typedef struct		s_champ
 {
@@ -74,7 +76,6 @@ typedef struct		s_cw
 
 extern t_cw			*g_cw;
 extern t_op			g_op_tab[MAX_OP];
-extern t_instr		g_instr[MAX_OP];
 
 int					cw_live(uint8_t *pc);
 int					cw_ld(uint8_t *pc);
@@ -103,10 +104,8 @@ void				cw_mem_cpy(uint8_t *dst, uint8_t *src, size_t len,
 					uint16_t p);
 uint8_t				*cw_map_mem(uint8_t *mem, uint8_t *pc);
 uint8_t				*cw_mem_inc(uint8_t const *pc, size_t len);
-int					cw_mem_read_dir(uint8_t **pc, size_t len, size_t move,
-					t_range range);
-int					cw_mem_read_ind(uint8_t **pc, size_t len, size_t move,
-					t_range range);
+int					cw_mem_read(uint8_t **pc, size_t len, size_t move,
+					t_flag flags);
 
 /*
 ** parse instruction arguments 

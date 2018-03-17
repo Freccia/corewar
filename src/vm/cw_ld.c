@@ -6,7 +6,7 @@
 /*   By: nfinkel <nfinkel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/03/14 19:10:02 by nfinkel           #+#    #+#             */
-/*   Updated: 2018/03/16 20:15:03 by lfabbro          ###   ########.fr       */
+/*   Updated: 2018/03/17 17:33:36 by nfinkel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,9 +21,9 @@ int					cw_ld(uint8_t *ocp)
 
 	ptr = ocp;
 	if ((ft_mtoi(ocp, 1) & 0xc0) >> 6 | T_DIR)
-		value = cw_mem_read_dir(&ocp, 4, 1, E_SHORT);
+		value = cw_mem_read(&ocp, 4, 1, E_DIR | E_SHORT);
 	else
-		value = cw_mem_read_ind(&ocp, 2, 1, E_SHORT);
+		value = cw_mem_read(&ocp, 2, 1, E_IND | E_SHORT);
 	reg = ft_mtoi(cw_map_mem(mem, ocp), 1);
 	if (!reg || reg > REG_NUMBER)
 		return (EXIT_FAILURE);

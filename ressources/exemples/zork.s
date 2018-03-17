@@ -1,4 +1,4 @@
 .name "zork"
 .comment "I'M ALIIIIVE"
 
-test:	ld %5, r1
+test:	live %34567899997
