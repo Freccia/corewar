@@ -6,11 +6,7 @@
 /*   By: lfabbro <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/03/16 16:55:56 by lfabbro           #+#    #+#             */
-<<<<<<< HEAD
-/*   Updated: 2018/03/17 19:49:52 by lfabbro          ###   ########.fr       */
-=======
-/*   Updated: 2018/03/17 19:49:51 by nfinkel          ###   ########.fr       */
->>>>>>> 37b9ee4d464dd3f133c817222816ea3acf9c2424
+/*   Updated: 2018/03/17 20:15:13 by lfabbro          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,7 +54,7 @@ int		cw_check_ocp(uint8_t *pc)
 	if (!(((*ocp & 0x30) >> 4) & g_op_tab[*pc].param_type[1]))
 		return (EXIT_FAILURE);
 	if (!(((*ocp & 0x0c) >> 2) & g_op_tab[*pc].param_type[2]))
-		return (EXIT_FAILURE);*/
+		return (EXIT_FAILURE);
 	ft_printf("OCP OK\n");
 	(void)pc;
 	return (EXIT_SUCCESS);
