@@ -6,7 +6,7 @@
 /*   By: lfabbro <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/03/15 15:30:43 by lfabbro           #+#    #+#             */
-/*   Updated: 2018/03/16 18:16:55 by lfabbro          ###   ########.fr       */
+/*   Updated: 2018/03/17 15:27:46 by lfabbro          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -120,6 +120,8 @@ int				cw_vm_init(int ac, char **av, int r1)
 				r1 = (uint16_t)ft_atoi(g_optarg);
 		}
 	}
+	if (g_cw->n_champs == 0)
+		cw_exit(EXIT_FAILURE, "No players.\n");
 	cw_vm_insert_sort(&(g_cw->champs));
 	return (cw_vm_load_champs(0));
 }
