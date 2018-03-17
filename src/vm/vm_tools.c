@@ -6,7 +6,7 @@
 /*   By: lfabbro <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/03/14 15:58:23 by lfabbro           #+#    #+#             */
-/*   Updated: 2018/03/17 17:34:02 by nfinkel          ###   ########.fr       */
+/*   Updated: 2018/03/17 18:38:24 by nfinkel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,7 +50,7 @@ uint8_t			*cw_map_mem(uint8_t *mem, uint8_t *pc)
 	while (++k < 4)
 	{
 		mem[k] = *pc;
-		cw_mem_inc(pc, 1);
+		pc = cw_mem_inc(pc, 1);
 	}
 	return (mem);
 }
@@ -69,11 +69,9 @@ int				cw_mem_read(uint8_t **pc, size_t len, size_t move,
 
 	if (move)
 		*pc = cw_mem_inc(*pc, move);
-	if (flags & E_DIR && flags & E_SHORT)
-		pos = &g_cw->mem[ft_mtoi(cw_map_mem(mem, *pc), len) % IDX_MOD];
-	else if (flags & E_DIR && flags & E_LONG)
-		pos = &g_cw->mem[ft_mtoi(cw_map_mem(mem, *pc), len)];
-	else if (flags & E_IND && flags & E_SHORT)
+	if (flags == E_DIR)
+		pos = *pc;
+	else if (flags == E_IND_LONG)
 		pos = cw_mem_inc(*pc,\
 			(size_t)(ft_mtoi(cw_map_mem(mem, *pc), len) % IDX_MOD));
 	else
