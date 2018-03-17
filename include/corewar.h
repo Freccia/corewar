@@ -6,7 +6,7 @@
 /*   By: nfinkel <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/03/13 16:16:50 by nfinkel           #+#    #+#             */
-/*   Updated: 2018/03/17 19:51:06 by lfabbro          ###   ########.fr       */
+/*   Updated: 2018/03/17 20:04:44 by lfabbro          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -103,7 +103,7 @@ void				cw_mem_cpy(uint8_t *dst, uint8_t *src, size_t len,
 					uint16_t p);
 uint8_t				*cw_map_mem(uint8_t *mem, uint8_t *pc);
 uint8_t				*cw_move_ptr(uint8_t const *pc, size_t len);
-int					cw_mem_read(uint8_t **pc, size_t len, size_t move,
+size_t				cw_mem_read(uint8_t **pc, uint8_t *ocp, size_t len,
 					t_flag flags);
 
 /*

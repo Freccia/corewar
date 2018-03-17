@@ -6,7 +6,11 @@
 /*   By: nfinkel <nfinkel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/03/14 19:10:18 by nfinkel           #+#    #+#             */
+<<<<<<< HEAD
 /*   Updated: 2018/03/17 19:50:14 by lfabbro          ###   ########.fr       */
+=======
+/*   Updated: 2018/03/17 19:28:54 by nfinkel          ###   ########.fr       */
+>>>>>>> 37b9ee4d464dd3f133c817222816ea3acf9c2424
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +20,7 @@
 
 int			cw_ldi(uint8_t *mem)
 {
-	uint8_t		*ocp;
+/*	uint8_t		*ocp;
 	//uint8_t		buf[4];
 	uint32_t	a1;
 	uint32_t	a2;
@@ -38,6 +42,11 @@ int			cw_ldi(uint8_t *mem)
 	reg = ft_mtoi(cw_map_mem(mem, mem), 1);
 
 
+<<<<<<< HEAD
 	g_cw->current->pc = cw_move_ptr(ocp, mem - ocp);
+=======
+	g_cw->current->pc = cw_mem_inc(ocp, mem - ocp);*/
+	(void)mem;
+>>>>>>> 37b9ee4d464dd3f133c817222816ea3acf9c2424
 	return (YEP);
 }

@@ -6,15 +6,15 @@
 /*   By: nfinkel <nfinkel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/08/24 10:16:33 by nfinkel           #+#    #+#             */
-/*   Updated: 2018/03/14 22:20:49 by nfinkel          ###   ########.fr       */
+/*   Updated: 2018/03/17 19:46:09 by nfinkel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-int				ft_mtoi(const unsigned char *mem, size_t len)
+size_t			ft_mtoi(const unsigned char *mem, size_t len)
 {
-	int		sum;
+	size_t		sum;
 
 	sum = 0;
 	while (len)

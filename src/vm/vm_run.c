@@ -6,7 +6,11 @@
 /*   By: lfabbro <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/03/16 16:55:56 by lfabbro           #+#    #+#             */
+<<<<<<< HEAD
 /*   Updated: 2018/03/17 19:49:52 by lfabbro          ###   ########.fr       */
+=======
+/*   Updated: 2018/03/17 19:49:51 by nfinkel          ###   ########.fr       */
+>>>>>>> 37b9ee4d464dd3f133c817222816ea3acf9c2424
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,29 +49,27 @@ int		cw_vm_kill_process(t_proc **proc, t_proc *prev)
 
 int		cw_check_ocp(uint8_t *pc)
 {
-	uint8_t		*ocp;
+	uint8_t		*ocp; //
 
 	ocp = cw_move_ptr(pc, 1);
+	ft_printf("OCP: %d\n", *ocp);
 	if (!(((*ocp & 0xc0) >> 6) & g_op_tab[*pc].param_type[0]))
 		return (EXIT_FAILURE);
 	if (!(((*ocp & 0x30) >> 4) & g_op_tab[*pc].param_type[1]))
 		return (EXIT_FAILURE);
 	if (!(((*ocp & 0x0c) >> 2) & g_op_tab[*pc].param_type[2]))
-		return (EXIT_FAILURE);
+		return (EXIT_FAILURE);*/
+	ft_printf("OCP OK\n");
 	(void)pc;
 	return (EXIT_SUCCESS);
 }
 
 int		cw_vm_exec(uint8_t *pc)
 {
-	if (*pc >= 0x1 && *pc <= 0x10)
-		if (!g_op_tab[*pc].ocp || cw_check_ocp(pc) == EXIT_SUCCESS)
-		{
-			//ft_printf("OCP: \n", g_instr[*pc](g_cw->current->pc));
-			//g_cw->current->pc = cw_move_ptr(pc, 1);
-			// TODO: update g_cw->current->pc
-			return (g_instr[*pc - 1](cw_move_ptr(pc, 1)));
-		}
+	if (*pc >= 0x1 && *pc <= MAX_OP)
+		if (*pc == g_op_tab[*pc - 1].op_code)
+			if (!g_op_tab[*pc - 1].ocp || cw_check_ocp(pc) == EXIT_SUCCESS)
+				return (g_instr[*pc - 1](pc));
 	return (EXIT_FAILURE);
 }
 
