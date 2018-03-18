@@ -6,7 +6,7 @@
 /*   By: lfabbro <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/03/15 15:30:43 by lfabbro           #+#    #+#             */
-/*   Updated: 2018/03/18 16:43:52 by nfinkel          ###   ########.fr       */
+/*   Updated: 2018/03/18 17:48:40 by nfinkel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,7 +81,7 @@ static int		cw_vm_load_champs(uint8_t i)
 		ptr->color = (uint8_t)(i + 1);
 		ptr->pc = g_cw->mem + (i * plyrs_dist);
 		ptr->id = champ->id;
-		ft_memcpy(ptr->reg[1], &champ->id, REG_SIZE);
+		ptr->reg[1] = champ->id;
 		cw_mem_cpy(ptr->pc, champ->bin, champ->size, ptr->color);
 		ptr->wait = g_op_tab[*ptr->pc - 1].cycles;
 		++g_cw->proc_count;

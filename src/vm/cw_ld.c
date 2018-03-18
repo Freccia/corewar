@@ -6,7 +6,7 @@
 /*   By: nfinkel <nfinkel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/03/14 19:10:02 by nfinkel           #+#    #+#             */
-/*   Updated: 2018/03/18 16:20:51 by nfinkel          ###   ########.fr       */
+/*   Updated: 2018/03/18 18:11:49 by nfinkel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,10 +14,10 @@
 
 int			cw_ld(t_proc *proc, uint8_t *op_code)
 {
-	int			reg;
-	size_t		value;
-	uint8_t		mem[4];
-	uint8_t		*ptr;
+	int				reg;
+	uint32_t		value;
+	uint8_t			mem[4];
+	uint8_t			*ptr;
 
 	ptr = cw_move_ptr(op_code, 2);
 	if ((ft_mtoi(cw_map_mem(mem, cw_move_ptr(op_code, 1)), 1) >> 6) == DIR_CODE)
@@ -27,7 +27,7 @@ int			cw_ld(t_proc *proc, uint8_t *op_code)
 	reg = ft_mtoi(cw_map_mem(mem, ptr), 1);
 	if (!reg || reg > REG_NUMBER)
 		return (EXIT_FAILURE);
-	ft_memmove(proc->reg[reg], &value, REG_SIZE);
+	proc->reg[reg] = value;
 	if (!value)
 		proc->flags |= _CW_CARRY;
 	else
