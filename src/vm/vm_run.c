@@ -6,7 +6,7 @@
 /*   By: lfabbro <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/03/16 16:55:56 by lfabbro           #+#    #+#             */
-/*   Updated: 2018/03/17 20:15:13 by lfabbro          ###   ########.fr       */
+/*   Updated: 2018/03/18 12:06:19 by lfabbro          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,20 +43,33 @@ int		cw_vm_kill_process(t_proc **proc, t_proc *prev)
 	return (EXIT_SUCCESS);
 }
 
+int		cw_check_arg(uint8_t op, uint8_t ocp, uint8_t n_arg)
+{
+	uint8_t		arg_type;
+
+	arg_type = g_op_tab[op].param_type[n_arg];
+	if ((arg_type & T_REG) && (ocp & REG_CODE))
+		return (EXIT_SUCCESS);
+	else if ((arg_type & T_DIR) && (ocp & DIR_CODE))
+		return (EXIT_SUCCESS);
+	else if ((arg_type & T_IND) && (ocp & IND_CODE))
+		return (EXIT_SUCCESS);
+	else if (arg_type == 0 && ocp == 0)
+		return (EXIT_SUCCESS);
+	return (EXIT_FAILURE);
+}
+
 int		cw_check_ocp(uint8_t *pc)
 {
 	uint8_t		*ocp; //
 
 	ocp = cw_move_ptr(pc, 1);
-	ft_printf("OCP: %d\n", *ocp);
-	if (!(((*ocp & 0xc0) >> 6) & g_op_tab[*pc].param_type[0]))
+	if (cw_check_arg((*pc - 1), ((*ocp & 0xc0) >> 6), 0) == EXIT_FAILURE)
 		return (EXIT_FAILURE);
-	if (!(((*ocp & 0x30) >> 4) & g_op_tab[*pc].param_type[1]))
+	if (cw_check_arg((*pc - 1), ((*ocp & 0x30) >> 4), 1) == EXIT_FAILURE)
 		return (EXIT_FAILURE);
-	if (!(((*ocp & 0x0c) >> 2) & g_op_tab[*pc].param_type[2]))
+	if (cw_check_arg((*pc - 1), ((*ocp & 0x0c) >> 2), 2) == EXIT_FAILURE)
 		return (EXIT_FAILURE);
-	ft_printf("OCP OK\n");
-	(void)pc;
 	return (EXIT_SUCCESS);
 }
 
