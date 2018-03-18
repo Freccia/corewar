@@ -6,7 +6,7 @@
 /*   By: lfabbro <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/03/16 16:55:56 by lfabbro           #+#    #+#             */
-/*   Updated: 2018/03/18 17:14:30 by nfinkel          ###   ########.fr       */
+/*   Updated: 2018/03/18 17:26:48 by nfinkel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,7 @@ static t_instr		g_instr[MAX_OP]=
 	cw_aff
 };
 
-int		cw_vm_kill_process(t_proc **proc, t_proc *prev)
+/*int		cw_vm_kill_process(t_proc **proc, t_proc *prev)
 {
 	if ((*proc)->next != NULL && prev != *proc)
 		prev->next = (*proc)->next;
@@ -41,7 +41,7 @@ int		cw_vm_kill_process(t_proc **proc, t_proc *prev)
 	free(*proc);
 	*proc = NULL;
 	return (EXIT_SUCCESS);
-}
+}*/
 
 int		cw_check_arg(uint8_t op, uint8_t ocp, uint8_t n_arg)
 {
@@ -91,7 +91,6 @@ int		cw_vm_exec(t_proc *proc, uint8_t *pc)
 
 void	cw_vm_eval(t_proc *proc)
 {
-	ft_printf("%hu\n", proc->wait);
 	if (proc->wait > 1)
 		--proc->wait;
 	else if (cw_vm_exec(proc, proc->pc) == EXIT_FAILURE)
