@@ -6,13 +6,13 @@
 /*   By: nfinkel <nfinkel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/03/14 19:10:47 by nfinkel           #+#    #+#             */
-/*   Updated: 2018/03/18 14:38:45 by nfinkel          ###   ########.fr       */
+/*   Updated: 2018/03/18 15:07:34 by nfinkel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "corewar.h"
 
-int			cw_live(uint8_t *pc)
+int			cw_live(t_proc *proc, uint8_t *pc)
 {
 	int			id;
 	uint8_t		mem[4];
@@ -25,14 +25,14 @@ int			cw_live(uint8_t *pc)
 	{
 		if (champ->id == id)
 		{
-			g_cw->current->lastlive = g_cw->cycle;
+			proc->lastlive = g_cw->cycle;
 			ft_printf("Player %s [%hd] is alive!\n", champ->name, champ->id);
-			g_cw->current->pc = cw_move_ptr(pc, 4);
+			proc->pc = cw_move_ptr(pc, 4);
 			return (EXIT_SUCCESS);
 		}
 		champ = champ->next;
 	}
 	ft_printf("A live has been made... But nobody came.\n");
-	g_cw->current->pc = cw_move_ptr(pc, 4);
+	proc->pc = cw_move_ptr(pc, 4);
 	return (EXIT_SUCCESS);
 }

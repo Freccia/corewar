@@ -6,14 +6,15 @@
 /*   By: nfinkel <nfinkel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/03/14 19:10:33 by nfinkel           #+#    #+#             */
-/*   Updated: 2018/03/14 20:31:31 by nfinkel          ###   ########.fr       */
+/*   Updated: 2018/03/18 15:08:55 by nfinkel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "corewar.h"
 
-int			cw_lfork(uint8_t *mem)
+int			cw_lfork(t_proc *proc, uint8_t *mem)
 {
+	(void)proc;
 	(void)mem;
 	return (YEP);
 }

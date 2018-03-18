@@ -6,7 +6,7 @@
 /*   By: lfabbro <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/03/16 16:55:56 by lfabbro           #+#    #+#             */
-/*   Updated: 2018/03/18 14:55:05 by nfinkel          ###   ########.fr       */
+/*   Updated: 2018/03/18 15:04:32 by nfinkel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,13 +75,13 @@ int		cw_check_ocp(uint8_t *pc)
 	return (EXIT_SUCCESS);
 }
 
-int		cw_vm_exec(uint8_t *pc)
+int		cw_vm_exec(t_proc *proc, uint8_t *pc)
 {
 	if (*pc >= 0x1 && *pc <= MAX_OP && *pc == g_op_tab[*pc - 1].op_code)
 		if (!g_op_tab[*pc - 1].ocp || cw_check_ocp(pc) == EXIT_SUCCESS)
 		{
 			cw_nc_notify(pc - g_cw->mem, g_cw->current->color, *pc);
-			g_instr[*pc - 1](pc);
+			g_instr[*pc - 1](proc, pc);
 			cw_nc_notify(g_cw->current->pc - g_cw->mem,\
 				g_cw->current->color + 5, *g_cw->current->pc);
 			return (EXIT_SUCCESS);
@@ -96,7 +96,7 @@ int		cw_vm_eval(t_proc *proc)
 		--proc->wait;
 		return (EXIT_SUCCESS);
 	}
-	if (cw_vm_exec(proc->pc) == EXIT_FAILURE)
+	if (cw_vm_exec(proc, proc->pc) == EXIT_FAILURE)
 		return (EXIT_FAILURE);
 	proc->wait = g_op_tab[*proc->pc].cycles;
 	return (EXIT_SUCCESS);

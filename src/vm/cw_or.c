@@ -6,14 +6,15 @@
 /*   By: nfinkel <nfinkel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/03/14 19:15:39 by nfinkel           #+#    #+#             */
-/*   Updated: 2018/03/14 20:32:21 by nfinkel          ###   ########.fr       */
+/*   Updated: 2018/03/18 15:09:38 by nfinkel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "corewar.h"
 
-int			cw_or(uint8_t *mem)
+int			cw_or(t_proc *proc, uint8_t *mem)
 {
+	(void)proc;
 	(void)mem;
 	return (YEP);
 }

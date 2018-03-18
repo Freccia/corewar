@@ -6,7 +6,7 @@
 /*   By: nfinkel <nfinkel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/03/14 19:10:18 by nfinkel           #+#    #+#             */
-/*   Updated: 2018/03/17 20:18:20 by lfabbro          ###   ########.fr       */
+/*   Updated: 2018/03/18 15:08:38 by nfinkel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 // TODO terminate to write
 
-int			cw_ldi(uint8_t *mem)
+int			cw_ldi(t_proc *proc, uint8_t *mem)
 {
 /*	
 	uint8_t		*ocp;
@@ -41,6 +41,7 @@ int			cw_ldi(uint8_t *mem)
 
 	g_cw->current->pc = cw_move_ptr(ocp, mem - ocp);
 	*/
+	(void)proc;
 	(void)mem;
 	return (YEP);
 }
