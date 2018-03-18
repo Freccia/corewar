@@ -6,7 +6,7 @@
 /*   By: nfinkel <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/03/13 16:16:50 by nfinkel           #+#    #+#             */
-/*   Updated: 2018/03/18 15:10:46 by nfinkel          ###   ########.fr       */
+/*   Updated: 2018/03/18 16:51:04 by nfinkel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -110,7 +110,7 @@ size_t				cw_mem_read(uint8_t **pc, uint8_t *ocp, size_t len,
 ** parse instruction arguments 
 ** return the pc offset or -1 in case of zboub (error)
 */
-int					cw_vm_eval(t_proc *proc);
+void				cw_vm_eval(t_proc *proc);
 
 /*
 ** takes instruction number, returns instruction cycles

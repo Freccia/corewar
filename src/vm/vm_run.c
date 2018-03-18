@@ -6,7 +6,7 @@
 /*   By: lfabbro <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/03/16 16:55:56 by lfabbro           #+#    #+#             */
-/*   Updated: 2018/03/18 15:04:32 by nfinkel          ###   ########.fr       */
+/*   Updated: 2018/03/18 17:14:30 by nfinkel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,49 +89,48 @@ int		cw_vm_exec(t_proc *proc, uint8_t *pc)
 	return (EXIT_FAILURE);
 }
 
-int		cw_vm_eval(t_proc *proc)
+void	cw_vm_eval(t_proc *proc)
 {
-	if (proc->wait > 0)
-	{
+	ft_printf("%hu\n", proc->wait);
+	if (proc->wait > 1)
 		--proc->wait;
-		return (EXIT_SUCCESS);
+	else if (cw_vm_exec(proc, proc->pc) == EXIT_FAILURE)
+	{
+		// L'update du curseur sur le GUI est foireux, mais le pc se deplace bien
+		cw_nc_notify(proc->pc - g_cw->mem, 1, *proc->pc);
+		proc->pc = cw_move_ptr(proc->pc, 1);
+		proc->wait = 1;
+		cw_nc_notify(proc->pc - g_cw->mem, 1, *proc->pc);
 	}
-	if (cw_vm_exec(proc, proc->pc) == EXIT_FAILURE)
-		return (EXIT_FAILURE);
-	proc->wait = g_op_tab[*proc->pc].cycles;
-	return (EXIT_SUCCESS);
+	else if (*proc->pc >= 0x1 && *proc->pc <= MAX_OP)
+		proc->wait = g_op_tab[*proc->pc - 1].cycles - 1;
+	else
+		proc->wait = 1;
 }
 
 int		cw_vm_run(void)
 {
-	size_t		cycle_total;
+	size_t		delta;
 
-	cycle_total = 0; // A afficher dans le GUI a la place des cycles qui reset
-	while (g_cw->cycle_to_die > 0)
+	delta = 0;
+	while (g_cw->cycle_to_die > 0 && ++g_cw->cycle && ++delta)
 	{
 		g_cw->current = g_cw->procs;
 		while (g_cw->current)
 		{
 			if (cw_nc_update())
 				return (cw_exit(EXIT_FAILURE, NULL));
-			if (g_cw->opt.d > 0 && g_cw->cycle == (size_t)g_cw->opt.d)
-			{
-				cw_mem_dump(&g_cw->mem[0]);
-				return (cw_exit(EXIT_SUCCESS, NULL));
-			}
-			if (cw_vm_eval(g_cw->current) == EXIT_FAILURE)
-			//	cw_vm_kill_process(&g_cw->current, g_cw->prev); - segfault
-				;
-			if (g_cw->cycle >= (size_t)g_cw->cycle_to_die)
-			{
-				g_cw->cycle = 0;
-				g_cw->cycle_to_die -= CYCLE_DELTA;
-			}
+			cw_vm_eval(g_cw->current);
 			g_cw->prev = g_cw->current;
 			g_cw->current = g_cw->current->next;
 		}
-		++g_cw->cycle; // A-t-il encore une utilite ?
-		++cycle_total;
+		if (g_cw->opt.d > 0 && g_cw->cycle == (size_t)g_cw->opt.d)
+		{
+			cw_mem_dump(&g_cw->mem[0]);
+			return (cw_exit(EXIT_SUCCESS, NULL));
+		}
+		if (delta == (size_t)g_cw->cycle_to_die && !(delta = 0))
+			g_cw->cycle_to_die -= CYCLE_DELTA;
 	}
 	return (EXIT_SUCCESS);
 }
