@@ -6,7 +6,7 @@
 /*   By: lfabbro <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/03/16 16:55:56 by lfabbro           #+#    #+#             */
-/*   Updated: 2018/03/18 12:09:46 by lfabbro          ###   ########.fr       */
+/*   Updated: 2018/03/18 14:55:05 by nfinkel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,10 +77,15 @@ int		cw_check_ocp(uint8_t *pc)
 
 int		cw_vm_exec(uint8_t *pc)
 {
-	if (*pc >= 0x1 && *pc <= MAX_OP)
-		if (*pc == g_op_tab[*pc - 1].op_code)
-			if (!g_op_tab[*pc - 1].ocp || cw_check_ocp(pc) == EXIT_SUCCESS)
-				return (g_instr[*pc - 1](pc));
+	if (*pc >= 0x1 && *pc <= MAX_OP && *pc == g_op_tab[*pc - 1].op_code)
+		if (!g_op_tab[*pc - 1].ocp || cw_check_ocp(pc) == EXIT_SUCCESS)
+		{
+			cw_nc_notify(pc - g_cw->mem, g_cw->current->color, *pc);
+			g_instr[*pc - 1](pc);
+			cw_nc_notify(g_cw->current->pc - g_cw->mem,\
+				g_cw->current->color + 5, *g_cw->current->pc);
+			return (EXIT_SUCCESS);
+		}
 	return (EXIT_FAILURE);
 }
 

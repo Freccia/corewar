@@ -2,4 +2,45 @@
 .comment "I'M ALIIIIVE"
 
 test:
-	ld		%1234, r2
+	live	%1
+	live	%1
+	live	%1
+	live	%1
+	live	%1
+	live	%1
+	live	%1
+	live	%1
+	live	%1
+	live	%1
+	live	%1
+	live	%1
+	live	%1
+	live	%1
+	live	%1
+	live	%1
+	live	%1
+	live	%1
+	live	%1
+	live	%1
+	live	%1
+	live	%1
+	live	%1
+	live	%1
+	live	%1
+	live	%1
+	live	%1
+	live	%1
+	live	%1
+	live	%1
+	live	%1
+	live	%1
+	live	%1
+	live	%1
+	live	%1
+	live	%1
+	live	%1
+	live	%1
+	live	%1
+	live	%1
+	live	%1
+	live	%1

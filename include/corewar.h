@@ -6,7 +6,7 @@
 /*   By: nfinkel <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/03/13 16:16:50 by nfinkel           #+#    #+#             */
-/*   Updated: 2018/03/17 20:04:44 by lfabbro          ###   ########.fr       */
+/*   Updated: 2018/03/18 14:37:15 by nfinkel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,22 +76,22 @@ typedef struct		s_cw
 extern t_cw			*g_cw;
 extern t_op			g_op_tab[MAX_OP];
 
-int					cw_live(uint8_t *pc);
-int					cw_ld(uint8_t *pc);
-int					cw_st(uint8_t *pc);
-int					cw_add(uint8_t *pc);
-int					cw_sub(uint8_t *pc);
-int					cw_and(uint8_t *pc);
-int					cw_or(uint8_t *pc);
-int					cw_xor(uint8_t *pc);
-int					cw_zjmp(uint8_t *pc);
-int					cw_ldi(uint8_t *pc);
-int					cw_sti(uint8_t *pc);
-int					cw_fork(uint8_t *pc);
-int					cw_lld(uint8_t *pc);
-int					cw_lldi(uint8_t *pc);
-int					cw_lfork(uint8_t *pc);
-int					cw_aff(uint8_t *pc);
+int					cw_live(uint8_t *op_code);
+int					cw_ld(uint8_t *op_code);
+int					cw_st(uint8_t *op_code);
+int					cw_add(uint8_t *op_code);
+int					cw_sub(uint8_t *op_code);
+int					cw_and(uint8_t *op_code);
+int					cw_or(uint8_t *op_code);
+int					cw_xor(uint8_t *op_code);
+int					cw_zjmp(uint8_t *op_code);
+int					cw_ldi(uint8_t *op_code);
+int					cw_sti(uint8_t *op_code);
+int					cw_fork(uint8_t *op_code);
+int					cw_lld(uint8_t *op_code);
+int					cw_lldi(uint8_t *op_code);
+int					cw_lfork(uint8_t *op_code);
+int					cw_aff(uint8_t *op_code);
 
 int					cw_nc_init(void);
 int					cw_nc_update(void);

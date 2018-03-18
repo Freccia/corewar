@@ -6,7 +6,7 @@
 /*   By: nfinkel <nfinkel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/03/14 19:10:47 by nfinkel           #+#    #+#             */
-/*   Updated: 2018/03/17 19:50:49 by lfabbro          ###   ########.fr       */
+/*   Updated: 2018/03/18 14:38:45 by nfinkel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,7 @@ int			cw_live(uint8_t *pc)
 	uint8_t		mem[4];
 	t_champ		*champ;
 
+	pc = cw_move_ptr(pc, 1);
 	id = ft_mtoi(cw_map_mem(mem, pc), 4);
 	champ = g_cw->champs;
 	while (champ)
