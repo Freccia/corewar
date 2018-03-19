@@ -6,7 +6,7 @@
 /*   By: nfinkel <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/03/13 16:16:50 by nfinkel           #+#    #+#             */
-/*   Updated: 2018/03/19 14:55:52 by lfabbro          ###   ########.fr       */
+/*   Updated: 2018/03/19 16:47:38 by lfabbro          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,24 +18,13 @@
 # include "cw_common.h"
 # include "op.h"
 
+# include "cw_args.h"
+
 # define _CW_CARRY		(1 << 0)
 # define _CW_HEAD_SZ	(16 + PROG_NAME_LENGTH + COMMENT_LENGTH)
 
 # define MASK_ARG2 (0x30)
 # define MASK_ARG3 (0x0c)
-
-typedef enum		e_flag
-{
-	E_DIR,
-	E_IND_LONG,
-	E_IND_SHORT
-}					t_flag;
-
-typedef	struct		s_args
-{
-	uint8_t		mask;
-	uint8_t		shift;
-}					t_args;
 
 typedef struct		s_champ
 {
@@ -114,8 +103,8 @@ uint8_t				*cw_map_mem(uint8_t *mem, uint8_t *pc);
 uint8_t				*cw_move_ptr(uint8_t const *pc, size_t len);
 uint32_t			cw_mem_read(uint8_t **pc, uint8_t *ocp, size_t len,
 						t_flag flags);
-uint32_t			cw_read_arg(uint8_t *pc, uint8_t **ptr, uint8_t n,
-						uint8_t size);
+uint32_t			cw_read_arg(t_proc *proc, uint8_t **ptr, uint8_t n,
+						uint8_t flags);
 void				cw_update_carry(t_proc *proc, uint32_t value);
 
 /*

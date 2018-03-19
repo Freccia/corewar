@@ -6,7 +6,7 @@
 /*   By: lfabbro <>                                 +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/03/19 12:54:08 by lfabbro           #+#    #+#             */
-/*   Updated: 2018/03/19 14:46:02 by lfabbro          ###   ########.fr       */
+/*   Updated: 2018/03/19 16:44:17 by lfabbro          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,32 +28,37 @@ t_args		g_args[MAX_ARGS_NUMBER + 1] =
 	{0x03, 0},
 };
 
+
 /*
-**	cw_read_arg():
+**	uint32_t	cw_read_arg()
 **
+**	proc	-> current process
 **	pc		-> program counter
 **	ptr		-> pointer to the argument (it will be mooved by size octects)
 **	n		-> number of the argument (g_args[n])
-**	size	-> if (DIR || IND) it indicates the size of the argument
+**	size	-> if DIR it indicates the size of the argument
+**	flags	-> restricted address or not
 **
 **	return: the value of the argument
 */
 
-uint32_t	cw_read_arg(uint8_t *pc, uint8_t **ptr, uint8_t n, uint8_t size)
+uint32_t	cw_read_arg(t_proc *proc, uint8_t **ptr, uint8_t n, uint8_t flags)
 {
 	uint8_t		ocp;
 	uint32_t	arg;
+	uint8_t		size;
 
-	ocp = *cw_move_ptr(pc, 1);
+	ocp = *cw_move_ptr(proc->pc, 1);
+	size = (g_op_tab[*(proc->pc)].direct_size) ? 4 : 2;
 	if ((ocp & g_args[n].mask) >> g_args[n].shift == REG_CODE)
 	{
-		arg = g_cw->current->reg[ft_mtoi(*ptr, 1)];
+		arg = proc->reg[ft_mtoi(*ptr, 1)];
 		*ptr = cw_move_ptr(*ptr, 1);
 	}
 	else if ((ocp & g_args[n].mask) >> g_args[n].shift == DIR_CODE)
-		arg = cw_mem_read(ptr, pc, size, E_DIR);
+		arg = cw_mem_read(ptr, proc->pc, size, E_DIR);
 	else if ((ocp & g_args[n].mask) >> g_args[n].shift == IND_CODE)
-		arg = cw_mem_read(ptr, pc, size, E_IND_SHORT);
+		arg = cw_mem_read(ptr, proc->pc, 2, flags);
 	else
 		arg = 0;
 	return (arg);
