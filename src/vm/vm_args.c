@@ -6,11 +6,19 @@
 /*   By: lfabbro <>                                 +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/03/19 12:54:08 by lfabbro           #+#    #+#             */
-/*   Updated: 2018/03/19 14:28:43 by lfabbro          ###   ########.fr       */
+/*   Updated: 2018/03/19 14:42:35 by lfabbro          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "corewar.h"
+
+void		cw_update_carry(t_proc *proc, uint32_t value)
+{
+	if (value)
+		proc->flags |= _CW_CARRY;
+	else
+		proc->flags &= ~(_CW_CARRY);
+}
 
 t_args		g_args[MAX_ARGS_NUMBER + 1] = 
 {

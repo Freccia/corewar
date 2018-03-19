@@ -6,7 +6,7 @@
 /*   By: nfinkel <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/03/13 16:16:50 by nfinkel           #+#    #+#             */
-/*   Updated: 2018/03/19 13:04:34 by lfabbro          ###   ########.fr       */
+/*   Updated: 2018/03/19 14:42:42 by lfabbro          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -116,6 +116,7 @@ uint32_t			cw_mem_read(uint8_t **pc, uint8_t *ocp, size_t len,
 						t_flag flags);
 uint32_t			cw_read_arg(uint8_t *pc, uint8_t **ptr, uint8_t n,
 						uint8_t size);
+void				cw_update_carry(t_proc *proc, uint32_t value);
 
 /*
 ** parse instruction arguments 
