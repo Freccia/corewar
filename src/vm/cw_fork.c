@@ -6,7 +6,7 @@
 /*   By: nfinkel <nfinkel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/03/14 19:09:54 by nfinkel           #+#    #+#             */
-/*   Updated: 2018/03/19 18:17:53 by lfabbro          ###   ########.fr       */
+/*   Updated: 2018/03/19 18:52:54 by lfabbro          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,6 +30,6 @@ int			cw_fork(t_proc *proc, uint8_t *pc)
 		tmp->next = new;
 	ft_memcpy(new, proc, sizeof(t_proc));
 	new->next = NULL;
-	new->pc = cw_move_ptr(pc, n);
+	new->pc = cw_move_ptr(pc, n % IDX_MOD);
 	return (EXIT_SUCCESS);
 }
