@@ -6,7 +6,7 @@
 /*   By: lfabbro <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/03/16 16:55:56 by lfabbro           #+#    #+#             */
-/*   Updated: 2018/03/19 17:13:53 by lfabbro          ###   ########.fr       */
+/*   Updated: 2018/03/19 17:15:56 by lfabbro          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -97,7 +97,7 @@ void	cw_vm_eval(t_proc *proc)
 	{
 		// L'update du curseur sur le GUI est foireux, mais le pc se deplace bien
 		cw_nc_notify(proc->pc - g_cw->mem, 1, *proc->pc);
-		// TODO: proc->pc is updated directly on each instruction (see: fork)
+		// TODO: proc->pc is updated directly on each instruction (see: zjmp)
 		//proc->pc = cw_move_ptr(proc->pc, 1);
 		// TODO: wait must be equal to the next instruction cycles
 		proc->wait = g_op_tab[*proc->pc].cycles;
