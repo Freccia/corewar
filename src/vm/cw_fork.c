@@ -6,14 +6,15 @@
 /*   By: nfinkel <nfinkel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/03/14 19:09:54 by nfinkel           #+#    #+#             */
-/*   Updated: 2018/03/14 20:30:54 by nfinkel          ###   ########.fr       */
+/*   Updated: 2018/03/18 15:08:20 by nfinkel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "corewar.h"
 
-int			cw_fork(uint8_t *mem)
+int			cw_fork(t_proc *proc, uint8_t *mem)
 {
+	(void)proc;
 	(void)mem;
 	return (YEP);
 }

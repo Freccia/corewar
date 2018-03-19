@@ -6,7 +6,7 @@
 /*   By: nfinkel <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/03/13 16:16:50 by nfinkel           #+#    #+#             */
-/*   Updated: 2018/03/17 19:54:20 by lfabbro          ###   ########.fr       */
+/*   Updated: 2018/03/19 13:31:28 by lfabbro          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,8 @@
 # define _CW_CARRY		(1 << 0)
 # define _CW_HEAD_SZ	(16 + PROG_NAME_LENGTH + COMMENT_LENGTH)
 
-typedef int			(*t_instr)(uint8_t *);
+# define MASK_ARG2 (0x30)
+# define MASK_ARG3 (0x0c)
 
 typedef enum		e_flag
 {
@@ -29,6 +30,12 @@ typedef enum		e_flag
 	E_IND_LONG,
 	E_IND_SHORT
 }					t_flag;
+
+typedef	struct		s_args
+{
+	uint8_t		mask;
+	uint8_t		shift;
+}					t_args;
 
 typedef struct		s_champ
 {
@@ -53,7 +60,7 @@ typedef struct		s_proc
 	uint8_t			flags;
 	uint8_t			color;
 	uint8_t			*pc;
-	uint8_t			reg[REG_NUMBER + 1][REG_SIZE];
+	uint32_t		reg[REG_NUMBER + 1];
 	size_t			lastlive;
 	uint16_t		wait;
 	struct s_proc	*next;
@@ -73,25 +80,27 @@ typedef struct		s_cw
 	t_champ			*champs;
 }					t_cw;
 
+typedef int			(*t_instr)(t_proc *, uint8_t *);
+
 extern t_cw			*g_cw;
 extern t_op			g_op_tab[MAX_OP];
 
-int					cw_live(uint8_t *pc);
-int					cw_ld(uint8_t *pc);
-int					cw_st(uint8_t *pc);
-int					cw_add(uint8_t *pc);
-int					cw_sub(uint8_t *pc);
-int					cw_and(uint8_t *pc);
-int					cw_or(uint8_t *pc);
-int					cw_xor(uint8_t *pc);
-int					cw_zjmp(uint8_t *pc);
-int					cw_ldi(uint8_t *pc);
-int					cw_sti(uint8_t *pc);
-int					cw_fork(uint8_t *pc);
-int					cw_lld(uint8_t *pc);
-int					cw_lldi(uint8_t *pc);
-int					cw_lfork(uint8_t *pc);
-int					cw_aff(uint8_t *pc);
+int					cw_live(t_proc *proc, uint8_t *op_code);
+int					cw_ld(t_proc *proc, uint8_t *op_code);
+int					cw_st(t_proc *proc, uint8_t *op_code);
+int					cw_add(t_proc *proc, uint8_t *op_code);
+int					cw_sub(t_proc *proc, uint8_t *op_code);
+int					cw_and(t_proc *proc, uint8_t *op_code);
+int					cw_or(t_proc *proc, uint8_t *op_code);
+int					cw_xor(t_proc *proc, uint8_t *op_code);
+int					cw_zjmp(t_proc *proc, uint8_t *op_code);
+int					cw_ldi(t_proc *proc, uint8_t *op_code);
+int					cw_sti(t_proc *proc, uint8_t *op_code);
+int					cw_fork(t_proc *proc, uint8_t *op_code);
+int					cw_lld(t_proc *proc, uint8_t *op_code);
+int					cw_lldi(t_proc *proc, uint8_t *op_code);
+int					cw_lfork(t_proc *proc, uint8_t *op_code);
+int					cw_aff(t_proc *proc, uint8_t *op_code);
 
 int					cw_nc_init(void);
 int					cw_nc_update(void);
@@ -100,22 +109,19 @@ int					cw_nc_exit(void);
 
 void				cw_mem_dump(uint8_t *mem);
 void				cw_mem_cpy(uint8_t *dst, uint8_t *src, size_t len,
-					uint16_t p);
+						uint16_t p);
 uint8_t				*cw_map_mem(uint8_t *mem, uint8_t *pc);
 uint8_t				*cw_move_ptr(uint8_t const *pc, size_t len);
-int					cw_mem_read(uint8_t **pc, size_t len, size_t move,
-					t_flag flags);
+uint32_t			cw_mem_read(uint8_t **pc, uint8_t *ocp, size_t len,
+						t_flag flags);
+uint32_t			cw_read_arg(uint8_t *pc, uint8_t **ptr, uint8_t n,
+						uint8_t size);
 
 /*
 ** parse instruction arguments 
 ** return the pc offset or -1 in case of zboub (error)
 */
-int					cw_vm_eval(t_proc *proc);
-
-/*
-** takes instruction number, returns instruction cycles
-*/
-uint16_t			cw_instr_cycles(uint8_t instr);
+void				cw_vm_eval(t_proc *proc);
 
 /*
 ** parse fichier cor 
