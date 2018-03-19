@@ -6,7 +6,7 @@
 /*   By: lfabbro <>                                 +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/03/19 12:54:08 by lfabbro           #+#    #+#             */
-/*   Updated: 2018/03/19 13:14:46 by lfabbro          ###   ########.fr       */
+/*   Updated: 2018/03/19 14:28:43 by lfabbro          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,18 +33,18 @@ t_args		g_args[MAX_ARGS_NUMBER + 1] =
 
 uint32_t	cw_read_arg(uint8_t *pc, uint8_t **ptr, uint8_t n, uint8_t size)
 {
-	uint8_t		*ocp;
+	uint8_t		ocp;
 	uint32_t	arg;
 
-	ocp = cw_move_ptr(pc, 1);
-	if ((*ocp & g_args[n].mask) >> g_args[n].shift == REG_CODE)
+	ocp = *cw_move_ptr(pc, 1);
+	if ((ocp & g_args[n].mask) >> g_args[n].shift == REG_CODE)
 	{
 		arg = g_cw->current->reg[ft_mtoi(*ptr, 1)];
 		*ptr = cw_move_ptr(*ptr, 1);
 	}
-	else if ((*ocp & g_args[n].mask) >> g_args[n].shift == DIR_CODE)
+	else if ((ocp & g_args[n].mask) >> g_args[n].shift == DIR_CODE)
 		arg = cw_mem_read(ptr, pc, size, E_DIR);
-	else if ((*ocp & g_args[n].mask) >> g_args[n].shift == IND_CODE)
+	else if ((ocp & g_args[n].mask) >> g_args[n].shift == IND_CODE)
 		arg = cw_mem_read(ptr, pc, size, E_IND_SHORT);
 	else
 		arg = 0;

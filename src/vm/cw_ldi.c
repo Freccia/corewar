@@ -6,7 +6,7 @@
 /*   By: nfinkel <nfinkel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/03/14 19:10:18 by nfinkel           #+#    #+#             */
-/*   Updated: 2018/03/19 14:18:31 by lfabbro          ###   ########.fr       */
+/*   Updated: 2018/03/19 14:32:01 by lfabbro          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,6 +31,8 @@ int			cw_ldi(t_proc *proc, uint8_t *pc)
 
 	//ft_printf("opcode: %d\n", *pc);
 	//ft_printf("a1: %d	a2: %d		a3: %d\n", *pc, a1, a2, reg);
+	if (!reg || reg > REG_NUMBER)
+		return (EXIT_FAILURE);
 
 	// TODO is it correct?
 	g_cw->current->reg[reg] = ft_mtoi(cw_map_mem(mem,
@@ -41,5 +43,5 @@ int			cw_ldi(t_proc *proc, uint8_t *pc)
 	else
 		proc->flags &= ~(_CW_CARRY);
 	g_cw->current->pc = cw_move_ptr(ptr, pc - ptr);
-	return (YEP);
+	return (EXIT_SUCCESS);
 }
