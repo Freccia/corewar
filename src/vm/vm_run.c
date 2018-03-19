@@ -6,7 +6,7 @@
 /*   By: lfabbro <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/03/16 16:55:56 by lfabbro           #+#    #+#             */
-/*   Updated: 2018/03/19 17:40:43 by lfabbro          ###   ########.fr       */
+/*   Updated: 2018/03/19 17:45:34 by lfabbro          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,6 +42,31 @@ static t_instr		g_instr[MAX_OP]=
 	*proc = NULL;
 	return (EXIT_SUCCESS);
 }*/
+
+void	cw_vm_cycle_to_die(void)
+{
+	t_proc		*ptr;
+	t_proc		*tmp;
+
+	ptr = g_cw->procs;
+	tmp = NULL;
+	while (ptr)
+		if (!ptr->lastlive)
+		{
+			if (tmp)
+				tmp->next = ptr->next;
+			else
+				g_cw->procs = ptr->next;
+			free(ptr);
+			ptr = (tmp) ? tmp : g_cw->procs;
+		}
+		else
+		{
+			ptr->lastlive = 0;
+			tmp = ptr;
+			ptr = ptr->next;
+		}
+}
 
 int		cw_check_arg(uint8_t op, uint8_t ocp, uint8_t n_arg)
 {
@@ -109,33 +134,6 @@ void	cw_vm_eval(t_proc *proc)
 		proc->wait = 1;
 }
 
-void	cw_vm_cycle_to_die(void)
-{
-	t_proc		*ptr;
-	t_proc		*tmp;
-
-	ptr = g_cw->procs;
-	tmp = NULL;
-	while (ptr)
-		if (!ptr->lastlive)
-		{
-			if (tmp)
-				tmp->next = ptr->next;
-			else
-				g_cw->procs = ptr->next;
-			free(ptr);
-			ptr = (tmp) ? tmp : g_cw->procs;
-		}
-		else
-		{
-			ptr->lastlive = 0;
-			tmp = ptr;
-			ptr = ptr->next;
-		}
-	g_cw->cycle = 0;
-	g_cw->cycle_to_die -= CYCLE_DELTA;
-}
-
 int		cw_vm_run(void)
 {
 	while (g_cw->cycle_to_die > 0)
@@ -156,8 +154,11 @@ int		cw_vm_run(void)
 			return (cw_exit(EXIT_SUCCESS, NULL));
 		}
 		if (g_cw->cycle == g_cw->cycle_to_die)
+		{
 			cw_vm_cycle_to_die();
+			g_cw->cycle = 0;
+			g_cw->cycle_to_die -= CYCLE_DELTA;
+		}
 	}
 	return (EXIT_SUCCESS);
 }
-
