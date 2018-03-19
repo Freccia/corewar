@@ -6,7 +6,7 @@
 /*   By: nfinkel <nfinkel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/03/14 19:09:37 by nfinkel           #+#    #+#             */
-/*   Updated: 2018/03/19 16:51:24 by lfabbro          ###   ########.fr       */
+/*   Updated: 2018/03/19 20:29:29 by lfabbro          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,6 +27,6 @@ int			cw_and(t_proc *proc, uint8_t *pc)
 		return (EXIT_FAILURE);
 	proc->reg[reg] = a[0] & a[1];
 	cw_update_carry(proc, proc->reg[reg]);
-	proc->pc = cw_move_ptr(pc, ptr - pc);
+	proc->pc = cw_move_ptr(pc, ptr - pc + 1);
 	return (EXIT_SUCCESS);
 }

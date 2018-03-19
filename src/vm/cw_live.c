@@ -6,7 +6,7 @@
 /*   By: nfinkel <nfinkel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/03/14 19:10:47 by nfinkel           #+#    #+#             */
-/*   Updated: 2018/03/18 18:20:51 by nfinkel          ###   ########.fr       */
+/*   Updated: 2018/03/19 20:30:53 by lfabbro          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,12 +27,12 @@ int			cw_live(t_proc *proc, uint8_t *op_code)
 		{
 			proc->lastlive = g_cw->cycle;
 			ft_printf("Player %s [%hd] is alive!\n", champ->name, champ->id);
-			proc->pc = cw_move_ptr(op_code, 4);
+			proc->pc = cw_move_ptr(op_code, 5);
 			return (EXIT_SUCCESS);
 		}
 		champ = champ->next;
 	}
 	ft_printf("A live has been made... But nobody came.\n");
-	proc->pc = cw_move_ptr(op_code, 4);
+	proc->pc = cw_move_ptr(op_code, 5);
 	return (EXIT_SUCCESS);
 }
