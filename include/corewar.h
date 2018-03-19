@@ -6,7 +6,7 @@
 /*   By: nfinkel <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/03/13 16:16:50 by nfinkel           #+#    #+#             */
-/*   Updated: 2018/03/19 16:50:10 by lfabbro          ###   ########.fr       */
+/*   Updated: 2018/03/19 16:56:17 by lfabbro          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,6 +63,7 @@ typedef struct		s_proc
 	uint32_t		reg[REG_NUMBER + 1];
 	size_t			lastlive;
 	uint16_t		wait;
+	uint8_t			crashed;
 	struct s_proc	*next;
 }					t_proc;
 

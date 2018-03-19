@@ -6,7 +6,7 @@
 /*   By: lfabbro <>                                 +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/03/19 12:54:08 by lfabbro           #+#    #+#             */
-/*   Updated: 2018/03/19 16:44:17 by lfabbro          ###   ########.fr       */
+/*   Updated: 2018/03/19 16:59:14 by lfabbro          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,26 +40,31 @@ t_args		g_args[MAX_ARGS_NUMBER + 1] =
 **	flags	-> restricted address or not
 **
 **	return: the value of the argument
+**			on error, it returns 0
 */
 
 uint32_t	cw_read_arg(t_proc *proc, uint8_t **ptr, uint8_t n, uint8_t flags)
 {
 	uint8_t		ocp;
 	uint32_t	arg;
+	uint8_t		reg;
 	uint8_t		size;
 
 	ocp = *cw_move_ptr(proc->pc, 1);
 	size = (g_op_tab[*(proc->pc)].direct_size) ? 4 : 2;
+	arg = 0;
 	if ((ocp & g_args[n].mask) >> g_args[n].shift == REG_CODE)
 	{
-		arg = proc->reg[ft_mtoi(*ptr, 1)];
+		reg = ft_mtoi(*ptr, 1);
+		if (reg != 0 && reg < REG_NUMBER)
+			arg = proc->reg[reg];
+		else
+			proc->crashed = T_REG;
 		*ptr = cw_move_ptr(*ptr, 1);
 	}
 	else if ((ocp & g_args[n].mask) >> g_args[n].shift == DIR_CODE)
 		arg = cw_mem_read(ptr, proc->pc, size, E_DIR);
 	else if ((ocp & g_args[n].mask) >> g_args[n].shift == IND_CODE)
 		arg = cw_mem_read(ptr, proc->pc, 2, flags);
-	else
-		arg = 0;
 	return (arg);
 }
