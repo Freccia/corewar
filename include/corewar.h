@@ -6,7 +6,7 @@
 /*   By: nfinkel <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/03/13 16:16:50 by nfinkel           #+#    #+#             */
-/*   Updated: 2018/03/18 18:10:56 by nfinkel          ###   ########.fr       */
+/*   Updated: 2018/03/19 13:04:34 by lfabbro          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,6 +30,12 @@ typedef enum		e_flag
 	E_IND_LONG,
 	E_IND_SHORT
 }					t_flag;
+
+typedef	struct		s_args
+{
+	uint8_t		mask;
+	uint8_t		shift;
+}					t_args;
 
 typedef struct		s_champ
 {
@@ -103,22 +109,19 @@ int					cw_nc_exit(void);
 
 void				cw_mem_dump(uint8_t *mem);
 void				cw_mem_cpy(uint8_t *dst, uint8_t *src, size_t len,
-					uint16_t p);
+						uint16_t p);
 uint8_t				*cw_map_mem(uint8_t *mem, uint8_t *pc);
 uint8_t				*cw_move_ptr(uint8_t const *pc, size_t len);
-size_t				cw_mem_read(uint8_t **pc, uint8_t *ocp, size_t len,
-					t_flag flags);
+uint32_t			cw_mem_read(uint8_t **pc, uint8_t *ocp, size_t len,
+						t_flag flags);
+uint32_t			cw_read_arg(uint8_t *pc, uint8_t **ptr, uint8_t n,
+						uint8_t size);
 
 /*
 ** parse instruction arguments 
 ** return the pc offset or -1 in case of zboub (error)
 */
 void				cw_vm_eval(t_proc *proc);
-
-/*
-** takes instruction number, returns instruction cycles
-*/
-uint16_t			cw_instr_cycles(uint8_t instr);
 
 /*
 ** parse fichier cor 

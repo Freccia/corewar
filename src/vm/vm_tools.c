@@ -6,7 +6,7 @@
 /*   By: lfabbro <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/03/14 15:58:23 by lfabbro           #+#    #+#             */
-/*   Updated: 2018/03/17 20:04:52 by lfabbro          ###   ########.fr       */
+/*   Updated: 2018/03/19 12:19:06 by lfabbro          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,7 +61,7 @@ uint8_t			*cw_move_ptr(uint8_t const *pc, size_t size)
 	return (g_cw->mem + (size_t)((pc - g_cw->mem + size) % MEM_SIZE));
 }
 
-size_t			cw_mem_read(uint8_t **ptr, uint8_t *ocp, size_t len,
+uint32_t		cw_mem_read(uint8_t **ptr, uint8_t *pc, size_t len,
 				t_flag flags)
 {
 	uint8_t		mem[4];
@@ -70,9 +70,9 @@ size_t			cw_mem_read(uint8_t **ptr, uint8_t *ocp, size_t len,
 	if (flags == E_DIR)
 		pos = *ptr;
 	else if (flags == E_IND_SHORT)
-		pos = cw_move_ptr(ocp, ft_mtoi(cw_map_mem(mem, *ptr), len) % IDX_MOD);
+		pos = cw_move_ptr(pc, ft_mtoi(cw_map_mem(mem, *ptr), len) % IDX_MOD);
 	else
-		pos = cw_move_ptr(ocp, ft_mtoi(cw_map_mem(mem, *ptr), len));
+		pos = cw_move_ptr(pc, ft_mtoi(cw_map_mem(mem, *ptr), len));
 	*ptr = cw_move_ptr(*ptr, len);
 	return (ft_mtoi(cw_map_mem(mem, pos), 4));
 }
