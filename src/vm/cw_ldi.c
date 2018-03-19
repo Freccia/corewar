@@ -6,7 +6,7 @@
 /*   By: nfinkel <nfinkel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/03/14 19:10:18 by nfinkel           #+#    #+#             */
-/*   Updated: 2018/03/19 13:17:07 by lfabbro          ###   ########.fr       */
+/*   Updated: 2018/03/19 14:18:31 by lfabbro          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,13 +29,13 @@ int			cw_ldi(t_proc *proc, uint8_t *pc)
 	ptr = cw_move_ptr(ptr, 1);
 	reg = *ptr;
 
-	ft_printf("opcode: %d\n", *pc);
-	ft_printf("a1: %d	a2: %d		a3: %d\n", *pc, a1, a2, reg);
+	//ft_printf("opcode: %d\n", *pc);
+	//ft_printf("a1: %d	a2: %d		a3: %d\n", *pc, a1, a2, reg);
 
 	// TODO is it correct?
 	g_cw->current->reg[reg] = ft_mtoi(cw_map_mem(mem,
 		cw_move_ptr(pc, a1 + a2)), 1);
-	ft_printf("stored: %d\n", g_cw->current->reg[reg]);
+	//ft_printf("stored: %d\n", g_cw->current->reg[reg]);
 	if (!g_cw->current->reg[reg])
 		proc->flags |= _CW_CARRY;
 	else
