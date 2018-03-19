@@ -6,19 +6,11 @@
 /*   By: lfabbro <>                                 +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/03/19 12:54:08 by lfabbro           #+#    #+#             */
-/*   Updated: 2018/03/19 16:59:14 by lfabbro          ###   ########.fr       */
+/*   Updated: 2018/03/19 17:05:55 by lfabbro          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "corewar.h"
-
-void		cw_update_carry(t_proc *proc, uint32_t value)
-{
-	if (value)
-		proc->flags |= _CW_CARRY;
-	else
-		proc->flags &= ~(_CW_CARRY);
-}
 
 t_args		g_args[MAX_ARGS_NUMBER + 1] = 
 {
@@ -28,6 +20,13 @@ t_args		g_args[MAX_ARGS_NUMBER + 1] =
 	{0x03, 0},
 };
 
+void		cw_update_carry(t_proc *proc, uint32_t value)
+{
+	if (value)
+		proc->flags |= _CW_CARRY;
+	else
+		proc->flags &= ~(_CW_CARRY);
+}
 
 /*
 **	uint32_t	cw_read_arg()
