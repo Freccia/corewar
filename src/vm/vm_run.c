@@ -6,7 +6,7 @@
 /*   By: lfabbro <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/03/16 16:55:56 by lfabbro           #+#    #+#             */
-/*   Updated: 2018/03/19 17:15:56 by lfabbro          ###   ########.fr       */
+/*   Updated: 2018/03/19 17:40:43 by lfabbro          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -109,14 +109,39 @@ void	cw_vm_eval(t_proc *proc)
 		proc->wait = 1;
 }
 
+void	cw_vm_cycle_to_die(void)
+{
+	t_proc		*ptr;
+	t_proc		*tmp;
+
+	ptr = g_cw->procs;
+	tmp = NULL;
+	while (ptr)
+		if (!ptr->lastlive)
+		{
+			if (tmp)
+				tmp->next = ptr->next;
+			else
+				g_cw->procs = ptr->next;
+			free(ptr);
+			ptr = (tmp) ? tmp : g_cw->procs;
+		}
+		else
+		{
+			ptr->lastlive = 0;
+			tmp = ptr;
+			ptr = ptr->next;
+		}
+	g_cw->cycle = 0;
+	g_cw->cycle_to_die -= CYCLE_DELTA;
+}
+
 int		cw_vm_run(void)
 {
-	size_t		delta;
-
-	delta = 0;
-	while (g_cw->cycle_to_die > 0 && ++g_cw->cycle && ++delta)
+	while (g_cw->cycle_to_die > 0)
 	{
 		g_cw->current = g_cw->procs;
+		++g_cw->cycle;
 		while (g_cw->current)
 		{
 			if (cw_nc_update())
@@ -125,13 +150,14 @@ int		cw_vm_run(void)
 			g_cw->prev = g_cw->current;
 			g_cw->current = g_cw->current->next;
 		}
-		if (g_cw->opt.d > 0 && g_cw->cycle == (size_t)g_cw->opt.d)
+		if (g_cw->opt.d > 0 && g_cw->cycle == g_cw->opt.d)
 		{
 			cw_mem_dump(&g_cw->mem[0]);
 			return (cw_exit(EXIT_SUCCESS, NULL));
 		}
-		if (delta == (size_t)g_cw->cycle_to_die && !(delta = 0))
-			g_cw->cycle_to_die -= CYCLE_DELTA;
+		if (g_cw->cycle == g_cw->cycle_to_die)
+			cw_vm_cycle_to_die();
 	}
 	return (EXIT_SUCCESS);
 }
+
