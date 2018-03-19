@@ -6,7 +6,7 @@
 /*   By: nfinkel <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/03/13 16:16:50 by nfinkel           #+#    #+#             */
-/*   Updated: 2018/03/19 16:47:38 by lfabbro          ###   ########.fr       */
+/*   Updated: 2018/03/19 16:50:10 by lfabbro          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,13 +18,24 @@
 # include "cw_common.h"
 # include "op.h"
 
-# include "cw_args.h"
-
 # define _CW_CARRY		(1 << 0)
 # define _CW_HEAD_SZ	(16 + PROG_NAME_LENGTH + COMMENT_LENGTH)
 
 # define MASK_ARG2 (0x30)
 # define MASK_ARG3 (0x0c)
+
+typedef enum		e_flag
+{
+	E_DIR,
+	E_IND_LONG,
+	E_IND_SHORT
+}					t_flag;
+
+typedef	struct		s_args
+{
+	uint8_t			mask;
+	uint8_t			shift;
+}					t_args;
 
 typedef struct		s_champ
 {
