@@ -6,7 +6,7 @@
 /*   By: lfabbro <>                                 +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/03/19 12:54:08 by lfabbro           #+#    #+#             */
-/*   Updated: 2018/03/19 18:06:42 by lfabbro          ###   ########.fr       */
+/*   Updated: 2018/03/20 11:25:34 by lfabbro          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,12 +58,14 @@ uint32_t	cw_read_arg(t_proc *proc, uint8_t **ptr, uint8_t n, uint8_t flags)
 		if (reg != 0 && reg < REG_NUMBER)
 			arg = proc->reg[reg];
 		else
-			proc->crashed = T_REG;
+			proc->crashed = E_WRONG_REG;
 		*ptr = cw_move_ptr(*ptr, 1);
 	}
 	else if (ocp == DIR_CODE)
 		arg = cw_mem_read(ptr, proc->pc, size, E_DIR);
 	else if (ocp == IND_CODE)
 		arg = cw_mem_read(ptr, proc->pc, 2, flags);
+	else
+		proc->crashed = E_WRONG_OCP;
 	return (arg);
 }

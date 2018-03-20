@@ -6,7 +6,7 @@
 /*   By: lfabbro <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/03/16 16:55:56 by lfabbro           #+#    #+#             */
-/*   Updated: 2018/03/19 17:45:34 by lfabbro          ###   ########.fr       */
+/*   Updated: 2018/03/20 11:27:59 by lfabbro          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -103,6 +103,7 @@ int		cw_check_ocp(uint8_t *pc)
 int		cw_vm_exec(t_proc *proc, uint8_t *pc)
 {
 	if (*pc >= 0x1 && *pc <= MAX_OP && *pc == g_op_tab[*pc - 1].op_code)
+	{
 		if (!g_op_tab[*pc - 1].ocp || cw_check_ocp(pc) == EXIT_SUCCESS)
 		{
 			cw_nc_notify(pc - g_cw->mem, g_cw->current->color, *pc);
@@ -111,6 +112,11 @@ int		cw_vm_exec(t_proc *proc, uint8_t *pc)
 				g_cw->current->color + 5, *g_cw->current->pc);
 			return (EXIT_SUCCESS);
 		}
+		else
+			proc->crashed = E_WRONG_OCP;
+	}
+	else
+		proc->crashed = E_WRONG_OP;
 	return (EXIT_FAILURE);
 }
 

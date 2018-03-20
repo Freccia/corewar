@@ -6,7 +6,7 @@
 /*   By: nfinkel <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/03/13 16:16:50 by nfinkel           #+#    #+#             */
-/*   Updated: 2018/03/19 18:10:28 by lfabbro          ###   ########.fr       */
+/*   Updated: 2018/03/20 11:26:24 by lfabbro          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,8 +21,13 @@
 # define _CW_CARRY		(1 << 0)
 # define _CW_HEAD_SZ	(16 + PROG_NAME_LENGTH + COMMENT_LENGTH)
 
+// TODO do not use those, but g_args
 # define MASK_ARG2 (0x30)
 # define MASK_ARG3 (0x0c)
+
+# define E_WRONG_OP		(-0x0a)
+# define E_WRONG_OCP	(-0x0b)
+# define E_WRONG_REG	(-0x0c)
 
 typedef enum		e_flag
 {
