@@ -6,7 +6,7 @@
 /*   By: nfinkel <nfinkel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/03/14 19:10:33 by nfinkel           #+#    #+#             */
-/*   Updated: 2018/03/19 20:37:33 by lfabbro          ###   ########.fr       */
+/*   Updated: 2018/03/20 11:37:43 by lfabbro          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,5 +32,6 @@ int			cw_lfork(t_proc *proc, uint8_t *pc)
 	new->pc = cw_move_ptr(pc, n);
 	new->next = NULL;
 	proc->pc = cw_move_ptr(pc, 3);
+	++g_cw->proc_count;
 	return (EXIT_SUCCESS);
 }

@@ -6,7 +6,7 @@
 /*   By: lfabbro <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/03/16 16:55:56 by lfabbro           #+#    #+#             */
-/*   Updated: 2018/03/20 11:27:59 by lfabbro          ###   ########.fr       */
+/*   Updated: 2018/03/20 11:35:58 by lfabbro          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -166,5 +166,6 @@ int		cw_vm_run(void)
 			g_cw->cycle_to_die -= CYCLE_DELTA;
 		}
 	}
+	// TODO: who won?
 	return (EXIT_SUCCESS);
 }
