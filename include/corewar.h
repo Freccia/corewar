@@ -6,7 +6,7 @@
 /*   By: nfinkel <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/03/13 16:16:50 by nfinkel           #+#    #+#             */
-/*   Updated: 2018/03/21 21:25:46 by nfinkel          ###   ########.fr       */
+/*   Updated: 2018/03/21 22:11:22 by lfabbro          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -138,6 +138,7 @@ uint8_t				*cw_move_ptr(uint8_t const *pc, int32_t len);
 uint32_t			cw_mem_read(uint8_t **pc, uint8_t *ocp, size_t len,
 						uint32_t flags);
 uint32_t			cw_read_mem(uint8_t **pc, uint8_t *ocp, uint32_t flags);
+int32_t				cw_read_n(uint8_t *ptr, uint16_t n);
 uint32_t			cw_read_arg(t_proc *proc, uint8_t **ptr, uint8_t n,
 						uint32_t flags);
 void				cw_update_carry(t_proc *proc, uint32_t value);
