@@ -6,7 +6,7 @@
 /*   By: lfabbro <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/03/14 15:58:23 by lfabbro           #+#    #+#             */
-/*   Updated: 2018/03/21 18:49:44 by lfabbro          ###   ########.fr       */
+/*   Updated: 2018/03/21 19:22:20 by lfabbro          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,10 +55,10 @@ uint8_t			*cw_map_mem(uint8_t *mem, uint8_t *pc)
 	return (mem);
 }
 
-uint8_t			*cw_move_ptr(uint8_t const *pc, size_t size)
+uint8_t			*cw_move_ptr(uint8_t const *pc, int32_t move)
 {
 	// OK, mais penser a rajouter en fonction de -ctmo
-	return (g_cw->mem + (size_t)((pc - g_cw->mem + size) % MEM_SIZE));
+	return (g_cw->mem + ((pc - g_cw->mem + move) % MEM_SIZE));
 }
 
 uint32_t		cw_mem_read(uint8_t **ptr, uint8_t *pc, size_t len,

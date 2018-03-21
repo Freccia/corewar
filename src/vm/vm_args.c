@@ -6,7 +6,7 @@
 /*   By: lfabbro <>                                 +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/03/19 12:54:08 by lfabbro           #+#    #+#             */
-/*   Updated: 2018/03/21 18:54:10 by lfabbro          ###   ########.fr       */
+/*   Updated: 2018/03/21 19:17:37 by lfabbro          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,26 +76,3 @@ uint32_t	cw_read_arg(t_proc *proc, uint8_t **ptr, uint8_t n, uint32_t flags)
 		proc->crashed = E_WRONG_OCP;
 	return (arg);
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
