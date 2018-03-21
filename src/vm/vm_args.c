@@ -6,7 +6,7 @@
 /*   By: lfabbro <>                                 +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/03/19 12:54:08 by lfabbro           #+#    #+#             */
-/*   Updated: 2018/03/21 19:17:37 by lfabbro          ###   ########.fr       */
+/*   Updated: 2018/03/21 19:43:06 by lfabbro          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,9 +69,9 @@ uint32_t	cw_read_arg(t_proc *proc, uint8_t **ptr, uint8_t n, uint32_t flags)
 		*ptr = cw_move_ptr(*ptr, 1);
 	}
 	else if (ocp == DIR_CODE)
-		arg = cw_mem_read(ptr, proc->pc, size, F_DIR);
+		arg = cw_read_mem(ptr, proc->pc, F_DIR);
 	else if (ocp == IND_CODE)
-		arg = cw_mem_read(ptr, proc->pc, 2, flags);
+		arg = cw_read_mem(ptr, proc->pc, flags);
 	else
 		proc->crashed = E_WRONG_OCP;
 	return (arg);

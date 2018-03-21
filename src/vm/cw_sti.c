@@ -6,7 +6,7 @@
 /*   By: nfinkel <nfinkel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/03/14 19:16:47 by nfinkel           #+#    #+#             */
-/*   Updated: 2018/03/21 19:20:05 by lfabbro          ###   ########.fr       */
+/*   Updated: 2018/03/21 19:25:56 by lfabbro          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,6 +34,7 @@ int			cw_sti(t_proc *proc, uint8_t *pc)
 	a[0] = (int32_t)cw_read_arg(proc, &ptr, 1, F_IND_RESTRICT | F_DIR | F_REG_VAL);
 	a[1] = (int32_t)cw_read_arg(proc, &ptr, 2, F_IND_RESTRICT | F_DIR);
 	ft_printf("reg: %d	a1: %d	a2: %d\n", reg, a[0], a[1]);
+	ft_printf("move: %d\n", (a[0] + a[1]) % IDX_MOD);
 	// TODO: %IDX_MOD ??
 	write = (int32_t*)cw_move_ptr(pc, (a[0] + a[1]) % IDX_MOD);
 	*write = proc->reg[reg];

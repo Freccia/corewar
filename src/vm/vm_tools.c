@@ -6,7 +6,7 @@
 /*   By: lfabbro <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/03/14 15:58:23 by lfabbro           #+#    #+#             */
-/*   Updated: 2018/03/21 19:22:20 by lfabbro          ###   ########.fr       */
+/*   Updated: 2018/03/21 19:43:44 by lfabbro          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,6 +59,28 @@ uint8_t			*cw_move_ptr(uint8_t const *pc, int32_t move)
 {
 	// OK, mais penser a rajouter en fonction de -ctmo
 	return (g_cw->mem + ((pc - g_cw->mem + move) % MEM_SIZE));
+}
+
+uint32_t		cw_read_mem(uint8_t **ptr, uint8_t *pc, uint32_t flags)
+{
+	uint8_t		mem[4];
+	uint8_t		*pos;
+	size_t		len;
+
+	len = 2;
+	if (flags == F_DIR || flags == F_DIR_DOUBLE)
+	{
+		pos = *ptr;
+		len = (flags == F_DIR) ? 2 : 4;
+	}
+	else if (flags == F_IND_RESTRICT)
+		pos = cw_move_ptr(pc, ft_mtoi(cw_map_mem(mem, *ptr), len) % IDX_MOD);
+	else if (flags == F_IND)
+		pos = cw_move_ptr(pc, ft_mtoi(cw_map_mem(mem, *ptr), len));
+	else
+		return (0);
+	*ptr = cw_move_ptr(*ptr, len);
+	return (ft_mtoi(cw_map_mem(mem, pos), len));
 }
 
 uint32_t		cw_mem_read(uint8_t **ptr, uint8_t *pc, size_t len,
