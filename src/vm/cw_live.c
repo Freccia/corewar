@@ -6,7 +6,7 @@
 /*   By: nfinkel <nfinkel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/03/14 19:10:47 by nfinkel           #+#    #+#             */
-/*   Updated: 2018/03/21 20:40:45 by lfabbro          ###   ########.fr       */
+/*   Updated: 2018/03/21 21:14:13 by lfabbro          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,8 @@ int			cw_live(t_proc *proc, uint8_t *pc)
 		{
 			//proc->lastlive = g_cw->cycle;
 			champ->lastlive = g_cw->cycle;
-			ft_printf("Player %s [%hd] is alive!\n", champ->name, champ->id);
+			if (g_cw->opt.d)
+				ft_printf("Player %s [%hd] is alive!\n", champ->name, champ->id);
 			proc->pc = cw_move_ptr(pc, 4);
 			return (EXIT_SUCCESS);
 		}

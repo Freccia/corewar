@@ -6,7 +6,7 @@
 /*   By: lfabbro <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/03/16 16:55:56 by lfabbro           #+#    #+#             */
-/*   Updated: 2018/03/21 20:34:52 by lfabbro          ###   ########.fr       */
+/*   Updated: 2018/03/21 21:16:33 by lfabbro          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -107,7 +107,7 @@ int		cw_vm_exec(t_proc *proc, uint8_t *pc)
 		if (!g_op_tab[*pc - 1].ocp || cw_check_ocp(pc) == EXIT_SUCCESS)
 		{
 			cw_nc_notify(pc - g_cw->mem, g_cw->current->color, *pc);
-			ft_printf("Player: %d executing %s\n", proc->id, g_op_tab[*pc - 1].name);
+			//ft_printf("Player: %d executing %s\n", proc->id, g_op_tab[*pc - 1].name);
 			g_instr[*pc - 1](proc, pc);
 			cw_nc_notify(g_cw->current->pc - g_cw->mem,\
 				g_cw->current->color + 5, *g_cw->current->pc);
@@ -170,7 +170,7 @@ int		cw_vm_run(void)
 		}
 		if (g_cw->cycle == g_cw->cycle_to_die)
 		{
-			cw_vm_cycle_to_die();
+		//	cw_vm_cycle_to_die();
 			g_cw->cycle = 0;
 			g_cw->cycle_to_die -= CYCLE_DELTA;
 		}
