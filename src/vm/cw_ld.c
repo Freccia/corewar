@@ -6,30 +6,50 @@
 /*   By: nfinkel <nfinkel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/03/14 19:10:02 by nfinkel           #+#    #+#             */
-/*   Updated: 2018/03/16 15:12:23 by lfabbro          ###   ########.fr       */
+/*   Updated: 2018/03/21 21:28:48 by lfabbro          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "corewar.h"
 
-int					cw_ld(uint8_t *pc)
+int			cw_ld(t_proc *proc, uint8_t *pc)
 {
-	int			reg;
-	int			value;
-	uint8_t		mem[4];
+	uint8_t		*ptr;
+	int32_t		a1;
+	uint8_t		reg;
 
-	if ((pc + 1) & _CW_FIRST_ARG & T_DIR)
-		value = cw_mem_read_dir(&pc, 4, 1, E_SHORT);
-	else // T_IND
-		value = cw_mem_read_ind(&pc, 2, 1, E_SHORT);
-	reg = ft_mtoi(cw_map_mem(mem, pc), 1);
+	ptr = cw_move_ptr(pc, 2);
+	a1 = cw_read_arg(proc, &ptr, 0, F_IND_RESTRICT | F_DIR_DOUBLE);
+	reg = cw_read_arg(proc, &ptr, 1, F_REG);
 	if (!reg || reg > REG_NUMBER)
 		return (EXIT_FAILURE);
-	ft_memmove(g_cw->current->reg[reg], &value, REG_SIZE);
-	if (!value)
-		g_cw->current->flags |= _CW_CARRY;
-	else
-		g_cw->current->flags &= ~(_CW_CARRY);
-	g_cw->current->pc = cw_move_pc(pc, 1);
+	proc->reg[reg] = a1;
+	cw_update_carry(proc, proc->reg[reg]);
+	proc->pc = cw_move_ptr(pc, ptr - pc);
 	return (EXIT_SUCCESS);
 }
+/*
+int			cw_ld(t_proc *proc, uint8_t *op_code)
+{
+	int				reg;
+	uint32_t		value;
+	uint8_t			mem[4];
+	uint8_t			*ptr;
+
+	ptr = cw_move_ptr(op_code, 2);
+	if ((ft_mtoi(cw_map_mem(mem, cw_move_ptr(op_code, 1)), 1) >> 6) == DIR_CODE)
+		value = cw_mem_read(&ptr, op_code, 4, F_DIR_DOUBLE);
+	else
+		value = cw_mem_read(&ptr, op_code, 2, F_IND_RESTRICT);
+	reg = ft_mtoi(cw_map_mem(mem, ptr), 1);
+	if (!reg || reg > REG_NUMBER)
+		return (EXIT_FAILURE);
+	proc->reg[reg] = value;
+	if (!value)
+		proc->flags |= _CW_CARRY;
+	else
+		proc->flags &= ~(_CW_CARRY);
+	proc->pc = cw_move_ptr(ptr, 1);
+	return (EXIT_SUCCESS);
+}
+*/

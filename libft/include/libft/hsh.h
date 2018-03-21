@@ -6,15 +6,15 @@
 /*   By: mc <mc.maxcanal@gmail.com>                 +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/03/14 04:41:12 by mc                #+#    #+#             */
-/*   Updated: 2018/03/14 04:55:32 by mc               ###   ########.fr       */
+/*   Updated: 2018/03/16 23:59:42 by mcanal           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef HSH_H
 # define HSH_H
 
-#include "type.h"
-#include "str.h"
+# include "type.h"
+# include "str.h"
 
 /*
 ** hash struct - hash node

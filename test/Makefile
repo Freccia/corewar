@@ -6,7 +6,7 @@
 #    By: mcanal <mcanal@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2014/11/29 13:16:03 by mcanal            #+#    #+#              #
-#    Updated: 2018/03/14 21:56:06 by mc               ###   ########.fr        #
+#    Updated: 2018/03/16 17:16:59 by mcanal           ###   ########.fr        #
 #                                                                              #
 #******************************************************************************#
 
@@ -137,7 +137,7 @@ endif
 all: $(O_DIR)
 #	$(MAKE) -C $(ROOT_DIR) $(FLAGS)
 	$(MAKE) $(NAME) $(FLAGS)
-	./test.sh
+	./$(NAME)
 
 # build for gdb/valgrind debugging
 debug: FLAGS = \

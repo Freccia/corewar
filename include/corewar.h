@@ -6,7 +6,7 @@
 /*   By: nfinkel <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/03/13 16:16:50 by nfinkel           #+#    #+#             */
-/*   Updated: 2018/03/16 15:11:06 by lfabbro          ###   ########.fr       */
+/*   Updated: 2018/03/21 21:28:39 by lfabbro          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,50 +15,51 @@
 
 # include <libft.h>
 
+# include "cw_common.h"
 # include "op.h"
 
-# define SWAP_INT_C(a)	((unsigned int)((a) & 0xff) >> 24)
-# define SWAP_INT_B(a)	((((a) >> 8) & 0x0000ff00) | SWAP_INT_C(a))
-# define SWAP_INT_A(a)	((((a) << 8) & 0x00ff0000) | SWAP_INT_B(a))
-# define SWAP_INT(a)	((((a) & 0xff) << 24) | SWAP_INT_A(a))
-
 # define _CW_CARRY		(1 << 0)
-# define _CW_PROCMAX	(101010)
-# define _CW_MAGIC		SWAP_INT(COREWAR_EXEC_MAGIC)
 # define _CW_HEAD_SZ	(16 + PROG_NAME_LENGTH + COMMENT_LENGTH)
-# define _CW_N_OP		16
 
-# define _CW_NCHAMPS	g_cw->n_champs
-# define _CW_CHAMPS		g_cw->champs
+// TODO do not use those, but g_args in cw_args.c
+# define MASK_ARG2 (0x30)
+# define MASK_ARG3 (0x0c)
 
-# define _CW_FIRST_ARG	0xc0
-# define _CW_SECOND_ARG	0x30
-# define _CW_THIRD_ARG	0x0c
-# define _CW_WHAT_ARG	0x03
+# define E_WRONG_OP		(-0x0a)
+# define E_WRONG_OCP	(-0x0b)
+# define E_WRONG_REG	(-0x0c)
+
+# define F_DIR			1
+# define F_DIR_DOUBLE	2
+# define F_IND			4
+# define F_IND_RESTRICT	8
+# define F_REG			16
+# define F_REG_VAL		32
+
 /*
-** >>> print(0b11000000)
-** 92
-** >> hex(0b11000000)
-** '0xc0'
-** >>> hex(0b00110000)
-** '0x30'
-** >>> hex(0b00001100)
-** '0xc'
-** >>> hex(0b00000011)
-** `'0x3'
+**	E_IND_LONG -> indirectly access all memory
+**	E_IND_SHORT -> indirectly access restricted memory (n % IDX_MOD)
 */
 
-
-typedef enum		e_range
+typedef enum		e_flag
 {
-	E_SHORT,
-	E_LONG
-}					t_range;
+	E_DIR,
+	E_IND_LONG,
+	E_IND_SHORT,
+	E_REG
+}					t_flag;
+
+typedef	struct		s_args
+{
+	uint8_t			mask;
+	uint8_t			shift;
+}					t_args;
 
 typedef struct		s_champ
 {
 	const char		name[PROG_NAME_LENGTH + 1];
 	int				id;
+	uint32_t		lastlive;
 	size_t			size;
 	uint8_t			bin[CHAMP_MAX_SIZE + 1];
 	struct s_champ	*next;
@@ -69,17 +70,19 @@ typedef struct		s_opt
 	uint8_t			v;
 	int64_t			d;
 	uint8_t			g : 1;
+	uint16_t		ctmo;
 }					t_opt;
 
 typedef struct		s_proc
 {
 	int				id;
-	uint8_t			flags;
 	uint8_t			color;
+	uint8_t			flags;
 	uint8_t			*pc;
-	uint8_t			reg[REG_NUMBER][REG_SIZE];
+	uint32_t		reg[REG_NUMBER + 1];
 	size_t			lastlive;
 	uint16_t		wait;
+	uint8_t			crashed;
 	struct s_proc	*next;
 }					t_proc;
 
@@ -87,37 +90,37 @@ typedef struct		s_cw
 {
 	uint8_t			mem[MEM_SIZE];
 	uint16_t		proc_count;
-	t_proc			*prev;
+	t_proc			*prev; // TODO delete me ?
 	t_proc			*current;
 	t_proc			*procs;
-	size_t			cycle;
+	int				cycle;
 	int				cycle_to_die;
 	t_opt			opt;
 	uint8_t			n_champs;
 	t_champ			*champs;
 }					t_cw;
 
+typedef int			(*t_instr)(t_proc *, uint8_t *);
+
 extern t_cw			*g_cw;
-extern t_op			g_op_tab[_CW_N_OP];
+extern t_op			g_op_tab[MAX_OP];
 
-typedef int			(*t_instr)(uint8_t *);
-
-int					cw_live(uint8_t *mem);
-int					cw_ld(uint8_t *mem);
-int					cw_st(uint8_t *mem);
-int					cw_add(uint8_t *mem);
-int					cw_sub(uint8_t *mem);
-int					cw_and(uint8_t *mem);
-int					cw_or(uint8_t *mem);
-int					cw_xor(uint8_t *mem);
-int					cw_zjmp(uint8_t *mem);
-int					cw_ldi(uint8_t *mem);
-int					cw_sti(uint8_t *mem);
-int					cw_fork(uint8_t *mem);
-int					cw_lld(uint8_t *mem);
-int					cw_lldi(uint8_t *mem);
-int					cw_lfork(uint8_t *mem);
-int					cw_aff(uint8_t *mem);
+int					cw_live(t_proc *proc, uint8_t *op_code);
+int					cw_ld(t_proc *proc, uint8_t *op_code);
+int					cw_st(t_proc *proc, uint8_t *op_code);
+int					cw_add(t_proc *proc, uint8_t *op_code);
+int					cw_sub(t_proc *proc, uint8_t *op_code);
+int					cw_and(t_proc *proc, uint8_t *op_code);
+int					cw_or(t_proc *proc, uint8_t *op_code);
+int					cw_xor(t_proc *proc, uint8_t *op_code);
+int					cw_zjmp(t_proc *proc, uint8_t *op_code);
+int					cw_ldi(t_proc *proc, uint8_t *op_code);
+int					cw_sti(t_proc *proc, uint8_t *op_code);
+int					cw_fork(t_proc *proc, uint8_t *op_code);
+int					cw_lld(t_proc *proc, uint8_t *op_code);
+int					cw_lldi(t_proc *proc, uint8_t *op_code);
+int					cw_lfork(t_proc *proc, uint8_t *op_code);
+int					cw_aff(t_proc *proc, uint8_t *op_code);
 
 int					cw_nc_init(void);
 int					cw_nc_update(void);
@@ -125,31 +128,26 @@ int					cw_nc_notify(uint16_t i, uint16_t c, uint8_t val);
 int					cw_nc_exit(void);
 
 void				cw_mem_dump(uint8_t *mem);
-int					cw_mem_write(t_cw *cw, uint8_t *pc, uint8_t value);
-void				cw_mem_cpy(uint8_t *mem, uint8_t const *src, size_t len,
-		uint16_t p);
+void				cw_mem_cpy(uint8_t *dst, uint8_t *src, size_t len,
+						uint16_t p);
 uint8_t				*cw_map_mem(uint8_t *mem, uint8_t *pc);
-uint8_t				*cw_move_pc(uint8_t *pc, size_t len);
-int					cw_mem_read_dir(uint8_t **pc, size_t len, size_t move,
-					t_range range);
-int					cw_mem_read_ind(uint8_t **pc, size_t len, size_t move,
-					t_range range);
+uint8_t				*cw_move_ptr(uint8_t const *pc, int32_t len);
+uint32_t			cw_mem_read(uint8_t **pc, uint8_t *ocp, size_t len,
+						uint32_t flags);
+uint32_t			cw_read_mem(uint8_t **pc, uint8_t *ocp, uint32_t flags);
+uint32_t			cw_read_arg(t_proc *proc, uint8_t **ptr, uint8_t n,
+						uint32_t flags);
+void				cw_update_carry(t_proc *proc, uint32_t value);
 
 /*
 ** parse instruction arguments 
 ** return the pc offset or -1 in case of zboub (error)
 */
-int					cw_vm_eval(t_proc *proc);
-
-/*
-** takes instruction number, returns instruction cycles
-*/
-uint16_t			cw_instr_cycles(uint8_t instr);
+void				cw_vm_eval(t_proc *proc);
 
 /*
 ** parse fichier cor 
 */
-uint16_t			cw_vm_parse(const char *filename, uint8_t *dest);
 void				cw_vm_insert_sort(t_champ **head);
 int					cw_vm_init(int ac, char **av, int r1);
 int					cw_vm_run(void);

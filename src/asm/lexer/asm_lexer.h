@@ -6,7 +6,7 @@
 /*   By: mcanal <zboub@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2015/12/14 18:21:04 by mcanal            #+#    #+#             */
-/*   Updated: 2018/03/15 01:24:56 by mc               ###   ########.fr       */
+/*   Updated: 2018/03/15 21:19:40 by mc               ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,8 @@
 */
 # include <unistd.h>
 
-# define IS_EOL(c) (!c || c == COMMENT_CHAR)
+# define COMMENT_CHAR_B ';'
+# define IS_EOL(c) (!c || c == COMMENT_CHAR || c == COMMENT_CHAR_B)
 
 /*
 ** lexing progress enum
@@ -46,6 +47,6 @@ typedef enum		e_progress
 /*
 ** read_header.c
 */
-void					read_header(t_header *header);
+void				read_header(t_header *header);
 
 #endif

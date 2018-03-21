@@ -6,7 +6,7 @@
 /*   By: mc <mc.maxcanal@gmail.com>                 +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/03/19 20:43:23 by mcanal            #+#    #+#             */
-/*   Updated: 2018/03/15 13:37:57 by mc               ###   ########.fr       */
+/*   Updated: 2018/03/17 00:17:01 by mcanal           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@
 #ifdef ANNOYING_DEBUG
 static void			debug_type(t_arg_type type)
 {
-    fprintf(stderr, DEBUG_HEADER "<type");
+	fprintf(stderr, DEBUG_HEADER "<type");
 	if (type & T_REG)
 		fprintf(stderr, ": T_REG");
 	if (type & T_DIR)
@@ -28,15 +28,16 @@ static void			debug_type(t_arg_type type)
 		fprintf(stderr, ": T_IND");
 	if (type & T_LAB)
 		fprintf(stderr, ": T_LAB");
-    fprintf(stderr, ">\n");
+	fprintf(stderr, ">\n");
 }
-#endif  /* DEBUG */
+#endif	/* DEBUG */
 
 static uint8_t		parse_arg_length(t_arg_type arg_type, t_byte op_code)
 {
 	if (arg_type & T_REG)
 		return (sizeof(t_byte));
-	else if ((arg_type & T_IND) || (arg_type && (op_code >= 9 && op_code <= 15)))
+	else if ((arg_type & T_IND) \
+			|| (arg_type && (op_code >= 9 && op_code <= 15)))
 		return (sizeof(t_word)); //TODO: if "blabla index", then it's just a word?
 	else if (arg_type & T_DIR)
 		return (sizeof(t_dword));
@@ -62,8 +63,8 @@ static t_arg_type	parse_arg_type(char *arg)
 
 	if (*arg == LABEL_CHAR && ret != T_REG)
 		return (T_LAB | ret); //TODO: check if label exists, eventually after...
-    if (*arg == '-' && ft_isdigit(*(arg + 1)))
-        arg++;
+	if (*arg == '-' && ft_isdigit(*(arg + 1)))
+		arg++;
 	while (*arg)
 		if (!ft_isdigit(*arg++))
 			error(E_INVALID, "Invalid arg (not a number).");
@@ -71,7 +72,7 @@ static t_arg_type	parse_arg_type(char *arg)
 }
 
 void				parse_args(t_instruct_read *instruct_r, \
-							   t_instruct_parsed *instruct_p)
+							t_instruct_parsed *instruct_p)
 {
 	int	i;
 
@@ -86,14 +87,15 @@ void				parse_args(t_instruct_read *instruct_r, \
 		*(instruct_p->arg_type + i) = parse_arg_type(*(instruct_r->argv + i));
 
 		*(instruct_p->arg_length + i) = \
-			parse_arg_length(*(instruct_p->arg_type + i), instruct_p->op->op_code);
+			parse_arg_length(*(instruct_p->arg_type + i), \
+							instruct_p->op->op_code);
 
 #ifdef ANNOYING_DEBUG
 		debug_type(*(instruct_p->arg_type + i));
-#endif  /* DEBUG */
+#endif	/* DEBUG */
 
-		if ((!(*(instruct_p->arg_type + i) & ~T_LAB)) &	\
-				*(instruct_p->op->param_type + i))
+		if ((!(*(instruct_p->arg_type + i) & ~T_LAB)) \
+				& *(instruct_p->op->param_type + i))
 			error(E_INVALID, "Invalid arg (wrong arg type).");
 
 		i++;
