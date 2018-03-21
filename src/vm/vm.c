@@ -6,7 +6,7 @@
 /*   By: alucas- <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/03/12 18:15:51 by alucas-           #+#    #+#             */
-/*   Updated: 2018/03/20 11:36:12 by nfinkel          ###   ########.fr       */
+/*   Updated: 2018/03/21 15:57:47 by lfabbro          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,7 @@ t_cw		*g_cw;
 
 static int	cw_vm_usage(int ac, char **av)
 {
+	(void)ac;
 	ft_printf("Usage: %s [ options ] <champ.cor> <...>\n", av[0]);
 	ft_printf("	-d N    : Dumps memory after N execution cycles\n");
 	ft_printf("	-g      : Ncurses GUI\n");
