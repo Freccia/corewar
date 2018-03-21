@@ -6,7 +6,7 @@
 /*   By: lfabbro <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/03/14 15:58:23 by lfabbro           #+#    #+#             */
-/*   Updated: 2018/03/21 20:34:34 by lfabbro          ###   ########.fr       */
+/*   Updated: 2018/03/21 21:42:08 by lfabbro          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,6 +53,13 @@ uint8_t			*cw_map_mem(uint8_t *mem, uint8_t *pc)
 		pc = cw_move_ptr(pc, 1);
 	}
 	return (mem);
+}
+
+int			cw_read_n(uint16_t n)
+{
+	uint8_t		mem[n];
+
+	return (ft_mtoi(cw_map_mem(mem, pc), n));
 }
 
 uint8_t			*cw_move_ptr(uint8_t const *pc, int32_t move)
