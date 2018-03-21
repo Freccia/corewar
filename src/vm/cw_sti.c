@@ -6,7 +6,7 @@
 /*   By: nfinkel <nfinkel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/03/14 19:16:47 by nfinkel           #+#    #+#             */
-/*   Updated: 2018/03/21 20:46:47 by lfabbro          ###   ########.fr       */
+/*   Updated: 2018/03/21 20:50:20 by lfabbro          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,7 @@ int			cw_sti(t_proc *proc, uint8_t *pc)
 	// TODO: %IDX_MOD ??
 	write = cw_move_ptr(pc, (a[0] + a[1]) % IDX_MOD);
 	reg = swap_uint32(reg);
-	cw_mem_cpy(write, (uint8_t*)&(reg), 4, proc->color);
+	cw_mem_cpy(write, (uint8_t*)&(reg), 4, proc->color + 2);
 	cw_update_carry(proc, *write);
 	proc->pc = cw_move_ptr(pc, ptr - pc);
 	return (EXIT_SUCCESS);
