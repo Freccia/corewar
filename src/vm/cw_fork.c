@@ -6,7 +6,7 @@
 /*   By: nfinkel <nfinkel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/03/14 19:09:54 by nfinkel           #+#    #+#             */
-/*   Updated: 2018/03/21 22:14:46 by lfabbro          ###   ########.fr       */
+/*   Updated: 2018/03/21 22:15:24 by lfabbro          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,6 @@ int			cw_fork(t_proc *proc, uint8_t *pc)
 
 	ptr = cw_move_ptr(pc, 1);
 	n = cw_read_arg(proc, &ptr, 0, F_DIR);
-	//n = cw_read_n(ptr, 2);
 	ft_dprintf(1, "fork: %d\n", n);
 	new = ft_malloc(sizeof(t_proc));
 	new->next = g_cw->procs;
