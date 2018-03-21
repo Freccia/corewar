@@ -6,7 +6,7 @@
 /*   By: lfabbro <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/03/14 15:58:23 by lfabbro           #+#    #+#             */
-/*   Updated: 2018/03/19 12:19:06 by lfabbro          ###   ########.fr       */
+/*   Updated: 2018/03/21 18:49:44 by lfabbro          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,14 +62,14 @@ uint8_t			*cw_move_ptr(uint8_t const *pc, size_t size)
 }
 
 uint32_t		cw_mem_read(uint8_t **ptr, uint8_t *pc, size_t len,
-				t_flag flags)
+				uint32_t flags)
 {
 	uint8_t		mem[4];
 	uint8_t		*pos;
 
-	if (flags == E_DIR)
+	if (flags == F_DIR)
 		pos = *ptr;
-	else if (flags == E_IND_SHORT)
+	else if (flags == F_IND_RESTRICT)
 		pos = cw_move_ptr(pc, ft_mtoi(cw_map_mem(mem, *ptr), len) % IDX_MOD);
 	else
 		pos = cw_move_ptr(pc, ft_mtoi(cw_map_mem(mem, *ptr), len));

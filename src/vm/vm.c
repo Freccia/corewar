@@ -6,7 +6,7 @@
 /*   By: alucas- <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/03/12 18:15:51 by alucas-           #+#    #+#             */
-/*   Updated: 2018/03/21 15:57:47 by lfabbro          ###   ########.fr       */
+/*   Updated: 2018/03/21 17:11:04 by lfabbro          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,7 +44,7 @@ int 	main(int ac, char **av)
 	if (ac < 2)
 		return (cw_vm_usage(ac, av));
 	ft_bzero(&cw, sizeof(t_cw));
-	r1 = 1;
+	r1 = 0;
 	while ((opt = ft_getopt(ac, av, "gd:v:n:c:")) != -1)
 	{
 		if (opt == 'v')

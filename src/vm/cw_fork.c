@@ -6,7 +6,7 @@
 /*   By: nfinkel <nfinkel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/03/14 19:09:54 by nfinkel           #+#    #+#             */
-/*   Updated: 2018/03/20 11:37:32 by lfabbro          ###   ########.fr       */
+/*   Updated: 2018/03/21 18:59:25 by lfabbro          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ int			cw_fork(t_proc *proc, uint8_t *pc)
 	uint32_t	n;
 
 	ptr = cw_move_ptr(pc, 1);
-	n = cw_mem_read(&ptr, pc, 1, E_DIR);
+	n = cw_mem_read(&ptr, pc, 1, F_DIR);
 	if ((new = malloc(sizeof(t_proc))) == NULL)
 		return (EXIT_FAILURE);
 	tmp = g_cw->procs;

@@ -6,7 +6,7 @@
 /*   By: lfabbro <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/03/16 16:55:56 by lfabbro           #+#    #+#             */
-/*   Updated: 2018/03/20 11:35:58 by lfabbro          ###   ########.fr       */
+/*   Updated: 2018/03/21 18:35:08 by lfabbro          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -107,13 +107,17 @@ int		cw_vm_exec(t_proc *proc, uint8_t *pc)
 		if (!g_op_tab[*pc - 1].ocp || cw_check_ocp(pc) == EXIT_SUCCESS)
 		{
 			cw_nc_notify(pc - g_cw->mem, g_cw->current->color, *pc);
+			ft_printf("Player: %d executing %s\n", proc->id, g_op_tab[*pc - 1].name);
 			g_instr[*pc - 1](proc, pc);
 			cw_nc_notify(g_cw->current->pc - g_cw->mem,\
 				g_cw->current->color + 5, *g_cw->current->pc);
 			return (EXIT_SUCCESS);
 		}
 		else
+		{
 			proc->crashed = E_WRONG_OCP;
+			return (EXIT_FAILURE);
+		}
 	}
 	else
 		proc->crashed = E_WRONG_OP;
@@ -137,7 +141,12 @@ void	cw_vm_eval(t_proc *proc)
 	else if (*proc->pc >= 0x1 && *proc->pc <= MAX_OP)
 		proc->wait = g_op_tab[*proc->pc - 1].cycles - 1;
 	else
+	{
 		proc->wait = 1;
+		// TODO ok ? (if the instruction is wrong the pc keep mooving)
+		// or we crash it
+		proc->pc = cw_move_ptr(proc->pc, 1);
+	}
 }
 
 int		cw_vm_run(void)
@@ -151,7 +160,7 @@ int		cw_vm_run(void)
 			if (cw_nc_update())
 				return (cw_exit(EXIT_FAILURE, NULL));
 			cw_vm_eval(g_cw->current);
-			g_cw->prev = g_cw->current;
+			//g_cw->prev = g_cw->current; // TODO delete me
 			g_cw->current = g_cw->current->next;
 		}
 		if (g_cw->opt.d > 0 && g_cw->cycle == g_cw->opt.d)

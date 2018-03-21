@@ -6,7 +6,7 @@
 /*   By: lfabbro <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/03/15 15:30:43 by lfabbro           #+#    #+#             */
-/*   Updated: 2018/03/20 11:38:08 by lfabbro          ###   ########.fr       */
+/*   Updated: 2018/03/21 17:12:05 by lfabbro          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,8 +48,8 @@ static t_champ	*cw_vm_parse_champ(const char *filename, int r1, t_champ *next)
 		cw_exit(3, "Wrong file: magic number.\n");
 	if ((new = malloc(sizeof(t_champ))) == NULL)
 		cw_exit(EXIT_FAILURE, "%m\n");
-	ft_memcpy((void*)(new->name), buf + sizeof(uint32_t),
-		PROG_NAME_LENGTH);
+	ft_bzero(new, sizeof(t_champ));
+	ft_memcpy((void*)(new->name), buf + sizeof(uint32_t), PROG_NAME_LENGTH);
 	if ((bin_size = read(fd, &buf, CHAMP_MAX_SIZE + 1)) <= 0)
 		cw_exit(3, "Failed reading file binary.\n");
 	if (bin_size > CHAMP_MAX_SIZE)
@@ -100,16 +100,16 @@ int				cw_vm_init(int ac, char **av, int r1)
 	int		opt;
 	int		id;
 
-	r1 = (!r1) ? 0 : r1;
 	id = 0;
 	while (g_optind < ac)
 	{
 		if (g_cw->n_champs >= MAX_PLAYERS)
 			return (cw_exit(EXIT_FAILURE, "Too much players\n"));
-		r1 = cw_vm_check_r1(r1);
 		r1 = (r1) ? r1 : ++id;
+		r1 = cw_vm_check_r1(r1);
 		g_cw->champs = cw_vm_parse_champ(av[g_optind], r1, g_cw->champs);
 		++g_cw->n_champs;
+		r1 = 0;
 		if (++g_optind < ac)
 		{
 			if ((opt = ft_getopt(ac, av, "n:")) == WUT)
