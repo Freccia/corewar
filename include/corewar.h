@@ -6,7 +6,7 @@
 /*   By: nfinkel <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/03/13 16:16:50 by nfinkel           #+#    #+#             */
-/*   Updated: 2018/03/21 19:42:38 by lfabbro          ###   ########.fr       */
+/*   Updated: 2018/03/21 21:25:46 by nfinkel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,7 +46,10 @@ typedef enum		e_flag
 	E_DIR,
 	E_IND_LONG,
 	E_IND_SHORT,
-	E_REG
+	E_REG,
+	E_INVALID_LIVE,
+	E_VALID_LIVE,
+	E_OP
 }					t_flag;
 
 typedef	struct		s_args
@@ -138,6 +141,8 @@ uint32_t			cw_read_mem(uint8_t **pc, uint8_t *ocp, uint32_t flags);
 uint32_t			cw_read_arg(t_proc *proc, uint8_t **ptr, uint8_t n,
 						uint32_t flags);
 void				cw_update_carry(t_proc *proc, uint32_t value);
+void				cw_verbose(const t_proc *proc, const char *name, int id,
+						t_flag flag);
 
 /*
 ** parse instruction arguments 

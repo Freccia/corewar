@@ -6,7 +6,7 @@
 /*   By: lfabbro <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/03/16 16:55:56 by lfabbro           #+#    #+#             */
-/*   Updated: 2018/03/21 21:16:33 by lfabbro          ###   ########.fr       */
+/*   Updated: 2018/03/21 21:30:24 by lfabbro          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -100,6 +100,21 @@ int		cw_check_ocp(uint8_t *pc)
 	return (EXIT_SUCCESS);
 }
 
+void	cw_verbose(const t_proc *proc, const char *name, int id, t_flag flag)
+{
+	t_opt		opt;
+
+	opt = g_cw->opt;
+	if (opt.g == 1)
+		return ;
+	if (opt.v & 1 && flag == E_INVALID_LIVE)
+		ft_printf("A live has been made... But nobody came.\n");
+	else if (opt.v & 1 && flag == E_VALID_LIVE)
+		ft_printf("Player %s [%hd] is alive!\n", name, id);
+	if (opt.v & 2 && flag == E_OP)
+		ft_printf("Player: %d executing %s\n", proc->id, g_op_tab[*proc->pc - 1].name);
+}
+
 int		cw_vm_exec(t_proc *proc, uint8_t *pc)
 {
 	if (*pc >= 0x1 && *pc <= MAX_OP && *pc == g_op_tab[*pc - 1].op_code)
@@ -107,10 +122,10 @@ int		cw_vm_exec(t_proc *proc, uint8_t *pc)
 		if (!g_op_tab[*pc - 1].ocp || cw_check_ocp(pc) == EXIT_SUCCESS)
 		{
 			cw_nc_notify(pc - g_cw->mem, g_cw->current->color, *pc);
-			//ft_printf("Player: %d executing %s\n", proc->id, g_op_tab[*pc - 1].name);
 			g_instr[*pc - 1](proc, pc);
 			cw_nc_notify(g_cw->current->pc - g_cw->mem,\
 				g_cw->current->color + 5, *g_cw->current->pc);
+			cw_verbose(proc, NULL, 0, E_OP);
 			return (EXIT_SUCCESS);
 		}
 		else
