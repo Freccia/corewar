@@ -6,7 +6,7 @@
 /*   By: mcanal <zboub@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2015/11/29 15:38:59 by mcanal            #+#    #+#             */
-/*   Updated: 2018/03/22 21:21:40 by mcanal           ###   ########.fr       */
+/*   Updated: 2018/03/23 00:03:44 by mc               ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,9 +46,7 @@ static void check_memory(size_t mem_size_to_check, t_proc *proc)
 		fprintf(stderr, "Ctrl memory:\n");
 		ft_print_memory(mem, mem_size_to_check);
 	}
-	MU_ASSERT(
-		!i, "memory diff"
-	);
+	MU_ASSERT(!i, "memory diff");
 }
 
 void test_vm_add()
