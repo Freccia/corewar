@@ -6,7 +6,7 @@
 /*   By: nfinkel <nfinkel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/03/14 19:09:37 by nfinkel           #+#    #+#             */
-/*   Updated: 2018/03/21 20:36:38 by lfabbro          ###   ########.fr       */
+/*   Updated: 2018/03/22 01:40:21 by lfabbro          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,6 @@ int			cw_and(t_proc *proc, uint8_t *pc)
 	a[0] = cw_read_arg(proc, &ptr, 0, F_IND_RESTRICT | F_DIR_DOUBLE | F_REG_VAL);
 	a[1] = cw_read_arg(proc, &ptr, 1, F_IND_RESTRICT | F_DIR_DOUBLE | F_REG_VAL);
 	reg = cw_read_arg(proc, &ptr, 2, F_REG);
-	//ft_printf("a0: %d	a1: %d	reg: %d\n", a[0], a[1], reg);
 	if (!reg || reg > REG_NUMBER)
 		return (EXIT_FAILURE);
 	proc->reg[reg] = a[0] & a[1];

@@ -6,7 +6,7 @@
 /*   By: lfabbro <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/03/16 16:55:56 by lfabbro           #+#    #+#             */
-/*   Updated: 2018/03/21 21:34:00 by lfabbro          ###   ########.fr       */
+/*   Updated: 2018/03/22 01:38:38 by lfabbro          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -158,8 +158,8 @@ void	cw_vm_eval(t_proc *proc)
 	else
 	{
 		proc->wait = 1;
-		// TODO ok ? (if the instruction is wrong the pc keep mooving)
-		// or we crash it
+		// TODO ok ? (if the instruction is wrong the pc keeps mooving)
+		// or we crash it ?
 		proc->pc = cw_move_ptr(proc->pc, 1);
 	}
 }
