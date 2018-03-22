@@ -6,7 +6,7 @@
 /*   By: lfabbro <>                                 +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/03/19 12:54:08 by lfabbro           #+#    #+#             */
-/*   Updated: 2018/03/22 01:45:20 by lfabbro          ###   ########.fr       */
+/*   Updated: 2018/03/22 21:24:46 by mcanal           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,10 +22,11 @@ t_args		g_arg[MAX_ARGS_NUMBER + 1] =
 
 void		cw_update_carry(t_proc *proc, uint32_t value)
 {
+	// TODO check
 	if (value)
-		proc->flags |= _CW_CARRY;
-	else
 		proc->flags &= ~(_CW_CARRY);
+	else
+		proc->flags |= _CW_CARRY;
 }
 
 uint32_t		cw_read_mem(uint8_t **ptr, uint8_t *pc, uint32_t flags)

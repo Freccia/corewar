@@ -6,7 +6,7 @@
 /*   By: nfinkel <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/03/13 16:16:50 by nfinkel           #+#    #+#             */
-/*   Updated: 2018/03/22 01:48:48 by lfabbro          ###   ########.fr       */
+/*   Updated: 2018/03/22 21:01:23 by mcanal           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -106,7 +106,6 @@ typedef struct		s_cw
 typedef int			(*t_instr)(t_proc *, uint8_t *);
 
 extern t_cw			*g_cw;
-extern t_op			g_op_tab[MAX_OP];
 extern t_args		g_arg[MAX_ARGS_NUMBER + 1];
 
 int					cw_live(t_proc *proc, uint8_t *op_code);
@@ -147,17 +146,25 @@ void				cw_verbose(const t_proc *proc, const char *name, int id,
 						t_flag flag);
 
 /*
-** parse instruction arguments 
+** parse instruction arguments
 ** return the pc offset or -1 in case of zboub (error)
 */
 void				cw_vm_eval(t_proc *proc);
 
 /*
-** parse fichier cor 
+** parse fichier cor
 */
 void				cw_vm_insert_sort(t_champ **head);
 int					cw_vm_init(int ac, char **av, int r1);
 int					cw_vm_run(void);
 int					cw_exit(int ecode, char const *fmt, ...);
+
+/*
+** init vm opt
+*/
+int		cw_vm_usage(int ac, char **av);
+int		cw_vm_check_ctmo(int ctmo);
+int		cw_vm_parse_opt(int ac, char **av, t_cw *cw);
+
 
 #endif
