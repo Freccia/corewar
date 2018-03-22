@@ -6,33 +6,13 @@
 /*   By: alucas- <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/03/12 18:15:51 by alucas-           #+#    #+#             */
-/*   Updated: 2018/03/16 17:56:57 by lfabbro          ###   ########.fr       */
+/*   Updated: 2018/03/21 17:11:04 by lfabbro          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "corewar.h"
 
-t_cw		*g_cw = NULL;
-
-t_instr		g_instr[16] =
-{
-	cw_live,
-	cw_ld,
-	cw_st,
-	cw_add,
-	cw_sub,
-	cw_and,
-	cw_or,
-	cw_xor,
-	cw_zjmp,
-	cw_ldi,
-	cw_sti,
-	cw_fork,
-	cw_lld,
-	cw_lldi,
-	cw_lfork,
-	cw_aff
-};	
+t_cw		*g_cw;
 
 static int	cw_vm_usage(int ac, char **av)
 {
@@ -64,7 +44,7 @@ int 	main(int ac, char **av)
 	if (ac < 2)
 		return (cw_vm_usage(ac, av));
 	ft_bzero(&cw, sizeof(t_cw));
-	r1 = 1;
+	r1 = 0;
 	while ((opt = ft_getopt(ac, av, "gd:v:n:c:")) != -1)
 	{
 		if (opt == 'v')

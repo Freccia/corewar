@@ -6,25 +6,24 @@
 /*   By: lfabbro <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/03/14 15:58:23 by lfabbro           #+#    #+#             */
-/*   Updated: 2018/03/16 20:18:00 by lfabbro          ###   ########.fr       */
+/*   Updated: 2018/03/22 01:28:57 by lfabbro          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "corewar.h"
 
-void					cw_mem_cpy(uint8_t *dst, uint8_t *src, size_t len,
-						uint16_t p)
+void			cw_mem_cpy(uint8_t *dst, uint8_t *src, size_t len, uint16_t p)
 {
 	while (len--)
 	{
 		*dst = *src;
-		cw_nc_notify((uint16_t)((dst - g_cw->mem) % MEM_SIZE), p, *src);
-		src = cw_move_ptr(src, 1);
+		cw_nc_notify((uint16_t)(dst - g_cw->mem), p, *src);
+		++src;
 		dst = cw_move_ptr(dst, 1);
 	}
 }
 
-void					cw_mem_dump(uint8_t *mem)
+void			cw_mem_dump(uint8_t *mem)
 {
 	int		k;
 	int		p;
@@ -42,61 +41,45 @@ void					cw_mem_dump(uint8_t *mem)
 	}
 }
 
-inline uint8_t			*cw_map_mem(uint8_t *mem, uint8_t *pc)
+uint8_t			*cw_map_mem(uint8_t *mem, uint8_t *pc, uint16_t n)
 {
 	uint8_t		k;
 
-	ft_memset(mem, '\0', 4 * sizeof(uint8_t));
+	ft_memset(mem, '\0', n * sizeof(uint8_t));
 	k = -1;
-	while (++k < 4)
+	while (++k < n)
 	{
 		mem[k] = *pc;
-		if (pc == &g_cw->mem[MEM_SIZE - 1])
-			pc = &g_cw->mem[0];
-		else
-			++pc;
+		pc = cw_move_ptr(pc, 1);
 	}
 	return (mem);
 }
 
-inline uint8_t			*cw_move_ptr(uint8_t *pc, size_t size)
+int32_t			cw_read_n(uint8_t *ptr, uint16_t n)
 {
-	return (pc + (size_t)((pc - g_cw->mem + size) % MEM_SIZE));
+	uint8_t		mem[n + 1];
+
+	return (ft_mtoi(cw_map_mem(mem, ptr, n), n));
 }
 
-inline uint8_t			*cw_move_pc(uint8_t *pc, size_t len)
+uint8_t			*cw_move_ptr(uint8_t const *pc, int32_t move)
 {
-	return (cw_move_ptr(pc, len));
+	// OK, mais penser a rajouter en fonction de -ctmo
+	return (g_cw->mem + ((pc - g_cw->mem + move) % MEM_SIZE));
 }
 
-inline int				cw_mem_read_dir(uint8_t **pc, size_t len, size_t move,
-						t_range range)
+uint32_t		cw_mem_read(uint8_t **ptr, uint8_t *pc, size_t len,
+				uint32_t flags)
 {
 	uint8_t		mem[4];
 	uint8_t		*pos;
 
-	if (move)
-		*pc = cw_move_ptr(*pc, move);
-	if (range == E_SHORT)
-		pos = &g_cw->mem[ft_mtoi(cw_map_mem(mem, *pc), len) % IDX_MOD];
+	if (flags == F_DIR)
+		pos = *ptr;
+	else if (flags == F_IND_RESTRICT)
+		pos = cw_move_ptr(pc, ft_mtoi(cw_map_mem(mem, *ptr, 4), len) % IDX_MOD);
 	else
-		pos = &g_cw->mem[ft_mtoi(cw_map_mem(mem, *pc), len)];
-	*pc = cw_move_ptr(*pc, len);
-	return (ft_mtoi(cw_map_mem(mem, pos), len));
-}
-
-inline int				cw_mem_read_ind(uint8_t **pc, size_t len, size_t move,
-						t_range range)
-{
-	uint8_t		mem[4];
-	uint8_t		*pos;
-
-	if (move)
-		*pc = cw_move_ptr(*pc, move);
-	if (range == E_SHORT)
-		pos = cw_move_ptr(*pc, ft_mtoi(cw_map_mem(mem, *pc), len) % IDX_MOD);
-	else
-		pos = cw_move_ptr(*pc, ft_mtoi(cw_map_mem(mem, *pc), len));
-	*pc = cw_move_ptr(*pc, len);
-	return (ft_mtoi(cw_map_mem(mem, pos), len));
+		pos = cw_move_ptr(pc, ft_mtoi(cw_map_mem(mem, *ptr, 4), len));
+	*ptr = cw_move_ptr(*ptr, len);
+	return (ft_mtoi(cw_map_mem(mem, pos, 4), 4));
 }
