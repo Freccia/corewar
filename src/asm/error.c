@@ -6,7 +6,7 @@
 /*   By: mcanal <mcanal@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2015/01/12 03:39:12 by mcanal            #+#    #+#             */
-/*   Updated: 2018/03/17 00:07:51 by mcanal           ###   ########.fr       */
+/*   Updated: 2018/03/23 00:30:06 by mc               ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,7 +43,7 @@ static int		get_index(uint8_t flag)
 
 static int		fail(char const *s)
 {
-	return ((int)write(2, s, ft_strlen(s)));
+	return (s ? (int)write(2, s, ft_strlen(s)) : 0);
 }
 
 static int		failn(char const *s)
