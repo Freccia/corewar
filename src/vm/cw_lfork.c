@@ -6,7 +6,7 @@
 /*   By: nfinkel <nfinkel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/03/14 19:10:33 by nfinkel           #+#    #+#             */
-/*   Updated: 2018/03/21 19:03:30 by lfabbro          ###   ########.fr       */
+/*   Updated: 2018/03/22 18:50:11 by lfabbro          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,23 +15,21 @@
 int			cw_lfork(t_proc *proc, uint8_t *pc)
 {
 	t_proc		*new;
-	t_proc		*tmp;
 	uint8_t		*ptr;
-	uint32_t	n;
+	int16_t		n;
 
 	ptr = cw_move_ptr(pc, 1);
-	n = cw_mem_read(&ptr, pc, 1, F_DIR);
-	if ((new = malloc(sizeof(t_proc))) == NULL)
-		return (EXIT_FAILURE);
-	tmp = g_cw->procs;
-	while (tmp && tmp->next)
-		tmp = tmp->next;
-	if (tmp)
-		tmp->next = new;
+	n = cw_read_n(ptr, 2);
+	new = ft_malloc(sizeof(t_proc));
 	ft_memcpy(new, proc, sizeof(t_proc));
+	new->lastlive = 0;
+	new->wait = 1;
+	//if (*proc->pc >= 1 && *proc->pc <= MAX_OP)
+	//	new->wait = g_op_tab[*proc->pc - 1].cycles - 1;
 	new->pc = cw_move_ptr(pc, n);
-	new->next = NULL;
 	proc->pc = cw_move_ptr(pc, 3);
+	new->next = g_cw->procs;
+	g_cw->procs = new;
 	++g_cw->proc_count;
 	return (EXIT_SUCCESS);
 }

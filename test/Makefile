@@ -6,7 +6,7 @@
 #    By: mcanal <mcanal@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2014/11/29 13:16:03 by mcanal            #+#    #+#              #
-#    Updated: 2018/03/16 17:16:59 by mcanal           ###   ########.fr        #
+#    Updated: 2018/03/23 00:05:16 by mc               ###   ########.fr        #
 #                                                                              #
 #******************************************************************************#
 
@@ -22,10 +22,11 @@ SRCS =		main.c		\
 			test_asm.c	\
 			test_asm_parser.c	\
 			test_asm_lexer.c	\
-			test_asm_encoder.c
+			test_asm_encoder.c \
+			test_vm.c
 
 # folder-names of the sources
-VPATH =		src src/asm
+VPATH =		src src/asm src/vm
 
 # where is the tested project?
 ROOT_DIR =	..

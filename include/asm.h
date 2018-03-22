@@ -6,7 +6,7 @@
 /*   By: mcanal <zboub@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2015/12/14 18:21:04 by mcanal            #+#    #+#             */
-/*   Updated: 2018/03/17 00:04:10 by mcanal           ###   ########.fr       */
+/*   Updated: 2018/03/22 21:01:16 by mcanal           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -107,7 +107,6 @@ enum					e_error
 extern t_error_report	g_err;
 extern t_arr			*g_cor;
 extern t_htable			*g_labels;
-extern t_op				g_op_tab[];
 
 /*
 ** init_data.c

@@ -6,7 +6,7 @@
 /*   By: lfabbro <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/03/16 16:55:56 by lfabbro           #+#    #+#             */
-/*   Updated: 2018/03/22 01:38:38 by lfabbro          ###   ########.fr       */
+/*   Updated: 2018/03/22 18:59:18 by lfabbro          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -143,24 +143,22 @@ void	cw_vm_eval(t_proc *proc)
 {
 	if (proc->wait > 1)
 		--proc->wait;
-	else if (cw_vm_exec(proc, proc->pc) == EXIT_FAILURE)
+	else if (cw_vm_exec(proc, proc->pc) == EXIT_SUCCESS)
 	{
-		// L'update du curseur sur le GUI est foireux, mais le pc se deplace bien
-		cw_nc_notify(proc->pc - g_cw->mem, 1, *proc->pc);
-		// TODO: proc->pc is updated directly on each instruction (see: zjmp)
-		//proc->pc = cw_move_ptr(proc->pc, 1);
-		// TODO: wait must be equal to the next instruction cycles
-		proc->wait = g_op_tab[*proc->pc].cycles;
-		cw_nc_notify(proc->pc - g_cw->mem, 1, *proc->pc);
+		proc->wait = g_op_tab[*proc->pc - 1].cycles - 1;
 	}
 	else if (*proc->pc >= 0x1 && *proc->pc <= MAX_OP)
-		proc->wait = g_op_tab[*proc->pc - 1].cycles - 1;
+	{
+		cw_nc_notify(proc->pc - g_cw->mem, proc->id, *proc->pc);
+		// TODO: wait must be equal to the next instruction cycles
+		proc->wait = g_op_tab[*proc->pc - 1].cycles;
+	}
 	else
 	{
+		// increment pc ?
+		//ft_dprintf(1, "Proc %d has crashed: %d(%d).\n", proc->id,
+		//		*proc->pc, proc->pc - g_cw->mem);
 		proc->wait = 1;
-		// TODO ok ? (if the instruction is wrong the pc keeps mooving)
-		// or we crash it ?
-		proc->pc = cw_move_ptr(proc->pc, 1);
 	}
 }
 

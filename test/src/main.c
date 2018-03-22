@@ -6,7 +6,7 @@
 /*   By: mcanal <zboub@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/11/15 11:32:38 by mcanal            #+#    #+#             */
-/*   Updated: 2018/03/14 14:39:03 by mc               ###   ########.fr       */
+/*   Updated: 2018/03/22 21:21:52 by mcanal           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,8 @@
 static void suites_me(char *search)
 {
 	MU_TEST_SUITE suite_asm = {
+		{test_vm_add, "vm add op"},
+		{test_vm, "vm"},
 		{test_asm, "asm"},
 		{test_asm_parser, "asm_parser"},
 		{test_asm_lexer, "asm_lexer"},
