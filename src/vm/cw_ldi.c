@@ -6,7 +6,7 @@
 /*   By: nfinkel <nfinkel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/03/14 19:10:18 by nfinkel           #+#    #+#             */
-/*   Updated: 2018/03/21 21:25:17 by lfabbro          ###   ########.fr       */
+/*   Updated: 2018/03/22 01:30:15 by lfabbro          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@ int			cw_ldi(t_proc *proc, uint8_t *pc)
 	if (!reg || reg > REG_NUMBER)
 		return (EXIT_FAILURE);
 	read = cw_move_ptr(pc, (a[0] + a[1]) % IDX_MOD); // TODO: %IDX_MOD ??
-	proc->reg[reg] = ft_mtoi(cw_map_mem(mem, read), 1);
+	proc->reg[reg] = ft_mtoi(cw_map_mem(mem, read, 4), 1);
 	cw_update_carry(proc, proc->reg[reg]);
 	proc->pc = cw_move_ptr(pc, ptr - pc);
 	return (EXIT_SUCCESS);
