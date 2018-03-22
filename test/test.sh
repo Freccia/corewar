@@ -15,27 +15,31 @@ VALID_FILES="$(find "$ROOT/ressources" -name \*.s)"
 
 error() {
 	echo -e "\n$RED$1$NORMAL"
-    test $VERBOSE && cat "$2" # asm file
+    test "$VERBOSE" && cat "$2" # asm file
     cat "$3" # log file
     test "$4" && echo "$4" # diff
-	test $VERBOSE || exit 1
+	test "$VERBOSE" || exit 1
+	ERROR=42
 }
 
 success() {
-	echo -e "$GREEN$1$NORMAL"
+	test "$ERROR" || echo -e "$GREEN$1$NORMAL"
 }
 
-# functional tests
-mkdir -p "$LOG_FOLDER"
+test_invalid_asm() {
+	unset ERROR
+	f="$1"
 
-for f in $INVALID_FILES; do
 	base_f="$(basename "$f")"
 	"$ROOT/asm" "$f" &> "$LOG_FOLDER/$base_f.log" && error "$base_f (invalid file) succeed :/" "$f" #TODO: catch asm crash :o
-	test $VERBOSE && echo && cat "$f" && cat "$LOG_FOLDER/$base_f.log"
+	test "$VERBOSE" && echo && cat "$f" && cat "$LOG_FOLDER/$base_f.log"
 	success "$base_f (invalid file) ok!"
-done
+}
 
-for f in $VALID_FILES; do
+test_valid_asm() {
+	unset ERROR
+	f="$1"
+
 	base_f="$(basename "$f")"
 	"$ROOT/asm" "$f" &> "$LOG_FOLDER/$base_f.log" \
 		|| error "$base_f (valid file) failed :/" \
@@ -51,6 +55,21 @@ for f in $VALID_FILES; do
 				 "$(diff -y <(hexdump -vC "$test_file") <(hexdump -vC "$ctrl_file"))"
 
 	success "$base_f (valid file) ok!"
-done
+}
+
+# functional tests
+mkdir -p "$LOG_FOLDER"
+
+if test -z "$1"; then
+	for f in $INVALID_FILES; do
+		test_invalid_asm "$f"
+	done
+
+	for f in $VALID_FILES; do
+		test_valid_asm "$f"
+	done
+else
+	test_valid_asm "$1"
+fi
 
 success "yay"
