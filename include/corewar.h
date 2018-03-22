@@ -6,7 +6,7 @@
 /*   By: nfinkel <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/03/13 16:16:50 by nfinkel           #+#    #+#             */
-/*   Updated: 2018/03/22 01:24:56 by lfabbro          ###   ########.fr       */
+/*   Updated: 2018/03/22 01:48:48 by lfabbro          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -107,6 +107,7 @@ typedef int			(*t_instr)(t_proc *, uint8_t *);
 
 extern t_cw			*g_cw;
 extern t_op			g_op_tab[MAX_OP];
+extern t_args		g_arg[MAX_ARGS_NUMBER + 1];
 
 int					cw_live(t_proc *proc, uint8_t *op_code);
 int					cw_ld(t_proc *proc, uint8_t *op_code);

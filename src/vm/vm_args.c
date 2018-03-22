@@ -6,13 +6,13 @@
 /*   By: lfabbro <>                                 +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/03/19 12:54:08 by lfabbro           #+#    #+#             */
-/*   Updated: 2018/03/22 01:25:59 by lfabbro          ###   ########.fr       */
+/*   Updated: 2018/03/22 01:45:20 by lfabbro          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "corewar.h"
 
-t_args		g_args[MAX_ARGS_NUMBER + 1] = 
+t_args		g_arg[MAX_ARGS_NUMBER + 1] = 
 {
 	{0xc0, 6},
 	{0x30, 4},
@@ -55,7 +55,7 @@ uint32_t		cw_read_mem(uint8_t **ptr, uint8_t *pc, uint32_t flags)
 **
 **	proc	-> current process
 **	ptr		-> pointer to the argument (it will be mooved by size octects)
-**	n		-> number of the argument (g_args[n])
+**	n		-> number of the argument (g_arg[n])
 **	flags	-> restricted address or not
 **
 **	return: the value of the argument
@@ -69,7 +69,7 @@ uint32_t	cw_read_arg(t_proc *proc, uint8_t **ptr, uint8_t n, uint32_t flags)
 	uint8_t		reg;
 	uint8_t		size;
 
-	ocp = (*cw_move_ptr(proc->pc, 1) & g_args[n].mask) >> g_args[n].shift;
+	ocp = (*cw_move_ptr(proc->pc, 1) & g_arg[n].mask) >> g_arg[n].shift;
 	size = (g_op_tab[*(proc->pc) - 1].direct_size) ? 2 : 4;
 	arg = 0;
 	if (ocp == REG_CODE)

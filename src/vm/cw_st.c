@@ -6,7 +6,7 @@
 /*   By: nfinkel <nfinkel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/03/14 19:16:28 by nfinkel           #+#    #+#             */
-/*   Updated: 2018/03/22 01:34:10 by lfabbro          ###   ########.fr       */
+/*   Updated: 2018/03/22 01:46:31 by lfabbro          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,12 +24,12 @@ int					cw_st(t_proc *proc, uint8_t *pc)
 	value = cw_read_arg(proc, &ptr, 0, F_REG_VAL);
 	cw_update_carry(proc, value);
 	ocp	= cw_move_ptr(pc, 1);
-	if ((*ocp & 0x30) >> 4 == REG_CODE)
+	if ((*ocp & g_arg[1].mask) >> g_arg[1].shift == REG_CODE)
 	{
 		dst = cw_read_arg(proc, &ptr, 1, F_REG);
 		proc->reg[dst] = value;
 	}
-	else if ((*ocp & 0x30) >> 4 == IND_CODE)
+	else if ((*ocp & g_arg[1].mask) >> g_arg[1].shift == IND_CODE)
 	{
 		dst = cw_read_n(ptr, 2);
 		ptr = cw_move_ptr(ptr, 2);
