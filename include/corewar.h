@@ -6,7 +6,7 @@
 /*   By: nfinkel <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/03/13 16:16:50 by nfinkel           #+#    #+#             */
-/*   Updated: 2018/03/23 19:55:32 by lfabbro          ###   ########.fr       */
+/*   Updated: 2018/03/23 19:57:07 by lfabbro          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,7 +46,10 @@ typedef enum		e_flag
 	E_DIR,
 	E_IND_LONG,
 	E_IND_SHORT,
-	E_REG
+	E_REG,
+	E_INVALID_LIVE,
+	E_VALID_LIVE,
+	E_OP
 }					t_flag;
 
 typedef	struct		s_args
@@ -103,7 +106,7 @@ typedef struct		s_cw
 typedef int			(*t_instr)(t_proc *, uint8_t *);
 
 extern t_cw			*g_cw;
-extern t_op			g_op_tab[MAX_OP];
+extern t_args		g_arg[MAX_ARGS_NUMBER + 1];
 
 int					cw_live(t_proc *proc, uint8_t *op_code);
 int					cw_ld(t_proc *proc, uint8_t *op_code);
@@ -130,27 +133,38 @@ int					cw_nc_exit(void);
 void				cw_mem_dump(uint8_t *mem);
 void				cw_mem_cpy(uint8_t *dst, uint8_t *src, size_t len,
 						uint16_t p);
-uint8_t				*cw_map_mem(uint8_t *mem, uint8_t *pc);
+uint8_t				*cw_map_mem(uint8_t *mem, uint8_t *pc, uint16_t n);
 uint8_t				*cw_move_ptr(uint8_t const *pc, int32_t len);
 uint32_t			cw_mem_read(uint8_t **pc, uint8_t *ocp, size_t len,
 						uint32_t flags);
 uint32_t			cw_read_mem(uint8_t **pc, uint8_t *ocp, uint32_t flags);
+int32_t				cw_read_n(uint8_t *ptr, uint16_t n);
 uint32_t			cw_read_arg(t_proc *proc, uint8_t **ptr, uint8_t n,
 						uint32_t flags);
 void				cw_update_carry(t_proc *proc, uint32_t value);
+void				cw_verbose(const t_proc *proc, const char *name, int id,
+						t_flag flag);
 
 /*
-** parse instruction arguments 
+** parse instruction arguments
 ** return the pc offset or -1 in case of zboub (error)
 */
 void				cw_vm_eval(t_proc *proc);
 
 /*
-** parse fichier cor 
+** parse fichier cor
 */
 void				cw_vm_insert_sort(t_champ **head);
 int					cw_vm_init(int ac, char **av, int r1);
 int					cw_vm_run(void);
 int					cw_exit(int ecode, char const *fmt, ...);
+
+/*
+** init vm opt
+*/
+int		cw_vm_usage(int ac, char **av);
+int		cw_vm_check_ctmo(int ctmo);
+int		cw_vm_parse_opt(int ac, char **av, t_cw *cw);
+
 
 #endif

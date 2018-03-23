@@ -6,7 +6,7 @@
 /*   By: mc </var/spool/mail/mc>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/03/31 00:30:12 by mc                #+#    #+#             */
-/*   Updated: 2018/03/14 14:38:03 by mc               ###   ########.fr       */
+/*   Updated: 2018/03/22 20:07:48 by mcanal           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,5 +31,12 @@ void test_asm(void);
 void test_asm_parser(void);
 void test_asm_lexer(void);
 void test_asm_encoder(void);
+
+
+/*
+** vm
+*/
+void test_vm(void);
+void test_vm_add(void);
 
 #endif

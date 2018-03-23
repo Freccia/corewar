@@ -17,7 +17,7 @@ error() {
 	echo -e "\n$RED$1$NORMAL"
     tail -n 42 "$2"
     cat "$3"
-	exit 1
+	# exit 1
 }
 
 success() {

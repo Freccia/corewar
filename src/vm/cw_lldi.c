@@ -6,7 +6,7 @@
 /*   By: nfinkel <nfinkel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/03/14 19:13:09 by nfinkel           #+#    #+#             */
-/*   Updated: 2018/03/21 19:15:26 by lfabbro          ###   ########.fr       */
+/*   Updated: 2018/03/22 01:27:59 by lfabbro          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@ int			cw_lldi(t_proc *proc, uint8_t *pc)
 	if (!reg || reg > REG_NUMBER)
 		return (EXIT_FAILURE);
 	read = cw_move_ptr(pc, a[0] + a[1]);
-	proc->reg[reg] = ft_mtoi(cw_map_mem(mem, read), 1);
+	proc->reg[reg] = ft_mtoi(cw_map_mem(mem, read, sizeof(mem)), 1);
 	cw_update_carry(proc, g_cw->current->reg[reg]);
 	proc->pc = cw_move_ptr(pc, 8);
 	return (EXIT_SUCCESS);
