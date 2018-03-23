@@ -6,7 +6,7 @@
 /*   By: lfabbro <>                                 +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/03/19 12:54:08 by lfabbro           #+#    #+#             */
-/*   Updated: 2018/03/22 21:24:46 by mcanal           ###   ########.fr       */
+/*   Updated: 2018/03/23 15:06:31 by lfabbro          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,6 @@ t_args		g_arg[MAX_ARGS_NUMBER + 1] =
 
 void		cw_update_carry(t_proc *proc, uint32_t value)
 {
-	// TODO check
 	if (value)
 		proc->flags &= ~(_CW_CARRY);
 	else
