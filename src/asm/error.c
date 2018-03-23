@@ -6,7 +6,7 @@
 /*   By: mcanal <mcanal@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2015/01/12 03:39:12 by mcanal            #+#    #+#             */
-/*   Updated: 2018/03/17 00:07:51 by mcanal           ###   ########.fr       */
+/*   Updated: 2018/03/23 00:51:05 by mc               ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,7 +43,7 @@ static int		get_index(uint8_t flag)
 
 static int		fail(char const *s)
 {
-	return ((int)write(2, s, ft_strlen(s)));
+	return (s ? (int)write(2, s, ft_strlen(s)) : 0);
 }
 
 static int		failn(char const *s)
@@ -58,10 +58,12 @@ static void		pretty_error(char *error_type)
 
 	fail(CLR_WHITE);
 	fail(g_err.file_name);
-	fail(":");
-	line_pos = ft_itoa(g_err.line_pos, 10);
-	fail(line_pos);
-	free(line_pos);
+	if (g_err.line_pos && (line_pos = ft_itoa(g_err.line_pos, 10)))
+	{
+		fail(":");
+		fail(line_pos);
+		free(line_pos);
+	}
 	/* fail(":"); */
 	/* fail(col_pos); */
 	fail(": ");
@@ -73,7 +75,6 @@ static void		pretty_error(char *error_type)
 		failn(g_err.line);
 		failn("\t" CLR_GREEN "^" CLR_RESET); //TODO: handle col_pos
 	}
-	failn("");
 }
 
 t_bool			error(uint8_t flag, char *msg)
