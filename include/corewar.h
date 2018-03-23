@@ -6,7 +6,7 @@
 /*   By: nfinkel <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/03/13 16:16:50 by nfinkel           #+#    #+#             */
-/*   Updated: 2018/03/23 19:57:07 by lfabbro          ###   ########.fr       */
+/*   Updated: 2018/03/23 19:57:45 by lfabbro          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -137,10 +137,11 @@ uint8_t				*cw_map_mem(uint8_t *mem, uint8_t *pc, uint16_t n);
 uint8_t				*cw_move_ptr(uint8_t const *pc, int32_t len);
 uint32_t			cw_mem_read(uint8_t **pc, uint8_t *ocp, size_t len,
 						uint32_t flags);
-uint32_t			cw_read_mem(uint8_t **pc, uint8_t *ocp, uint32_t flags);
+int32_t				cw_read_mem(uint8_t **pc, uint8_t *ocp, uint32_t flags);
 int32_t				cw_read_n(uint8_t *ptr, uint16_t n);
-uint32_t			cw_read_arg(t_proc *proc, uint8_t **ptr, uint8_t n,
+int32_t				cw_read_arg(t_proc *proc, uint8_t **ptr, uint8_t n,
 						uint32_t flags);
+char				*cw_get_opcode_name(uint8_t op);
 void				cw_update_carry(t_proc *proc, uint32_t value);
 void				cw_verbose(const t_proc *proc, const char *name, int id,
 						t_flag flag);

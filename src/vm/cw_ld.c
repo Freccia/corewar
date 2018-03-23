@@ -6,7 +6,7 @@
 /*   By: nfinkel <nfinkel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/03/14 19:10:02 by nfinkel           #+#    #+#             */
-/*   Updated: 2018/03/23 19:57:19 by lfabbro          ###   ########.fr       */
+/*   Updated: 2018/03/23 19:58:00 by lfabbro          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@ int			cw_ld(t_proc *proc, uint8_t *pc)
 {
 	uint8_t		*ptr;
 	int32_t		a1;
-	uint8_t		reg;
+	int32_t		reg;
 
 	ptr = cw_move_ptr(pc, 2);
 	a1 = cw_read_arg(proc, &ptr, 0, F_IND_RESTRICT | F_DIR_DOUBLE);

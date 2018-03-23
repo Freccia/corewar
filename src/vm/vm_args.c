@@ -6,7 +6,7 @@
 /*   By: lfabbro <>                                 +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/03/19 12:54:08 by lfabbro           #+#    #+#             */
-/*   Updated: 2018/03/23 15:06:31 by lfabbro          ###   ########.fr       */
+/*   Updated: 2018/03/23 19:33:14 by lfabbro          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,13 @@ t_args		g_arg[MAX_ARGS_NUMBER + 1] =
 	{0x03, 0},
 };
 
+char		*cw_get_opcode_name(uint8_t op)
+{
+	if (op >= 0x1 && op <= MAX_OP)
+		return (g_op_tab[op - 1].name);
+	return (NULL);
+}
+
 void		cw_update_carry(t_proc *proc, uint32_t value)
 {
 	if (value)
@@ -28,9 +35,8 @@ void		cw_update_carry(t_proc *proc, uint32_t value)
 		proc->flags |= _CW_CARRY;
 }
 
-uint32_t		cw_read_mem(uint8_t **ptr, uint8_t *pc, uint32_t flags)
+int32_t		cw_read_mem(uint8_t **ptr, uint8_t *pc, uint32_t flags)
 {
-	uint8_t		mem[4];
 	uint8_t		*pos;
 	size_t		len;
 
@@ -40,14 +46,14 @@ uint32_t		cw_read_mem(uint8_t **ptr, uint8_t *pc, uint32_t flags)
 		pos = *ptr;
 		len = (flags & F_DIR) ? 2 : 4;
 	}
-	else if (flags == F_IND_RESTRICT)
-		pos = cw_move_ptr(pc, ft_mtoi(cw_map_mem(mem, *ptr, 4), len) % IDX_MOD);
-	else if (flags == F_IND)
-		pos = cw_move_ptr(pc, ft_mtoi(cw_map_mem(mem, *ptr, 4), len));
+	else if (flags & F_IND_RESTRICT)
+		pos = cw_move_ptr(pc, cw_read_n(*ptr, len) % IDX_MOD);
+	else if (flags & F_IND)
+		pos = cw_move_ptr(pc, cw_read_n(*ptr, len));
 	else
 		return (0);
 	*ptr = cw_move_ptr(*ptr, len);
-	return (ft_mtoi(cw_map_mem(mem, pos, 4), len));
+	return (cw_read_n(*ptr, len));
 }
 
 /*
@@ -62,20 +68,21 @@ uint32_t		cw_read_mem(uint8_t **ptr, uint8_t *pc, uint32_t flags)
 **			on error, it returns 0
 */
 
-uint32_t	cw_read_arg(t_proc *proc, uint8_t **ptr, uint8_t n, uint32_t flags)
+int32_t		cw_read_arg(t_proc *proc, uint8_t **ptr, uint8_t n, uint32_t flags)
 {
 	uint8_t		ocp;
 	uint32_t	arg;
 	uint8_t		reg;
-	uint8_t		size;
+	// TODO delete me
+	//uint8_t		size;
 
 	ocp = (*cw_move_ptr(proc->pc, 1) & g_arg[n].mask) >> g_arg[n].shift;
-	size = (g_op_tab[*(proc->pc) - 1].direct_size) ? 2 : 4;
+	//size = (g_op_tab[*(proc->pc) - 1].direct_size) ? 2 : 4;
 	arg = 0;
 	if (ocp == REG_CODE)
 	{
 		reg = ft_mtoi(*ptr, 1);
-		if (reg != 0 && reg < REG_NUMBER)
+		if (reg >= 0x1 && reg <= REG_NUMBER)
 			arg = (flags & F_REG_VAL) ? proc->reg[reg] : reg;
 		else
 			proc->crashed = E_WRONG_REG;

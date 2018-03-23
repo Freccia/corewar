@@ -6,7 +6,7 @@
 /*   By: lfabbro <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/03/16 16:55:56 by lfabbro           #+#    #+#             */
-/*   Updated: 2018/03/22 18:59:18 by lfabbro          ###   ########.fr       */
+/*   Updated: 2018/03/23 16:09:08 by lfabbro          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -112,7 +112,10 @@ void	cw_verbose(const t_proc *proc, const char *name, int id, t_flag flag)
 	else if (opt.v & 1 && flag == E_VALID_LIVE)
 		ft_printf("Player %s [%hd] is alive!\n", name, id);
 	if (opt.v & 2 && flag == E_OP)
-		ft_printf("Player: %d executing %s\n", proc->id, g_op_tab[*proc->pc - 1].name);
+	{
+		if (*proc->pc >= 0x1 && *proc->pc <= MAX_OP)
+			ft_printf("Player: %d executing %s\n", proc->id, name);
+	}
 }
 
 int		cw_vm_exec(t_proc *proc, uint8_t *pc)
@@ -125,7 +128,7 @@ int		cw_vm_exec(t_proc *proc, uint8_t *pc)
 			g_instr[*pc - 1](proc, pc);
 			cw_nc_notify(g_cw->current->pc - g_cw->mem,\
 				g_cw->current->color + 5, *g_cw->current->pc);
-			cw_verbose(proc, NULL, 0, E_OP);
+			cw_verbose(proc, cw_get_opcode_name(*proc->pc), proc->id, E_OP);
 			return (EXIT_SUCCESS);
 		}
 		else
