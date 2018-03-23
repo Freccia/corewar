@@ -6,7 +6,7 @@
 /*   By: nfinkel <nfinkel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/03/14 19:12:49 by nfinkel           #+#    #+#             */
-/*   Updated: 2018/03/22 01:28:26 by lfabbro          ###   ########.fr       */
+/*   Updated: 2018/03/23 15:08:11 by lfabbro          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,10 +28,7 @@ int			cw_lld(t_proc *proc, uint8_t *op_code)
 	if (!reg || reg > REG_NUMBER)
 		return (EXIT_FAILURE);
 	proc->reg[reg] = value;
-	if (!value)
-		proc->flags |= _CW_CARRY;
-	else
-		proc->flags &= ~(_CW_CARRY);
+	cw_update_carry(proc, value);
 	proc->pc = cw_move_ptr(ptr, 1);
 	return (EXIT_SUCCESS);
 }
