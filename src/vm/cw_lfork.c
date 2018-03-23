@@ -6,19 +6,19 @@
 /*   By: nfinkel <nfinkel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/03/14 19:10:33 by nfinkel           #+#    #+#             */
-/*   Updated: 2018/03/22 18:50:11 by lfabbro          ###   ########.fr       */
+/*   Updated: 2018/03/23 18:11:45 by nfinkel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "corewar.h"
 
-int			cw_lfork(t_proc *proc, uint8_t *pc)
+int			cw_lfork(t_proc *proc, uint8_t *op_code)
 {
 	t_proc		*new;
 	uint8_t		*ptr;
 	int16_t		n;
 
-	ptr = cw_move_ptr(pc, 1);
+	ptr = cw_move_ptr(op_code, 1);
 	n = cw_read_n(ptr, 2);
 	new = ft_malloc(sizeof(t_proc));
 	ft_memcpy(new, proc, sizeof(t_proc));
@@ -26,8 +26,8 @@ int			cw_lfork(t_proc *proc, uint8_t *pc)
 	new->wait = 1;
 	//if (*proc->pc >= 1 && *proc->pc <= MAX_OP)
 	//	new->wait = g_op_tab[*proc->pc - 1].cycles - 1;
-	new->pc = cw_move_ptr(pc, n);
-	proc->pc = cw_move_ptr(pc, 3);
+	new->pc = cw_move_ptr(op_code, n);
+	proc->pc = cw_move_ptr(op_code, 3);
 	new->next = g_cw->procs;
 	g_cw->procs = new;
 	++g_cw->proc_count;

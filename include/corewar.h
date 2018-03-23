@@ -6,7 +6,7 @@
 /*   By: nfinkel <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/03/13 16:16:50 by nfinkel           #+#    #+#             */
-/*   Updated: 2018/03/22 21:01:23 by mcanal           ###   ########.fr       */
+/*   Updated: 2018/03/23 18:32:55 by nfinkel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,11 +46,19 @@ typedef enum		e_flag
 	E_DIR,
 	E_IND_LONG,
 	E_IND_SHORT,
-	E_REG,
+	E_REG
+}					t_flag;
+
+typedef enum		e_verbose
+{
 	E_INVALID_LIVE,
 	E_VALID_LIVE,
-	E_OP
-}					t_flag;
+	E_CYCLE,
+	E_DELTA,
+	E_OP,
+	E_DEATH,
+	E_MOVE
+}					t_verbose;
 
 typedef	struct		s_args
 {
@@ -79,6 +87,7 @@ typedef struct		s_opt
 typedef struct		s_proc
 {
 	int				id;
+	int				num; // each process should have a different number
 	uint8_t			color;
 	uint8_t			flags;
 	uint8_t			*pc;
@@ -93,7 +102,7 @@ typedef struct		s_cw
 {
 	uint8_t			mem[MEM_SIZE];
 	uint16_t		proc_count;
-	t_proc			*prev; // TODO delete me ?
+	t_proc			*prev;
 	t_proc			*current;
 	t_proc			*procs;
 	int				cycle;
@@ -143,7 +152,7 @@ uint32_t			cw_read_arg(t_proc *proc, uint8_t **ptr, uint8_t n,
 						uint32_t flags);
 void				cw_update_carry(t_proc *proc, uint32_t value);
 void				cw_verbose(const t_proc *proc, const char *name, int id,
-						t_flag flag);
+						t_verbose flag);
 
 /*
 ** parse instruction arguments
