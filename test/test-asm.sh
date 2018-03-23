@@ -11,7 +11,7 @@ RED="\033[31;01m"
 NORMAL="\033[0m"
 
 INVALID_FILES="$(find "$DATA_FOLDER/invalid_asm" -name \*.s)"
-VALID_FILES="$(find "$ROOT/ressources" -name \*.s)"
+VALID_FILES="$(find "$DATA_FOLDER/test_asm" -name \*.s | sort -r)"
 
 error() {
 	echo -e "\n$RED$1$NORMAL"
