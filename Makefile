@@ -6,7 +6,7 @@
 #    By: alucas- <alucas-@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2017/11/07 09:52:36 by alucas-           #+#    #+#              #
-#    Updated: 2018/03/23 00:07:51 by mc               ###   ########.fr        #
+#    Updated: 2018/03/23 16:38:41 by mcanal           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -191,10 +191,25 @@ re: fclean all
 
 # run tests on project
 test: all
-	+$(SUB_MAKE) $(LFT_DIR) test
-	$(TEST_DIR)/test.sh || true #TODO
+	$(TEST_DIR)/test-asm.sh || true
+	$(TEST_DIR)/test-vm.sh || true
 	+test -d $(TEST_DIR) && $(SUB_MAKE) $(TEST_DIR)
 	@$(PRINTF) "All tests passed!"
+
+#TODO
+# # run tests on project (debug mode)
+# testdev: dev
+# 	$(TEST_DIR)/test-asm.sh $(PROJECTA) || true
+# 	$(TEST_DIR)/test-vm.sh $(PROJECTB) || true
+# 	+test -d $(TEST_DIR) && $(SUB_MAKE) $(TEST_DIR) debug
+# 	@$(PRINTF) "All tests passed!"
+
+# # run tests on project (sanitize mode)
+# testsan: san
+# 	$(TEST_DIR)/test-asm.sh $(PROJECTA) || true
+# 	$(TEST_DIR)/test-vm.sh $(PROJECTB) || true
+# 	+test -d $(TEST_DIR) && $(SUB_MAKE) $(TEST_DIR) sanitize
+# 	@$(PRINTF) "All tests passed!"
 
 # check coding-style
 norme:

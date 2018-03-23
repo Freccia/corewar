@@ -6,7 +6,7 @@
 /*   By: mc <mc.maxcanal@gmail.com>                 +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/03/20 00:19:15 by mcanal            #+#    #+#             */
-/*   Updated: 2018/03/17 00:18:07 by mcanal           ###   ########.fr       */
+/*   Updated: 2018/03/23 01:05:01 by mc               ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,11 +30,11 @@ static void		debug_cor()
 static void		add_header(t_header *header)
 {
 	t_byte	*header_ptr;
-	uint8_t	size;
+	size_t	size;
 
 	header->magic = swap_uint32(COREWAR_EXEC_MAGIC);
 	header->prog_size = swap_uint32(g_cor->length);
-	size = (uint8_t)sizeof(t_header);
+	size = (size_t)sizeof(t_header);
 	header_ptr = (t_byte *)header + size - 1;
 	while (size--)
 		ft_arrpush(g_cor, (void *)(t_ulong)*header_ptr--, 0); //TODO: ok this is ugly, soooorry

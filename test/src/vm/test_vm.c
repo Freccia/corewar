@@ -6,7 +6,7 @@
 /*   By: mcanal <zboub@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2015/11/29 15:38:59 by mcanal            #+#    #+#             */
-/*   Updated: 2018/03/23 00:03:44 by mc               ###   ########.fr       */
+/*   Updated: 2018/03/23 00:40:02 by mc               ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,7 +84,7 @@ void test_vm()
 {
 	int r1;
 	t_cw	cw;
-	char *av[] = {"./supervm3000", "data/ctrl_cor/zork.cor", NULL};
+	char *av[] = {"./supervm3000", "ressources/ctrl_cor/zork.cor", NULL};
 	int ac = 2;
 	int ret;
 
