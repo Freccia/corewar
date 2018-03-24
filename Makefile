@@ -6,7 +6,7 @@
 #    By: alucas- <alucas-@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2017/11/07 09:52:36 by alucas-           #+#    #+#              #
-#    Updated: 2018/03/24 14:01:17 by mc               ###   ########.fr        #
+#    Updated: 2018/03/24 20:21:42 by mc               ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -32,6 +32,8 @@ SRCA_NAME = \
 	asm/lexer/asm_lexer.c \
 	asm/lexer/read_header.c \
 	asm/lexer/read_instruction.c \
+	asm/lexer/read_comment.c \
+	asm/lexer/check_arg_len.c \
 	asm/parser/asm_parser.c \
 	asm/parser/parse_args.c
 SRCB_NAME = \

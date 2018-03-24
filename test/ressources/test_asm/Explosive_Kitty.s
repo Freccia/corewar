@@ -141,6 +141,6 @@ s4:
 	ld %496, r5
 	st r4, r2
 	st r4, r6				# 0f 0f 0f 0f
-	zjmp%:go_erase			#just for waiting 20 cycles
+	zjmp %:go_erase			#just for waiting 20 cycles
 go_erase:
 	sti r2, r3, r1

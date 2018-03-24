@@ -6,13 +6,9 @@
 /*   By: mc <mc.maxcanal@gmail.com>                 +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/03/20 00:19:15 by mcanal            #+#    #+#             */
-/*   Updated: 2018/03/23 01:05:01 by mc               ###   ########.fr       */
+/*   Updated: 2018/03/24 16:17:46 by mc               ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
-
-/*
-** todo
-*/
 
 #include "asm_encoder.h"
 
@@ -27,6 +23,13 @@ static void		debug_cor()
 }
 #endif	/* DEBUG */
 
+
+/*
+** push header at the begin of cor
+**
+** we're doing that at the end of the whole process
+** so we can update the value of prog_size
+*/
 static void		add_header(t_header *header)
 {
 	t_byte	*header_ptr;
@@ -37,23 +40,32 @@ static void		add_header(t_header *header)
 	size = (size_t)sizeof(t_header);
 	header_ptr = (t_byte *)header + size - 1;
 	while (size--)
-		ft_arrpush(g_cor, (void *)(t_ulong)*header_ptr--, 0); //TODO: ok this is ugly, soooorry
+		ft_arrpush(g_cor, (void *)(t_ulong)*header_ptr--, 0);
 }
 
+
+/*
+** return the output filename (malloc'd) based one the input filename
+*/
 static char		*get_output_name(char *filename)
 {
 	char	*outname;
 	size_t	len;
+	size_t	ext_len;
 
-	len = ft_strlen(filename) + 3;
+	ext_len = ft_strlen(COR_EXTENSION);
+	len = ft_strlen(filename) + ext_len;
 	outname = malloc(len);
 	if (!outname)
 		return (NULL);
-	ft_memcpy(outname, filename, len - 4);
-	ft_memcpy(outname +	len - 4, "cor", 4); //TODO: do not hardcode "cor"
+	ft_memcpy(outname, filename, len - (ext_len + 1));
+	ft_memcpy(outname +	len - (ext_len + 1), COR_EXTENSION, ext_len + 1);
 	return (outname);
 }
 
+/*
+** here we're finally gonna write the cor byte array to output file
+*/
 void			write_cor(char *filename, t_header *header)
 {
 	char	*outname;
@@ -64,7 +76,6 @@ void			write_cor(char *filename, t_header *header)
 	outname = get_output_name(filename);
 	if (!outname || (g_err.fd = open(outname, O_CREAT | O_WRONLY, 0644)) == -1)
 		error(E_OPEN, outname);
-	//TODO: should we throw an error if the file already exists?
 
 	add_header(header);
 
@@ -72,7 +83,7 @@ void			write_cor(char *filename, t_header *header)
 	write(1, outname, ft_strlen(outname));
 	write(1, "\n", 1);
 
-	if (write(g_err.fd, g_cor->ptr, g_cor->length) == -1)
+	if ((size_t)write(g_err.fd, g_cor->ptr, g_cor->length) != g_cor->length)
 		error(E_WRITE, outname);
 
 	if (close(g_err.fd) == -1)

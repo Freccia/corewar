@@ -10,8 +10,8 @@ GREEN="\033[32;01m"
 RED="\033[31;01m"
 NORMAL="\033[0m"
 
-INVALID_FILES="$(find "$DATA_FOLDER/invalid_asm" -name \*.s)"
-VALID_FILES="$(find "$DATA_FOLDER/test_asm" -name \*.s | sort -r)"
+INVALID_FILES="$(find "$DATA_FOLDER/invalid_asm")"
+VALID_FILES="$(find "$DATA_FOLDER/test_asm" -name '*.s' | xargs wc -l | sort -h | grep -v total | sed -E 's|.*[0-9]+ (.*)|\1|g')"
 
 error() {
 	echo -e "\n$RED$1$NORMAL"
@@ -59,6 +59,7 @@ test_valid_asm() {
 
 # functional tests
 mkdir -p "$LOG_FOLDER"
+rm -f "$DATA_FOLDER"/test_asm/*.cor
 
 if test -z "$1"; then
 	for f in $INVALID_FILES; do

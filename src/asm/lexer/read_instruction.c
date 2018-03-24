@@ -6,7 +6,7 @@
 /*   By: mcanal <zboub@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/06/09 14:24:52 by mcanal            #+#    #+#             */
-/*   Updated: 2018/03/17 00:15:21 by mcanal           ###   ########.fr       */
+/*   Updated: 2018/03/24 20:23:25 by mc               ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,6 @@ static void				debug_instruct(t_instruct_read *instruct)
 
 /*
 ** arg tokenizer
-** TODO: norme this
 */
 static t_progress		read_arg(char *arg, size_t len, \
 								t_instruct_read *instruct)
@@ -39,10 +38,9 @@ static t_progress		read_arg(char *arg, size_t len, \
 	char	*arg_swap;
 	char	*arg_start;
 
-	if (instruct->argc)
+	if (instruct->argc || !(arg_swap = arg))
 		return (P_ARG);
 
-	arg_swap = arg;
 	while (!IS_EOL(*arg_swap) && instruct->argc < MAX_ARGS_NUMBER)
 	{
 		while (!IS_EOL(*arg_swap) && ft_isspace(*arg_swap))
@@ -50,17 +48,11 @@ static t_progress		read_arg(char *arg, size_t len, \
 		arg_start = arg_swap;
 		while (!IS_EOL(*arg_swap) && *arg_swap != SEPARATOR_CHAR)
 			arg_swap++;
-		while (arg_swap != arg_start && \
-			(ft_isspace(*arg_swap) \
+		while (arg_swap != arg_start && (ft_isspace(*arg_swap) \
 				|| *arg_swap == SEPARATOR_CHAR || IS_EOL(*arg_swap)))
 			arg_swap--;
 
-		len = (size_t)(arg_swap - arg_start) + 1;
-		if (len > MAX_ARG_LENGTH)
-			error(E_INVALID, "Invalid arg (too long).");
-		if (instruct->argc + 1 > MAX_ARGS_NUMBER)
-			error(E_INVALID, "Invalid arg (too many).");
-
+		len = check_arg_len((size_t)(arg_swap - arg_start) + 1, instruct);
 		ft_memcpy(instruct->argv + instruct->argc, arg_start, len);
 		*(*(instruct->argv + instruct->argc) + len) = 0;
 		instruct->argc++;
