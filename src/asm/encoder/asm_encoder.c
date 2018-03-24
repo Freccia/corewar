@@ -6,26 +6,23 @@
 /*   By: mc <mc.maxcanal@gmail.com>                 +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/03/17 22:20:39 by mcanal            #+#    #+#             */
-/*   Updated: 2018/03/24 18:41:52 by mc               ###   ########.fr       */
+/*   Updated: 2018/03/24 20:25:49 by mc               ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "asm_encoder.h"
-#define BIG_ENOUGH 4095
-
 
 /*
 ** reverse endianess and copy the given address ARG to cor
 */
 static void				copy_addr(char *arg, \
-								  t_byte *cor_swap, \
-								  t_byte addr_size, \
-								  t_dword current_addr)
+									t_byte *cor_swap, \
+									t_byte addr_size, \
+									t_dword current_addr)
 {
 	void	*ret;
 	t_dword	addr;
 	t_byte	i;
-	char	debug_buf[BIG_ENOUGH + 1];	/* DEBUG */
 
 	if (*arg == DIRECT_CHAR)
 		arg++;
@@ -33,13 +30,7 @@ static void				copy_addr(char *arg, \
 	if (*arg == LABEL_CHAR)
 	{
 		if (!(ret = ft_hget(g_labels, arg + 1)))
-		{
-			ft_strcpy(debug_buf, "Invalid arg (label not found): ");
-			ft_memcpy(debug_buf + ft_strlen(debug_buf), arg + 1, \
-					  ft_strlen(arg) - 1); /* DEBUG */
-			*(debug_buf + ft_strlen(debug_buf) + ft_strlen(arg)) = 0; /* DEBUG */
-			error(E_INVALID, debug_buf);
-		}
+			error(E_INVALID, "Invalid arg (label not found)"); //TODO: use va_args?
 		addr = (t_dword)ret - current_addr - 1;
 	}
 	else
@@ -56,7 +47,7 @@ static void				copy_addr(char *arg, \
 ** replace the previously pushed zeros in cor by the arg encoded values
 */
 static void				encode_arg(t_instruct_read *instruct_r, \
-								   t_instruct_parsed *instruct_p, \
+									t_instruct_parsed *instruct_p, \
 									t_byte *cor_swap)
 {
 	t_byte	i;
@@ -99,9 +90,11 @@ static t_bool			push_empty_args(t_instruct_parsed *instruct_p)
 			  || (*(instruct_p->arg_type + 3) & T_LAB)));
 }
 
-/* encoded	<->	 (type[0] << 6) | (type[1] << 4) | (type[2] << 2) | type[3] */
-/* Avec type: rien=0, registre=1, direct=2, indirect=3 */
-/* Et: (arg_type >> 1) + 1	<->	 type */
+/*
+** encoded	<->	 (type[0] << 6) | (type[1] << 4) | (type[2] << 2) | type[3]
+** Avec type: rien=0, registre=1, direct=2, indirect=3
+** Et: (arg_type >> 1) + 1	<->	 type
+*/
 static void				encode_arg_type(t_arg_type (*arg_type)[])
 {
 	t_byte	encoded_type;
@@ -126,7 +119,7 @@ static void				encode_arg_type(t_arg_type (*arg_type)[])
 ** to keep an incomplete label on the stack for further completion
 */
 void					encode(t_instruct_read *instruct_r, \
-							   t_instruct_parsed *instruct_p)
+								t_instruct_parsed *instruct_p)
 {
 	size_t				empty_args_pos;
 

@@ -6,13 +6,9 @@
 /*   By: mc <mc.maxcanal@gmail.com>                 +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/03/19 20:43:23 by mcanal            #+#    #+#             */
-/*   Updated: 2018/03/24 15:13:27 by mc               ###   ########.fr       */
+/*   Updated: 2018/03/24 20:28:12 by mc               ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
-
-/*
-** todo
-*/
 
 #include "asm_parser.h"
 
@@ -32,6 +28,9 @@ static void			debug_type(t_arg_type type)
 }
 #endif	/* DEBUG */
 
+/*
+** return the argument length (after encoding) based on its arg_type
+*/
 static t_byte		parse_arg_length(t_arg_type arg_type, int direct_size)
 {
 	if (arg_type & T_REG)
@@ -44,6 +43,9 @@ static t_byte		parse_arg_length(t_arg_type arg_type, int direct_size)
 	return (0);
 }
 
+/*
+** return the argument type (T_REG/T_IND/T_DIR/T_LAB) flag
+*/
 static t_arg_type	parse_arg_type(char *arg)
 {
 	int			i;
@@ -70,6 +72,9 @@ static t_arg_type	parse_arg_type(char *arg)
 	return (ret);
 }
 
+/*
+** parse the arguments following an op token
+*/
 void				parse_args(t_instruct_read *instruct_r, \
 							t_instruct_parsed *instruct_p)
 {

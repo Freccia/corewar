@@ -6,7 +6,7 @@
 /*   By: mcanal <zboub@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2015/12/14 18:21:04 by mcanal            #+#    #+#             */
-/*   Updated: 2018/03/24 17:44:00 by mc               ###   ########.fr       */
+/*   Updated: 2018/03/24 20:21:21 by mc               ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,5 +49,16 @@ typedef enum		e_progress
 ** read_header.c
 */
 void				read_header(t_header *header);
+
+/*
+** read_comment.c
+*/
+void				read_multiline_comment(char *line, t_header *header);
+void				read_quoted_string(char *line, t_progress *progress);
+
+/*
+** check_arg_len.c
+*/
+size_t				check_arg_len(size_t len, t_instruct_read *instruct);
 
 #endif
