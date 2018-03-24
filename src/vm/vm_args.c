@@ -6,7 +6,7 @@
 /*   By: lfabbro <>                                 +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/03/19 12:54:08 by lfabbro           #+#    #+#             */
-/*   Updated: 2018/03/25 00:22:42 by lfabbro          ###   ########.fr       */
+/*   Updated: 2018/03/25 00:38:38 by lfabbro          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,6 @@ void		cw_update_carry(t_proc *proc, uint32_t value)
 
 uint32_t		cw_read_mem(uint8_t **ptr, uint8_t *pc, uint32_t flags)
 {
-	uint8_t		mem[4];
 	uint8_t		*pos;
 	size_t		len;
 

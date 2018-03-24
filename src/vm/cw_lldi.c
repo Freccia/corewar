@@ -6,7 +6,7 @@
 /*   By: nfinkel <nfinkel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/03/14 19:13:09 by nfinkel           #+#    #+#             */
-/*   Updated: 2018/03/25 00:01:22 by lfabbro          ###   ########.fr       */
+/*   Updated: 2018/03/25 00:39:26 by lfabbro          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@ int			cw_lldi(t_proc *proc, uint8_t *op_code)
 	if (!reg || reg > REG_NUMBER)
 		return (EXIT_FAILURE);
 	read = cw_move_ptr(op_code, a[0] + a[1]);
-	proc->reg[reg] = cw_read_n(read, sizeof(int32_t));
+	proc->reg[reg] = cw_read_nbytes(read, sizeof(int32_t));
 	cw_update_carry(proc, g_cw->current->reg[reg]);
 	proc->pc = cw_move_ptr(op_code, 8);
 	return (EXIT_SUCCESS);

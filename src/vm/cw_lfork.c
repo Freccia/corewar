@@ -6,7 +6,7 @@
 /*   By: nfinkel <nfinkel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/03/14 19:10:33 by nfinkel           #+#    #+#             */
-/*   Updated: 2018/03/23 18:11:45 by nfinkel          ###   ########.fr       */
+/*   Updated: 2018/03/25 00:39:18 by lfabbro          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ int			cw_lfork(t_proc *proc, uint8_t *op_code)
 	int16_t		n;
 
 	ptr = cw_move_ptr(op_code, 1);
-	n = cw_read_n(ptr, 2);
+	n = cw_read_nbytes(ptr, 2);
 	new = ft_malloc(sizeof(t_proc));
 	ft_memcpy(new, proc, sizeof(t_proc));
 	new->lastlive = 0;

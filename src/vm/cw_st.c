@@ -6,7 +6,7 @@
 /*   By: nfinkel <nfinkel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/03/14 19:16:28 by nfinkel           #+#    #+#             */
-/*   Updated: 2018/03/25 00:08:24 by lfabbro          ###   ########.fr       */
+/*   Updated: 2018/03/25 00:39:53 by lfabbro          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,7 @@ int					cw_st(t_proc *proc, uint8_t *pc)
 	}
 	else if ((*ocp & g_arg[1].mask) >> g_arg[1].shift == IND_CODE)
 	{
-		dst = cw_read_n(ptr, 2);
+		dst = cw_read_nbytes(ptr, 2);
 		ptr = cw_move_ptr(ptr, 2);
 		tmp = cw_move_ptr(pc, dst % IDX_MOD);
 		value = swap_uint32(value);
