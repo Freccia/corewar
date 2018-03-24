@@ -6,7 +6,7 @@
 /*   By: mc <mc.maxcanal@gmail.com>                 +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/03/19 20:43:23 by mcanal            #+#    #+#             */
-/*   Updated: 2018/03/17 00:17:01 by mcanal           ###   ########.fr       */
+/*   Updated: 2018/03/24 14:06:35 by mc               ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,7 @@ static void			debug_type(t_arg_type type)
 }
 #endif	/* DEBUG */
 
-static uint8_t		parse_arg_length(t_arg_type arg_type, t_byte op_code)
+static t_byte		parse_arg_length(t_arg_type arg_type, t_byte op_code)
 {
 	if (arg_type & T_REG)
 		return (sizeof(t_byte));
@@ -62,7 +62,7 @@ static t_arg_type	parse_arg_type(char *arg)
 		ret = T_DIR;
 
 	if (*arg == LABEL_CHAR && ret != T_REG)
-		return (T_LAB | ret); //TODO: check if label exists, eventually after...
+		return (T_LAB | ret);
 	if (*arg == '-' && ft_isdigit(*(arg + 1)))
 		arg++;
 	while (*arg)
@@ -76,7 +76,7 @@ void				parse_args(t_instruct_read *instruct_r, \
 {
 	int	i;
 
-	if ((uint8_t)instruct_r->argc != instruct_p->op->param_nb)
+	if ((t_byte)instruct_r->argc != instruct_p->op->param_nb)
 		error(E_INVALID, "Invalid arg (wrong number).");
 	if (!instruct_r->argc)
 		return ;

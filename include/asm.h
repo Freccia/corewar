@@ -6,7 +6,7 @@
 /*   By: mcanal <zboub@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2015/12/14 18:21:04 by mcanal            #+#    #+#             */
-/*   Updated: 2018/03/22 21:01:16 by mcanal           ###   ########.fr       */
+/*   Updated: 2018/03/24 14:06:20 by mc               ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,6 +43,9 @@
 # define MAX_ARG_LENGTH		(MAX_LABEL_LENGTH + 3)
 # define MAX_LABEL_LENGTH	23
 # define MAX_OP_CODE_LENGTH	7
+
+# define ASM_EXTENSION "s"
+# define COR_EXTENSION "cor"
 
 /*
 ** some types for handling memory
@@ -117,7 +120,7 @@ void					init_error_report(char *exec_name);
 /*
 ** error.c
 */
-t_bool					error(uint8_t flag, char *msg);
+t_bool					error(t_byte flag, char *msg);
 
 /*
 ** LEXER

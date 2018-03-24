@@ -6,7 +6,7 @@
 /*   By: mc <mc.maxcanal@gmail.com>                 +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/03/20 00:19:15 by mcanal            #+#    #+#             */
-/*   Updated: 2018/03/23 01:05:01 by mc               ###   ########.fr       */
+/*   Updated: 2018/03/24 03:51:36 by mc               ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,20 +37,22 @@ static void		add_header(t_header *header)
 	size = (size_t)sizeof(t_header);
 	header_ptr = (t_byte *)header + size - 1;
 	while (size--)
-		ft_arrpush(g_cor, (void *)(t_ulong)*header_ptr--, 0); //TODO: ok this is ugly, soooorry
+		ft_arrpush(g_cor, (void *)(t_ulong)*header_ptr--, 0);
 }
 
 static char		*get_output_name(char *filename)
 {
 	char	*outname;
 	size_t	len;
+	size_t	ext_len;
 
-	len = ft_strlen(filename) + 3;
+	ext_len = ft_strlen(COR_EXTENSION);
+	len = ft_strlen(filename) + ext_len;
 	outname = malloc(len);
 	if (!outname)
 		return (NULL);
-	ft_memcpy(outname, filename, len - 4);
-	ft_memcpy(outname +	len - 4, "cor", 4); //TODO: do not hardcode "cor"
+	ft_memcpy(outname, filename, len - (ext_len + 1));
+	ft_memcpy(outname +	len - (ext_len + 1), COR_EXTENSION, ext_len + 1);
 	return (outname);
 }
 
@@ -64,7 +66,6 @@ void			write_cor(char *filename, t_header *header)
 	outname = get_output_name(filename);
 	if (!outname || (g_err.fd = open(outname, O_CREAT | O_WRONLY, 0644)) == -1)
 		error(E_OPEN, outname);
-	//TODO: should we throw an error if the file already exists?
 
 	add_header(header);
 

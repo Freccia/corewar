@@ -6,7 +6,7 @@
 /*   By: mcanal <zboub@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/03/12 21:43:56 by mcanal            #+#    #+#             */
-/*   Updated: 2018/03/17 00:12:04 by mcanal           ###   ########.fr       */
+/*   Updated: 2018/03/24 03:52:31 by mc               ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,7 +56,6 @@ static void				parse_header(char *line, \
 			error(E_INVALID, "Invalid header (comment too long).");
 		ft_memcpy(&header->comment, line, len);
 	}
-	//TODO: count header->prog_size
 }
 
 /*
@@ -120,4 +119,3 @@ void					read_header(t_header *header)
 		ft_memdel((void **)&(g_err.line));
 	}
 }
-//TODO: don't parse header *then* instructions, but both each time

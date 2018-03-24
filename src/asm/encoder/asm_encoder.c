@@ -6,7 +6,7 @@
 /*   By: mc <mc.maxcanal@gmail.com>                 +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/03/17 22:20:39 by mcanal            #+#    #+#             */
-/*   Updated: 2018/03/16 13:41:56 by mc               ###   ########.fr       */
+/*   Updated: 2018/03/24 14:06:25 by mc               ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,12 +19,12 @@
 
 static void				copy_addr(char *arg, \
 								  t_byte *cor_swap, \
-								  uint8_t addr_size, \
+								  t_byte addr_size, \
 								  t_dword current_addr)
 {
 	void	*ret;
 	t_dword	addr;
-	uint8_t	i;
+	t_byte	i;
 	char	debug_buf[BIG_ENOUGH + 1];	/* DEBUG */
 
 	if (*arg == DIRECT_CHAR) //TODO: what the difference between {,in}direct except size?
@@ -53,10 +53,10 @@ static void				copy_addr(char *arg, \
 
 static void				encode_arg(t_instruct_read *instruct_r, \
 								   t_instruct_parsed *instruct_p, \
-									uint8_t empty_args_pos)
+									t_byte empty_args_pos)
 {
-	uint8_t	i;
-	uint8_t	arg_length;
+	t_byte	i;
+	t_byte	arg_length;
 	t_byte	*cor_swap;
 
 	cor_swap = (t_byte *)g_cor->ptr + empty_args_pos;
@@ -77,8 +77,8 @@ static void				encode_arg(t_instruct_read *instruct_r, \
 /* return false if there is a label, meaning we're gonna recurse */
 static t_bool			push_empty_args(t_instruct_parsed *instruct_p)
 {
-	uint8_t	i;
-	uint8_t	arg_length;
+	t_byte	i;
+	t_byte	arg_length;
 
 	i = 0;
 	while (i < MAX_ARGS_NUMBER && (arg_length = *(instruct_p->arg_length + i)))
@@ -118,12 +118,13 @@ static void				encode_arg_type(t_arg_type (*arg_type)[])
 void					encode(t_instruct_read *instruct_r, \
 							   t_instruct_parsed *instruct_p)
 {
-		uint8_t				empty_args_pos;
+	t_byte				empty_args_pos;
 
-		if (instruct_p->op->param_nb > 1 || instruct_p->op->op_code == 16) // aff
-			encode_arg_type(&(instruct_p->arg_type));
-		empty_args_pos = (uint8_t)g_cor->length;
-		if (!push_empty_args(instruct_p))
-			read_loop();
-		encode_arg(instruct_r, instruct_p, empty_args_pos);
+	ft_arrpush(g_cor, (void *)(t_ulong)instruct_p->op->op_code, -1);
+	if (instruct_p->op->param_nb > 1 || instruct_p->op->op_code == 16) // aff
+		encode_arg_type(&(instruct_p->arg_type));
+	empty_args_pos = (t_byte)g_cor->length;
+	if (!push_empty_args(instruct_p))
+		read_loop();
+	encode_arg(instruct_r, instruct_p, empty_args_pos);
 }
