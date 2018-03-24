@@ -6,7 +6,7 @@
 /*   By: mc <mc.maxcanal@gmail.com>                 +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/03/17 22:30:58 by mcanal            #+#    #+#             */
-/*   Updated: 2018/03/23 00:47:20 by mc               ###   ########.fr       */
+/*   Updated: 2018/03/24 15:56:02 by mc               ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,16 +41,26 @@ static void				debug_labels()
 #endif	/* DEBUG */
 
 
+/*
+** check if the given file name end with the correct asm extension
+*/
 static void				check_filename(char *filename)
 {
 	size_t		len;
+	size_t		ext_len;
 
+	ext_len = ft_strlen(ASM_EXTENSION);
 	g_err.file_name = filename;
 	len = ft_strlen(filename);
-	if (len < 3 || ft_strcmp(".s", filename + len - 2))
+	if (len < ext_len + 1 || ft_strcmp(ASM_EXTENSION, filename + len - ext_len))
 		error(E_INVALID, "Invalid file name.");
 }
 
+
+/*
+** start the file lexing
+** TODO: do less stuffs here (don't clean/write)
+*/
 void					lex(char *filename)
 {
 	t_header	header;

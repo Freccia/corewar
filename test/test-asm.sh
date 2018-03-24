@@ -10,7 +10,7 @@ GREEN="\033[32;01m"
 RED="\033[31;01m"
 NORMAL="\033[0m"
 
-INVALID_FILES="$(find "$DATA_FOLDER/invalid_asm" -name \*.s)"
+INVALID_FILES="$(find "$DATA_FOLDER/invalid_asm")"
 VALID_FILES="$(find "$DATA_FOLDER/test_asm" -name \*.s | sort -r)"
 
 error() {
@@ -52,13 +52,14 @@ test_valid_asm() {
 		|| error "$base_f (valid file) cor files diff :/" \
 				 "$f" \
 				 "$LOG_FOLDER/$base_f.log" \
-				 "$(diff -y <(hexdump -vC "$test_file") <(hexdump -vC "$ctrl_file"))"
+				 "$(diff -y <(hexdump -C "$test_file") <(hexdump -C "$ctrl_file"))"
 
 	success "$base_f (valid file) ok!"
 }
 
 # functional tests
 mkdir -p "$LOG_FOLDER"
+rm "$DATA_FOLDER"/test_asm/*.cor
 
 if test -z "$1"; then
 	for f in $INVALID_FILES; do

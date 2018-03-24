@@ -6,7 +6,7 @@
 /*   By: mc <mc.maxcanal@gmail.com>                 +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/03/19 20:43:23 by mcanal            #+#    #+#             */
-/*   Updated: 2018/03/24 14:06:35 by mc               ###   ########.fr       */
+/*   Updated: 2018/03/24 15:13:27 by mc               ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,15 +32,14 @@ static void			debug_type(t_arg_type type)
 }
 #endif	/* DEBUG */
 
-static t_byte		parse_arg_length(t_arg_type arg_type, t_byte op_code)
+static t_byte		parse_arg_length(t_arg_type arg_type, int direct_size)
 {
 	if (arg_type & T_REG)
 		return (sizeof(t_byte));
-	else if ((arg_type & T_IND) \
-			|| (arg_type && (op_code >= 9 && op_code <= 15)))
-		return (sizeof(t_word)); //TODO: if "blabla index", then it's just a word?
+	else if (arg_type & T_IND)
+		return (sizeof(t_word));
 	else if (arg_type & T_DIR)
-		return (sizeof(t_dword));
+		return (direct_size ? sizeof(t_word) : sizeof(t_dword));
 
 	return (0);
 }
@@ -88,7 +87,7 @@ void				parse_args(t_instruct_read *instruct_r, \
 
 		*(instruct_p->arg_length + i) = \
 			parse_arg_length(*(instruct_p->arg_type + i), \
-							instruct_p->op->op_code);
+							instruct_p->op->direct_size);
 
 #ifdef ANNOYING_DEBUG
 		debug_type(*(instruct_p->arg_type + i));

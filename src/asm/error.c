@@ -6,7 +6,7 @@
 /*   By: mcanal <mcanal@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2015/01/12 03:39:12 by mcanal            #+#    #+#             */
-/*   Updated: 2018/03/24 14:06:29 by mc               ###   ########.fr       */
+/*   Updated: 2018/03/24 15:50:29 by mc               ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,6 +41,9 @@ static int		get_index(t_byte flag)
 	return (index - 1);
 }
 
+/*
+** print a parsing error in clang-style format
+*/
 static void		pretty_error(char *error_type)
 {
 	ft_dprintf(2, CLR_WHITE "%s", g_err.file_name);
@@ -55,6 +58,9 @@ static void		pretty_error(char *error_type)
 	}
 }
 
+/*
+** just a weird error handling function...
+*/
 t_bool			error(t_byte flag, char *msg)
 {
 	const char	*error[] = {

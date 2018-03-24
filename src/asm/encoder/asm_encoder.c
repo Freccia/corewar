@@ -6,17 +6,17 @@
 /*   By: mc <mc.maxcanal@gmail.com>                 +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/03/17 22:20:39 by mcanal            #+#    #+#             */
-/*   Updated: 2018/03/24 14:06:25 by mc               ###   ########.fr       */
+/*   Updated: 2018/03/24 15:38:54 by mc               ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
-
-/*
-** todo
-*/
 
 #include "asm_encoder.h"
 #define BIG_ENOUGH 4095
 
+
+/*
+** reverse endianess and copy the given address ARG to cor
+*/
 static void				copy_addr(char *arg, \
 								  t_byte *cor_swap, \
 								  t_byte addr_size, \
@@ -43,14 +43,18 @@ static void				copy_addr(char *arg, \
 		addr = (t_dword)ret - current_addr - 1;
 	}
 	else
-		addr = (t_dword)ft_atoi(arg); //TODO: catch > INT_MAX ?
+		addr = (t_dword)ft_atoi(arg); //TODO: catch overflow
 
 	cor_swap += addr_size - 1;
 	i = 0;
 	while (i < addr_size)
-		*cor_swap-- = *((t_byte *)&addr + i++); //reverse endian-ness
+		*cor_swap-- = *((t_byte *)&addr + i++);
 }
 
+
+/*
+** replace the previously pushed zeros in cor by the arg encoded values
+*/
 static void				encode_arg(t_instruct_read *instruct_r, \
 								   t_instruct_parsed *instruct_p, \
 									t_byte empty_args_pos)
@@ -74,7 +78,10 @@ static void				encode_arg(t_instruct_read *instruct_r, \
 	}
 }
 
-/* return false if there is a label, meaning we're gonna recurse */
+/*
+** push 'arg_length' zeros into cor
+** return false if there is a label, meaning we're gonna recurse
+*/
 static t_bool			push_empty_args(t_instruct_parsed *instruct_p)
 {
 	t_byte	i;
@@ -114,7 +121,12 @@ static void				encode_arg_type(t_arg_type (*arg_type)[])
 	ft_arrpush(g_cor, (void *)(unsigned long)encoded_type, -1);
 }
 
-
+/*
+** encode a given instruction
+**
+** this might call recursively read_loop(),
+** to keep an incomplete label on the stack for further completion
+*/
 void					encode(t_instruct_read *instruct_r, \
 							   t_instruct_parsed *instruct_p)
 {

@@ -6,13 +6,9 @@
 /*   By: mc <mc.maxcanal@gmail.com>                 +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/03/20 00:19:15 by mcanal            #+#    #+#             */
-/*   Updated: 2018/03/24 03:51:36 by mc               ###   ########.fr       */
+/*   Updated: 2018/03/24 16:17:46 by mc               ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
-
-/*
-** todo
-*/
 
 #include "asm_encoder.h"
 
@@ -27,6 +23,13 @@ static void		debug_cor()
 }
 #endif	/* DEBUG */
 
+
+/*
+** push header at the begin of cor
+**
+** we're doing that at the end of the whole process
+** so we can update the value of prog_size
+*/
 static void		add_header(t_header *header)
 {
 	t_byte	*header_ptr;
@@ -40,6 +43,10 @@ static void		add_header(t_header *header)
 		ft_arrpush(g_cor, (void *)(t_ulong)*header_ptr--, 0);
 }
 
+
+/*
+** return the output filename (malloc'd) based one the input filename
+*/
 static char		*get_output_name(char *filename)
 {
 	char	*outname;
@@ -56,6 +63,9 @@ static char		*get_output_name(char *filename)
 	return (outname);
 }
 
+/*
+** here we're finally gonna write the cor byte array to output file
+*/
 void			write_cor(char *filename, t_header *header)
 {
 	char	*outname;
@@ -73,7 +83,7 @@ void			write_cor(char *filename, t_header *header)
 	write(1, outname, ft_strlen(outname));
 	write(1, "\n", 1);
 
-	if (write(g_err.fd, g_cor->ptr, g_cor->length) == -1)
+	if ((size_t)write(g_err.fd, g_cor->ptr, g_cor->length) != g_cor->length)
 		error(E_WRITE, outname);
 
 	if (close(g_err.fd) == -1)
