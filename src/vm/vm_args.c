@@ -6,7 +6,7 @@
 /*   By: lfabbro <>                                 +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/03/19 12:54:08 by lfabbro           #+#    #+#             */
-/*   Updated: 2018/03/23 15:06:31 by lfabbro          ###   ########.fr       */
+/*   Updated: 2018/03/25 00:22:42 by lfabbro          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,16 +38,16 @@ uint32_t		cw_read_mem(uint8_t **ptr, uint8_t *pc, uint32_t flags)
 	if (flags & F_DIR || flags & F_DIR_DOUBLE)
 	{
 		pos = *ptr;
-		len = (flags & F_DIR) ? 2 : 4;
+		len = (flags & F_DIR_DOUBLE) ? 4 : 2;
 	}
-	else if (flags == F_IND_RESTRICT)
-		pos = cw_move_ptr(pc, ft_mtoi(cw_map_mem(mem, *ptr, 4), len) % IDX_MOD);
-	else if (flags == F_IND)
-		pos = cw_move_ptr(pc, ft_mtoi(cw_map_mem(mem, *ptr, 4), len));
+	else if (flags & F_IND_RESTRICT)
+		pos = cw_move_ptr(pc, cw_read_nbytes(*ptr, len) % IDX_MOD);
+	else if (flags & F_IND)
+		pos = cw_move_ptr(pc, cw_read_nbytes(*ptr, len));
 	else
 		return (0);
 	*ptr = cw_move_ptr(*ptr, len);
-	return (ft_mtoi(cw_map_mem(mem, pos, 4), len));
+	return (cw_read_nbytes(pos, len));
 }
 
 /*
@@ -56,7 +56,7 @@ uint32_t		cw_read_mem(uint8_t **ptr, uint8_t *pc, uint32_t flags)
 **	proc	-> current process
 **	ptr		-> pointer to the argument (it will be mooved by size octects)
 **	n		-> number of the argument (g_arg[n])
-**	flags	-> restricted address or not
+**	flags	-> restricted address or not, direct or direct double, ...
 **
 **	return: the value of the argument
 **			on error, it returns 0
@@ -75,7 +75,7 @@ uint32_t	cw_read_arg(t_proc *proc, uint8_t **ptr, uint8_t n, uint32_t flags)
 	if (ocp == REG_CODE)
 	{
 		reg = ft_mtoi(*ptr, 1);
-		if (reg != 0 && reg < REG_NUMBER)
+		if (reg >= 0x1 && reg <= REG_NUMBER)
 			arg = (flags & F_REG_VAL) ? proc->reg[reg] : reg;
 		else
 			proc->crashed = E_WRONG_REG;
