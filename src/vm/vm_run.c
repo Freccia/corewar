@@ -6,7 +6,7 @@
 /*   By: lfabbro <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/03/16 16:55:56 by lfabbro           #+#    #+#             */
-/*   Updated: 2018/03/22 18:59:18 by lfabbro          ###   ########.fr       */
+/*   Updated: 2018/03/23 18:32:11 by nfinkel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -100,19 +100,31 @@ int		cw_check_ocp(uint8_t *pc)
 	return (EXIT_SUCCESS);
 }
 
-void	cw_verbose(const t_proc *proc, const char *name, int id, t_flag flag)
+#define BUFF_SIZE 256
+void	cw_verbose(const t_proc *proc, const char *name, int id, t_verbose flag)
 {
-	t_opt		opt;
+	char		s[BUFF_SIZE];
 
-	opt = g_cw->opt;
-	if (opt.g == 1)
-		return ;
-	if (opt.v & 1 && flag == E_INVALID_LIVE)
-		ft_printf("A live has been made... But nobody came.\n");
-	else if (opt.v & 1 && flag == E_VALID_LIVE)
+	if (flag == E_VALID_LIVE)
 		ft_printf("Player %s [%hd] is alive!\n", name, id);
-	if (opt.v & 2 && flag == E_OP)
-		ft_printf("Player: %d executing %s\n", proc->id, g_op_tab[*proc->pc - 1].name);
+	else if (flag == E_CYCLE)
+		ft_printf("It is now cycle %d\n", g_cw->cycle);
+	else if (flag == E_DELTA)
+		ft_printf("Cycle to die is now %d\n", g_cw->cycle_to_die);
+	else
+	{
+		ft_snprintf(s, BUFF_SIZE, "Process %d [%s]", proc->num, name);
+		if (flag == E_INVALID_LIVE)
+			ft_printf("%s made a live... But nobody came.\n", s);
+		else if (flag == E_OP)
+			ft_printf("%s is executing %s\n", s, g_op_tab[*proc->pc - 1].name);
+		else if (flag == E_DEATH)
+			ft_printf("%s hasn't lived for %d cycles... Fuck off!", s,\
+				g_cw->cycle - proc->lastlive);
+//		else if (opt.v & 16 && flag == E_MOVE)
+//			ft_printf("%s is moving! ADV %d (%.4p -> %.4p)", s, proc->id, name,\
+//				id, 0, 0); TODO proper calc
+	}
 }
 
 int		cw_vm_exec(t_proc *proc, uint8_t *pc)
@@ -125,14 +137,12 @@ int		cw_vm_exec(t_proc *proc, uint8_t *pc)
 			g_instr[*pc - 1](proc, pc);
 			cw_nc_notify(g_cw->current->pc - g_cw->mem,\
 				g_cw->current->color + 5, *g_cw->current->pc);
-			cw_verbose(proc, NULL, 0, E_OP);
+			if (g_cw->opt.v & 4)
+				cw_verbose(proc, "PUT CHAMP NAME", 0, E_OP);
 			return (EXIT_SUCCESS);
 		}
 		else
-		{
 			proc->crashed = E_WRONG_OCP;
-			return (EXIT_FAILURE);
-		}
 	}
 	else
 		proc->crashed = E_WRONG_OP;
@@ -156,8 +166,8 @@ void	cw_vm_eval(t_proc *proc)
 	else
 	{
 		// increment pc ?
-		//ft_dprintf(1, "Proc %d has crashed: %d(%d).\n", proc->id,
-		//		*proc->pc, proc->pc - g_cw->mem);
+		if (g_cw->opt.v & 8)
+			cw_verbose(proc, "PUT CHAMP NAME", 0, E_DEATH);
 		proc->wait = 1;
 	}
 }
@@ -168,6 +178,8 @@ int		cw_vm_run(void)
 	{
 		g_cw->current = g_cw->procs;
 		++g_cw->cycle;
+		if (g_cw->opt.v & 2)
+			cw_verbose(NULL, NULL, 0, E_CYCLE);
 		while (g_cw->current)
 		{
 			if (cw_nc_update())
@@ -186,6 +198,8 @@ int		cw_vm_run(void)
 		//	cw_vm_cycle_to_die();
 			g_cw->cycle = 0;
 			g_cw->cycle_to_die -= CYCLE_DELTA;
+			if (g_cw->opt.v & 2)
+				cw_verbose(NULL, NULL, 0, E_DELTA);
 		}
 	}
 	// TODO: who won?
