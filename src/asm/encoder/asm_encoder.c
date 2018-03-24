@@ -6,7 +6,7 @@
 /*   By: mc <mc.maxcanal@gmail.com>                 +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/03/17 22:20:39 by mcanal            #+#    #+#             */
-/*   Updated: 2018/03/24 15:38:54 by mc               ###   ########.fr       */
+/*   Updated: 2018/03/24 17:14:51 by mc               ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,13 +57,11 @@ static void				copy_addr(char *arg, \
 */
 static void				encode_arg(t_instruct_read *instruct_r, \
 								   t_instruct_parsed *instruct_p, \
-									t_byte empty_args_pos)
+									t_byte *cor_swap)
 {
 	t_byte	i;
 	t_byte	arg_length;
-	t_byte	*cor_swap;
 
-	cor_swap = (t_byte *)g_cor->ptr + empty_args_pos;
 	i = 0;
 	while (i < MAX_ARGS_NUMBER && (arg_length = *(instruct_p->arg_length + i)))
 	{
@@ -130,13 +128,13 @@ static void				encode_arg_type(t_arg_type (*arg_type)[])
 void					encode(t_instruct_read *instruct_r, \
 							   t_instruct_parsed *instruct_p)
 {
-	t_byte				empty_args_pos;
+	size_t				empty_args_pos;
 
 	ft_arrpush(g_cor, (void *)(t_ulong)instruct_p->op->op_code, -1);
 	if (instruct_p->op->param_nb > 1 || instruct_p->op->op_code == 16) // aff
 		encode_arg_type(&(instruct_p->arg_type));
-	empty_args_pos = (t_byte)g_cor->length;
+	empty_args_pos = g_cor->length;
 	if (!push_empty_args(instruct_p))
 		read_loop();
-	encode_arg(instruct_r, instruct_p, empty_args_pos);
+	encode_arg(instruct_r, instruct_p, (t_byte *)g_cor->ptr + empty_args_pos);
 }

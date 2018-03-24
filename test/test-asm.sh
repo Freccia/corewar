@@ -11,7 +11,7 @@ RED="\033[31;01m"
 NORMAL="\033[0m"
 
 INVALID_FILES="$(find "$DATA_FOLDER/invalid_asm")"
-VALID_FILES="$(find "$DATA_FOLDER/test_asm" -name \*.s | sort -r)"
+VALID_FILES="$(find "$DATA_FOLDER/test_asm" -name '*.s' | xargs wc -l | sort -h | grep -v total | sed -E 's|.*[0-9]+ (.*)|\1|g')"
 
 error() {
 	echo -e "\n$RED$1$NORMAL"
@@ -52,14 +52,14 @@ test_valid_asm() {
 		|| error "$base_f (valid file) cor files diff :/" \
 				 "$f" \
 				 "$LOG_FOLDER/$base_f.log" \
-				 "$(diff -y <(hexdump -C "$test_file") <(hexdump -C "$ctrl_file"))"
+				 "$(diff -y <(hexdump -vC "$test_file") <(hexdump -vC "$ctrl_file"))"
 
 	success "$base_f (valid file) ok!"
 }
 
 # functional tests
 mkdir -p "$LOG_FOLDER"
-rm "$DATA_FOLDER"/test_asm/*.cor
+rm -f "$DATA_FOLDER"/test_asm/*.cor
 
 if test -z "$1"; then
 	for f in $INVALID_FILES; do
