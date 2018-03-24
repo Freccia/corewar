@@ -8,7 +8,7 @@ Dieu est la plus belle invention.
 Tapis dans l'ombre je veille. - Minou"
 
 magic_poney:
-	fork%:g00dbye_kitty
+	fork %:g00dbye_kitty
 	live %252645135
 	fork %:poorkitty
 	ld %252645135, r2

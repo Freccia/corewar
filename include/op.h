@@ -6,7 +6,7 @@
 /*   By: zaz <marvin@42.fr>                         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2013/10/04 11:33:27 by zaz               #+#    #+#             */
-/*   Updated: 2018/03/17 08:30:32 by alucas-          ###   ########.fr       */
+/*   Updated: 2018/03/24 18:34:39 by mc               ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,9 +27,9 @@
 
 # define MAX_ARGS_NUMBER 4
 # define MAX_PLAYERS 4
-# define MEM_SIZE (4*1024) //todo: see with mcanal
+# define MEM_SIZE (4*1024)
 # define IDX_MOD (MEM_SIZE / 8)
-# define CHAMP_MAX_SIZE (MEM_SIZE / 6)
+# define CHAMP_MAX_SIZE (MEM_SIZE / 4)  //TODO: this was originally to MEM_SIZE / 6, but it makes sense like this (cf Misaka_Mikoto.s)
 
 # define COMMENT_CHAR '#'
 # define LABEL_CHAR ':'

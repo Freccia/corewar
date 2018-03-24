@@ -6,7 +6,7 @@
 /*   By: mc <mc.maxcanal@gmail.com>                 +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/03/17 22:20:39 by mcanal            #+#    #+#             */
-/*   Updated: 2018/03/24 17:14:51 by mc               ###   ########.fr       */
+/*   Updated: 2018/03/24 18:41:52 by mc               ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@ static void				copy_addr(char *arg, \
 	t_byte	i;
 	char	debug_buf[BIG_ENOUGH + 1];	/* DEBUG */
 
-	if (*arg == DIRECT_CHAR) //TODO: what the difference between {,in}direct except size?
+	if (*arg == DIRECT_CHAR)
 		arg++;
 
 	if (*arg == LABEL_CHAR)
