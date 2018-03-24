@@ -6,7 +6,7 @@
 #    By: alucas- <alucas-@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2017/11/07 09:52:36 by alucas-           #+#    #+#              #
-#    Updated: 2018/03/23 16:38:41 by mcanal           ###   ########.fr        #
+#    Updated: 2018/03/24 14:01:17 by mc               ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -19,8 +19,11 @@ PROJECTA ?= asm
 PROJECTB ?= corewar
 
 # file-names of the sources
+COMMON_SRC = \
+	op.c \
+	utils.c
 SRCA_NAME = \
-	op.c utils.c \
+	$(COMMON_SRC) \
 	asm/asm_main.c \
 	asm/init_data.c \
 	asm/error.c \
@@ -32,7 +35,7 @@ SRCA_NAME = \
 	asm/parser/asm_parser.c \
 	asm/parser/parse_args.c
 SRCB_NAME = \
-	op.c utils.c \
+	$(COMMON_SRC) \
 	vm/vm_main.c vm/vm_init_opt.c vm/vm_init.c vm/vm_run.c vm/vm_args.c \
 	vm/cw_add.c vm/cw_aff.c vm/cw_and.c vm/cw_fork.c vm/cw_ld.c vm/cw_ldi.c \
 	vm/cw_lfork.c vm/cw_live.c vm/cw_lld.c vm/cw_lldi.c vm/cw_or.c vm/cw_st.c \
