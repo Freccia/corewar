@@ -6,11 +6,12 @@
 /*   By: lfabbro <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/03/14 15:58:23 by lfabbro           #+#    #+#             */
-/*   Updated: 2018/03/25 20:58:42 by nfinkel          ###   ########.fr       */
+/*   Updated: 2018/03/25 22:19:37 by nfinkel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "corewar.h"
+#define BUFF_SIZE 256
 
 void			cw_mem_cpy(uint8_t *dst, uint8_t *src, size_t len, uint16_t p)
 {
@@ -66,7 +67,6 @@ uint32_t		cw_mem_read(uint8_t **ptr, uint8_t *pc, size_t len,
 	return (ft_mtoi(cw_map_mem(mem, pos, 4), 4));
 }
 
-#define BUFF_SIZE 256
 void	cw_verbose(const t_proc *proc, const char *name, int id, t_verbose flag)
 {
 	char		s[BUFF_SIZE];

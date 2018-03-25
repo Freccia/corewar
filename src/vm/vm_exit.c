@@ -6,13 +6,13 @@
 /*   By: lfabbro <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/03/16 16:49:29 by lfabbro           #+#    #+#             */
-/*   Updated: 2018/03/16 17:09:36 by lfabbro          ###   ########.fr       */
+/*   Updated: 2018/03/25 21:57:33 by nfinkel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "corewar.h"
 
-static void		cw_free(void)
+/*static void		cw_free(void)
 {
 	t_proc		*proc;
 	t_champ		*champ;
@@ -32,7 +32,7 @@ static void		cw_free(void)
 		free(champ);
 		champ = (t_champ *)tmp;
 	}
-}
+}*/
 
 int				cw_exit(int ecode, char const *fmt, ...)
 {
@@ -41,7 +41,7 @@ int				cw_exit(int ecode, char const *fmt, ...)
 	if (g_cw)
 	{
 		cw_nc_exit();
-		cw_free();
+//		cw_free();
 		// todo: destruct things
 	}
 	if (fmt)

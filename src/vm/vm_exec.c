@@ -6,7 +6,7 @@
 /*   By: nfinkel <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/03/25 21:09:55 by nfinkel           #+#    #+#             */
-/*   Updated: 2018/03/25 21:09:56 by nfinkel          ###   ########.fr       */
+/*   Updated: 2018/03/25 22:20:27 by nfinkel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,7 +67,8 @@ int					cw_vm_exec(t_proc *proc, uint8_t *pc)
 		cw_nc_notify(g_cw->current->pc - g_cw->mem,\
 			g_cw->current->color + 5, *g_cw->current->pc);
 		if (g_cw->opt.v & 4)
-			cw_verbose(proc, "PUT CHAMP NAME", 0, E_OP);
+			cw_verbose(proc, g_cw->champs[proc->k]->name,\
+				g_cw->champs[proc->k]->id, E_OP);
 		return (0);
 	}
 	else

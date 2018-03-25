@@ -6,7 +6,7 @@
 /*   By: alucas- <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/03/12 18:15:51 by alucas-           #+#    #+#             */
-/*   Updated: 2018/03/25 19:21:47 by nfinkel          ###   ########.fr       */
+/*   Updated: 2018/03/25 21:50:13 by nfinkel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,8 +71,7 @@ int					main(int ac, char **av)
 		ft_printf("%s\n", g_usage);
 		return (EXIT_SUCCESS);
 	}
-	if (cw_vm_init(ac, av, r1))
-		return (cw_exit(EXIT_FAILURE, NULL));
+	cw_vm_init(ac, av, r1);
 	cw_vm_run(g_cw);
 	return (cw_exit(EXIT_SUCCESS, NULL));
 }

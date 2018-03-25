@@ -6,7 +6,7 @@
 /*   By: nfinkel <nfinkel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/03/14 19:09:10 by nfinkel           #+#    #+#             */
-/*   Updated: 2018/03/25 20:16:35 by nfinkel          ###   ########.fr       */
+/*   Updated: 2018/03/25 22:17:38 by nfinkel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,6 +25,6 @@ int			cw_aff(t_proc *proc, uint8_t *op_code)
 		return (-1);
 	if (g_cw->opt.g & 4)
 		ft_printf("Player %s [%hd] is saying something...\n \"%c\"",\
-			g_cw->champs->name, g_cw->champs->id, c);
+			g_cw->champs[proc->k]->name, g_cw->champs[proc->k]->id, c);
 	return (0);
 }

@@ -6,38 +6,38 @@
 /*   By: lfabbro <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/03/15 15:30:43 by lfabbro           #+#    #+#             */
-/*   Updated: 2018/03/25 20:08:27 by nfinkel          ###   ########.fr       */
+/*   Updated: 2018/03/25 22:16:59 by nfinkel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <fcntl.h>
 #include "corewar.h"
 
-static int		cw_vm_check_r1(int r1)
+static t_vec		g_vec_null = {NULL, sizeof(t_champ *), 0, 0};
+static t_vec		*g_vec = &g_vec_null;
+
+static int				check_r1(int r1)
 {
-	t_champ		*champ;
+	int		k;
 
 	if (r1 > UINT16_MAX || r1 < 0)
 	{
 		errno = EOVERFLOW;
 		cw_exit(EXIT_FAILURE, "%d: Invalid champion number: %m\n", r1);
 	}
-	champ = g_cw->champs;
-	while (champ)
-	{
-		if (champ->id == (uint16_t)r1)
+	k = -1;
+	while (++k < g_cw->n_champs)
+		if (g_cw->champs[k]->id == (uint16_t)r1)
 			cw_exit(EXIT_FAILURE, "%d: Duplicate champion number\n", r1);
-		champ = champ->next;
-	}
 	return (r1);
 }
 
-static t_champ	*cw_vm_parse_champ(const char *filename, int r1, t_champ *next)
+static t_champ			*parse_champ(const char *filename, int r1)
 {
-	int		fd;
-	ssize_t	bin_size;
-	uint8_t	buf[4096];
-	t_champ	*new;
+	int			fd;
+	ssize_t		bin_size;
+	t_champ		*new;
+	uint8_t		buf[4096];
 
 	if ((fd = open(filename, O_RDONLY)) < 0)
 		cw_exit(3, "Failed opening file.\n");
@@ -58,43 +58,45 @@ static t_champ	*cw_vm_parse_champ(const char *filename, int r1, t_champ *next)
 	new->id = r1;
 	new->size = (size_t)bin_size;
 	ft_memcpy(new->bin, buf, new->size);
-	new->next = next;
 	return (new);
 }
 
-static int		cw_vm_load_champs(uint8_t i)
+static void				load_champs(uint8_t k, uint8_t n)
 {
-	int		plyrs_dist;
-	t_proc	*ptr;
-	t_champ	*champ;
+	int			plyrs_dist;
+	t_champ		*champ;
+	t_proc		*ptr;
 
 	plyrs_dist = MEM_SIZE / g_cw->n_champs;
 	g_cw->cycle_to_die = CYCLE_TO_DIE;
-	champ = g_cw->champs;
 	cw_nc_init();
-	while (champ)
+	while (++k < g_cw->n_champs && (champ = g_cw->champs[k]))
 	{
-		if (!(ptr = malloc(sizeof(t_proc))))
-			return (cw_exit(EXIT_FAILURE, "%m\n"));
-		ft_bzero(ptr, sizeof(t_proc));
-		ptr->color = (uint8_t)(i + 1);
-		ptr->pc = g_cw->mem + (i * plyrs_dist);
+		if (!(ptr = ft_memalloc(sizeof(t_proc))))
+			cw_exit(EXIT_FAILURE, "%m\n");
+		ptr->color = (uint8_t)++n;
+		ptr->pc = g_cw->mem + ((n - 1) * plyrs_dist);
+		ptr->k = k;
 		ptr->id = champ->id;
+		ptr->num = k + 1;
 		ptr->reg[1] = champ->id;
 		cw_mem_cpy(ptr->pc, champ->bin, champ->size, ptr->color);
 		ptr->wait = g_op_tab[*ptr->pc - 1].cycles;
 		++g_cw->proc_count;
 		g_cw->procs ? (ptr->next = g_cw->procs) : 0;
 		g_cw->procs = ptr;
-		champ = champ->next;
-		++i;
 	}
-	g_cw->prev = g_cw->procs;
 	g_cw->current = g_cw->procs;
-	return (YEP);
 }
 
-int				cw_vm_init(int ac, char **av, int r1)
+static int				sort_champs(t_champ *champs[])
+{
+	//TODO
+	(void)champs;
+	return (0);
+}
+
+void					cw_vm_init(int ac, char **av, int r1)
 {
 	int		opt;
 	int		id;
@@ -103,10 +105,10 @@ int				cw_vm_init(int ac, char **av, int r1)
 	while (g_optind < ac)
 	{
 		if (g_cw->n_champs >= MAX_PLAYERS)
-			return (cw_exit(EXIT_FAILURE, "Too much players\n"));
-		r1 = (r1) ? r1 : ++id;
-		r1 = cw_vm_check_r1(r1);
-		g_cw->champs = cw_vm_parse_champ(av[g_optind], r1, g_cw->champs);
+			cw_exit(EXIT_FAILURE, "Too much players\n");
+		r1 = check_r1(!r1 ? ++id : r1);
+		*(t_champ **)ft_vecpush(g_vec) = parse_champ(av[g_optind], r1);
+		g_cw->champs = g_vec->buf;
 		++g_cw->n_champs;
 		r1 = 0;
 		if (++g_optind < ac)
@@ -114,13 +116,11 @@ int				cw_vm_init(int ac, char **av, int r1)
 			if ((opt = ft_getopt(ac, av, "n:")) == WUT)
 				r1 = 0;
 			else if (opt != 'n')
-				return (cw_exit(EXIT_FAILURE, NULL));
+				cw_exit(EXIT_FAILURE, NULL);
 			else
 				r1 = (uint16_t)ft_atoi(g_optarg);
 		}
 	}
-	if (g_cw->n_champs == 0)
-		cw_exit(EXIT_FAILURE, "No players.\n");
-	cw_vm_insert_sort(&(g_cw->champs));
-	return (cw_vm_load_champs(0));
+	!g_cw->n_champs ? cw_exit(EXIT_FAILURE, "No players.\n") : 0;
+	load_champs(-1, sort_champs(g_cw->champs));
 }

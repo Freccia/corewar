@@ -6,7 +6,7 @@
 /*   By: nfinkel <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/03/13 16:16:50 by nfinkel           #+#    #+#             */
-/*   Updated: 2018/03/25 21:10:55 by nfinkel          ###   ########.fr       */
+/*   Updated: 2018/03/25 22:15:59 by nfinkel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,7 +73,6 @@ typedef struct		s_champ
 	uint32_t		lastlive;
 	size_t			size;
 	uint8_t			bin[CHAMP_MAX_SIZE + 1];
-	struct s_champ	*next;
 }					t_champ;
 
 typedef struct		s_opt
@@ -86,6 +85,7 @@ typedef struct		s_opt
 
 typedef struct		s_proc
 {
+	int8_t			k;
 	int				id;
 	int				num; // each process should have a different number
 	size_t			lastlive;
@@ -110,7 +110,7 @@ typedef struct		s_cw
 	int				total_cycles;
 	t_opt			opt;
 	uint8_t			n_champs;
-	t_champ			*champs;
+	t_champ			**champs;
 }					t_cw;
 
 extern t_cw			*g_cw;
@@ -156,8 +156,7 @@ void				cw_verbose(const t_proc *proc, const char *name, int id,
 /*
 ** parse fichier cor
 */
-void				cw_vm_insert_sort(t_champ **head);
-int					cw_vm_init(int ac, char **av, int r1);
+void				cw_vm_init(int ac, char **av, int r1);
 void				cw_vm_run(t_cw *cw);
 int					cw_vm_exec(t_proc *proc, uint8_t *pc);
 int					cw_exit(int ecode, char const *fmt, ...);

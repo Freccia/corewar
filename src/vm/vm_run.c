@@ -6,7 +6,7 @@
 /*   By: lfabbro <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/03/16 16:55:56 by lfabbro           #+#    #+#             */
-/*   Updated: 2018/03/25 21:17:07 by nfinkel          ###   ########.fr       */
+/*   Updated: 2018/03/25 22:20:59 by nfinkel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,10 +31,10 @@ static void			mem_dump(uint8_t *mem)
 	cw_exit(EXIT_SUCCESS, NULL);
 }
 
-static void			kill_process(t_proc *proc)
+static void			kill_process(t_proc *proc, t_champ *champ)
 {
 	if (g_cw->opt.v & 8)
-		cw_verbose(proc, "PUT CHAMP NAME", 0, E_DEATH);
+		cw_verbose(proc, champ->name, champ->id, E_DEATH);
 	if (proc == g_cw->procs)
 	{
 		g_cw->procs = proc->next;
@@ -85,7 +85,7 @@ static void			eval(t_proc *proc)
 			proc->wait = (*proc->pc >= 0x1 && *proc->pc <= MAX_OP ?\
 				g_op_tab[*proc->pc - 1].cycles - 1 : 1);
 		else
-			kill_process(proc);
+			kill_process(proc, g_cw->champs[proc->k]);
 	}
 	else
 	{

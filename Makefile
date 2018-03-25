@@ -6,7 +6,7 @@
 #    By: alucas- <alucas-@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2017/11/07 09:52:36 by alucas-           #+#    #+#              #
-#    Updated: 2018/03/25 21:10:34 by nfinkel          ###   ########.fr        #
+#    Updated: 2018/03/25 22:05:42 by nfinkel          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -41,8 +41,7 @@ SRCB_NAME = \
 	vm/vm_main.c vm/vm_exec.c vm/vm_init.c vm/vm_run.c vm/vm_args.c \
 	vm/cw_add.c vm/cw_aff.c vm/cw_and.c vm/cw_fork.c vm/cw_ld.c vm/cw_ldi.c \
 	vm/cw_lfork.c vm/cw_live.c vm/cw_lld.c vm/cw_lldi.c vm/cw_or.c vm/cw_st.c \
-	vm/cw_sti.c vm/cw_sub.c vm/cw_xor.c vm/cw_zjmp.c \
-	vm/vm_tools.c vm/vm_insert_sort.c vm/vm_exit.c \
+	vm/cw_sti.c vm/cw_sub.c vm/cw_xor.c vm/cw_zjmp.c vm/vm_tools.c vm/vm_exit.c \
 	nc/exit.c nc/init.c nc/keys.c nc/ui.c
 
 # folder-names of the sources
