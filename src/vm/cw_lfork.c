@@ -6,27 +6,27 @@
 /*   By: nfinkel <nfinkel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/03/14 19:10:33 by nfinkel           #+#    #+#             */
-/*   Updated: 2018/03/25 01:41:27 by lfabbro          ###   ########.fr       */
+/*   Updated: 2018/03/25 03:11:52 by lfabbro          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "corewar.h"
 
-int			cw_lfork(t_proc *proc, uint8_t *op_code)
+int			cw_lfork(t_proc *proc, uint8_t *pc)
 {
 	t_proc		*new;
 	uint8_t		*ptr;
 	int16_t		n;
 
-	ptr = cw_move_ptr(op_code, 1);
+	ptr = cw_move_ptr(pc, 1);
 	n = cw_read_nbytes(ptr, 2);
 	new = ft_malloc(sizeof(t_proc));
 	ft_memcpy(new, proc, sizeof(t_proc));
 	new->lastlive = 0;
 	new->wait = 1;
 	new->pid = ++g_cw->max_pid;
-	new->pc = cw_move_ptr(op_code, n);
-	proc->pc = cw_move_ptr(op_code, 3);
+	new->pc = cw_move_ptr(pc, n);
+	proc->pc = cw_move_ptr(pc, 3);
 	new->next = g_cw->procs;
 	g_cw->procs = new;
 	++g_cw->proc_count;

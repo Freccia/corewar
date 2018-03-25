@@ -6,7 +6,7 @@
 /*   By: nfinkel <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/03/13 16:16:50 by nfinkel           #+#    #+#             */
-/*   Updated: 2018/03/25 01:39:05 by lfabbro          ###   ########.fr       */
+/*   Updated: 2018/03/25 03:13:05 by lfabbro          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -118,22 +118,22 @@ typedef int			(*t_instr)(t_proc *, uint8_t *);
 extern t_cw			*g_cw;
 extern t_args		g_arg[MAX_ARGS_NUMBER + 1];
 
-int					cw_live(t_proc *proc, uint8_t *op_code);
-int					cw_ld(t_proc *proc, uint8_t *op_code);
-int					cw_st(t_proc *proc, uint8_t *op_code);
-int					cw_add(t_proc *proc, uint8_t *op_code);
-int					cw_sub(t_proc *proc, uint8_t *op_code);
-int					cw_and(t_proc *proc, uint8_t *op_code);
-int					cw_or(t_proc *proc, uint8_t *op_code);
-int					cw_xor(t_proc *proc, uint8_t *op_code);
-int					cw_zjmp(t_proc *proc, uint8_t *op_code);
-int					cw_ldi(t_proc *proc, uint8_t *op_code);
-int					cw_sti(t_proc *proc, uint8_t *op_code);
-int					cw_fork(t_proc *proc, uint8_t *op_code);
-int					cw_lld(t_proc *proc, uint8_t *op_code);
-int					cw_lldi(t_proc *proc, uint8_t *op_code);
-int					cw_lfork(t_proc *proc, uint8_t *op_code);
-int					cw_aff(t_proc *proc, uint8_t *op_code);
+int					cw_live(t_proc *proc, uint8_t *pc);
+int					cw_ld(t_proc *proc, uint8_t *pc);
+int					cw_st(t_proc *proc, uint8_t *pc);
+int					cw_add(t_proc *proc, uint8_t *pc);
+int					cw_sub(t_proc *proc, uint8_t *pc);
+int					cw_and(t_proc *proc, uint8_t *pc);
+int					cw_or(t_proc *proc, uint8_t *pc);
+int					cw_xor(t_proc *proc, uint8_t *pc);
+int					cw_zjmp(t_proc *proc, uint8_t *pc);
+int					cw_ldi(t_proc *proc, uint8_t *pc);
+int					cw_sti(t_proc *proc, uint8_t *pc);
+int					cw_fork(t_proc *proc, uint8_t *pc);
+int					cw_lld(t_proc *proc, uint8_t *pc);
+int					cw_lldi(t_proc *proc, uint8_t *pc);
+int					cw_lfork(t_proc *proc, uint8_t *pc);
+int					cw_aff(t_proc *proc, uint8_t *pc);
 
 int					cw_nc_init(void);
 int					cw_nc_update(void);

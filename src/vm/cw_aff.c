@@ -6,20 +6,20 @@
 /*   By: nfinkel <nfinkel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/03/14 19:09:10 by nfinkel           #+#    #+#             */
-/*   Updated: 2018/03/23 17:07:30 by nfinkel          ###   ########.fr       */
+/*   Updated: 2018/03/25 03:11:23 by lfabbro          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "corewar.h"
 
-int			cw_aff(t_proc *proc, uint8_t *op_code)
+int			cw_aff(t_proc *proc, uint8_t *pc)
 {
 	char		c;
 
-	if (*(op_code = cw_move_ptr(op_code, 1)) == 0x40)
+	if (*(pc = cw_move_ptr(pc, 1)) == 0x40)
 	{
-		op_code = cw_move_ptr(op_code, 1);
-		cw_update_carry(proc, (uint32_t)(c = *op_code % 256));
+		pc = cw_move_ptr(pc, 1);
+		cw_update_carry(proc, (uint32_t)(c = *pc % 256));
 	}
 	else
 		return (EXIT_FAILURE);
