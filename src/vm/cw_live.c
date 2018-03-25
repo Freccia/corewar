@@ -6,10 +6,9 @@
 /*   By: nfinkel <nfinkel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/03/14 19:10:47 by nfinkel           #+#    #+#             */
-/*   Updated: 2018/03/23 18:16:12 by nfinkel          ###   ########.fr       */
+/*   Updated: 2018/03/25 20:15:42 by nfinkel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
-
 
 #include "corewar.h"
 
@@ -31,12 +30,12 @@ int			cw_live(t_proc *proc, uint8_t *op_code)
 			if (g_cw->opt.v & 1)
 				cw_verbose(proc, champ->name, champ->id, E_VALID_LIVE);
 			proc->pc = cw_move_ptr(op_code, 4);
-			return (EXIT_SUCCESS);
+			return (0);
 		}
 		champ = champ->next;
 	}
 	if (g_cw->opt.v & 1)
 		cw_verbose(proc, NULL, 0, E_INVALID_LIVE);
 	proc->pc = cw_move_ptr(op_code, 4);
-	return (EXIT_SUCCESS);
+	return (0);
 }

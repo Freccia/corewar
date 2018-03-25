@@ -6,7 +6,7 @@
 /*   By: nfinkel <nfinkel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/03/14 19:09:54 by nfinkel           #+#    #+#             */
-/*   Updated: 2018/03/23 18:10:50 by nfinkel          ###   ########.fr       */
+/*   Updated: 2018/03/25 20:16:18 by nfinkel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,9 +14,9 @@
 
 int			cw_fork(t_proc *proc, uint8_t *op_code)
 {
-	t_proc		*new;
 	uint8_t		*ptr;
 	int16_t		n;
+	t_proc		*new;
 
 	ptr = cw_move_ptr(op_code, 1);
 	n = cw_read_n(ptr, 2);
@@ -31,5 +31,5 @@ int			cw_fork(t_proc *proc, uint8_t *op_code)
 	new->next = g_cw->procs;
 	g_cw->procs = new;
 	++g_cw->proc_count;
-	return (EXIT_SUCCESS);
+	return (0);
 }

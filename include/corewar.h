@@ -6,7 +6,7 @@
 /*   By: nfinkel <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/03/13 16:16:50 by nfinkel           #+#    #+#             */
-/*   Updated: 2018/03/23 18:32:55 by nfinkel          ###   ########.fr       */
+/*   Updated: 2018/03/25 21:10:55 by nfinkel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,7 @@
 # define E_WRONG_REG	(-0x0c)
 
 # define F_DIR			1
-# define F_DIR_DOUBLE	2
+# define F_DIR_LONG		2
 # define F_IND			4
 # define F_IND_RESTRICT	8
 # define F_REG			16
@@ -60,7 +60,7 @@ typedef enum		e_verbose
 	E_MOVE
 }					t_verbose;
 
-typedef	struct		s_args
+typedef struct		s_args
 {
 	uint8_t			mask;
 	uint8_t			shift;
@@ -88,13 +88,13 @@ typedef struct		s_proc
 {
 	int				id;
 	int				num; // each process should have a different number
+	size_t			lastlive;
 	uint8_t			color;
 	uint8_t			flags;
 	uint8_t			*pc;
 	uint32_t		reg[REG_NUMBER + 1];
-	size_t			lastlive;
 	uint16_t		wait;
-	uint8_t			crashed;
+	t_bool			kill;
 	struct s_proc	*next;
 }					t_proc;
 
@@ -107,15 +107,15 @@ typedef struct		s_cw
 	t_proc			*procs;
 	int				cycle;
 	int				cycle_to_die;
+	int				total_cycles;
 	t_opt			opt;
 	uint8_t			n_champs;
 	t_champ			*champs;
 }					t_cw;
 
-typedef int			(*t_instr)(t_proc *, uint8_t *);
-
 extern t_cw			*g_cw;
-extern t_args		g_arg[MAX_ARGS_NUMBER + 1];
+
+typedef int			(*t_instr)(t_proc *, uint8_t *);
 
 int					cw_live(t_proc *proc, uint8_t *op_code);
 int					cw_ld(t_proc *proc, uint8_t *op_code);
@@ -139,7 +139,6 @@ int					cw_nc_update(void);
 int					cw_nc_notify(uint16_t i, uint16_t c, uint8_t val);
 int					cw_nc_exit(void);
 
-void				cw_mem_dump(uint8_t *mem);
 void				cw_mem_cpy(uint8_t *dst, uint8_t *src, size_t len,
 						uint16_t p);
 uint8_t				*cw_map_mem(uint8_t *mem, uint8_t *pc, uint16_t n);
@@ -155,25 +154,12 @@ void				cw_verbose(const t_proc *proc, const char *name, int id,
 						t_verbose flag);
 
 /*
-** parse instruction arguments
-** return the pc offset or -1 in case of zboub (error)
-*/
-void				cw_vm_eval(t_proc *proc);
-
-/*
 ** parse fichier cor
 */
 void				cw_vm_insert_sort(t_champ **head);
 int					cw_vm_init(int ac, char **av, int r1);
-int					cw_vm_run(void);
+void				cw_vm_run(t_cw *cw);
+int					cw_vm_exec(t_proc *proc, uint8_t *pc);
 int					cw_exit(int ecode, char const *fmt, ...);
-
-/*
-** init vm opt
-*/
-int		cw_vm_usage(int ac, char **av);
-int		cw_vm_check_ctmo(int ctmo);
-int		cw_vm_parse_opt(int ac, char **av, t_cw *cw);
-
 
 #endif

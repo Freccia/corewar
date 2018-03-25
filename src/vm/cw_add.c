@@ -6,7 +6,7 @@
 /*   By: nfinkel <nfinkel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/03/14 19:08:36 by nfinkel           #+#    #+#             */
-/*   Updated: 2018/03/23 18:09:52 by nfinkel          ###   ########.fr       */
+/*   Updated: 2018/03/25 20:46:38 by nfinkel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,17 +14,17 @@
 
 int			cw_add(t_proc *proc, uint8_t *op_code)
 {
-	uint8_t			*ptr;
-	int32_t			a[3];
+	uint8_t		*ptr;
+	int32_t		a[3];
 
 	ptr = cw_move_ptr(op_code, 2);
 	a[0] = cw_read_arg(proc, &ptr, 0, F_REG_VAL);
 	a[1] = cw_read_arg(proc, &ptr, 1, F_REG_VAL);
 	a[2] = cw_read_arg(proc, &ptr, 2, F_REG);
-	if (a[2] == 0 || a[2] > REG_NUMBER)
-		return (EXIT_FAILURE);
+	if (a[2] == 0 || a[2] > REG_NUMBER || proc->kill == TRUE)
+		return (-1);
 	proc->reg[a[2]] = a[0] + a[1];
 	cw_update_carry(proc, proc->reg[a[2]]);
 	proc->pc = cw_move_ptr(op_code, 5);
-	return (EXIT_SUCCESS);
+	return (0);
 }

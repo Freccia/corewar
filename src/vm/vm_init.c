@@ -6,12 +6,11 @@
 /*   By: lfabbro <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/03/15 15:30:43 by lfabbro           #+#    #+#             */
-/*   Updated: 2018/03/21 17:12:05 by lfabbro          ###   ########.fr       */
+/*   Updated: 2018/03/25 20:08:27 by nfinkel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <fcntl.h>
-
 #include "corewar.h"
 
 static int		cw_vm_check_r1(int r1)
