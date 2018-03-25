@@ -6,7 +6,7 @@
 /*   By: lfabbro <>                                 +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/03/19 12:54:08 by lfabbro           #+#    #+#             */
-/*   Updated: 2018/03/25 20:16:57 by nfinkel          ###   ########.fr       */
+/*   Updated: 2018/03/25 22:32:25 by nfinkel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,16 +67,14 @@ uint32_t	cw_read_arg(t_proc *proc, uint8_t **ptr, uint8_t n, uint32_t flags)
 	uint8_t		ocp;
 	uint32_t	arg;
 	uint8_t		reg;
-	uint8_t		size;
 
 	ocp = (*cw_move_ptr(proc->pc, 1) & g_arg[n].mask) >> g_arg[n].shift;
-	size = (g_op_tab[*(proc->pc) - 1].direct_size) ? 2 : 4;
 	arg = 0;
 	if (ocp == REG_CODE)
 	{
 		reg = ft_mtoi(*ptr, 1);
-		if (reg != 0 && reg < REG_NUMBER)
-			arg = (flags & F_REG_VAL) ? proc->reg[reg] : reg;
+		if (reg >= 0x1 && reg <= REG_NUMBER)
+			arg = (flags & F_REG_VAL ? proc->reg[reg] : reg);
 		else
 			proc->kill = TRUE;
 		*ptr = cw_move_ptr(*ptr, 1);
