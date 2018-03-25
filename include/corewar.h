@@ -6,7 +6,7 @@
 /*   By: nfinkel <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/03/13 16:16:50 by nfinkel           #+#    #+#             */
-/*   Updated: 2018/03/25 00:15:37 by lfabbro          ###   ########.fr       */
+/*   Updated: 2018/03/25 01:39:05 by lfabbro          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,7 +87,7 @@ typedef struct		s_opt
 typedef struct		s_proc
 {
 	int				id;
-	int				num; // each process should have a different number
+	int				pid; // each process should have a different number
 	uint8_t			color;
 	uint8_t			flags;
 	uint8_t			*pc;
@@ -105,6 +105,7 @@ typedef struct		s_cw
 	t_proc			*prev;
 	t_proc			*current;
 	t_proc			*procs;
+	uint32_t		max_pid;
 	int				cycle;
 	int				cycle_to_die;
 	t_opt			opt;

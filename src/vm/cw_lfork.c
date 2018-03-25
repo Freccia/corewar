@@ -6,7 +6,7 @@
 /*   By: nfinkel <nfinkel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/03/14 19:10:33 by nfinkel           #+#    #+#             */
-/*   Updated: 2018/03/25 00:39:18 by lfabbro          ###   ########.fr       */
+/*   Updated: 2018/03/25 01:41:27 by lfabbro          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,8 +24,7 @@ int			cw_lfork(t_proc *proc, uint8_t *op_code)
 	ft_memcpy(new, proc, sizeof(t_proc));
 	new->lastlive = 0;
 	new->wait = 1;
-	//if (*proc->pc >= 1 && *proc->pc <= MAX_OP)
-	//	new->wait = g_op_tab[*proc->pc - 1].cycles - 1;
+	new->pid = ++g_cw->max_pid;
 	new->pc = cw_move_ptr(op_code, n);
 	proc->pc = cw_move_ptr(op_code, 3);
 	new->next = g_cw->procs;
