@@ -6,7 +6,7 @@
 /*   By: lfabbro <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/03/16 16:55:56 by lfabbro           #+#    #+#             */
-/*   Updated: 2018/03/25 01:36:39 by lfabbro          ###   ########.fr       */
+/*   Updated: 2018/03/25 03:10:28 by lfabbro          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -113,7 +113,7 @@ void	cw_verbose(const t_proc *proc, const char *name, int id, t_verbose flag)
 		ft_printf("Cycle to die is now %d\n", g_cw->cycle_to_die);
 	else
 	{
-		ft_snprintf(s, BUFF_SIZE, "Process %d [%s]", proc->num, name);
+		ft_snprintf(s, BUFF_SIZE, "Process %d [%s]", proc->pid, name);
 		if (flag == E_INVALID_LIVE)
 			ft_printf("%s made a live... But nobody came.\n", s);
 		else if (flag == E_OP)
