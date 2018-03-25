@@ -6,7 +6,7 @@
 /*   By: nfinkel <nfinkel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/03/14 19:10:47 by nfinkel           #+#    #+#             */
-/*   Updated: 2018/03/22 01:32:05 by lfabbro          ###   ########.fr       */
+/*   Updated: 2018/03/25 03:12:23 by lfabbro          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,14 +28,15 @@ int			cw_live(t_proc *proc, uint8_t *pc)
 		if (champ->id == id)
 		{
 			champ->lastlive = g_cw->cycle;
-			cw_verbose(proc, champ->name, champ->id, E_VALID_LIVE);
+			if (g_cw->opt.v & 1)
+				cw_verbose(proc, champ->name, champ->id, E_VALID_LIVE);
 			proc->pc = cw_move_ptr(pc, 4);
 			return (EXIT_SUCCESS);
 		}
 		champ = champ->next;
 	}
-	if (champ)
-		cw_verbose(proc, champ->name, champ->id, E_INVALID_LIVE);
+	if (g_cw->opt.v & 1)
+		cw_verbose(proc, NULL, 0, E_INVALID_LIVE);
 	proc->pc = cw_move_ptr(pc, 4);
 	return (EXIT_SUCCESS);
 }

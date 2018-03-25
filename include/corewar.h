@@ -6,7 +6,7 @@
 /*   By: nfinkel <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/03/13 16:16:50 by nfinkel           #+#    #+#             */
-/*   Updated: 2018/03/23 19:57:45 by lfabbro          ###   ########.fr       */
+/*   Updated: 2018/03/25 03:16:28 by lfabbro          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,11 +46,19 @@ typedef enum		e_flag
 	E_DIR,
 	E_IND_LONG,
 	E_IND_SHORT,
-	E_REG,
+	E_REG
+}					t_flag;
+
+typedef enum		e_verbose
+{
 	E_INVALID_LIVE,
 	E_VALID_LIVE,
-	E_OP
-}					t_flag;
+	E_CYCLE,
+	E_DELTA,
+	E_OP,
+	E_DEATH,
+	E_MOVE
+}					t_verbose;
 
 typedef	struct		s_args
 {
@@ -79,6 +87,7 @@ typedef struct		s_opt
 typedef struct		s_proc
 {
 	int				id;
+	int				pid; // each process should have a different number
 	uint8_t			color;
 	uint8_t			flags;
 	uint8_t			*pc;
@@ -93,9 +102,10 @@ typedef struct		s_cw
 {
 	uint8_t			mem[MEM_SIZE];
 	uint16_t		proc_count;
-	t_proc			*prev; // TODO delete me ?
+	t_proc			*prev;
 	t_proc			*current;
 	t_proc			*procs;
+	uint32_t		max_pid;
 	int				cycle;
 	int				cycle_to_die;
 	t_opt			opt;
@@ -108,22 +118,22 @@ typedef int			(*t_instr)(t_proc *, uint8_t *);
 extern t_cw			*g_cw;
 extern t_args		g_arg[MAX_ARGS_NUMBER + 1];
 
-int					cw_live(t_proc *proc, uint8_t *op_code);
-int					cw_ld(t_proc *proc, uint8_t *op_code);
-int					cw_st(t_proc *proc, uint8_t *op_code);
-int					cw_add(t_proc *proc, uint8_t *op_code);
-int					cw_sub(t_proc *proc, uint8_t *op_code);
-int					cw_and(t_proc *proc, uint8_t *op_code);
-int					cw_or(t_proc *proc, uint8_t *op_code);
-int					cw_xor(t_proc *proc, uint8_t *op_code);
-int					cw_zjmp(t_proc *proc, uint8_t *op_code);
-int					cw_ldi(t_proc *proc, uint8_t *op_code);
-int					cw_sti(t_proc *proc, uint8_t *op_code);
-int					cw_fork(t_proc *proc, uint8_t *op_code);
-int					cw_lld(t_proc *proc, uint8_t *op_code);
-int					cw_lldi(t_proc *proc, uint8_t *op_code);
-int					cw_lfork(t_proc *proc, uint8_t *op_code);
-int					cw_aff(t_proc *proc, uint8_t *op_code);
+int					cw_live(t_proc *proc, uint8_t *pc);
+int					cw_ld(t_proc *proc, uint8_t *pc);
+int					cw_st(t_proc *proc, uint8_t *pc);
+int					cw_add(t_proc *proc, uint8_t *pc);
+int					cw_sub(t_proc *proc, uint8_t *pc);
+int					cw_and(t_proc *proc, uint8_t *pc);
+int					cw_or(t_proc *proc, uint8_t *pc);
+int					cw_xor(t_proc *proc, uint8_t *pc);
+int					cw_zjmp(t_proc *proc, uint8_t *pc);
+int					cw_ldi(t_proc *proc, uint8_t *pc);
+int					cw_sti(t_proc *proc, uint8_t *pc);
+int					cw_fork(t_proc *proc, uint8_t *pc);
+int					cw_lld(t_proc *proc, uint8_t *pc);
+int					cw_lldi(t_proc *proc, uint8_t *pc);
+int					cw_lfork(t_proc *proc, uint8_t *pc);
+int					cw_aff(t_proc *proc, uint8_t *pc);
 
 int					cw_nc_init(void);
 int					cw_nc_update(void);
@@ -135,16 +145,14 @@ void				cw_mem_cpy(uint8_t *dst, uint8_t *src, size_t len,
 						uint16_t p);
 uint8_t				*cw_map_mem(uint8_t *mem, uint8_t *pc, uint16_t n);
 uint8_t				*cw_move_ptr(uint8_t const *pc, int32_t len);
-uint32_t			cw_mem_read(uint8_t **pc, uint8_t *ocp, size_t len,
-						uint32_t flags);
-int32_t				cw_read_mem(uint8_t **pc, uint8_t *ocp, uint32_t flags);
-int32_t				cw_read_n(uint8_t *ptr, uint16_t n);
-int32_t				cw_read_arg(t_proc *proc, uint8_t **ptr, uint8_t n,
+uint32_t			cw_read_mem(uint8_t **pc, uint8_t *ocp, uint32_t flags);
+int32_t				cw_read_nbytes(uint8_t *ptr, uint16_t n);
+uint32_t			cw_read_arg(t_proc *proc, uint8_t **ptr, uint8_t n,
 						uint32_t flags);
 char				*cw_get_opcode_name(uint8_t op);
 void				cw_update_carry(t_proc *proc, uint32_t value);
 void				cw_verbose(const t_proc *proc, const char *name, int id,
-						t_flag flag);
+						t_verbose flag);
 
 /*
 ** parse instruction arguments

@@ -6,7 +6,7 @@
 /*   By: nfinkel <nfinkel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/03/14 19:17:51 by nfinkel           #+#    #+#             */
-/*   Updated: 2018/03/23 15:04:53 by lfabbro          ###   ########.fr       */
+/*   Updated: 2018/03/25 03:11:06 by lfabbro          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@ int			cw_zjmp(t_proc *proc, uint8_t *pc)
 	uint32_t	addr;
 
 	ptr = cw_move_ptr(pc, 1);
-	addr = cw_read_arg(proc, &ptr, 0, F_DIR);
+	addr = cw_read_nbytes(ptr, 2);
 	if (proc->flags & _CW_CARRY)
 		proc->pc = cw_move_ptr(proc->pc, addr);
 	else

@@ -6,7 +6,7 @@
 /*   By: lfabbro <>                                 +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/03/19 12:54:08 by lfabbro           #+#    #+#             */
-/*   Updated: 2018/03/23 19:33:14 by lfabbro          ###   ########.fr       */
+/*   Updated: 2018/03/25 03:15:19 by lfabbro          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,16 +44,17 @@ int32_t		cw_read_mem(uint8_t **ptr, uint8_t *pc, uint32_t flags)
 	if (flags & F_DIR || flags & F_DIR_DOUBLE)
 	{
 		pos = *ptr;
-		len = (flags & F_DIR) ? 2 : 4;
+		len = (flags & F_DIR_DOUBLE) ? 4 : 2;
 	}
 	else if (flags & F_IND_RESTRICT)
-		pos = cw_move_ptr(pc, cw_read_n(*ptr, len) % IDX_MOD);
+	// maybe move ptr should start from g_cw->mem and not from pc...
+		pos = cw_move_ptr(pc, cw_read_nbytes(*ptr, len) % IDX_MOD);
 	else if (flags & F_IND)
-		pos = cw_move_ptr(pc, cw_read_n(*ptr, len));
+		pos = cw_move_ptr(pc, cw_read_nbytes(*ptr, len));
 	else
 		return (0);
 	*ptr = cw_move_ptr(*ptr, len);
-	return (cw_read_n(*ptr, len));
+	return (cw_read_nbytes(pos, len));
 }
 
 /*
@@ -62,7 +63,7 @@ int32_t		cw_read_mem(uint8_t **ptr, uint8_t *pc, uint32_t flags)
 **	proc	-> current process
 **	ptr		-> pointer to the argument (it will be mooved by size octects)
 **	n		-> number of the argument (g_arg[n])
-**	flags	-> restricted address or not
+**	flags	-> restricted address or not, direct or direct double, ...
 **
 **	return: the value of the argument
 **			on error, it returns 0

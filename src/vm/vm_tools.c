@@ -6,7 +6,7 @@
 /*   By: lfabbro <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/03/14 15:58:23 by lfabbro           #+#    #+#             */
-/*   Updated: 2018/03/22 01:28:57 by lfabbro          ###   ########.fr       */
+/*   Updated: 2018/03/25 00:15:45 by lfabbro          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,7 +55,7 @@ uint8_t			*cw_map_mem(uint8_t *mem, uint8_t *pc, uint16_t n)
 	return (mem);
 }
 
-int32_t			cw_read_n(uint8_t *ptr, uint16_t n)
+int32_t			cw_read_nbytes(uint8_t *ptr, uint16_t n)
 {
 	uint8_t		mem[n + 1];
 
@@ -66,20 +66,4 @@ uint8_t			*cw_move_ptr(uint8_t const *pc, int32_t move)
 {
 	// OK, mais penser a rajouter en fonction de -ctmo
 	return (g_cw->mem + ((pc - g_cw->mem + move) % MEM_SIZE));
-}
-
-uint32_t		cw_mem_read(uint8_t **ptr, uint8_t *pc, size_t len,
-				uint32_t flags)
-{
-	uint8_t		mem[4];
-	uint8_t		*pos;
-
-	if (flags == F_DIR)
-		pos = *ptr;
-	else if (flags == F_IND_RESTRICT)
-		pos = cw_move_ptr(pc, ft_mtoi(cw_map_mem(mem, *ptr, 4), len) % IDX_MOD);
-	else
-		pos = cw_move_ptr(pc, ft_mtoi(cw_map_mem(mem, *ptr, 4), len));
-	*ptr = cw_move_ptr(*ptr, len);
-	return (ft_mtoi(cw_map_mem(mem, pos, 4), 4));
 }

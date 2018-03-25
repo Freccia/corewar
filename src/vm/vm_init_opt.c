@@ -6,7 +6,7 @@
 /*   By: mcanal <mc.maxcanal@gmail.com>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/03/22 19:47:22 by mcanal            #+#    #+#             */
-/*   Updated: 2018/03/22 19:55:46 by mcanal           ###   ########.fr       */
+/*   Updated: 2018/03/23 17:48:32 by nfinkel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,9 +22,12 @@ int		cw_vm_usage(int ac, char **av)
 	ft_printf("	-g      : Ncurses GUI\n");
 	ft_printf("	-c N    : CTMO - Cycles till memory opens\n");
 	ft_printf("	-v N    : Sets verbosity level to N (bitwise)\n");
-	ft_printf("		- 0 : Essential\n");
-	ft_printf("		- 1 : Lives\n");
-	ft_printf("		- 2 : Cycles\n");
+	ft_printf("		- 0 : Show essentials\n");
+	ft_printf("		- 1 : Show lives\n");
+	ft_printf("		- 2 : Show cycles\n");
+	ft_printf("		- 4 : Show operations\n");
+	ft_printf("		- 8 : Show deaths\n");
+	ft_printf("		-16 : Show PC movement\n");
 	ft_printf("...\n");
 	return (EXIT_FAILURE);
 }

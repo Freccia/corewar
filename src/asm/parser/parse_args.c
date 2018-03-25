@@ -6,13 +6,9 @@
 /*   By: mc <mc.maxcanal@gmail.com>                 +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/03/19 20:43:23 by mcanal            #+#    #+#             */
-/*   Updated: 2018/03/17 00:17:01 by mcanal           ###   ########.fr       */
+/*   Updated: 2018/03/24 20:28:12 by mc               ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
-
-/*
-** todo
-*/
 
 #include "asm_parser.h"
 
@@ -32,19 +28,24 @@ static void			debug_type(t_arg_type type)
 }
 #endif	/* DEBUG */
 
-static uint8_t		parse_arg_length(t_arg_type arg_type, t_byte op_code)
+/*
+** return the argument length (after encoding) based on its arg_type
+*/
+static t_byte		parse_arg_length(t_arg_type arg_type, int direct_size)
 {
 	if (arg_type & T_REG)
 		return (sizeof(t_byte));
-	else if ((arg_type & T_IND) \
-			|| (arg_type && (op_code >= 9 && op_code <= 15)))
-		return (sizeof(t_word)); //TODO: if "blabla index", then it's just a word?
+	else if (arg_type & T_IND)
+		return (sizeof(t_word));
 	else if (arg_type & T_DIR)
-		return (sizeof(t_dword));
+		return (direct_size ? sizeof(t_word) : sizeof(t_dword));
 
 	return (0);
 }
 
+/*
+** return the argument type (T_REG/T_IND/T_DIR/T_LAB) flag
+*/
 static t_arg_type	parse_arg_type(char *arg)
 {
 	int			i;
@@ -62,7 +63,7 @@ static t_arg_type	parse_arg_type(char *arg)
 		ret = T_DIR;
 
 	if (*arg == LABEL_CHAR && ret != T_REG)
-		return (T_LAB | ret); //TODO: check if label exists, eventually after...
+		return (T_LAB | ret);
 	if (*arg == '-' && ft_isdigit(*(arg + 1)))
 		arg++;
 	while (*arg)
@@ -71,12 +72,15 @@ static t_arg_type	parse_arg_type(char *arg)
 	return (ret);
 }
 
+/*
+** parse the arguments following an op token
+*/
 void				parse_args(t_instruct_read *instruct_r, \
 							t_instruct_parsed *instruct_p)
 {
 	int	i;
 
-	if ((uint8_t)instruct_r->argc != instruct_p->op->param_nb)
+	if ((t_byte)instruct_r->argc != instruct_p->op->param_nb)
 		error(E_INVALID, "Invalid arg (wrong number).");
 	if (!instruct_r->argc)
 		return ;
@@ -88,7 +92,7 @@ void				parse_args(t_instruct_read *instruct_r, \
 
 		*(instruct_p->arg_length + i) = \
 			parse_arg_length(*(instruct_p->arg_type + i), \
-							instruct_p->op->op_code);
+							instruct_p->op->direct_size);
 
 #ifdef ANNOYING_DEBUG
 		debug_type(*(instruct_p->arg_type + i));
