@@ -6,7 +6,7 @@
 /*   By: lfabbro <>                                 +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/03/19 12:54:08 by lfabbro           #+#    #+#             */
-/*   Updated: 2018/03/25 00:38:38 by lfabbro          ###   ########.fr       */
+/*   Updated: 2018/03/25 01:05:26 by lfabbro          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,6 +40,7 @@ uint32_t		cw_read_mem(uint8_t **ptr, uint8_t *pc, uint32_t flags)
 		len = (flags & F_DIR_DOUBLE) ? 4 : 2;
 	}
 	else if (flags & F_IND_RESTRICT)
+	// maybe move ptr should start from g_cw->mem and not from pc...
 		pos = cw_move_ptr(pc, cw_read_nbytes(*ptr, len) % IDX_MOD);
 	else if (flags & F_IND)
 		pos = cw_move_ptr(pc, cw_read_nbytes(*ptr, len));
