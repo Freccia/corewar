@@ -6,7 +6,7 @@
 /*   By: nfinkel <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/03/13 16:16:50 by nfinkel           #+#    #+#             */
-/*   Updated: 2018/03/25 03:16:28 by lfabbro          ###   ########.fr       */
+/*   Updated: 2018/03/26 15:52:05 by lfabbro          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -145,9 +145,9 @@ void				cw_mem_cpy(uint8_t *dst, uint8_t *src, size_t len,
 						uint16_t p);
 uint8_t				*cw_map_mem(uint8_t *mem, uint8_t *pc, uint16_t n);
 uint8_t				*cw_move_ptr(uint8_t const *pc, int32_t len);
-uint32_t			cw_read_mem(uint8_t **pc, uint8_t *ocp, uint32_t flags);
+int32_t				cw_read_mem(uint8_t **pc, uint8_t *ocp, uint32_t flags);
 int32_t				cw_read_nbytes(uint8_t *ptr, uint16_t n);
-uint32_t			cw_read_arg(t_proc *proc, uint8_t **ptr, uint8_t n,
+int32_t				cw_read_arg(t_proc *proc, uint8_t **ptr, uint8_t n,
 						uint32_t flags);
 char				*cw_get_opcode_name(uint8_t op);
 void				cw_update_carry(t_proc *proc, uint32_t value);
