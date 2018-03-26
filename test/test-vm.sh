@@ -41,9 +41,15 @@ test-vm() {
 # functional tests
 mkdir -p "$LOG_FOLDER"
 
-for f in $COR_FILES; do
-    for i in $(seq 10 10 250); do
-        test-vm "$i" "$f"
+if test -z "$1"; then
+    for f in $COR_FILES; do
+        for i in $(seq 10 10 250); do
+            test-vm "$i" "$f"
+        done
     done
-done
-success yay
+    success yay
+else
+    for i in $(seq 10 10 250); do
+        test-vm "$i" "$1"
+    done
+fi
