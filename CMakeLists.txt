@@ -43,11 +43,12 @@ endif ()
 add_executable(corewar include/op.h include/corewar.h include/cw_common.h
   src/op.c
   src/utils.c
-  src/vm/vm.c
+  src/vm/vm_args.c
+  src/vm/vm_exec.c
+  src/vm/vm_main.c
   src/vm/vm_exit.c
   src/vm/vm_init.c
   src/vm/vm_run.c
-  src/vm/vm_insert_sort.c
   src/vm/cw_add.c
   src/vm/cw_aff.c
   src/vm/cw_and.c
