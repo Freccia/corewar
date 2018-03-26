@@ -6,7 +6,7 @@
 /*   By: nfinkel <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/03/13 16:16:50 by nfinkel           #+#    #+#             */
-/*   Updated: 2018/03/26 15:52:05 by lfabbro          ###   ########.fr       */
+/*   Updated: 2018/03/26 17:15:36 by lfabbro          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -140,6 +140,7 @@ int					cw_nc_update(void);
 int					cw_nc_notify(uint16_t i, uint16_t c, uint8_t val);
 int					cw_nc_exit(void);
 
+t_champ				*cw_find_champ(t_cw *cw, int32_t id);
 void				cw_mem_dump(uint8_t *mem);
 void				cw_mem_cpy(uint8_t *dst, uint8_t *src, size_t len,
 						uint16_t p);
