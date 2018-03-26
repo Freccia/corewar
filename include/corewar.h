@@ -6,7 +6,7 @@
 /*   By: nfinkel <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/03/13 16:16:50 by nfinkel           #+#    #+#             */
-/*   Updated: 2018/03/25 22:15:59 by nfinkel          ###   ########.fr       */
+/*   Updated: 2018/03/26 09:58:40 by lfabbro          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,10 +20,6 @@
 
 # define _CW_CARRY		(1 << 0)
 # define _CW_HEAD_SZ	(16 + PROG_NAME_LENGTH + COMMENT_LENGTH)
-
-// TODO do not use those, but g_args in cw_args.c
-# define MASK_ARG2 (0x30)
-# define MASK_ARG3 (0x0c)
 
 # define E_WRONG_OP		(-0x0a)
 # define E_WRONG_OCP	(-0x0b)
