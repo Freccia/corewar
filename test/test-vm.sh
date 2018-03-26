@@ -28,12 +28,14 @@ test-vm() {
 
     ctrl_file="$DUMP_FOLDER"/"$(basename $core_file)"_"$cycles"-cycles.dump
 
+    # to generate cor dumps:
     # "$ROOT/ressources/bin/corewar" -d "$cycles" "$core_file" "$core_file" > "$ctrl_file"
 
-    # -y --suppress-common-lines
-    diff -y --width 400 --suppress-common-lines "$ctrl_file" <("$ROOT/corewar" -d "$cycles" "$core_file" "$core_file" 2>/dev/null) \
-        || error "corewar dump failed: with args: -d $cycles $core_file $core_file"
-    #TODO: not sure which files to send here?
+    if test -e "$ctrl_file"; then
+        diff -y --width 400 --suppress-common-lines "$ctrl_file" <("$ROOT/corewar" -d "$cycles" "$core_file" "$core_file") \
+            || error "corewar dump failed: with args: -d $cycles $core_file $core_file"
+        success "$core_file $cycles cycles ok!"
+    fi
 }
 
 # functional tests
