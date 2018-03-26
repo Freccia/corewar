@@ -6,7 +6,7 @@
 /*   By: nfinkel <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/03/25 21:09:55 by nfinkel           #+#    #+#             */
-/*   Updated: 2018/03/25 22:20:27 by nfinkel          ###   ########.fr       */
+/*   Updated: 2018/03/26 11:26:08 by lfabbro          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,7 @@ static t_instr		g_instr[MAX_OP]=
 	cw_aff
 };
 
-static int			check_arg(uint8_t op, uint8_t ocp, uint8_t n_arg)
+static int			cw_vm_check_arg(uint8_t op, uint8_t ocp, uint8_t n_arg)
 {
 	uint8_t		arg_type;
 
@@ -48,29 +48,44 @@ static int			check_arg(uint8_t op, uint8_t ocp, uint8_t n_arg)
 	return (EXIT_FAILURE);
 }
 
-static int			check_ocp(uint8_t *pc, uint8_t *ocp)
+static int			cw_vm_check_ocp(uint8_t *pc)
 {
-	if (check_arg((*pc - 1), ((*ocp & 0xc0) >> 6), 0)
-		|| check_arg((*pc - 1), ((*ocp & 0x30) >> 4), 1)
-		|| check_arg((*pc - 1), ((*ocp & 0x0c) >> 2), 2))
-		return (-1);
-	return (0);
+	uint8_t		ocp;
+
+	ocp = *cw_move_ptr(pc, 1);
+	if (cw_vm_check_arg((*pc - 1), ((ocp & 0xc0) >> 6), 0)
+		|| cw_vm_check_arg((*pc - 1), ((ocp & 0x30) >> 4), 1)
+		|| cw_vm_check_arg((*pc - 1), ((ocp & 0x0c) >> 2), 2))
+		return (EXIT_FAILURE);
+	return (EXIT_SUCCESS);
 }
 
-int					cw_vm_exec(t_proc *proc, uint8_t *pc)
+static int			cw_vm_proc_crash(t_proc *proc, uint16_t error)
 {
-	if (!g_op_tab[*pc - 1].ocp || !check_ocp(pc, cw_move_ptr(pc, 1)))
+	proc->crashed = error;
+	return (EXIT_FAILURE);
+}
+
+int					cw_vm_exec(t_cw *cw, t_proc *proc, uint8_t *pc)
+{
+	if (*pc >= 0x1 && *pc <= MAX_OP && *pc == g_op_tab[*pc - 1].op_code)
 	{
-		cw_nc_notify(pc - g_cw->mem, g_cw->current->color, *pc);
-		if (g_instr[*pc - 1](proc, pc))
-			return (-1);
-		cw_nc_notify(g_cw->current->pc - g_cw->mem,\
-			g_cw->current->color + 5, *g_cw->current->pc);
-		if (g_cw->opt.v & 4)
-			cw_verbose(proc, g_cw->champs[proc->k]->name,\
-				g_cw->champs[proc->k]->id, E_OP);
-		return (0);
+		if (!g_op_tab[*pc - 1].ocp || cw_vm_check_ocp(pc) == EXIT_SUCCESS)
+		{
+			cw_nc_notify(pc - cw->mem, cw->current->color, *pc);
+			if (g_instr[*pc - 1](proc, pc))
+				return (cw_vm_proc_crash(proc, E_WRONG_REG));
+			cw_nc_notify(cw->current->pc - cw->mem,\
+				cw->current->color + 5, *cw->current->pc);
+			if (cw->opt.v & 4)
+				cw_verbose(proc, g_cw->champs[proc->k]->name,\
+						g_cw->champs[proc->k]->id, E_OP);
+			return (EXIT_SUCCESS);
+		}
+		else
+			return (cw_vm_proc_crash(proc, E_WRONG_OCP));
 	}
 	else
-		return (-1);
+		return (cw_vm_proc_crash(proc, E_WRONG_OP));
+	return (EXIT_FAILURE);
 }

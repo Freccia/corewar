@@ -6,7 +6,7 @@
 /*   By: lfabbro <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/03/14 15:58:23 by lfabbro           #+#    #+#             */
-/*   Updated: 2018/03/25 22:19:37 by nfinkel          ###   ########.fr       */
+/*   Updated: 2018/03/26 11:33:18 by lfabbro          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,7 @@ uint8_t			*cw_map_mem(uint8_t *mem, uint8_t *pc, uint16_t n)
 	return (mem);
 }
 
-int32_t			cw_read_n(uint8_t *ptr, uint16_t n)
+int32_t			cw_read_nbytes(uint8_t *ptr, uint16_t n)
 {
 	uint8_t		mem[n + 1];
 
@@ -54,17 +54,16 @@ uint8_t			*cw_move_ptr(uint8_t const *pc, int32_t move)
 uint32_t		cw_mem_read(uint8_t **ptr, uint8_t *pc, size_t len,
 				uint32_t flags)
 {
-	uint8_t		mem[4];
 	uint8_t		*pos;
 
 	if (flags == F_DIR)
 		pos = *ptr;
 	else if (flags == F_IND_RESTRICT)
-		pos = cw_move_ptr(pc, ft_mtoi(cw_map_mem(mem, *ptr, 4), len) % IDX_MOD);
+		pos = cw_move_ptr(pc, cw_read_nbytes(*ptr, len) % IDX_MOD);
 	else
-		pos = cw_move_ptr(pc, ft_mtoi(cw_map_mem(mem, *ptr, 4), len));
+		pos = cw_move_ptr(pc, cw_read_nbytes(*ptr, len));
 	*ptr = cw_move_ptr(*ptr, len);
-	return (ft_mtoi(cw_map_mem(mem, pos, 4), 4));
+	return (cw_read_nbytes(*ptr, sizeof(uint32_t)));
 }
 
 void	cw_verbose(const t_proc *proc, const char *name, int id, t_verbose flag)
@@ -79,7 +78,7 @@ void	cw_verbose(const t_proc *proc, const char *name, int id, t_verbose flag)
 		ft_printf("Cycle to die is now %d\n", g_cw->cycle_to_die);
 	else
 	{
-		ft_snprintf(s, BUFF_SIZE, "Process %d [%s]", proc->num, name);
+		ft_snprintf(s, BUFF_SIZE, "Process %d [%s]", proc->pid, name);
 		if (flag == E_INVALID_LIVE)
 			ft_printf("%s made a live... But nobody came.\n", s);
 		else if (flag == E_OP)

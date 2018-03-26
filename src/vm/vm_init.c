@@ -6,7 +6,7 @@
 /*   By: lfabbro <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/03/15 15:30:43 by lfabbro           #+#    #+#             */
-/*   Updated: 2018/03/25 22:16:59 by nfinkel          ###   ########.fr       */
+/*   Updated: 2018/03/26 11:24:35 by lfabbro          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,7 +78,7 @@ static void				load_champs(uint8_t k, uint8_t n)
 		ptr->pc = g_cw->mem + ((n - 1) * plyrs_dist);
 		ptr->k = k;
 		ptr->id = champ->id;
-		ptr->num = k + 1;
+		ptr->pid = ++g_cw->max_pid;
 		ptr->reg[1] = champ->id;
 		cw_mem_cpy(ptr->pc, champ->bin, champ->size, ptr->color);
 		ptr->wait = g_op_tab[*ptr->pc - 1].cycles;

@@ -6,7 +6,7 @@
 /*   By: lfabbro <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/03/16 16:55:56 by lfabbro           #+#    #+#             */
-/*   Updated: 2018/03/25 22:20:59 by nfinkel          ###   ########.fr       */
+/*   Updated: 2018/03/26 11:27:43 by lfabbro          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,28 +71,31 @@ static void			kill_process(t_proc *proc, t_champ *champ)
 			tmp = ptr;
 			ptr = ptr->next;
 		}
-}*/
+}
+*/
 
-static void			eval(t_proc *proc)
+static void			cw_vm_eval(t_cw *cw, t_proc *proc)
 {
 	// TODO need to check cycle calculation versus zaz vm
 	// TODO proper ncurses color update
 	if (proc->wait > 1)
 		--proc->wait;
-	else if (*proc->pc >= 0x1 && *proc->pc <= MAX_OP)
+	if (cw_vm_exec(cw, proc, proc->pc) == EXIT_SUCCESS)
 	{
-		if (!cw_vm_exec(proc, proc->pc))
-			proc->wait = (*proc->pc >= 0x1 && *proc->pc <= MAX_OP ?\
-				g_op_tab[*proc->pc - 1].cycles - 1 : 1);
-		else
-			kill_process(proc, g_cw->champs[proc->k]);
+		if (*proc->pc >= 0x1 && *proc->pc <= MAX_OP)
+		{
+			proc->wait = g_op_tab[*proc->pc - 1].cycles - 1;
+			cw_nc_notify(proc->pc - cw->mem, proc->id, *proc->pc);
+		}
 	}
 	else
-	{
-		cw_nc_notify(proc->pc - g_cw->mem, proc->id, *proc->pc);
+		kill_process(proc, cw->champs[proc->k]);
+	/*
+		// so if op is invalid we increment pointer untill valid op ?
+		cw_nc_notify(proc->pc - cw->mem, proc->id, *proc->pc);
 		proc->pc = cw_move_ptr(proc->pc, 1);
 		proc->wait = 1;
-	}
+	*/
 }
 
 void				cw_vm_run(t_cw *cw)
@@ -106,7 +109,7 @@ void				cw_vm_run(t_cw *cw)
 		{
 			if (cw_nc_update())
 				cw_exit(EXIT_FAILURE, NULL);
-			eval(cw->current);
+			cw_vm_eval(cw, cw->current);
 			cw->prev = cw->current;
 			if (cw->current)
 				cw->current = cw->current->next;

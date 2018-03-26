@@ -6,7 +6,7 @@
 /*   By: lfabbro <>                                 +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/03/19 12:54:08 by lfabbro           #+#    #+#             */
-/*   Updated: 2018/03/25 22:32:25 by nfinkel          ###   ########.fr       */
+/*   Updated: 2018/03/26 11:30:45 by lfabbro          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,13 @@ const t_args		g_arg[MAX_ARGS_NUMBER + 1] =
 	{0x03, 0},
 };
 
+char		*cw_get_opcode_name(uint8_t op)
+{
+	if (op >= 0x1 && op <= MAX_OP)
+		return (g_op_tab[op - 1].name);
+	return (NULL);
+}
+
 void		cw_update_carry(t_proc *proc, uint32_t value)
 {
 	if (value)
@@ -28,9 +35,8 @@ void		cw_update_carry(t_proc *proc, uint32_t value)
 		proc->flags |= _CW_CARRY;
 }
 
-uint32_t		cw_read_mem(uint8_t **ptr, uint8_t *pc, uint32_t flags)
+int32_t		cw_read_mem(uint8_t **ptr, uint8_t *pc, uint32_t flags)
 {
-	uint8_t		mem[4];
 	uint8_t		*pos;
 	size_t		len;
 
@@ -38,16 +44,16 @@ uint32_t		cw_read_mem(uint8_t **ptr, uint8_t *pc, uint32_t flags)
 	if (flags & F_DIR || flags & F_DIR_LONG)
 	{
 		pos = *ptr;
-		len = (flags & F_DIR) ? 2 : 4;
+		len = (flags & F_DIR_LONG) ? 4 : 2;
 	}
-	else if (flags == F_IND_RESTRICT)
-		pos = cw_move_ptr(pc, ft_mtoi(cw_map_mem(mem, *ptr, 4), len) % IDX_MOD);
-	else if (flags == F_IND)
-		pos = cw_move_ptr(pc, ft_mtoi(cw_map_mem(mem, *ptr, 4), len));
+	else if (flags & F_IND_RESTRICT)
+		pos = cw_move_ptr(pc, cw_read_nbytes(*ptr, len) % IDX_MOD);
+	else if (flags & F_IND)
+		pos = cw_move_ptr(pc, cw_read_nbytes(*ptr, len));
 	else
 		return (0);
 	*ptr = cw_move_ptr(*ptr, len);
-	return (ft_mtoi(cw_map_mem(mem, pos, 4), len));
+	return (cw_read_nbytes(pos, len));
 }
 
 /*
@@ -56,13 +62,13 @@ uint32_t		cw_read_mem(uint8_t **ptr, uint8_t *pc, uint32_t flags)
 **	proc	-> current process
 **	ptr		-> pointer to the argument (it will be mooved by size octects)
 **	n		-> number of the argument (g_arg[n])
-**	flags	-> restricted address or not
+**	flags	-> restricted address or not, direct or direct double, ...
 **
 **	return: the value of the argument
 **			on error, it returns 0
 */
 
-uint32_t	cw_read_arg(t_proc *proc, uint8_t **ptr, uint8_t n, uint32_t flags)
+int32_t		cw_read_arg(t_proc *proc, uint8_t **ptr, uint8_t n, uint32_t flags)
 {
 	uint8_t		ocp;
 	uint32_t	arg;
@@ -74,9 +80,9 @@ uint32_t	cw_read_arg(t_proc *proc, uint8_t **ptr, uint8_t n, uint32_t flags)
 	{
 		reg = ft_mtoi(*ptr, 1);
 		if (reg >= 0x1 && reg <= REG_NUMBER)
-			arg = (flags & F_REG_VAL ? proc->reg[reg] : reg);
+			arg = (flags & F_REG_VAL) ? proc->reg[reg] : reg;
 		else
-			proc->kill = TRUE;
+			proc->crashed = E_WRONG_REG;
 		*ptr = cw_move_ptr(*ptr, 1);
 	}
 	else if (ocp == DIR_CODE)
@@ -84,6 +90,6 @@ uint32_t	cw_read_arg(t_proc *proc, uint8_t **ptr, uint8_t n, uint32_t flags)
 	else if (ocp == IND_CODE)
 		arg = cw_read_mem(ptr, proc->pc, flags);
 	else
-		proc->kill = TRUE;
+		proc->crashed = E_WRONG_OCP;
 	return (arg);
 }
