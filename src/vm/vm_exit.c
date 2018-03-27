@@ -18,7 +18,7 @@ int	cw_exit(int ecode, char const *fmt, ...)
 
 	if (g_cw)
 	{
-		cw_nc_exit();
+		vm_guiexit();
 		vm_playersclr(&g_cw->players);
 		vm_procsclr(&g_cw->procs);
 		// todo: destruct things

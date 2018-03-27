@@ -88,7 +88,7 @@ static int		nc_draw(void)
 	return (YEP);
 }
 
-int				cw_nc_init(void)
+int				vm_guiinit(void)
 {
 	int sq;
 

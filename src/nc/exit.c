@@ -12,7 +12,7 @@
 
 #include "internal.h"
 
-int	cw_nc_exit(void)
+int	vm_guiexit(void)
 {
 	if (!g_cw->opt.g)
 		return (YEP);

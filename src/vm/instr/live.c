@@ -13,7 +13,7 @@
 
 #include "corewar.h"
 
-int			cw_live(t_proc *proc, uint8_t *pc)
+int			vm_live(t_proc *proc, uint8_t *pc)
 {
 	int32_t		id;
 	t_player	*player;

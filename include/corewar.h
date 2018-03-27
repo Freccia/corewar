@@ -85,32 +85,8 @@ typedef struct		s_cw
 	t_procs			procs;
 }					t_cw;
 
-typedef int			(*t_instr)(t_proc *, uint8_t *);
-
 extern t_cw			*g_cw;
 extern t_args		g_arg[MAX_ARGS_NUMBER + 1];
-
-int					cw_live(t_proc *proc, uint8_t *pc);
-int					cw_ld(t_proc *proc, uint8_t *pc);
-int					cw_st(t_proc *proc, uint8_t *pc);
-int					cw_add(t_proc *proc, uint8_t *pc);
-int					cw_sub(t_proc *proc, uint8_t *pc);
-int					cw_and(t_proc *proc, uint8_t *pc);
-int					cw_or(t_proc *proc, uint8_t *pc);
-int					cw_xor(t_proc *proc, uint8_t *pc);
-int					cw_zjmp(t_proc *proc, uint8_t *pc);
-int					cw_ldi(t_proc *proc, uint8_t *pc);
-int					cw_sti(t_proc *proc, uint8_t *pc);
-int					cw_fork(t_proc *proc, uint8_t *pc);
-int					cw_lld(t_proc *proc, uint8_t *pc);
-int					cw_lldi(t_proc *proc, uint8_t *pc);
-int					cw_lfork(t_proc *proc, uint8_t *pc);
-int					cw_aff(t_proc *proc, uint8_t *pc);
-
-int					cw_nc_init(void);
-int					cw_nc_update(void);
-int					cw_nc_notify(uint16_t i, uint16_t c, uint8_t val);
-int					cw_nc_exit(void);
 
 t_player				*cw_find_champ(t_cw *cw, int32_t id);
 void				cw_mem_dump(uint8_t *mem);

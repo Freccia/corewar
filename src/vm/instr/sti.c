@@ -12,7 +12,7 @@
 
 #include "corewar.h"
 
-int			cw_sti(t_proc *proc, uint8_t *pc)
+int			vm_sti(t_proc *proc, uint8_t *pc)
 {
 	uint8_t		*ptr;
 	uint8_t		*write;

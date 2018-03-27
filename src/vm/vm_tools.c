@@ -17,7 +17,7 @@ void			cw_mem_cpy(uint8_t *dst, uint8_t *src, size_t len, uint16_t p)
 	while (len--)
 	{
 		*dst = *src;
-		cw_nc_notify((uint16_t)(dst - g_cw->mem), p, *src);
+		vm_guinotify((uint16_t)(dst - g_cw->mem), p, *src);
 		++src;
 		dst = cw_move_ptr(dst, 1);
 	}

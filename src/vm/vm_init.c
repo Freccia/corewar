@@ -32,7 +32,7 @@ static int		init_procs(void)
 
 	g_cw->cycle_to_die = CYCLE_TO_DIE;
 	champ = g_cw->players.head;
-	cw_nc_init();
+	vm_guiinit();
 	while (champ)
 	{
 		vm_procinit(&proc, champ);

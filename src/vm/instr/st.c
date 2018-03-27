@@ -1,7 +1,7 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   cw_st.c                                            :+:      :+:    :+:   */
+/*   vm_st.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: nfinkel <nfinkel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
@@ -12,7 +12,7 @@
 
 #include "corewar.h"
 
-int					cw_st(t_proc *proc, uint8_t *pc)
+int					vm_st(t_proc *proc, uint8_t *pc)
 {
 	uint8_t		*ptr;
 	uint8_t		*ocp;

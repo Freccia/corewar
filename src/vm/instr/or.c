@@ -12,7 +12,7 @@
 
 #include "corewar.h"
 
-int			cw_or(t_proc *proc, uint8_t *pc)
+int			vm_or(t_proc *proc, uint8_t *pc)
 {
 	uint8_t		*ptr;
 	int32_t		a[2];

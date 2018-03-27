@@ -14,22 +14,22 @@
 
 static t_instr		g_instr[MAX_OP]=
 {
-	cw_live,
-	cw_ld,
-	cw_st,
-	cw_add,
-	cw_sub,
-	cw_and,
-	cw_or,
-	cw_xor,
-	cw_zjmp,
-	cw_ldi,
-	cw_sti,
-	cw_fork,
-	cw_lld,
-	cw_lldi,
-	cw_lfork,
-	cw_aff
+	vm_live,
+	vm_opld,
+	vm_st,
+	vm_add,
+	vm_sub,
+	vm_and,
+	vm_or,
+	vm_xor,
+	vm_zjmp,
+	vm_ldi,
+	vm_sti,
+	vm_fork,
+	vm_lld,
+	vm_lldi,
+	vm_lfork,
+	vm_aff
 };
 
 /*int		cw_vm_kill_process(t_proc **proc, t_proc *prev)
@@ -79,11 +79,11 @@ int		cw_vm_exec(t_proc *proc, uint8_t *pc)
 	{
 		if (!g_op_tab[*pc - 1].ocp || cw_check_ocp(pc) == EXIT_SUCCESS)
 		{
-			cw_nc_notify((uint16_t)(pc - g_cw->mem),
+			vm_guinotify((uint16_t)(pc - g_cw->mem),
 				(uint16_t)(proc->owner->idx + CW_GUI_COLOR_DFT), *pc);
 			g_instr[*pc - 1](proc, pc);
-			cw_nc_notify((uint16_t)(proc->pc - g_cw->mem),
-                (uint16_t)(proc->owner->idx + CW_GUI_COLOR_INV), *proc->pc);
+			vm_guinotify((uint16_t)(proc->pc - g_cw->mem),
+				(uint16_t)(proc->owner->idx + CW_GUI_COLOR_INV), *proc->pc);
 			if (g_cw->opt.v & 4)
 				cw_verbose(proc, NULL, proc->owner->id, E_OP);
 			return (EXIT_SUCCESS);
@@ -107,10 +107,10 @@ void	cw_vm_eval(t_proc *proc)
 	}
 	else
 	{
-		cw_nc_notify((uint16_t)(proc->pc - g_cw->mem),
+		vm_guinotify((uint16_t)(proc->pc - g_cw->mem),
 			(uint16_t)(proc->owner->idx + CW_GUI_COLOR_DFT), *proc->pc);
 		proc->pc = cw_move_ptr(proc->pc, 1);
-		cw_nc_notify((uint16_t)(proc->pc - g_cw->mem),
+		vm_guinotify((uint16_t)(proc->pc - g_cw->mem),
 			(uint16_t)(proc->owner->idx + CW_GUI_COLOR_INV), *proc->pc);
 		if (g_cw->opt.v & 8)
 			cw_verbose(proc, NULL, proc->owner->id, E_DEATH);
@@ -131,7 +131,7 @@ int		cw_vm_run(void)
 			cw_verbose(NULL, NULL, 0, E_CYCLE);
 		while (proc)
 		{
-			if (cw_nc_update())
+			if (vm_guiupdate())
 				return (cw_exit(EXIT_FAILURE, NULL));
 			cw_vm_eval(proc);
 			if (!g_cw->procs.len) // this (else) should never happen

@@ -78,7 +78,7 @@ void		cw_nc_stats(uint8_t id, int value)
 	wrefresh(g_wstats);
 }
 
-int			cw_nc_update(void)
+int			vm_guiupdate(void)
 {
 	int ch;
 
@@ -107,7 +107,7 @@ int			cw_nc_update(void)
 	return (YEP);
 }
 
-int			cw_nc_notify(uint16_t i, uint16_t c, uint8_t val)
+int			vm_guinotify(uint16_t i, uint16_t c, uint8_t val)
 {
 	int sq;
 	int x;

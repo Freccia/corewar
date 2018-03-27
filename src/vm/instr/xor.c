@@ -1,7 +1,7 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   cw_xor.c                                           :+:      :+:    :+:   */
+/*   vm_xor.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: nfinkel <nfinkel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
@@ -12,7 +12,7 @@
 
 #include "corewar.h"
 
-int			cw_xor(t_proc *proc, uint8_t *pc)
+int			vm_xor(t_proc *proc, uint8_t *pc)
 {
 	uint8_t		*ptr;
 	int32_t		a[2];
