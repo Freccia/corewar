@@ -68,10 +68,10 @@ int				vm_eval(t_proc *proc, uint8_t *pc)
 		if (!g_op_tab[*pc - 1].ocp || check_ocp(pc) == EXIT_SUCCESS)
 		{
 			vm_guinotify((uint16_t)(pc - g_vm->mem),
-				(uint16_t)(proc->owner->idx + CW_GUI_COLOR_DFT), *pc);
+				(uint16_t)(proc->owner->idx + VM_COLOR_DFT), *pc);
 			g_instr[*pc - 1](proc, pc);
 			vm_guinotify((uint16_t)(proc->pc - g_vm->mem),
-				(uint16_t)(proc->owner->idx + CW_GUI_COLOR_INV), *proc->pc);
+				(uint16_t)(proc->owner->idx + VM_COLOR_INV), *proc->pc);
 			if (g_vm->opt.v & VM_VERB_OPERA &&
 				*proc->pc >= 0x1 && *proc->pc <= MAX_OP)
 				ft_printf("Process %d [%s] executing %s\n", proc->pid,

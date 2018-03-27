@@ -38,7 +38,7 @@ int					vm_st(t_proc *proc, uint8_t *pc)
 		write = vm_move(pc, dst);// % IDX_MOD);
 		value = swap_uint32((uint32_t)value);
 		vm_write(write, (uint8_t *)&value, sizeof(int32_t),
-			(uint16_t)(proc->owner->idx + CW_GUI_COLOR_HINT));
+			(uint16_t)(proc->owner->idx + VM_COLOR_HINT));
 	}
 	//proc->pc = cw_move_ptr(pc, ptr - pc);
 	proc->pc = ptr;
