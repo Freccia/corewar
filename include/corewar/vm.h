@@ -29,9 +29,34 @@ typedef struct	s_vm
 
 extern t_vm		*g_vm;
 
-int				vm_init(int ac, char **av, int r1);
-int				vm_exit(int ecode, char const *fmt, ...);
-void			vm_dump(uint8_t *mem);
+/*
+** TODO: Doc
+** @param ac 
+** @param av 
+** @param r1 
+** @return 
+*/
+int				vm_init(int ac, char***av, int r1);
+
+/*
+** TODO: Doc
+** @param ecode 
+** @param fmt 
+** @param ... 
+** @return 
+*/
+int				vm_exit(int ecode, char const**fmt, ...);
+
+/*
+** TODO: Doc
+** @param mem 
+*/
+void			vm_dump(uint8_t**mem);
+
+/*
+** TODO: Doc
+** @return 
+*/
 int				vm_run(void);
 
 #endif

@@ -30,6 +30,13 @@ typedef struct		s_opt
 	uint16_t		ctmo;
 }					t_opt;
 
+/*
+** TODO: Doc
+** @param opt 
+** @param ac 
+** @param av 
+** @return 
+*/
 int					vm_optparse(t_opt *opt, int ac, char **av);
 
 #endif

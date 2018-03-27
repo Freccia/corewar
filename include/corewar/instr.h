@@ -17,22 +17,140 @@
 
 typedef int	(*t_instr)(t_proc *, uint8_t *);
 
+/*
+** TODO: Doc
+** @param proc
+** @param pc
+** @return
+*/
 int		vm_live(t_proc *proc, uint8_t *pc);
+
+/*
+** TODO: Doc
+** @param proc
+** @param pc
+** @return
+*/
 int		vm_opld(t_proc *proc, uint8_t *pc);
+
+/*
+** TODO: Doc
+** @param proc
+** @param pc
+** @return
+*/
 int		vm_st(t_proc *proc, uint8_t *pc);
+
+/*
+** TODO: Doc
+** @param proc
+** @param pc
+** @return
+*/
 int		vm_add(t_proc *proc, uint8_t *pc);
+
+/*
+** TODO: Doc
+** @param proc
+** @param pc
+** @return
+*/
 int		vm_sub(t_proc *proc, uint8_t *pc);
+
+/*
+** TODO: Doc
+** @param proc
+** @param pc
+** @return
+*/
 int		vm_and(t_proc *proc, uint8_t *pc);
+
+/*
+** TODO: Doc
+** @param proc
+** @param pc
+** @return
+*/
 int		vm_or(t_proc *proc, uint8_t *pc);
+
+/*
+** TODO: Doc
+** @param proc
+** @param pc
+** @return
+*/
 int		vm_xor(t_proc *proc, uint8_t *pc);
+
+/*
+** TODO: Doc
+** @param proc
+** @param pc
+** @return
+*/
 int		vm_zjmp(t_proc *proc, uint8_t *pc);
+
+/*
+** TODO: Doc
+** @param proc
+** @param pc
+** @return
+*/
 int		vm_ldi(t_proc *proc, uint8_t *pc);
+
+/*
+** TODO: Doc
+** @param proc
+** @param pc
+** @return
+*/
 int		vm_sti(t_proc *proc, uint8_t *pc);
+
+/*
+** TODO: Doc
+** @param proc
+** @param pc
+** @return
+*/
 int		vm_fork(t_proc *proc, uint8_t *pc);
+
+/*
+** TODO: Doc
+** @param proc
+** @param pc
+** @return
+*/
 int		vm_lld(t_proc *proc, uint8_t *pc);
+
+/*
+** TODO: Doc
+** @param proc
+** @param pc
+** @return
+*/
 int		vm_lldi(t_proc *proc, uint8_t *pc);
+
+/*
+** TODO: Doc
+** @param proc
+** @param pc
+** @return
+*/
 int		vm_lfork(t_proc *proc, uint8_t *pc);
+
+/*
+** TODO: Doc
+** @param proc
+** @param pc
+** @return
+*/
 int		vm_aff(t_proc *proc, uint8_t *pc);
-int		vm_eval(t_proc *proc, uint8_t *pc);
+
+/*
+** TODO: Doc
+** @param proc 
+** @param pc 
+** @return 
+*/
+int		vm_eval(t_proc**proc, uint8_t**pc);
 
 #endif
