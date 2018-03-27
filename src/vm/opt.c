@@ -1,22 +1,20 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   vm_main.c                                          :+:      :+:    :+:   */
+/*   vm/opt.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: alucas- <marvin@42.fr>                     +#+  +:+       +#+        */
+/*   By: lfabbro <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2018/03/12 18:15:51 by alucas-           #+#    #+#             */
-/*   Updated: 2018/03/26 16:29:30 by lfabbro          ###   ########.fr       */
+/*   Created: 2018/03/16 16:55:56 by lfabbro           #+#    #+#             */
+/*   Updated: 2018/03/27 13:57:47 by lfabbro          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "corewar.h"
 
-t_vm		*g_vm;
-
-static const char		*g_usage =
+static const char	*g_usage =
 {
-	"Usage: corewar [ options ] <champ.cor> <...>\n"\
+	"Usage: %s [ options ] <champ.cor> <...>\n"\
 	"	-d N    : Dumps memory after N execution cycles\n"\
 	"	-g      : Ncurses GUI\n"\
 	"	-c N    : CTMO - Cycles till memory opens\n"\
@@ -27,7 +25,7 @@ static const char		*g_usage =
 	"		- 4 : Show operations\n"\
 	"		- 8 : Show deaths\n"\
 	"		-16 : Show PC movement\n"\
-	"..."
+	"...\n"
 };
 
 static uint8_t		verboselvl(void)
@@ -41,23 +39,25 @@ static uint8_t		verboselvl(void)
 	return ((uint8_t)v);
 }
 
-static int			cw_vm_parse_opt(int ac, char **av, t_vm *cw)
+int					vm_optparse(t_opt *vm, int ac, char **av)
 {
 	int 	opt;
 	int 	r1;
 
+	if (ac < 2)
+		vm_exit(EXIT_FAILURE, g_usage, av[0]);
 	g_optind = 1;
 	r1 = 0;
 	while ((opt = ft_getopt(ac, av, "gd:v:n:c:")) != -1)
 	{
 		if (opt == 'v')
-			cw->opt.v = verboselvl();
+			vm->v = verboselvl();
 		else if (opt == 'd')
-			cw->opt.d = ft_atoi(g_optarg);
+			vm->d = ft_atoi(g_optarg);
 		else if (opt == 'g')
-			cw->opt.g ^= 1;
+			vm->g ^= 1;
 		else if (opt == 'c')
-			cw->opt.ctmo = (uint16_t)ft_atoi(g_optarg);
+			vm->ctmo = (uint16_t)ft_atoi(g_optarg);
 		else if (opt == 'n')
 		{
 			r1 = (int)ft_atoi(g_optarg);
@@ -66,22 +66,5 @@ static int			cw_vm_parse_opt(int ac, char **av, t_vm *cw)
 		else
 			return (ft_printf("%s\n", g_usage));
 	}
-	g_vm = cw;
 	return (r1);
-}
-
-int 	main(int ac, char **av)
-{
-	t_vm	cw;
-	int		r1;
-
-	if (ac < 2)
-		return (ft_printf("%s\n", g_usage));
-	ft_bzero(&cw, sizeof(t_vm));
-	r1 = cw_vm_parse_opt(ac, av, &cw);
-	if (vm_init(ac, av, r1))
-		return (vm_exit(EXIT_FAILURE, NULL));
-	if (vm_run())
-		return (vm_exit(EXIT_FAILURE, NULL));
-	return (vm_exit(EXIT_SUCCESS, NULL));
 }

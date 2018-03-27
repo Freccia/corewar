@@ -30,4 +30,6 @@ typedef struct		s_opt
 	uint16_t		ctmo;
 }					t_opt;
 
+int					vm_optparse(t_opt *opt, int ac, char **av);
+
 #endif
