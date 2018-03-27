@@ -6,7 +6,7 @@
 /*   By: lfabbro <>                                 +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/03/19 12:54:08 by lfabbro           #+#    #+#             */
-/*   Updated: 2018/03/27 11:21:56 by lfabbro          ###   ########.fr       */
+/*   Updated: 2018/03/27 11:42:14 by lfabbro          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,7 +79,7 @@ int32_t		cw_read_arg(t_proc *proc, uint8_t **ptr, uint8_t n, uint32_t flags)
 	arg = 0;
 	if (ocp == REG_CODE)
 	{
-		reg = ft_mtoi(*ptr, 1);
+		reg = (uint8_t)**ptr;
 		if (reg >= 0x1 && reg <= REG_NUMBER)
 			arg = (flags & F_REG_VAL) ? proc->reg[reg] : reg;
 		else
@@ -87,9 +87,15 @@ int32_t		cw_read_arg(t_proc *proc, uint8_t **ptr, uint8_t n, uint32_t flags)
 		*ptr = cw_move_ptr(*ptr, 1);
 	}
 	else if (ocp == DIR_CODE)
+	{
+		flags = (flags & F_DIR) | (flags & F_DIR_LONG);
 		arg = cw_read_mem(ptr, proc->pc, flags);
+	}
 	else if (ocp == IND_CODE)
+	{
+		flags = (flags & F_IND) | (flags & F_IND_RESTRICT);
 		arg = cw_read_mem(ptr, proc->pc, flags);
+	}
 	else
 		proc->crashed = E_WRONG_OCP;
 	return (arg);
