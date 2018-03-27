@@ -47,6 +47,7 @@ void		vm_playerspush(t_players *players, t_player *player)
 	t_player* node;
 
 	player = ft_memdup(player, sizeof(t_player));
+	player->idx = (uint8_t)players->len;
 	if (!players->head || players->head->id >= player->id)
 	{
 		player->next = players->head;
