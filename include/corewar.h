@@ -6,7 +6,7 @@
 /*   By: nfinkel <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/03/13 16:16:50 by nfinkel           #+#    #+#             */
-/*   Updated: 2018/03/26 17:15:36 by lfabbro          ###   ########.fr       */
+/*   Updated: 2018/03/27 10:28:58 by lfabbro          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,7 @@
 # define E_WRONG_REG	(-0x0c)
 
 # define F_DIR			1
-# define F_DIR_DOUBLE	2
+# define F_DIR_LONG		2
 # define F_IND			4
 # define F_IND_RESTRICT	8
 # define F_REG			16

@@ -6,7 +6,7 @@
 /*   By: lfabbro <>                                 +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/03/19 12:54:08 by lfabbro           #+#    #+#             */
-/*   Updated: 2018/03/25 03:15:19 by lfabbro          ###   ########.fr       */
+/*   Updated: 2018/03/27 12:46:30 by lfabbro          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,14 +41,13 @@ int32_t		cw_read_mem(uint8_t **ptr, uint8_t *pc, uint32_t flags)
 	size_t		len;
 
 	len = 2;
-	if (flags & F_DIR || flags & F_DIR_DOUBLE)
+	if (flags & F_DIR || flags & F_DIR_LONG)
 	{
 		pos = *ptr;
-		len = (flags & F_DIR_DOUBLE) ? 4 : 2;
+		len = (flags & F_DIR_LONG) ? 4 : 2;
 	}
 	else if (flags & F_IND_RESTRICT)
-	// maybe move ptr should start from g_cw->mem and not from pc...
-		pos = cw_move_ptr(pc, cw_read_nbytes(*ptr, len) % IDX_MOD);
+		pos = cw_move_ptr(pc, cw_read_nbytes(*ptr, len));// % IDX_MOD);
 	else if (flags & F_IND)
 		pos = cw_move_ptr(pc, cw_read_nbytes(*ptr, len));
 	else
@@ -74,15 +73,12 @@ int32_t		cw_read_arg(t_proc *proc, uint8_t **ptr, uint8_t n, uint32_t flags)
 	uint8_t		ocp;
 	uint32_t	arg;
 	uint8_t		reg;
-	// TODO delete me
-	//uint8_t		size;
 
 	ocp = (*cw_move_ptr(proc->pc, 1) & g_arg[n].mask) >> g_arg[n].shift;
-	//size = (g_op_tab[*(proc->pc) - 1].direct_size) ? 2 : 4;
 	arg = 0;
 	if (ocp == REG_CODE)
 	{
-		reg = ft_mtoi(*ptr, 1);
+		reg = (uint8_t)**ptr;
 		if (reg >= 0x1 && reg <= REG_NUMBER)
 			arg = (flags & F_REG_VAL) ? proc->reg[reg] : reg;
 		else
@@ -90,9 +86,15 @@ int32_t		cw_read_arg(t_proc *proc, uint8_t **ptr, uint8_t n, uint32_t flags)
 		*ptr = cw_move_ptr(*ptr, 1);
 	}
 	else if (ocp == DIR_CODE)
+	{
+		flags = (flags & F_DIR) | (flags & F_DIR_LONG);
 		arg = cw_read_mem(ptr, proc->pc, flags);
+	}
 	else if (ocp == IND_CODE)
+	{
+		flags = (flags & F_IND) | (flags & F_IND_RESTRICT);
 		arg = cw_read_mem(ptr, proc->pc, flags);
+	}
 	else
 		proc->crashed = E_WRONG_OCP;
 	return (arg);
