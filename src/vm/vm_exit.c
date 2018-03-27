@@ -12,29 +12,15 @@
 
 #include "corewar.h"
 
-static void		cw_free(void)
-{
-	t_proc		*proc;
-	void		*tmp;
-
-	proc = g_cw->procs;
-	while (proc)
-	{
-		tmp = proc->next;
-		free(proc);
-		proc = (t_proc *)tmp;
-	}
-}
-
-int				cw_exit(int ecode, char const *fmt, ...)
+int	cw_exit(int ecode, char const *fmt, ...)
 {
 	va_list ap;
 
 	if (g_cw)
 	{
 		cw_nc_exit();
-		cw_free();
 		vm_playersclr(&g_cw->players);
+		vm_procsclr(&g_cw->procs);
 		// todo: destruct things
 	}
 	if (fmt)

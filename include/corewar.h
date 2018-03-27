@@ -78,12 +78,9 @@ typedef struct		s_opt
 typedef struct		s_cw
 {
 	uint8_t			mem[MEM_SIZE];
-	uint16_t		proc_count;
-	uint32_t		max_pid;
+	t_opt			opt;
 	size_t			cycle;
 	size_t			cycle_to_die;
-	t_opt			opt;
-
 	t_players		players;
 	t_procs			procs;
 }					t_cw;

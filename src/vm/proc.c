@@ -17,7 +17,6 @@ void	vm_procinit(t_proc *ptr, t_player *owner)
 	ft_bzero(ptr, sizeof(t_proc));
 	ptr->owner = owner;
 	ptr->pc = g_cw->mem + (owner->idx * (MEM_SIZE / g_cw->players.len));
-	ptr->pid = ++g_cw->max_pid;
 	ptr->reg[1] = owner->id;
 	cw_mem_cpy(ptr->pc, owner->bin, owner->size,
 		(uint16_t)(ptr->owner->idx + CW_GUI_COLOR_DFT));
@@ -29,7 +28,6 @@ void	vm_procfork(t_proc *dst, t_proc *src, uint8_t *pc)
 	ft_memcpy(dst, src, sizeof(t_proc));
 	dst->lastlive = 0;
 	dst->wait = 1;
-	dst->pid = ++g_cw->max_pid;
 	dst->pc = pc;
 }
 
@@ -39,10 +37,27 @@ void	vm_procspush(t_procs *procs, t_proc *proc)
 	proc->next = procs->head;
 	procs->head = proc;
 	++procs->len;
+	proc->pid = ++procs->pids;
 }
 
 void	vm_procsrem(t_procs *procs, t_proc *proc)
 {
-
+	//TODO
+	(void)procs;
+	(void)proc;
 }
 
+void	vm_procsclr(t_procs *procs)
+{
+	t_proc	*proc;
+	void	*tmp;
+
+	proc = procs->head;
+	while (proc)
+	{
+		tmp = proc->next;
+		free(proc);
+		proc = (t_proc *)tmp;
+	}
+	ft_bzero(procs, sizeof(t_procs));
+}

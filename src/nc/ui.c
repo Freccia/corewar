@@ -90,8 +90,8 @@ int			cw_nc_update(void)
 		return (YEP);
 	}
 	cw_nc_stats(STATS_CYCLE, (int)g_cw->cycle);
-	cw_nc_stats(STATS_CYCLE_TO_DIE, g_cw->cycle_to_die);
-	cw_nc_stats(STATS_PROCS, g_cw->proc_count);
+	cw_nc_stats(STATS_CYCLE_TO_DIE, (int)g_cw->cycle_to_die);
+	cw_nc_stats(STATS_PROCS, (int)g_cw->procs.len);
 	if (!g_running)
 		nc_pause(&g_running);
 	while ((ch = getch()) != ERR)
