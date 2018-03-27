@@ -27,7 +27,7 @@ int			cw_lldi(t_proc *proc, uint8_t *op_code)
 		return (EXIT_FAILURE);
 	read = cw_move_ptr(op_code, a[0] + a[1]);
 	proc->reg[reg] = cw_read_nbytes(read, sizeof(int32_t));
-	cw_update_carry(proc, g_cw->current->reg[reg]);
+	cw_update_carry(proc, proc->reg[reg]);
 	proc->pc = cw_move_ptr(op_code, 8);
 	return (EXIT_SUCCESS);
 }

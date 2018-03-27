@@ -43,31 +43,6 @@ static t_instr		g_instr[MAX_OP]=
 	return (EXIT_SUCCESS);
 }*/
 
-void	cw_vm_cycle_to_die(void)
-{
-	t_proc		*ptr;
-	t_proc		*tmp;
-
-	ptr = g_cw->procs;
-	tmp = NULL;
-	while (ptr)
-		if (!ptr->lastlive)
-		{
-			if (tmp)
-				tmp->next = ptr->next;
-			else
-				g_cw->procs = ptr->next;
-			free(ptr);
-			ptr = (tmp) ? tmp : g_cw->procs;
-		}
-		else
-		{
-			ptr->lastlive = 0;
-			tmp = ptr;
-			ptr = ptr->next;
-		}
-}
-
 int		cw_check_arg(uint8_t op, uint8_t ocp, uint8_t n_arg)
 {
 	uint8_t		arg_type;
@@ -105,11 +80,10 @@ int		cw_vm_exec(t_proc *proc, uint8_t *pc)
 		if (!g_op_tab[*pc - 1].ocp || cw_check_ocp(pc) == EXIT_SUCCESS)
 		{
 			cw_nc_notify((uint16_t)(pc - g_cw->mem),
-				(uint16_t)(g_cw->current->owner->idx + CW_GUI_COLOR_DFT), *pc);
+				(uint16_t)(proc->owner->idx + CW_GUI_COLOR_DFT), *pc);
 			g_instr[*pc - 1](proc, pc);
-			cw_nc_notify((uint16_t)(g_cw->current->pc - g_cw->mem),
-                (uint16_t)(g_cw->current->owner->idx + CW_GUI_COLOR_INV),
-				*g_cw->current->pc);
+			cw_nc_notify((uint16_t)(proc->pc - g_cw->mem),
+                (uint16_t)(proc->owner->idx + CW_GUI_COLOR_INV), *proc->pc);
 			if (g_cw->opt.v & 4)
 				cw_verbose(proc, NULL, proc->owner->id, E_OP);
 			return (EXIT_SUCCESS);
@@ -147,18 +121,20 @@ void	cw_vm_eval(t_proc *proc)
 
 int		cw_vm_run(void)
 {
+	t_proc *proc;
+
 	while (g_cw->cycle_to_die > 0)
 	{
-		g_cw->current = g_cw->procs;
+		proc = g_cw->procs.head;
 		++g_cw->cycle;
 		if (g_cw->opt.v & 2)
 			cw_verbose(NULL, NULL, 0, E_CYCLE);
-		while (g_cw->current)
+		while (proc)
 		{
 			if (cw_nc_update())
 				return (cw_exit(EXIT_FAILURE, NULL));
-			cw_vm_eval(g_cw->current);
-			g_cw->current = g_cw->current->next;
+			cw_vm_eval(proc);
+			proc = proc->next;
 		}
 		if (g_cw->opt.d > 0 && g_cw->cycle == (size_t)g_cw->opt.d)
 		{

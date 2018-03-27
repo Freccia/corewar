@@ -79,15 +79,13 @@ typedef struct		s_cw
 {
 	uint8_t			mem[MEM_SIZE];
 	uint16_t		proc_count;
-	t_proc			*prev;
-	t_proc			*current;
-	t_proc			*procs;
 	uint32_t		max_pid;
 	size_t			cycle;
 	size_t			cycle_to_die;
 	t_opt			opt;
 
 	t_players		players;
+	t_procs			procs;
 }					t_cw;
 
 typedef int			(*t_instr)(t_proc *, uint8_t *);

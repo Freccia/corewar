@@ -14,21 +14,14 @@
 
 int			cw_lfork(t_proc *proc, uint8_t *pc)
 {
-	t_proc		*new;
-	uint8_t		*ptr;
-	int16_t		n;
+	t_proc		new;
+	uint8_t		*it;
+	int32_t		n;
 
-	ptr = cw_move_ptr(pc, 1);
-	n = cw_read_nbytes(ptr, 2);
-	new = ft_malloc(sizeof(t_proc));
-	ft_memcpy(new, proc, sizeof(t_proc));
-	new->lastlive = 0;
-	new->wait = 1;
-	new->pid = ++g_cw->max_pid;
-	new->pc = cw_move_ptr(pc, n);
+	it = cw_move_ptr(pc, 1);
+	n = cw_read_nbytes(it, 2);
+	vm_procfork(&new, proc, cw_move_ptr(pc, n));
+	vm_procspush(&g_cw->procs, &new);
 	proc->pc = cw_move_ptr(pc, 3);
-	new->next = g_cw->procs;
-	g_cw->procs = new;
-	++g_cw->proc_count;
 	return (EXIT_SUCCESS);
 }
