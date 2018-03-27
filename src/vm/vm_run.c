@@ -6,7 +6,7 @@
 /*   By: lfabbro <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/03/16 16:55:56 by lfabbro           #+#    #+#             */
-/*   Updated: 2018/03/27 11:18:48 by lfabbro          ###   ########.fr       */
+/*   Updated: 2018/03/27 13:57:47 by lfabbro          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -104,6 +104,7 @@ int		cw_vm_exec(t_proc *proc, uint8_t *pc)
 	{
 		if (!g_op_tab[*pc - 1].ocp || cw_check_ocp(pc) == EXIT_SUCCESS)
 		{
+		// we can modify g_cw->current in proc->
 			cw_nc_notify(pc - g_cw->mem, g_cw->current->color, *pc);
 			g_instr[*pc - 1](proc, pc);
 			cw_nc_notify(g_cw->current->pc - g_cw->mem,\
@@ -131,7 +132,9 @@ void	cw_vm_eval(t_proc *proc)
 	}
 	else
 	{
+		cw_nc_notify(proc->pc - g_cw->mem, proc->color, *proc->pc);
 		proc->pc = cw_move_ptr(proc->pc, 1);
+		cw_nc_notify(proc->pc - g_cw->mem, proc->color + 5, *proc->pc);
 		if (g_cw->opt.v & 8)
 			cw_verbose(proc, NULL, proc->id, E_DEATH);
 		proc->wait = 1;
