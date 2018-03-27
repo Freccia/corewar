@@ -93,3 +93,21 @@ int				vm_exit(int ecode, char const *fmt, ...)
 	}
 	exit(ecode);
 }
+
+void			vm_dump(uint8_t *mem)
+{
+	int		k;
+	int		p;
+	int		q;
+
+	k = -1;
+	q = -40;
+	ft_printf("0x");
+	while (++k < MEM_SIZE / 64 && (p = -1))
+	{
+		ft_printf("%#.4x : ", (q += 40));
+		while (++p < MEM_SIZE / 64)
+			ft_printf("%.2x ", *mem++);
+		ft_printf("\n");
+	}
+}

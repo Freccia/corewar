@@ -17,14 +17,14 @@ int			vm_add(t_proc *proc, uint8_t *pc)
 	uint8_t *ptr;
 	int32_t av[3];
 
-	ptr = cw_move_ptr(pc, 2);
-	av[0] = cw_read_arg(proc, &ptr, 0, F_REG_VAL);
-	av[1] = cw_read_arg(proc, &ptr, 1, F_REG_VAL);
-	av[2] = cw_read_arg(proc, &ptr, 2, F_REG);
+	ptr = vm_move(pc, 2);
+	av[0] = vm_readarg(proc, &ptr, 0, F_REG_VAL);
+	av[1] = vm_readarg(proc, &ptr, 1, F_REG_VAL);
+	av[2] = vm_readarg(proc, &ptr, 2, F_REG);
 	if (av[2] < 0x1 || av[2] > REG_NUMBER)
 		return (EXIT_FAILURE);
 	proc->reg[av[2]] = av[0] + av[1];
-	cw_update_carry(proc, proc->reg[av[2]]);
-	proc->pc = cw_move_ptr(pc, 5);
+	vm_carry(proc, proc->reg[av[2]]);
+	proc->pc = vm_move(pc, 5);
 	return (EXIT_SUCCESS);
 }

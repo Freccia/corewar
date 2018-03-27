@@ -18,10 +18,10 @@ int			vm_fork(t_proc *proc, uint8_t *pc)
 	uint8_t		*ptr;
 	int32_t		n;
 
-	ptr = cw_move_ptr(pc, 1);
-	n = cw_read_nbytes(ptr, 2);
-	vm_procfork(&new, proc, cw_move_ptr(pc, n)); //TODO: lfabbro: % IDX_MOD));
+	ptr = vm_move(pc, 1);
+	n = vm_read(ptr, 2);
+	vm_procfork(&new, proc, vm_move(pc, n)); //TODO: lfabbro: % IDX_MOD));
 	vm_procspush(&g_vm->procs, &new);
-	proc->pc = cw_move_ptr(pc, 3);
+	proc->pc = vm_move(pc, 3);
 	return (EXIT_SUCCESS);
 }

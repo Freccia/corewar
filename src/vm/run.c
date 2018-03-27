@@ -25,7 +25,7 @@ static void	eval(t_proc *proc)
 	{
 		vm_guinotify((uint16_t)(proc->pc - g_vm->mem),
 			(uint16_t)(proc->owner->idx + CW_GUI_COLOR_DFT), *proc->pc);
-		proc->pc = cw_move_ptr(proc->pc, 1);
+		proc->pc = vm_move(proc->pc, 1);
 		vm_guinotify((uint16_t)(proc->pc - g_vm->mem),
 			(uint16_t)(proc->owner->idx + CW_GUI_COLOR_INV), *proc->pc);
 		if (g_vm->opt.v & VM_VERB_DEATH)
@@ -55,7 +55,7 @@ int			vm_run(void)
 			proc = proc->next;
 		}
 		if (g_vm->opt.d > 0 && g_vm->cycle == (size_t)g_vm->opt.d)
-			cw_mem_dump(&g_vm->mem[0]);
+			vm_dump(&g_vm->mem[0]);
 		if (g_vm->cycle == g_vm->cycle_to_die)
 		{
 		//	We kill processes here, not during execution

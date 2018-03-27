@@ -26,21 +26,72 @@
 # define F_REG			16
 # define F_REG_VAL		32
 
-typedef	struct		s_args
+typedef	struct	s_args
 {
-	uint8_t			mask;
-	uint8_t			shift;
-}					t_args;
+	uint8_t		mask;
+	uint8_t		shift;
+}				t_args;
 
-extern t_args		g_arg[MAX_ARGS_NUMBER + 1];
+extern t_args	g_arg[MAX_ARGS_NUMBER + 1];
 
-void				cw_mem_dump(uint8_t *mem);
-void				cw_mem_cpy(uint8_t *dst, uint8_t *src, size_t len, uint16_t p);
-uint8_t				*cw_map_mem(uint8_t *mem, uint8_t *pc, uint16_t n);
-uint8_t				*cw_move_ptr(uint8_t const *pc, int32_t len);
-int32_t				cw_read_mem(uint8_t **pc, uint8_t *ocp, uint32_t flags);
-int32_t				cw_read_nbytes(uint8_t *ptr, uint16_t n);
-int32_t				cw_read_arg(t_proc *proc, uint8_t **ptr, uint8_t n, uint32_t flags);
-void				cw_update_carry(t_proc *proc, int32_t value);
+/*
+** TODO: Doc
+** @param pc
+** @param len
+** @return
+*/
+uint8_t			*vm_move(uint8_t const *pc, int32_t len);
+
+/*
+** TODO: Doc
+** @param mem
+** @param pc
+** @param n
+** @return
+*/
+uint8_t			*vm_map(uint8_t *mem, uint8_t *pc, uint16_t n);
+
+/*
+** TODO: Doc
+** @param dst
+** @param src
+** @param len
+** @param p
+*/
+void			vm_write(uint8_t *dst, uint8_t *src, size_t len, uint16_t p);
+
+/*
+** TODO: Doc
+** @param proc
+** @param value
+*/
+void			vm_carry(t_proc *proc, int32_t value);
+
+/*
+** TODO: Doc
+** @param ptr
+** @param n
+** @return
+*/
+int32_t			vm_read(uint8_t *ptr, uint16_t n);
+
+/*
+** TODO: Doc
+** @param pc
+** @param ocp
+** @param flags
+** @return
+*/
+int32_t			vm_readref(uint8_t **pc, uint8_t *ocp, uint32_t flags);
+
+/*
+** TODO: Doc
+** @param proc	Current process
+** @param ptr	Pointer to the argument (it will be moved by size bytes)
+** @param n		Number of the argument (g_arg[n])
+** @param fl    Restricted address or not, direct or direct double, ...
+** @return      The value of the argument on error, it returns 0
+*/
+int32_t			vm_readarg(t_proc *proc, uint8_t **ptr, uint8_t n, uint32_t fl);
 
 #endif

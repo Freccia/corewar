@@ -14,12 +14,12 @@
 
 int			vm_aff(t_proc *proc, uint8_t *pc)
 {
-	char		c;
+	char c;
 
-	if (*(pc = cw_move_ptr(pc, 1)) == 0x40)
+	if (*(pc = vm_move(pc, 1)) == 0x40)
 	{
-		pc = cw_move_ptr(pc, 1);
-		cw_update_carry(proc, (uint32_t)(c = *pc % 256));
+		pc = vm_move(pc, 1);
+		vm_carry(proc, (uint32_t)(c = (char)(*pc % 256)));
 	}
 	else
 		return (EXIT_FAILURE);

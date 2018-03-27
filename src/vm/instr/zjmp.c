@@ -17,11 +17,11 @@ int			vm_zjmp(t_proc *proc, uint8_t *pc)
 	uint8_t		*ptr;
 	uint16_t	addr;
 
-	ptr = cw_move_ptr(pc, 1);
-	addr = cw_read_nbytes(ptr, sizeof(uint16_t));
+	ptr = vm_move(pc, 1);
+	addr = (uint16_t)vm_read(ptr, sizeof(uint16_t));
 	if (proc->carry)
-		proc->pc = cw_move_ptr(proc->pc, addr);
+		proc->pc = vm_move(proc->pc, addr);
 	else
-		proc->pc = cw_move_ptr(proc->pc, 3);
+		proc->pc = vm_move(proc->pc, 3);
 	return (EXIT_SUCCESS);
 }

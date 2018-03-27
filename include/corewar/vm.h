@@ -31,6 +31,7 @@ extern t_vm		*g_vm;
 
 int				vm_init(int ac, char **av, int r1);
 int				vm_exit(int ecode, char const *fmt, ...);
+void			vm_dump(uint8_t *mem);
 int				vm_run(void);
 
 #endif

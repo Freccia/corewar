@@ -27,7 +27,7 @@ typedef struct		s_proc
 	uint8_t			*pc;
 	size_t			lastlive;
 	uint16_t		wait;
-	uint8_t			crashed;
+	int8_t			crashed;
 }					t_proc;
 
 typedef struct		s_procs

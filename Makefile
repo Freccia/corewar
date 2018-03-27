@@ -38,12 +38,18 @@ SRCA_NAME = \
 	asm/parser/parse_args.c
 SRCB_NAME = \
 	$(COMMON_SRC) \
-	vm/init.c vm/instr.c vm/main.c vm/opt.c vm/player.c vm/proc.c vm/run.c \
-	vm/instr/add.c vm/instr/aff.c vm/instr/and.c vm/instr/fork.c \
-	vm/instr/ld.c vm/instr/ldi.c vm/instr/lfork.c vm/instr/live.c vm/instr/lld.c \
-	vm/instr/lldi.c vm/instr/or.c vm/instr/st.c vm/instr/sti.c vm/instr/sub.c \
-	vm/instr/xor.c vm/instr/zjmp.c \
-	vm/vm_args.c vm/vm_tools.c \
+	vm/init.c \
+	vm/instr.c vm/instr/add.c vm/instr/aff.c vm/instr/and.c vm/instr/fork.c \
+  vm/instr/ld.c vm/instr/ldi.c vm/instr/lfork.c vm/instr/live.c vm/instr/lld.c \
+  vm/instr/lldi.c vm/instr/or.c vm/instr/st.c vm/instr/sti.c vm/instr/sub.c \
+  vm/instr/xor.c vm/instr/zjmp.c \
+	vm/main.c \
+  vm/opt.c \
+  vm/player.c \
+  vm/proc.c \
+  vm/read.c \
+  vm/run.c \
+  vm/write.c \
 	nc/exit.c nc/init.c nc/keys.c nc/ui.c
 
 # folder-names of the sources

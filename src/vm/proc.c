@@ -18,7 +18,7 @@ void	vm_procinit(t_proc *ptr, t_player *owner)
 	ptr->owner = owner;
 	ptr->pc = g_vm->mem + (owner->idx * (MEM_SIZE / g_vm->players.len));
 	ptr->reg[1] = owner->id;
-	cw_mem_cpy(ptr->pc, owner->bin, owner->size,
+	vm_write(ptr->pc, owner->bin, owner->size,
 		(uint16_t)(ptr->owner->idx + CW_GUI_COLOR_DFT));
 	ptr->wait = g_op_tab[*ptr->pc - 1].cycles;
 }
