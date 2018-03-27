@@ -6,7 +6,7 @@
 /*   By: lfabbro <>                                 +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/03/19 12:54:08 by lfabbro           #+#    #+#             */
-/*   Updated: 2018/03/25 03:15:19 by lfabbro          ###   ########.fr       */
+/*   Updated: 2018/03/27 10:57:06 by lfabbro          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,10 +41,10 @@ int32_t		cw_read_mem(uint8_t **ptr, uint8_t *pc, uint32_t flags)
 	size_t		len;
 
 	len = 2;
-	if (flags & F_DIR || flags & F_DIR_DOUBLE)
+	if (flags & F_DIR || flags & F_DIR_LONG)
 	{
 		pos = *ptr;
-		len = (flags & F_DIR_DOUBLE) ? 4 : 2;
+		len = (flags & F_DIR_LONG) ? 4 : 2;
 	}
 	else if (flags & F_IND_RESTRICT)
 	// maybe move ptr should start from g_cw->mem and not from pc...

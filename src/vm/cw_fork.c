@@ -6,7 +6,7 @@
 /*   By: nfinkel <nfinkel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/03/14 19:09:54 by nfinkel           #+#    #+#             */
-/*   Updated: 2018/03/25 03:11:37 by lfabbro          ###   ########.fr       */
+/*   Updated: 2018/03/27 10:32:20 by lfabbro          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,8 +24,9 @@ int			cw_fork(t_proc *proc, uint8_t *pc)
 	ft_memcpy(new, proc, sizeof(t_proc));
 	new->lastlive = 0;
 	new->wait = 1;
+	new->crashed = 0;
 	new->pid = ++g_cw->max_pid;
-	new->pc = cw_move_ptr(pc, n % IDX_MOD);
+	new->pc = cw_move_ptr(pc, n);//% IDX_MOD);
 	proc->pc = cw_move_ptr(pc, 3);
 	new->next = g_cw->procs;
 	g_cw->procs = new;

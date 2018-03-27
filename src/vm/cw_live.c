@@ -6,7 +6,7 @@
 /*   By: nfinkel <nfinkel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/03/14 19:10:47 by nfinkel           #+#    #+#             */
-/*   Updated: 2018/03/26 17:13:25 by lfabbro          ###   ########.fr       */
+/*   Updated: 2018/03/27 10:38:13 by lfabbro          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,12 +15,11 @@
 
 int			cw_live(t_proc *proc, uint8_t *pc)
 {
-	int			id;
-	uint8_t		mem[4];
+	int32_t		id;
 	t_champ		*champ;
 
 	pc = cw_move_ptr(pc, 1);
-	id = ft_mtoi(cw_map_mem(mem, pc, 4), 4);
+	id = cw_read_nbytes(pc, sizeof(id));
 	proc->lastlive = g_cw->cycle;
 	champ = g_cw->champs;
 	while (champ)
