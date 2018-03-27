@@ -15,7 +15,7 @@
 static void		cw_free(void)
 {
 	t_proc		*proc;
-	t_champ		*champ;
+	t_player		*champ;
 	void		*tmp;
 
 	proc = g_cw->procs;
@@ -30,7 +30,7 @@ static void		cw_free(void)
 	{
 		tmp = champ->next;
 		free(champ);
-		champ = (t_champ *)tmp;
+		champ = (t_player *)tmp;
 	}
 }
 

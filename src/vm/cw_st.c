@@ -35,7 +35,8 @@ int					cw_st(t_proc *proc, uint8_t *pc)
 		ptr = cw_move_ptr(ptr, 2);
 		tmp = cw_move_ptr(pc, dst);// % IDX_MOD);
 		value = swap_uint32(value);
-		cw_mem_cpy(tmp, (uint8_t *)&value, sizeof(int32_t), proc->color + 2);
+		cw_mem_cpy(tmp, (uint8_t *)&value, sizeof(int32_t),
+			(uint16_t)(proc->owner->idx + CW_GUI_COLOR_HINT));
 	}
 	proc->pc = cw_move_ptr(pc, ptr - pc);
 	return (EXIT_SUCCESS);

@@ -16,7 +16,7 @@
 
 static int		cw_vm_check_r1(int r1)
 {
-	t_champ		*champ;
+	t_player		*champ;
 
 	if (r1 > UINT16_MAX || r1 < 0)
 	{
@@ -33,12 +33,12 @@ static int		cw_vm_check_r1(int r1)
 	return (r1);
 }
 
-static t_champ	*cw_vm_parse_champ(const char *filename, int r1, t_champ *next)
+static t_player	*cw_vm_parse_champ(const char *filename, int r1, t_player *next)
 {
 	int		fd;
 	ssize_t	bin_size;
 	uint8_t	buf[4096];
-	t_champ	*new;
+	t_player	*new;
 
 	if ((fd = open(filename, O_RDONLY)) < 0)
 		cw_exit(3, "Failed opening file.\n");
@@ -46,9 +46,9 @@ static t_champ	*cw_vm_parse_champ(const char *filename, int r1, t_champ *next)
 		cw_exit(3, "Failed reading file header.\n");
 	if (*(uint32_t *)buf != swap_uint32(COREWAR_EXEC_MAGIC))
 		cw_exit(3, "Wrong file: magic number.\n");
-	if ((new = malloc(sizeof(t_champ))) == NULL)
+	if ((new = malloc(sizeof(t_player))) == NULL)
 		cw_exit(EXIT_FAILURE, "%m\n");
-	ft_bzero(new, sizeof(t_champ));
+	ft_bzero(new, sizeof(t_player));
 	ft_memcpy((void*)(new->name), buf + sizeof(uint32_t), PROG_NAME_LENGTH);
 	if ((bin_size = read(fd, &buf, CHAMP_MAX_SIZE + 1)) <= 0)
 		cw_exit(3, "Failed reading file binary.\n");
@@ -67,7 +67,7 @@ static int		cw_vm_load_champs(uint8_t i)
 {
 	int		plyrs_dist;
 	t_proc	*ptr;
-	t_champ	*champ;
+	t_player	*champ;
 
 	plyrs_dist = MEM_SIZE / g_cw->n_champs;
 	g_cw->cycle_to_die = CYCLE_TO_DIE;
@@ -78,12 +78,12 @@ static int		cw_vm_load_champs(uint8_t i)
 		if (!(ptr = malloc(sizeof(t_proc))))
 			return (cw_exit(EXIT_FAILURE, "%m\n"));
 		ft_bzero(ptr, sizeof(t_proc));
-		ptr->color = (uint8_t)(i + 1);
+		ptr->owner = champ;
 		ptr->pc = g_cw->mem + (i * plyrs_dist);
-		ptr->id = champ->id;
 		ptr->pid = ++g_cw->max_pid;
 		ptr->reg[1] = champ->id;
-		cw_mem_cpy(ptr->pc, champ->bin, champ->size, ptr->color);
+		cw_mem_cpy(ptr->pc, champ->bin, champ->size,
+			(uint16_t)(ptr->owner->idx + CW_GUI_COLOR_DFT));
 		ptr->wait = g_op_tab[*ptr->pc - 1].cycles;
 		++g_cw->proc_count;
 		g_cw->procs ? (ptr->next = g_cw->procs) : 0;

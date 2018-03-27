@@ -27,7 +27,7 @@ char		*cw_get_opcode_name(uint8_t op)
 	return (NULL);
 }
 
-void		cw_update_carry(t_proc *proc, uint32_t value)
+void		cw_update_carry(t_proc *proc, int32_t value)
 {
 	if (value)
 		proc->flags &= ~(_CW_CARRY);

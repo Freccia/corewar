@@ -104,12 +104,14 @@ int		cw_vm_exec(t_proc *proc, uint8_t *pc)
 	{
 		if (!g_op_tab[*pc - 1].ocp || cw_check_ocp(pc) == EXIT_SUCCESS)
 		{
-			cw_nc_notify(pc - g_cw->mem, g_cw->current->color, *pc);
+			cw_nc_notify((uint16_t)(pc - g_cw->mem),
+				(uint16_t)(g_cw->current->owner->idx + CW_GUI_COLOR_DFT), *pc);
 			g_instr[*pc - 1](proc, pc);
-			cw_nc_notify(g_cw->current->pc - g_cw->mem,\
-				g_cw->current->color + 5, *g_cw->current->pc);
+			cw_nc_notify((uint16_t)(g_cw->current->pc - g_cw->mem),
+                (uint16_t)(g_cw->current->owner->idx + CW_GUI_COLOR_INV),
+				*g_cw->current->pc);
 			if (g_cw->opt.v & 4)
-				cw_verbose(proc, NULL, proc->id, E_OP);
+				cw_verbose(proc, NULL, proc->owner->id, E_OP);
 			return (EXIT_SUCCESS);
 		}
 		else
@@ -130,14 +132,15 @@ void	cw_vm_eval(t_proc *proc)
 	}
 	else if (*proc->pc >= 0x1 && *proc->pc <= MAX_OP)
 	{
-		cw_nc_notify(proc->pc - g_cw->mem, proc->id, *proc->pc);
+		cw_nc_notify((uint16_t)(proc->pc - g_cw->mem),
+			(uint16_t)(proc->owner->idx + CW_GUI_COLOR_INV), *proc->pc);
 		proc->wait = g_op_tab[*proc->pc - 1].cycles;
 	}
 	else
 	{
 		// increment pc ?
 		if (g_cw->opt.v & 8)
-			cw_verbose(proc, NULL, proc->id, E_DEATH);
+			cw_verbose(proc, NULL, proc->owner->id, E_DEATH);
 		proc->wait = 1;
 	}
 }
@@ -157,7 +160,7 @@ int		cw_vm_run(void)
 			cw_vm_eval(g_cw->current);
 			g_cw->current = g_cw->current->next;
 		}
-		if (g_cw->opt.d > 0 && g_cw->cycle == g_cw->opt.d)
+		if (g_cw->opt.d > 0 && g_cw->cycle == (size_t)g_cw->opt.d)
 		{
 			cw_mem_dump(&g_cw->mem[0]);
 			return (cw_exit(EXIT_SUCCESS, NULL));

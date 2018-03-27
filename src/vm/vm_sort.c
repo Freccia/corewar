@@ -12,9 +12,9 @@
 
 #include "corewar.h"
 
-static void cw_vm_insert(t_champ** head, t_champ* new)
+static void cw_vm_insert(t_player** head, t_player* new)
 {
-    t_champ* curr;
+    t_player* curr;
 
     if (*head == NULL || (*head)->id >= new->id)
     {
@@ -33,11 +33,11 @@ static void cw_vm_insert(t_champ** head, t_champ* new)
     }
 }
 
-void cw_vm_insert_sort(t_champ **head)
+void cw_vm_insert_sort(t_player **head)
 {
-	t_champ *sort;
-    t_champ *curr;
-    t_champ *next;
+	t_player *sort;
+    t_player *curr;
+    t_player *next;
 
 	sort = NULL;
 	curr = *head;

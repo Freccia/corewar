@@ -25,7 +25,8 @@ int			cw_sti(t_proc *proc, uint8_t *pc)
 	a[1] = cw_read_arg(proc, &ptr, 2, F_DIR | F_REG_VAL);
 	write = cw_move_ptr(pc, (a[0] + a[1]) % IDX_MOD);
 	reg = swap_uint32(reg);
-	cw_mem_cpy(write, (uint8_t*)&(reg), 4, proc->color + 2);
+	cw_mem_cpy(write, (uint8_t*)&(reg), 4,
+		(uint16_t)(proc->owner->idx + CW_GUI_COLOR_HINT));
 	cw_update_carry(proc, *write);
 	proc->pc = cw_move_ptr(pc, ptr - pc);
 	return (EXIT_SUCCESS);

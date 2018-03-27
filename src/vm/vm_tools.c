@@ -41,9 +41,9 @@ void			cw_mem_dump(uint8_t *mem)
 	}
 }
 
-t_champ			*cw_find_champ(t_cw *cw, int32_t id)
+t_player			*cw_find_champ(t_cw *cw, int32_t id)
 {
-	t_champ		*champ;
+	t_player		*champ;
 
 	champ = cw->champs;
 	while (champ)

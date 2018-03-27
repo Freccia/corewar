@@ -18,6 +18,13 @@
 # include "cw_common.h"
 # include "op.h"
 
+#include "corewar/gui.h"
+#include "corewar/instr.h"
+#include "corewar/mem.h"
+#include "corewar/player.h"
+#include "corewar/proc.h"
+#include "corewar/vm.h"
+
 # define _CW_CARRY		(1 << 0)
 # define _CW_HEAD_SZ	(16 + PROG_NAME_LENGTH + COMMENT_LENGTH)
 
@@ -36,18 +43,12 @@
 # define F_REG			16
 # define F_REG_VAL		32
 
-/*
-**	E_IND_LONG -> indirectly access all memory
-**	E_IND_SHORT -> indirectly access restricted memory (n % IDX_MOD)
-*/
-
-typedef enum		e_flag
-{
-	E_DIR,
-	E_IND_LONG,
-	E_IND_SHORT,
-	E_REG
-}					t_flag;
+# define VM_VERB_ESSEN (1 << 0)
+# define VM_VERB_LIVES (1 << 1)
+# define VM_VERB_CYCLE (1 << 2)
+# define VM_VERB_OPERA (1 << 3)
+# define VM_VERB_DEATH (1 << 4)
+# define VM_VERB_MOVES (1 << 5)
 
 typedef enum		e_verbose
 {
@@ -66,37 +67,13 @@ typedef	struct		s_args
 	uint8_t			shift;
 }					t_args;
 
-typedef struct		s_champ
-{
-	const char		name[PROG_NAME_LENGTH + 1];
-	int				id;
-	uint32_t		lastlive;
-	size_t			size;
-	uint8_t			bin[CHAMP_MAX_SIZE + 1];
-	struct s_champ	*next;
-}					t_champ;
-
 typedef struct		s_opt
 {
 	uint8_t			v;
-	int64_t			d;
+	ssize_t			d;
 	uint8_t			g : 1;
 	uint16_t		ctmo;
 }					t_opt;
-
-typedef struct		s_proc
-{
-	int				id;
-	int				pid; // each process should have a different number
-	uint8_t			color;
-	uint8_t			flags;
-	uint8_t			*pc;
-	uint32_t		reg[REG_NUMBER + 1];
-	size_t			lastlive;
-	uint16_t		wait;
-	uint8_t			crashed;
-	struct s_proc	*next;
-}					t_proc;
 
 typedef struct		s_cw
 {
@@ -106,11 +83,11 @@ typedef struct		s_cw
 	t_proc			*current;
 	t_proc			*procs;
 	uint32_t		max_pid;
-	int				cycle;
-	int				cycle_to_die;
+	size_t			cycle;
+	size_t			cycle_to_die;
 	t_opt			opt;
 	uint8_t			n_champs;
-	t_champ			*champs;
+	t_player			*champs;
 }					t_cw;
 
 typedef int			(*t_instr)(t_proc *, uint8_t *);
@@ -140,7 +117,7 @@ int					cw_nc_update(void);
 int					cw_nc_notify(uint16_t i, uint16_t c, uint8_t val);
 int					cw_nc_exit(void);
 
-t_champ				*cw_find_champ(t_cw *cw, int32_t id);
+t_player				*cw_find_champ(t_cw *cw, int32_t id);
 void				cw_mem_dump(uint8_t *mem);
 void				cw_mem_cpy(uint8_t *dst, uint8_t *src, size_t len,
 						uint16_t p);
@@ -151,7 +128,7 @@ int32_t				cw_read_nbytes(uint8_t *ptr, uint16_t n);
 int32_t				cw_read_arg(t_proc *proc, uint8_t **ptr, uint8_t n,
 						uint32_t flags);
 char				*cw_get_opcode_name(uint8_t op);
-void				cw_update_carry(t_proc *proc, uint32_t value);
+void				cw_update_carry(t_proc *proc, int32_t value);
 void				cw_verbose(const t_proc *proc, const char *name, int id,
 						t_verbose flag);
 
@@ -164,7 +141,7 @@ void				cw_vm_eval(t_proc *proc);
 /*
 ** parse fichier cor
 */
-void				cw_vm_insert_sort(t_champ **head);
+void				cw_vm_insert_sort(t_player **head);
 int					cw_vm_init(int ac, char **av, int r1);
 int					cw_vm_run(void);
 int					cw_exit(int ecode, char const *fmt, ...);

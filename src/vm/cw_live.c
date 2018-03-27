@@ -17,7 +17,7 @@ int			cw_live(t_proc *proc, uint8_t *pc)
 {
 	int			id;
 	uint8_t		mem[4];
-	t_champ		*champ;
+	t_player		*champ;
 
 	pc = cw_move_ptr(pc, 1);
 	id = ft_mtoi(cw_map_mem(mem, pc, 4), 4);
