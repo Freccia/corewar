@@ -14,11 +14,11 @@
 
 int			vm_zjmp(t_proc *proc, uint8_t *pc)
 {
-	uint8_t		*ptr;
-	uint16_t	addr;
+	uint8_t	*ptr;
+	int16_t	addr;
 
 	ptr = vm_move(pc, 1, 0);
-	addr = (uint16_t)vm_read(ptr, sizeof(uint16_t));
+	addr = (int16_t)vm_read(ptr, sizeof(int16_t));
 	if (proc->carry)
 		proc->pc = vm_move(proc->pc, addr, 0);
 	else

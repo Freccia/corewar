@@ -14,7 +14,7 @@
 
 static t_instr	g_instr[MAX_OP] = {
 	vm_live,
-	vm_opld,
+	vm_ld,
 	vm_st,
 	vm_add,
 	vm_sub,

@@ -12,7 +12,7 @@
 
 #include "corewar.h"
 
-int			vm_opld(t_proc *proc, uint8_t *pc)
+int			vm_ld(t_proc *proc, uint8_t *pc)
 {
 	uint8_t		*ptr;
 	int32_t		value;
