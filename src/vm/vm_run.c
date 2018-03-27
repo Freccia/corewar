@@ -6,7 +6,7 @@
 /*   By: lfabbro <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/03/16 16:55:56 by lfabbro           #+#    #+#             */
-/*   Updated: 2018/03/26 17:14:10 by lfabbro          ###   ########.fr       */
+/*   Updated: 2018/03/27 11:18:48 by lfabbro          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,21 +86,21 @@ int		cw_check_arg(uint8_t op, uint8_t ocp, uint8_t n_arg)
 
 int		cw_check_ocp(uint8_t *pc)
 {
-	uint8_t		*ocp; //
+	uint8_t		ocp;
 
-	ocp = cw_move_ptr(pc, 1);
-	if (cw_check_arg((*pc - 1), ((*ocp & 0xc0) >> 6), 0) == EXIT_FAILURE)
+	ocp = *cw_move_ptr(pc, 1);
+	if (cw_check_arg((*pc - 1), ((ocp & 0xc0) >> 6), 0) == EXIT_FAILURE)
 		return (EXIT_FAILURE);
-	if (cw_check_arg((*pc - 1), ((*ocp & 0x30) >> 4), 1) == EXIT_FAILURE)
+	if (cw_check_arg((*pc - 1), ((ocp & 0x30) >> 4), 1) == EXIT_FAILURE)
 		return (EXIT_FAILURE);
-	if (cw_check_arg((*pc - 1), ((*ocp & 0x0c) >> 2), 2) == EXIT_FAILURE)
+	if (cw_check_arg((*pc - 1), ((ocp & 0x0c) >> 2), 2) == EXIT_FAILURE)
 		return (EXIT_FAILURE);
 	return (EXIT_SUCCESS);
 }
 
 int		cw_vm_exec(t_proc *proc, uint8_t *pc)
 {
-	if (*pc >= 0x1 && *pc <= MAX_OP && *pc == g_op_tab[*pc - 1].op_code)
+	if (*pc >= 0x1 && *pc <= MAX_OP)
 	{
 		if (!g_op_tab[*pc - 1].ocp || cw_check_ocp(pc) == EXIT_SUCCESS)
 		{
@@ -126,25 +126,22 @@ void	cw_vm_eval(t_proc *proc)
 		--proc->wait;
 	else if (cw_vm_exec(proc, proc->pc) == EXIT_SUCCESS)
 	{
-		proc->wait = g_op_tab[*proc->pc - 1].cycles - 1;
-	}
-	else if (*proc->pc >= 0x1 && *proc->pc <= MAX_OP)
-	{
-		cw_nc_notify(proc->pc - g_cw->mem, proc->id, *proc->pc);
-		proc->wait = g_op_tab[*proc->pc - 1].cycles;
+		if (*proc->pc >= 0x1 && *proc->pc <= MAX_OP)
+			proc->wait = g_op_tab[*proc->pc - 1].cycles - 1;
 	}
 	else
 	{
-		// increment pc ?
+		proc->pc = cw_move_ptr(proc->pc, 1);
 		if (g_cw->opt.v & 8)
 			cw_verbose(proc, NULL, proc->id, E_DEATH);
 		proc->wait = 1;
 	}
+	//cw_nc_notify(proc->pc - g_cw->mem, proc->id, *proc->pc);
 }
 
 int		cw_vm_run(void)
 {
-	while (g_cw->cycle_to_die > 0)
+	while (g_cw->cycle_to_die > 0 && g_cw->procs)
 	{
 		g_cw->current = g_cw->procs;
 		++g_cw->cycle;
@@ -155,15 +152,15 @@ int		cw_vm_run(void)
 			if (cw_nc_update())
 				return (cw_exit(EXIT_FAILURE, NULL));
 			cw_vm_eval(g_cw->current);
-			g_cw->current = g_cw->current->next;
+			if (g_cw->current) // this (else) should never happen
+				g_cw->current = g_cw->current->next;
+				// if it happens we should have other problems (see exec)
 		}
 		if (g_cw->opt.d > 0 && g_cw->cycle == g_cw->opt.d)
-		{
 			cw_mem_dump(&g_cw->mem[0]);
-			return (cw_exit(EXIT_SUCCESS, NULL));
-		}
 		if (g_cw->cycle == g_cw->cycle_to_die)
 		{
+		//	We kill processes here, not during execution
 		//	cw_vm_cycle_to_die();
 			g_cw->cycle = 0;
 			g_cw->cycle_to_die -= CYCLE_DELTA;
