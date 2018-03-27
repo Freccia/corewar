@@ -36,7 +36,7 @@ extern t_vm		*g_vm;
 ** @param r1 
 ** @return 
 */
-int				vm_init(int ac, char***av, int r1);
+int				vm_init(int ac, char **av, int r1);
 
 /*
 ** TODO: Doc
@@ -45,13 +45,13 @@ int				vm_init(int ac, char***av, int r1);
 ** @param ... 
 ** @return 
 */
-int				vm_exit(int ecode, char const**fmt, ...);
+int				vm_exit(int ecode, char const *fmt, ...);
 
 /*
 ** TODO: Doc
 ** @param mem 
 */
-void			vm_dump(uint8_t**mem);
+void			vm_dump(uint8_t *mem);
 
 /*
 ** TODO: Doc

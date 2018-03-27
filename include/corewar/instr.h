@@ -151,6 +151,6 @@ int		vm_aff(t_proc *proc, uint8_t *pc);
 ** @param pc 
 ** @return 
 */
-int		vm_eval(t_proc**proc, uint8_t**pc);
+int		vm_eval(t_proc *proc, uint8_t *pc);
 
 #endif
