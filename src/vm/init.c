@@ -6,7 +6,7 @@
 /*   By: lfabbro <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/03/15 15:30:43 by lfabbro           #+#    #+#             */
-/*   Updated: 2018/03/27 22:22:09 by nfinkel          ###   ########.fr       */
+/*   Updated: 2018/03/27 22:26:39 by nfinkel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -97,22 +97,4 @@ int				vm_exit(int ecode, char const *fmt, ...)
 		va_end(ap);
 	}
 	exit(ecode);
-}
-
-void			vm_dump(uint8_t *mem)
-{
-	int		k;
-	int		p;
-	int		q;
-
-	k = -1;
-	q = -0x40;
-	ft_printf("0x");
-	while (++k < MEM_SIZE / 64 && (p = -1))
-	{
-		ft_printf("%#.4x : ", (q += 0x40));
-		while (++p < MEM_SIZE / 64)
-			ft_printf("%.2x ", *mem++);
-		ft_printf("\n");
-	}
 }

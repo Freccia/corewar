@@ -6,13 +6,13 @@
 /*   By: lfabbro <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/03/16 16:55:56 by lfabbro           #+#    #+#             */
-/*   Updated: 2018/03/27 21:51:19 by nfinkel          ###   ########.fr       */
+/*   Updated: 2018/03/27 22:27:41 by nfinkel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "corewar.h"
 
-static void	eval(t_proc *proc)
+static void			eval(t_proc *proc)
 {
 	if (proc->wait > 1)
 		--proc->wait;
@@ -39,7 +39,26 @@ static void	eval(t_proc *proc)
 	}
 }
 
-int			vm_run(void)
+static int			mem_dump(uint8_t *mem)
+{
+	int		k;
+	int		p;
+	int		q;
+
+	k = -1;
+	q = -0x40;
+	ft_printf("0x");
+	while (++k < MEM_SIZE / 64 && (p = -1))
+	{
+		ft_printf("%#.4x : ", (q += 0x40));
+		while (++p < MEM_SIZE / 64)
+			ft_printf("%.2x ", *mem++);
+		ft_printf("\n");
+	}
+	return (EXIT_SUCCESS);
+}
+
+int					vm_run(void)
 {
 	t_proc *proc;
 
@@ -60,10 +79,7 @@ int			vm_run(void)
 		if (vm_guiupdate())
 			return (vm_exit(EXIT_FAILURE, NULL));
 		if (g_vm->opt.d > 0 && g_vm->cycle == (size_t)g_vm->opt.d)
-		{
-			vm_dump(&g_vm->mem[0]);
-			return (EXIT_SUCCESS);
-		}
+			return (mem_dump(&g_vm->mem[0]));
 		if (g_vm->cycle == g_vm->cycle_to_die)
 		{
 		//	We kill processes here, not during execution
