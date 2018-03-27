@@ -23,7 +23,7 @@ int			vm_aff(t_proc *proc, uint8_t *pc)
 	}
 	else
 		return (EXIT_FAILURE);
-	if (g_vm->opt.g & 4)
+	if (g_vm->opt.g & VM_VERB_OPERA)
 		ft_printf("Player %s [%hd] is saying something...\n \"%c\"",\
 			proc->owner->name, proc->owner->id, c);
 	return (EXIT_SUCCESS);
