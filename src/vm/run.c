@@ -23,8 +23,12 @@ static void	eval(t_proc *proc)
 	}
 	else
 	{
-		vm_guinotify((uint16_t)(proc->pc - g_vm->mem),
-			(uint16_t)(proc->owner->idx + VM_COLOR_DFT), *proc->pc);
+		if (*proc->pc == 0)
+			vm_guinotify((uint16_t)(proc->pc - g_vm->mem),
+				0, *proc->pc);
+		else
+			vm_guinotify((uint16_t)(proc->pc - g_vm->mem),
+				(uint16_t)(proc->owner->idx + VM_COLOR_DFT), *proc->pc);
 		proc->pc = vm_move(proc->pc, 1, 0);
 		vm_guinotify((uint16_t)(proc->pc - g_vm->mem),
 			(uint16_t)(proc->owner->idx + VM_COLOR_INV), *proc->pc);

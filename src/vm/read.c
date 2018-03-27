@@ -47,7 +47,7 @@ int32_t		vm_readref(uint8_t **ptr, uint8_t *pc, uint32_t flags)
 		len = (uint16_t)((flags & F_DIR_LONG) ? 4 : 2);
 	}
 	else if (flags & F_IND_RESTRICT)
-		pos = vm_move(pc, vm_read(*ptr, len), 1);
+		pos = vm_move(pc, vm_read(*ptr, len), 0);
 	else if (flags & F_IND)
 		pos = vm_move(pc, vm_read(*ptr, len), 0);
 	else
