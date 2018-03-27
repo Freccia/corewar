@@ -16,9 +16,9 @@
 # include <libft.h>
 # include <ncurses.h>
 
-# define CW_GUI_COLOR_DFT 1
-# define CW_GUI_COLOR_HINT (CW_GUI_COLOR_DFT + 5)
-# define CW_GUI_COLOR_INV (CW_GUI_COLOR_HINT + 5)
+# define VM_COLOR_DFT 1
+# define VM_COLOR_HINT (VM_COLOR_DFT + 5)
+# define VM_COLOR_INV (VM_COLOR_HINT + 5)
 
 /*
 ** TODO: Doc

@@ -24,10 +24,10 @@ static void	eval(t_proc *proc)
 	else
 	{
 		vm_guinotify((uint16_t)(proc->pc - g_vm->mem),
-			(uint16_t)(proc->owner->idx + CW_GUI_COLOR_DFT), *proc->pc);
+			(uint16_t)(proc->owner->idx + VM_COLOR_DFT), *proc->pc);
 		proc->pc = vm_move(proc->pc, 1);
 		vm_guinotify((uint16_t)(proc->pc - g_vm->mem),
-			(uint16_t)(proc->owner->idx + CW_GUI_COLOR_INV), *proc->pc);
+			(uint16_t)(proc->owner->idx + VM_COLOR_INV), *proc->pc);
 		if (g_vm->opt.v & VM_VERB_DEATH)
 			ft_printf("Process %d [%s] hasn't lived for %d cycles... Fuck off!",
 				proc->pid, proc->owner->name, g_vm->cycle - proc->lastlive);
@@ -55,7 +55,10 @@ int			vm_run(void)
 			proc = proc->next;
 		}
 		if (g_vm->opt.d > 0 && g_vm->cycle == (size_t)g_vm->opt.d)
+		{
 			vm_dump(&g_vm->mem[0]);
+			return (EXIT_SUCCESS);
+		}
 		if (g_vm->cycle == g_vm->cycle_to_die)
 		{
 		//	We kill processes here, not during execution
