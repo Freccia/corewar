@@ -55,7 +55,10 @@ int			vm_run(void)
 			proc = proc->next;
 		}
 		if (g_vm->opt.d > 0 && g_vm->cycle == (size_t)g_vm->opt.d)
+		{
 			vm_dump(&g_vm->mem[0]);
+			return (EXIT_SUCCESS);
+		}
 		if (g_vm->cycle == g_vm->cycle_to_die)
 		{
 		//	We kill processes here, not during execution
