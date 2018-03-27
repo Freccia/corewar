@@ -6,7 +6,7 @@
 /*   By: lfabbro <>                                 +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/03/19 12:54:08 by lfabbro           #+#    #+#             */
-/*   Updated: 2018/03/27 12:15:29 by lfabbro          ###   ########.fr       */
+/*   Updated: 2018/03/27 12:46:30 by lfabbro          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,7 +47,7 @@ int32_t		cw_read_mem(uint8_t **ptr, uint8_t *pc, uint32_t flags)
 		len = (flags & F_DIR_LONG) ? 4 : 2;
 	}
 	else if (flags & F_IND_RESTRICT)
-		pos = cw_move_ptr(pc, cw_read_nbytes(*ptr, len) % IDX_MOD);
+		pos = cw_move_ptr(pc, cw_read_nbytes(*ptr, len));// % IDX_MOD);
 	else if (flags & F_IND)
 		pos = cw_move_ptr(pc, cw_read_nbytes(*ptr, len));
 	else
