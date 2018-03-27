@@ -19,7 +19,7 @@ static void	eval(t_proc *proc)
 	else if (vm_eval(proc, proc->pc) == EXIT_SUCCESS)
 	{
 		if (*proc->pc >= 0x1 && *proc->pc <= MAX_OP)
-			proc->wait = (uint16_t)(g_op_tab[*proc->pc - 1].cycles - 1);
+			proc->wait = (uint16_t)(g_op_tab[*proc->pc - 1].cycles);
 	}
 	else
 	{
@@ -35,7 +35,7 @@ static void	eval(t_proc *proc)
 		if (g_vm->opt.v & VM_VERB_DEATH)
 			ft_printf("Process %d [%s] hasn't lived for %d cycles... Fuck off!",
 				proc->pid, proc->owner->name, g_vm->cycle - proc->lastlive);
-		proc->wait = 1;
+		proc->wait = 0;
 	}
 }
 
@@ -49,16 +49,16 @@ int			vm_run(void)
 		++g_vm->cycle;
 		++g_vm->cycle_total;
 		if (g_vm->opt.v & VM_VERB_CYCLE)
-			ft_printf("It is now cycle %d\n", g_vm->cycle);
+			ft_printf("It is now cycle %d\n", g_vm->cycle_total);
 		while (proc)
 		{
-			if (vm_guiupdate())
-				return (vm_exit(EXIT_FAILURE, NULL));
 			eval(proc);
 			if (!g_vm->procs.len) // this (else) should never happen
 				break ; // if it happens we should have other problems (see exec)
 			proc = proc->next;
 		}
+		if (vm_guiupdate())
+			return (vm_exit(EXIT_FAILURE, NULL));
 		if (g_vm->opt.d > 0 && g_vm->cycle == (size_t)g_vm->opt.d)
 		{
 			vm_dump(&g_vm->mem[0]);
