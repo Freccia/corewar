@@ -28,8 +28,9 @@ static void	eval(t_proc *proc)
 		proc->pc = cw_move_ptr(proc->pc, 1);
 		vm_guinotify((uint16_t)(proc->pc - g_vm->mem),
 			(uint16_t)(proc->owner->idx + CW_GUI_COLOR_INV), *proc->pc);
-		if (g_vm->opt.v & 8)
-			cw_verbose(proc, NULL, proc->owner->id, E_DEATH);
+		if (g_vm->opt.v & VM_VERB_DEATH)
+			ft_printf("Process %d [%s] hasn't lived for %d cycles... Fuck off!",
+				proc->pid, proc->owner->name, g_vm->cycle - proc->lastlive);
 		proc->wait = 1;
 	}
 }
@@ -42,8 +43,8 @@ int			vm_run(void)
 	{
 		proc = g_vm->procs.head;
 		++g_vm->cycle;
-		if (g_vm->opt.v & 2)
-			cw_verbose(NULL, NULL, 0, E_CYCLE);
+		if (g_vm->opt.v & VM_VERB_CYCLE)
+			ft_printf("It is now cycle %d\n", g_vm->cycle);
 		while (proc)
 		{
 			if (vm_guiupdate())
@@ -61,8 +62,8 @@ int			vm_run(void)
 		//	cw_vm_cycle_to_die();
 			g_vm->cycle = 0;
 			g_vm->cycle_to_die -= CYCLE_DELTA;
-			if (g_vm->opt.v & 2)
-				cw_verbose(NULL, NULL, 0, E_DELTA);
+			if (g_vm->opt.v & VM_VERB_CYCLE)
+				ft_printf("Cycle to die is now %d\n", g_vm->cycle_to_die);
 		}
 	}
 	// TODO: who won?

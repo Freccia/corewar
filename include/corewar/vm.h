@@ -21,7 +21,7 @@ typedef struct	s_vm
 {
 	uint8_t		mem[MEM_SIZE];
 	t_opt		opt;
-	size_t		cycle;
+	uint32_t	cycle;
 	size_t		cycle_to_die;
 	t_players	players;
 	t_procs		procs;

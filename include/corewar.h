@@ -60,9 +60,6 @@ typedef	struct		s_args
 	uint8_t			shift;
 }					t_args;
 
-
-
-
 extern t_args		g_arg[MAX_ARGS_NUMBER + 1];
 
 void				cw_mem_dump(uint8_t *mem);
@@ -73,7 +70,5 @@ int32_t				cw_read_mem(uint8_t **pc, uint8_t *ocp, uint32_t flags);
 int32_t				cw_read_nbytes(uint8_t *ptr, uint16_t n);
 int32_t				cw_read_arg(t_proc *proc, uint8_t **ptr, uint8_t n, uint32_t flags);
 void				cw_update_carry(t_proc *proc, int32_t value);
-void				cw_verbose(const t_proc *proc, const char *name, int id, t_verbose flag);
-
 
 #endif

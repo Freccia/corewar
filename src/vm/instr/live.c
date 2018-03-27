@@ -24,13 +24,14 @@ int			vm_live(t_proc *proc, uint8_t *pc)
 	if ((player = vm_playersfind(&g_vm->players, id)))
 	{
 		player->lastlive = g_vm->cycle;
-		if (g_vm->opt.v & 1)
-			cw_verbose(proc, player->name, player->id, E_VALID_LIVE);
+		if (g_vm->opt.v & VM_VERB_LIVES)
+			ft_printf("Player %s [%hd] is alive!\n", player->name, player->id);
 		proc->pc = cw_move_ptr(pc, 4);
 		return (EXIT_SUCCESS);
 	}
-	if (g_vm->opt.v & 1)
-		cw_verbose(proc, NULL, 0, E_INVALID_LIVE);
+	if (g_vm->opt.v & VM_VERB_LIVES)
+		ft_printf("Process %d [%s] made a live... But nobody came.\n",
+			proc->pid, proc->owner->name);
 	proc->pc = cw_move_ptr(pc, 4);
 	return (EXIT_SUCCESS);
 }
