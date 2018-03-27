@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   vm/instr.c                                         :+:      :+:    :+:   */
+/*   instr.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: alucas- <nfinkel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/03/14 19:17:51 by alucas-           #+#    #+#             */
-/*   Updated: 2018/03/25 03:11:06 by alucas-          ###   ########.fr       */
+/*   Updated: 2018/03/27 22:07:14 by nfinkel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,6 +76,9 @@ int				vm_eval(t_proc *proc, uint8_t *pc)
 				*proc->pc >= 0x1 && *proc->pc <= MAX_OP)
 				ft_printf("Process %d [%s] executing %s\n", proc->pid,
 					proc->owner->name, g_op_tab[*proc->pc - 1].name);
+			if (g_vm->opt.v & VM_VERB_MOVES)
+				ft_printf("Process %d [%s] PC moves by %td (%p -> %p)\n",\
+					proc->pid, proc->owner->name, proc->pc - pc, pc, proc->pc);
 			return (EXIT_SUCCESS);
 		}
 		else

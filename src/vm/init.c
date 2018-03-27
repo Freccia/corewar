@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   vm_init.c                                          :+:      :+:    :+:   */
+/*   init.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: lfabbro <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/03/15 15:30:43 by lfabbro           #+#    #+#             */
-/*   Updated: 2018/03/25 01:39:34 by lfabbro          ###   ########.fr       */
+/*   Updated: 2018/03/27 22:22:09 by nfinkel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,14 +27,19 @@ static void		check_id(int r1)
 
 static int		init_procs(void)
 {
+	uint8_t		k;
 	t_proc		proc;
 	t_player	*champ;
 
+	ft_printf("Introducing contestants...\n");
 	g_vm->cycle_to_die = CYCLE_TO_DIE;
 	champ = g_vm->players.head;
 	vm_guiinit();
+	k = 0;
 	while (champ)
 	{
+		ft_printf("* Player %hhu, weighing %lu bytes, \"%s\" (\"%s\") !\n",\
+			++k, champ->size, champ->name, "COMMENT PLACEHOLDER"); //TODO put comment here
 		vm_procinit(&proc, champ);
 		vm_procspush(&g_vm->procs, &proc);
 		champ = champ->next;
@@ -101,11 +106,11 @@ void			vm_dump(uint8_t *mem)
 	int		q;
 
 	k = -1;
-	q = -40;
+	q = -0x40;
 	ft_printf("0x");
 	while (++k < MEM_SIZE / 64 && (p = -1))
 	{
-		ft_printf("%#.4x : ", (q += 40));
+		ft_printf("%#.4x : ", (q += 0x40));
 		while (++p < MEM_SIZE / 64)
 			ft_printf("%.2x ", *mem++);
 		ft_printf("\n");

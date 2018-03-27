@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   vm/run.c                                           :+:      :+:    :+:   */
+/*   run.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: lfabbro <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/03/16 16:55:56 by lfabbro           #+#    #+#             */
-/*   Updated: 2018/03/27 13:57:47 by lfabbro          ###   ########.fr       */
+/*   Updated: 2018/03/27 21:51:19 by nfinkel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,8 +33,8 @@ static void	eval(t_proc *proc)
 		vm_guinotify((uint16_t)(proc->pc - g_vm->mem),
 			(uint16_t)(proc->owner->idx + VM_COLOR_INV), *proc->pc);
 		if (g_vm->opt.v & VM_VERB_DEATH)
-			ft_printf("Process %d [%s] hasn't lived for %d cycles... Fuck off!",
-				proc->pid, proc->owner->name, g_vm->cycle - proc->lastlive);
+			ft_printf("Process %d [%s] hasn't lived for %d cycles... Fuck off!\n",
+				proc->pid, proc->owner->name, g_vm->cycle - proc->lastlive); // TODO math incorrect
 		proc->wait = 0;
 	}
 }

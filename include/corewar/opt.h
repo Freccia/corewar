@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   corewar/opt.h                                      :+:      :+:    :+:   */
+/*   opt.h                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: nfinkel <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/03/13 16:16:50 by nfinkel           #+#    #+#             */
-/*   Updated: 2018/03/26 17:15:36 by lfabbro          ###   ########.fr       */
+/*   Updated: 2018/03/27 21:38:44 by nfinkel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,12 +15,11 @@
 
 # include <libft.h>
 
-# define VM_VERB_ESSEN (1 << 0)
-# define VM_VERB_LIVES (1 << 1)
-# define VM_VERB_CYCLE (1 << 2)
-# define VM_VERB_OPERA (1 << 3)
-# define VM_VERB_DEATH (1 << 4)
-# define VM_VERB_MOVES (1 << 5)
+# define VM_VERB_LIVES (1 << 0)
+# define VM_VERB_CYCLE (1 << 1)
+# define VM_VERB_OPERA (1 << 2)
+# define VM_VERB_DEATH (1 << 3)
+# define VM_VERB_MOVES (1 << 4)
 
 typedef struct		s_opt
 {
