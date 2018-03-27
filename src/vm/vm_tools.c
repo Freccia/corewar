@@ -6,7 +6,7 @@
 /*   By: lfabbro <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/03/14 15:58:23 by lfabbro           #+#    #+#             */
-/*   Updated: 2018/03/26 17:36:04 by lfabbro          ###   ########.fr       */
+/*   Updated: 2018/03/27 12:29:03 by lfabbro          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -105,7 +105,7 @@ void	cw_verbose(const t_proc *proc, const char *name, int id, t_verbose flag)
 		else if (flag == E_OP)
 		{
 			if (*proc->pc >= 0x1 && *proc->pc <= MAX_OP)
-				ft_printf("%s is executing %s\n", s, g_op_tab[*proc->pc - 1].name);
+				ft_printf("%s executing %s\n", s, g_op_tab[*proc->pc - 1].name);
 		}
 		else if (flag == E_DEATH)
 			ft_printf("%s hasn't lived for %d cycles... Fuck off!", s,\
