@@ -43,7 +43,11 @@ uint8_t		*vm_move(uint8_t const *pc, int32_t move, uint8_t idx_mod)
 
 	abs = (int32_t)(pc - g_vm->mem + move);
 	if (abs < 0)
-		abs = -abs;
+	{
+		if (idx_mod)
+			return (g_vm->mem + (MEM_SIZE - (-abs % IDX_MOD)));
+		abs = MEM_SIZE + abs;
+	}
 	if (idx_mod)
 		return (g_vm->mem + (abs % IDX_MOD));
 	return (g_vm->mem + (abs % MEM_SIZE));

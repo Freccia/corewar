@@ -30,8 +30,10 @@ void		vm_carry(t_proc *proc, int32_t value)
 
 int32_t		vm_read(uint8_t *ptr, uint16_t n)
 {
-	uint8_t		mem[n + 1];
+	uint8_t	mem[n + 1];
 
+	if (n == sizeof(int16_t))
+		return ((int32_t)(int16_t)ft_mtoi(vm_map(mem, ptr, n), n));
 	return ((int32_t)ft_mtoi(vm_map(mem, ptr, n), n));
 }
 
@@ -47,7 +49,7 @@ int32_t		vm_readref(uint8_t **ptr, uint8_t *pc, uint32_t flags)
 		len = (uint16_t)((flags & F_DIR_LONG) ? 4 : 2);
 	}
 	else if (flags & F_IND_RESTRICT)
-		pos = vm_move(pc, vm_read(*ptr, len), 0);
+		pos = vm_move(pc, vm_read(*ptr, len), 1);
 	else if (flags & F_IND)
 		pos = vm_move(pc, vm_read(*ptr, len), 0);
 	else
