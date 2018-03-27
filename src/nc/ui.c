@@ -89,7 +89,7 @@ int			vm_guiupdate(void)
 		--g_step;
 		return (YEP);
 	}
-	cw_nc_stats(STATS_CYCLE, (int)g_vm->cycle);
+	cw_nc_stats(STATS_CYCLE, (int)g_vm->cycle_total);
 	cw_nc_stats(STATS_CYCLE_TO_DIE, (int)g_vm->cycle_to_die);
 	cw_nc_stats(STATS_PROCS, (int)g_vm->procs.len);
 	if (!g_running)

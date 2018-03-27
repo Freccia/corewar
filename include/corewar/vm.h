@@ -23,6 +23,7 @@ typedef struct	s_vm
 	t_opt		opt;
 	uint32_t	cycle;
 	size_t		cycle_to_die;
+	size_t		cycle_total;
 	t_players	players;
 	t_procs		procs;
 }				t_vm;

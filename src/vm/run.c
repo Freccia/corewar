@@ -47,6 +47,7 @@ int			vm_run(void)
 	{
 		proc = g_vm->procs.head;
 		++g_vm->cycle;
+		++g_vm->cycle_total;
 		if (g_vm->opt.v & VM_VERB_CYCLE)
 			ft_printf("It is now cycle %d\n", g_vm->cycle);
 		while (proc)

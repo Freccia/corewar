@@ -27,8 +27,11 @@ void	vm_procfork(t_proc *dst, t_proc *src, uint8_t *pc)
 {
 	ft_memcpy(dst, src, sizeof(t_proc));
 	dst->lastlive = 0;
-	dst->wait = 1;
 	dst->pc = pc;
+	if (*dst->pc >= 0x1 && *dst->pc <= REG_SIZE)
+		dst->wait = g_op_tab[*dst->pc - 1].cycles;
+	else
+		dst->wait = 1;
 }
 
 void	vm_procspush(t_procs *procs, t_proc *proc)
