@@ -23,9 +23,9 @@ t_args		g_arg[MAX_ARGS_NUMBER + 1] =
 void		cw_update_carry(t_proc *proc, int32_t value)
 {
 	if (value)
-		proc->flags &= ~(_CW_CARRY);
+		proc->carry = 0;
 	else
-		proc->flags |= _CW_CARRY;
+		proc->carry = 1;
 }
 
 int32_t		cw_read_mem(uint8_t **ptr, uint8_t *pc, uint32_t flags)

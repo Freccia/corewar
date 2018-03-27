@@ -19,7 +19,7 @@ int			vm_zjmp(t_proc *proc, uint8_t *pc)
 
 	ptr = cw_move_ptr(pc, 1);
 	addr = cw_read_nbytes(ptr, sizeof(uint16_t));
-	if (proc->flags & _CW_CARRY)
+	if (proc->carry)
 		proc->pc = cw_move_ptr(proc->pc, addr);
 	else
 		proc->pc = cw_move_ptr(proc->pc, 3);

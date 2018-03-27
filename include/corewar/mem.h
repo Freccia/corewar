@@ -13,6 +13,34 @@
 #ifndef COREWAR_MEM_H
 # define COREWAR_MEM_H
 
-# include <libft.h>
+# include "proc.h"
+
+# define E_WRONG_OP		(-0x0a)
+# define E_WRONG_OCP	(-0x0b)
+# define E_WRONG_REG	(-0x0c)
+
+# define F_DIR			1
+# define F_DIR_LONG		2
+# define F_IND			4
+# define F_IND_RESTRICT	8
+# define F_REG			16
+# define F_REG_VAL		32
+
+typedef	struct		s_args
+{
+	uint8_t			mask;
+	uint8_t			shift;
+}					t_args;
+
+extern t_args		g_arg[MAX_ARGS_NUMBER + 1];
+
+void				cw_mem_dump(uint8_t *mem);
+void				cw_mem_cpy(uint8_t *dst, uint8_t *src, size_t len, uint16_t p);
+uint8_t				*cw_map_mem(uint8_t *mem, uint8_t *pc, uint16_t n);
+uint8_t				*cw_move_ptr(uint8_t const *pc, int32_t len);
+int32_t				cw_read_mem(uint8_t **pc, uint8_t *ocp, uint32_t flags);
+int32_t				cw_read_nbytes(uint8_t *ptr, uint16_t n);
+int32_t				cw_read_arg(t_proc *proc, uint8_t **ptr, uint8_t n, uint32_t flags);
+void				cw_update_carry(t_proc *proc, int32_t value);
 
 #endif

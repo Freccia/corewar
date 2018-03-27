@@ -14,6 +14,8 @@
 
 #include "corewar.h"
 
+#define HEADER_SZ	(16 + PROG_NAME_LENGTH + COMMENT_LENGTH)
+
 void		vm_playerload(t_player *player, const char *file, int id)
 {
 	int		fd;
@@ -22,7 +24,7 @@ void		vm_playerload(t_player *player, const char *file, int id)
 
 	if ((fd = open(file, O_RDONLY)) < 0)
 		vm_exit(3, "%m\n");
-	if (read(fd, &buf, _CW_HEAD_SZ) < _CW_HEAD_SZ)
+	if (read(fd, &buf, HEADER_SZ) < HEADER_SZ)
 		vm_exit(3, "Failed reading file header: %m\n");
 	if (*(uint32_t *)buf != swap_uint32(COREWAR_EXEC_MAGIC))
 		vm_exit(3, "Wrong file: magic number.\n");

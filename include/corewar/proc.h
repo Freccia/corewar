@@ -22,7 +22,7 @@ typedef struct		s_proc
 	struct s_proc	*next;
 	t_player		*owner;
 	pid_t			pid;
-	uint8_t			flags;
+	uint8_t			carry;
 	int32_t			reg[REG_NUMBER + 1];
 	uint8_t			*pc;
 	size_t			lastlive;
