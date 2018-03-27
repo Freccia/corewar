@@ -51,7 +51,7 @@ static int		check_ocp(uint8_t *pc)
 {
 	uint8_t ocp;
 
-	ocp = *vm_move(pc, 1);
+	ocp = *vm_move(pc, 1, 0);
 	if (check_arg((uint8_t)(*pc - 1), (uint8_t)((ocp & 0xc0) >> 6), 0))
 		return (EXIT_FAILURE);
 	if (check_arg((uint8_t)(*pc - 1), (uint8_t)((ocp & 0x30) >> 4), 1))

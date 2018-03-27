@@ -18,7 +18,7 @@ int			vm_live(t_proc *proc, uint8_t *pc)
 	int32_t		id;
 	t_player	*player;
 
-	pc = vm_move(pc, 1);
+	pc = vm_move(pc, 1, 0);
 	id = vm_read(pc, sizeof(id));
 	proc->lastlive = g_vm->cycle;
 	if ((player = vm_playersfind(&g_vm->players, id)))
@@ -26,12 +26,12 @@ int			vm_live(t_proc *proc, uint8_t *pc)
 		player->lastlive = g_vm->cycle;
 		if (g_vm->opt.v & VM_VERB_LIVES)
 			ft_printf("Player %s [%hd] is alive!\n", player->name, player->id);
-		proc->pc = vm_move(pc, 4);
+		proc->pc = vm_move(pc, 4, 0);
 		return (EXIT_SUCCESS);
 	}
 	if (g_vm->opt.v & VM_VERB_LIVES)
 		ft_printf("Process %d [%s] made a live... But nobody came.\n",
 			proc->pid, proc->owner->name);
-	proc->pc = vm_move(pc, 4);
+	proc->pc = vm_move(pc, 4, 0);
 	return (EXIT_SUCCESS);
 }

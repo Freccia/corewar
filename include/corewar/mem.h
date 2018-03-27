@@ -40,7 +40,7 @@ extern t_args	g_arg[MAX_ARGS_NUMBER + 1];
 ** @param len
 ** @return
 */
-uint8_t			*vm_move(uint8_t const *pc, int32_t len);
+uint8_t *vm_move(uint8_t const *pc, int32_t len, uint8_t idx_mod);
 
 /*
 ** TODO: Doc

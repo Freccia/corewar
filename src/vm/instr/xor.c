@@ -18,7 +18,7 @@ int			vm_xor(t_proc *proc, uint8_t *pc)
 	int32_t		av[2];
 	int8_t		reg;
 
-	ptr = vm_move(pc, 2);
+	ptr = vm_move(pc, 2, 0);
 	av[0] = vm_readarg(proc, &ptr, 0, F_IND_RESTRICT | F_DIR_LONG | F_REG_VAL);
 	av[1] = vm_readarg(proc, &ptr, 1, F_IND_RESTRICT | F_DIR_LONG | F_REG_VAL);
 	reg = (int8_t)vm_readarg(proc, &ptr, 2, F_REG);

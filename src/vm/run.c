@@ -25,7 +25,7 @@ static void	eval(t_proc *proc)
 	{
 		vm_guinotify((uint16_t)(proc->pc - g_vm->mem),
 			(uint16_t)(proc->owner->idx + VM_COLOR_DFT), *proc->pc);
-		proc->pc = vm_move(proc->pc, 1);
+		proc->pc = vm_move(proc->pc, 1, 0);
 		vm_guinotify((uint16_t)(proc->pc - g_vm->mem),
 			(uint16_t)(proc->owner->idx + VM_COLOR_INV), *proc->pc);
 		if (g_vm->opt.v & VM_VERB_DEATH)
