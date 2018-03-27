@@ -17,23 +17,18 @@ int			cw_live(t_proc *proc, uint8_t *pc)
 {
 	int			id;
 	uint8_t		mem[4];
-	t_player		*champ;
+	t_player	*champ;
 
 	pc = cw_move_ptr(pc, 1);
 	id = ft_mtoi(cw_map_mem(mem, pc, 4), 4);
 	proc->lastlive = g_cw->cycle;
-	champ = g_cw->champs;
-	while (champ)
+	if ((champ = vm_playersfind(&g_cw->players, id)))
 	{
-		if (champ->id == id)
-		{
-			champ->lastlive = g_cw->cycle;
-			if (g_cw->opt.v & 1)
-				cw_verbose(proc, champ->name, champ->id, E_VALID_LIVE);
-			proc->pc = cw_move_ptr(pc, 4);
-			return (EXIT_SUCCESS);
-		}
-		champ = champ->next;
+		champ->lastlive = g_cw->cycle;
+		if (g_cw->opt.v & 1)
+			cw_verbose(proc, champ->name, champ->id, E_VALID_LIVE);
+		proc->pc = cw_move_ptr(pc, 4);
+		return (EXIT_SUCCESS);
 	}
 	if (g_cw->opt.v & 1)
 		cw_verbose(proc, NULL, 0, E_INVALID_LIVE);

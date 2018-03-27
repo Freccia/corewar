@@ -41,20 +41,6 @@ void			cw_mem_dump(uint8_t *mem)
 	}
 }
 
-t_player			*cw_find_champ(t_cw *cw, int32_t id)
-{
-	t_player		*champ;
-
-	champ = cw->champs;
-	while (champ)
-	{
-		if (champ->id == id)
-			return (champ);
-		champ = champ->next;
-	}
-	return (NULL);
-}
-
 uint8_t			*cw_map_mem(uint8_t *mem, uint8_t *pc, uint16_t n)
 {
 	uint8_t		k;
@@ -89,8 +75,9 @@ uint8_t			*cw_move_ptr(uint8_t const *pc, int32_t move)
 void	cw_verbose(const t_proc *proc, const char *name, int id, t_verbose flag)
 {
 	char		s[BUFF_SIZE];
+	t_player	*player;
 
-	name = (id) ? cw_find_champ(g_cw, id)->name : NULL;
+	name = (player = vm_playersfind(&g_cw->players, id)) ? player->name : NULL;
 	if (flag == E_VALID_LIVE)
 		ft_printf("Player %s [%hd] is alive!\n", name, id);
 	else if (flag == E_CYCLE)

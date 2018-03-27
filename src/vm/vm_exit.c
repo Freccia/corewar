@@ -15,7 +15,6 @@
 static void		cw_free(void)
 {
 	t_proc		*proc;
-	t_player		*champ;
 	void		*tmp;
 
 	proc = g_cw->procs;
@@ -24,13 +23,6 @@ static void		cw_free(void)
 		tmp = proc->next;
 		free(proc);
 		proc = (t_proc *)tmp;
-	}
-	champ = g_cw->champs;
-	while (champ)
-	{
-		tmp = champ->next;
-		free(champ);
-		champ = (t_player *)tmp;
 	}
 }
 
@@ -42,6 +34,7 @@ int				cw_exit(int ecode, char const *fmt, ...)
 	{
 		cw_nc_exit();
 		cw_free();
+		vm_playersclr(&g_cw->players);
 		// todo: destruct things
 	}
 	if (fmt)

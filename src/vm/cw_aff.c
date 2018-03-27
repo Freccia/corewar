@@ -25,6 +25,6 @@ int			cw_aff(t_proc *proc, uint8_t *pc)
 		return (EXIT_FAILURE);
 	if (g_cw->opt.g & 4)
 		ft_printf("Player %s [%hd] is saying something...\n \"%c\"",\
-			g_cw->champs->name, g_cw->champs->id, c);
+			proc->owner->name, proc->owner->id, c);
 	return (EXIT_SUCCESS);
 }

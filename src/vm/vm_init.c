@@ -16,51 +16,14 @@
 
 static int		cw_vm_check_r1(int r1)
 {
-	t_player		*champ;
-
 	if (r1 > UINT16_MAX || r1 < 0)
 	{
 		errno = EOVERFLOW;
 		cw_exit(EXIT_FAILURE, "%d: Invalid champion number: %m\n", r1);
 	}
-	champ = g_cw->champs;
-	while (champ)
-	{
-		if (champ->id == (uint16_t)r1)
-			cw_exit(EXIT_FAILURE, "%d: Duplicate champion number\n", r1);
-		champ = champ->next;
-	}
+	if (vm_playersfind(&g_cw->players, r1))
+		cw_exit(EXIT_FAILURE, "%d: Duplicate champion number\n", r1);
 	return (r1);
-}
-
-static t_player	*cw_vm_parse_champ(const char *filename, int r1, t_player *next)
-{
-	int		fd;
-	ssize_t	bin_size;
-	uint8_t	buf[4096];
-	t_player	*new;
-
-	if ((fd = open(filename, O_RDONLY)) < 0)
-		cw_exit(3, "Failed opening file.\n");
-	if (read(fd, &buf, _CW_HEAD_SZ) < _CW_HEAD_SZ)
-		cw_exit(3, "Failed reading file header.\n");
-	if (*(uint32_t *)buf != swap_uint32(COREWAR_EXEC_MAGIC))
-		cw_exit(3, "Wrong file: magic number.\n");
-	if ((new = malloc(sizeof(t_player))) == NULL)
-		cw_exit(EXIT_FAILURE, "%m\n");
-	ft_bzero(new, sizeof(t_player));
-	ft_memcpy((void*)(new->name), buf + sizeof(uint32_t), PROG_NAME_LENGTH);
-	if ((bin_size = read(fd, &buf, CHAMP_MAX_SIZE + 1)) <= 0)
-		cw_exit(3, "Failed reading file binary.\n");
-	if (bin_size > CHAMP_MAX_SIZE)
-		cw_exit(3, "Champion exceeding size: %d\n", bin_size);
-	if (close(fd) < 0)
-		cw_exit(3, "Failed closing fd.\n");
-	new->id = r1;
-	new->size = (size_t)bin_size;
-	ft_memcpy(new->bin, buf, new->size);
-	new->next = next;
-	return (new);
 }
 
 static int		cw_vm_load_champs(uint8_t i)
@@ -69,9 +32,9 @@ static int		cw_vm_load_champs(uint8_t i)
 	t_proc	*ptr;
 	t_player	*champ;
 
-	plyrs_dist = MEM_SIZE / g_cw->n_champs;
+	plyrs_dist = (int)(MEM_SIZE / g_cw->players.len);
 	g_cw->cycle_to_die = CYCLE_TO_DIE;
-	champ = g_cw->champs;
+	champ = g_cw->players.head;
 	cw_nc_init();
 	while (champ)
 	{
@@ -98,18 +61,19 @@ static int		cw_vm_load_champs(uint8_t i)
 
 int				cw_vm_init(int ac, char **av, int r1)
 {
-	int		opt;
-	int		id;
+	int			opt;
+	int			id;
+	t_player	player;
 
 	id = 0;
 	while (g_optind < ac)
 	{
-		if (g_cw->n_champs >= MAX_PLAYERS)
+		if (g_cw->players.len >= MAX_PLAYERS)
 			return (cw_exit(EXIT_FAILURE, "Too much players\n"));
 		r1 = (r1) ? r1 : ++id;
 		r1 = cw_vm_check_r1(r1);
-		g_cw->champs = cw_vm_parse_champ(av[g_optind], r1, g_cw->champs);
-		++g_cw->n_champs;
+		vm_playerload(&player, av[g_optind], r1);
+		vm_playerspush(&g_cw->players, &player);
 		r1 = 0;
 		if (++g_optind < ac)
 		{
@@ -121,8 +85,7 @@ int				cw_vm_init(int ac, char **av, int r1)
 				r1 = (uint16_t)ft_atoi(g_optarg);
 		}
 	}
-	if (g_cw->n_champs == 0)
+	if (g_cw->players.len == 0)
 		cw_exit(EXIT_FAILURE, "No players.\n");
-	cw_vm_insert_sort(&(g_cw->champs));
 	return (cw_vm_load_champs(0));
 }

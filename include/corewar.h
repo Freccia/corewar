@@ -86,8 +86,8 @@ typedef struct		s_cw
 	size_t			cycle;
 	size_t			cycle_to_die;
 	t_opt			opt;
-	uint8_t			n_champs;
-	t_player			*champs;
+
+	t_players		players;
 }					t_cw;
 
 typedef int			(*t_instr)(t_proc *, uint8_t *);

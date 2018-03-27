@@ -38,11 +38,12 @@ SRCA_NAME = \
 	asm/parser/parse_args.c
 SRCB_NAME = \
 	$(COMMON_SRC) \
+	vm/player.c \
 	vm/vm_main.c vm/vm_init.c vm/vm_run.c vm/vm_args.c \
 	vm/cw_add.c vm/cw_aff.c vm/cw_and.c vm/cw_fork.c vm/cw_ld.c vm/cw_ldi.c \
 	vm/cw_lfork.c vm/cw_live.c vm/cw_lld.c vm/cw_lldi.c vm/cw_or.c vm/cw_st.c \
 	vm/cw_sti.c vm/cw_sub.c vm/cw_xor.c vm/cw_zjmp.c \
-	vm/vm_tools.c vm/vm_sort.c vm/vm_exit.c \
+	vm/vm_tools.c vm/vm_exit.c \
 	nc/exit.c nc/init.c nc/keys.c nc/ui.c
 
 # folder-names of the sources
