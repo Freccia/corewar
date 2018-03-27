@@ -17,7 +17,7 @@ void			cw_mem_cpy(uint8_t *dst, uint8_t *src, size_t len, uint16_t p)
 	while (len--)
 	{
 		*dst = *src;
-		vm_guinotify((uint16_t)(dst - g_cw->mem), p, *src);
+		vm_guinotify((uint16_t)(dst - g_vm->mem), p, *src);
 		++src;
 		dst = cw_move_ptr(dst, 1);
 	}
@@ -67,8 +67,8 @@ uint8_t			*cw_move_ptr(uint8_t const *pc, int32_t move)
 	int32_t		abs;
 
 	// OK, mais penser a rajouter en fonction de -ctmo
-	abs = ABS(pc - g_cw->mem + move);
-	return (g_cw->mem + (abs % MEM_SIZE));
+	abs = ABS(pc - g_vm->mem + move);
+	return (g_vm->mem + (abs % MEM_SIZE));
 }
 
 #define BUFF_SIZE 256
@@ -77,13 +77,13 @@ void	cw_verbose(const t_proc *proc, const char *name, int id, t_verbose flag)
 	char		s[BUFF_SIZE];
 	t_player	*player;
 
-	name = (player = vm_playersfind(&g_cw->players, id)) ? player->name : NULL;
+	name = (player = vm_playersfind(&g_vm->players, id)) ? player->name : NULL;
 	if (flag == E_VALID_LIVE)
 		ft_printf("Player %s [%hd] is alive!\n", name, id);
 	else if (flag == E_CYCLE)
-		ft_printf("It is now cycle %d\n", g_cw->cycle);
+		ft_printf("It is now cycle %d\n", g_vm->cycle);
 	else if (flag == E_DELTA)
-		ft_printf("Cycle to die is now %d\n", g_cw->cycle_to_die);
+		ft_printf("Cycle to die is now %d\n", g_vm->cycle_to_die);
 	else
 	{
 		ft_snprintf(s, BUFF_SIZE, "Process %d [%s]", proc->pid, name);
@@ -96,7 +96,7 @@ void	cw_verbose(const t_proc *proc, const char *name, int id, t_verbose flag)
 		}
 		else if (flag == E_DEATH)
 			ft_printf("%s hasn't lived for %d cycles... Fuck off!", s,\
-				g_cw->cycle - proc->lastlive);
+				g_vm->cycle - proc->lastlive);
 //		else if (opt.v & 16 && flag == E_MOVE)
 //			ft_printf("%s is moving! ADV %d (%.4p -> %.4p)", s, proc->id, name,\
 //				id, 0, 0); TODO proper calc

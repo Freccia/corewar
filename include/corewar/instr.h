@@ -33,5 +33,6 @@ int		vm_lld(t_proc *proc, uint8_t *pc);
 int		vm_lldi(t_proc *proc, uint8_t *pc);
 int		vm_lfork(t_proc *proc, uint8_t *pc);
 int		vm_aff(t_proc *proc, uint8_t *pc);
+int		vm_eval(t_proc *proc, uint8_t *pc);
 
 #endif

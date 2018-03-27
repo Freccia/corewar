@@ -28,7 +28,7 @@ static int		onarrow(int ch)
 		if (g_cyclel > 1)
 			g_cyclel < 50 ? (--g_cyclel) : ((g_cyclel /= 1.2));
 	}
-	else if (ch == KEY_UP && (size_t)g_stepi < g_cw->cycle_to_die)
+	else if (ch == KEY_UP && (size_t)g_stepi < g_vm->cycle_to_die)
 		g_stepi += 5;
 	else if (ch == KEY_DOWN && g_stepi >= 10)
 		g_stepi -= 5;

@@ -26,7 +26,7 @@ int			vm_add(t_proc *proc, uint8_t *pc)
 	proc->reg[av[2]] = av[0] + av[1];
 	cw_update_carry(proc, proc->reg[av[2]]);
 	proc->pc = cw_move_ptr(pc, 5);
-	if (g_cw->opt.v & VM_VERB_OPERA)
+	if (g_vm->opt.v & VM_VERB_OPERA)
 	{
 		ft_printf("[OPERA] add: [%d, %d, %d] %d\n",
 			av[0], av[1], av[2], proc->reg[av[2]]);

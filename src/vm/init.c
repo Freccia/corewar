@@ -19,10 +19,10 @@ static void		check_id(int r1)
 	if (r1 > UINT16_MAX || r1 < 0)
 	{
 		errno = EOVERFLOW;
-		cw_exit(EXIT_FAILURE, "%d: Invalid champion number: %m\n", r1);
+		vm_exit(EXIT_FAILURE, "%d: Invalid champion number: %m\n", r1);
 	}
-	if (vm_playersfind(&g_cw->players, r1))
-		cw_exit(EXIT_FAILURE, "%d: Duplicate champion number\n", r1);
+	if (vm_playersfind(&g_vm->players, r1))
+		vm_exit(EXIT_FAILURE, "%d: Duplicate champion number\n", r1);
 }
 
 static int		init_procs(void)
@@ -30,19 +30,19 @@ static int		init_procs(void)
 	t_proc		proc;
 	t_player	*champ;
 
-	g_cw->cycle_to_die = CYCLE_TO_DIE;
-	champ = g_cw->players.head;
+	g_vm->cycle_to_die = CYCLE_TO_DIE;
+	champ = g_vm->players.head;
 	vm_guiinit();
 	while (champ)
 	{
 		vm_procinit(&proc, champ);
-		vm_procspush(&g_cw->procs, &proc);
+		vm_procspush(&g_vm->procs, &proc);
 		champ = champ->next;
 	}
 	return (YEP);
 }
 
-int				cw_vm_init(int ac, char **av, int r1)
+int				vm_init(int ac, char **av, int r1)
 {
 	int			opt;
 	int			id;
@@ -51,24 +51,45 @@ int				cw_vm_init(int ac, char **av, int r1)
 	id = 0;
 	while (g_optind < ac)
 	{
-		if (g_cw->players.len >= MAX_PLAYERS)
-			return (cw_exit(EXIT_FAILURE, "Too much players\n"));
+		if (g_vm->players.len >= MAX_PLAYERS)
+			return (vm_exit(EXIT_FAILURE, "Too much players\n"));
 		r1 = (r1) ? r1 : ++id;
 		check_id(r1);
 		vm_playerload(&player, av[g_optind], r1);
-		vm_playerspush(&g_cw->players, &player);
+		vm_playerspush(&g_vm->players, &player);
 		r1 = 0;
 		if (++g_optind < ac)
 		{
 			if ((opt = ft_getopt(ac, av, "n:")) == WUT)
 				r1 = 0;
 			else if (opt != 'n')
-				return (cw_exit(EXIT_FAILURE, NULL));
+				return (vm_exit(EXIT_FAILURE, NULL));
 			else
 				r1 = (uint16_t)ft_atoi(g_optarg);
 		}
 	}
-	if (g_cw->players.len == 0)
-		cw_exit(EXIT_FAILURE, "No players.\n");
+	if (g_vm->players.len == 0)
+		vm_exit(EXIT_FAILURE, "No players.\n");
 	return (init_procs());
+}
+
+int				vm_exit(int ecode, char const *fmt, ...)
+{
+	va_list ap;
+
+	if (g_vm)
+	{
+		vm_guiexit();
+		vm_playersclr(&g_vm->players);
+		vm_procsclr(&g_vm->procs);
+		// todo: destruct things
+	}
+	if (fmt)
+	{
+		ft_fprintf(g_stderr, "corewar: ");
+		va_start(ap, fmt);
+		ft_vfprintf(g_stderr, fmt, ap);
+		va_end(ap);
+	}
+	exit(ecode);
 }

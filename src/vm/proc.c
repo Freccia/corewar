@@ -16,7 +16,7 @@ void	vm_procinit(t_proc *ptr, t_player *owner)
 {
 	ft_bzero(ptr, sizeof(t_proc));
 	ptr->owner = owner;
-	ptr->pc = g_cw->mem + (owner->idx * (MEM_SIZE / g_cw->players.len));
+	ptr->pc = g_vm->mem + (owner->idx * (MEM_SIZE / g_vm->players.len));
 	ptr->reg[1] = owner->id;
 	cw_mem_cpy(ptr->pc, owner->bin, owner->size,
 		(uint16_t)(ptr->owner->idx + CW_GUI_COLOR_DFT));

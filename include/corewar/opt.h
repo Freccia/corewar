@@ -1,7 +1,7 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   corewar/vm.h                                       :+:      :+:    :+:   */
+/*   corewar/opt.h                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: nfinkel <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
@@ -10,27 +10,24 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef COREWAR_VM_H
-# define COREWAR_VM_H
+#ifndef COREWAR_OPT_H
+# define COREWAR_OPT_H
 
-# include "player.h"
-# include "proc.h"
-# include "opt.h"
+# include <libft.h>
 
-typedef struct	s_vm
+# define VM_VERB_ESSEN (1 << 0)
+# define VM_VERB_LIVES (1 << 1)
+# define VM_VERB_CYCLE (1 << 2)
+# define VM_VERB_OPERA (1 << 3)
+# define VM_VERB_DEATH (1 << 4)
+# define VM_VERB_MOVES (1 << 5)
+
+typedef struct		s_opt
 {
-	uint8_t		mem[MEM_SIZE];
-	t_opt		opt;
-	size_t		cycle;
-	size_t		cycle_to_die;
-	t_players	players;
-	t_procs		procs;
-}				t_vm;
-
-extern t_vm		*g_vm;
-
-int				vm_init(int ac, char **av, int r1);
-int				vm_exit(int ecode, char const *fmt, ...);
-int				vm_run(void);
+	uint8_t			v;
+	ssize_t			d;
+	uint8_t			g : 1;
+	uint16_t		ctmo;
+}					t_opt;
 
 #endif

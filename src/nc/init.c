@@ -52,9 +52,9 @@ static void		nc_draw_stats(void)
 {
 	cw_nc_stats(STATS_STEPI, g_stepi);
 	cw_nc_stats(STATS_CYCLEL, g_cyclel);
-	cw_nc_stats(STATS_CYCLE, (int)g_cw->cycle);
-	cw_nc_stats(STATS_PROCS, (int)g_cw->procs.len);
-	cw_nc_stats(STATS_CYCLE_TO_DIE, (int)g_cw->cycle_to_die);
+	cw_nc_stats(STATS_CYCLE, (int)g_vm->cycle);
+	cw_nc_stats(STATS_PROCS, (int)g_vm->procs.len);
+	cw_nc_stats(STATS_CYCLE_TO_DIE, (int)g_vm->cycle_to_die);
 	cw_nc_stats(STATS_CYCLE_DELTA, CYCLE_DELTA);
 	cw_nc_stats(STATS_NBR_LIVE, NBR_LIVE);
 	cw_nc_stats(STATS_MAX_CHECKS, MAX_CHECKS);
@@ -80,8 +80,8 @@ static int		nc_draw(void)
 			x = 2;
 			++y;
 		}
-		mvwaddch(g_wboard, y, x++, (chtype)DIGITS[(g_cw->mem[i] / 16) % 16]);
-		mvwaddch(g_wboard, y, x++, (chtype)DIGITS[g_cw->mem[i] % 16]);
+		mvwaddch(g_wboard, y, x++, (chtype)DIGITS[(g_vm->mem[i] / 16) % 16]);
+		mvwaddch(g_wboard, y, x++, (chtype)DIGITS[g_vm->mem[i] % 16]);
 		mvwaddch(g_wboard, y, x++, ' ');
 	}
 	nc_draw_stats();
@@ -92,7 +92,7 @@ int				vm_guiinit(void)
 {
 	int sq;
 
-	if (!g_cw->opt.g)
+	if (!g_vm->opt.g)
 		return (YEP);
 	initscr();
 	cbreak();

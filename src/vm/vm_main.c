@@ -12,7 +12,7 @@
 
 #include "corewar.h"
 
-t_cw		*g_cw;
+t_vm		*g_vm;
 
 static const char		*g_usage =
 {
@@ -35,13 +35,13 @@ static uint8_t		verboselvl(void)
 	int v;
 
 	if ((v = ft_atoi(g_optarg)) < 0 && errno)
-		cw_exit(EXIT_FAILURE, "%c: %m\n", 'v');
+		vm_exit(EXIT_FAILURE, "%c: %m\n", 'v');
 	if (v < 0 || v > 0xff)
-		cw_exit(EXIT_FAILURE, "%c: %d: Must be positive\n", 'v', v);
+		vm_exit(EXIT_FAILURE, "%c: %d: Must be positive\n", 'v', v);
 	return ((uint8_t)v);
 }
 
-int		cw_vm_parse_opt(int ac, char **av, t_cw *cw)
+static int			cw_vm_parse_opt(int ac, char **av, t_vm *cw)
 {
 	int 	opt;
 	int 	r1;
@@ -66,22 +66,22 @@ int		cw_vm_parse_opt(int ac, char **av, t_cw *cw)
 		else
 			return (ft_printf("%s\n", g_usage));
 	}
-	g_cw = cw;
+	g_vm = cw;
 	return (r1);
 }
 
 int 	main(int ac, char **av)
 {
-	t_cw	cw;
+	t_vm	cw;
 	int		r1;
 
 	if (ac < 2)
 		return (ft_printf("%s\n", g_usage));
-	ft_bzero(&cw, sizeof(t_cw));
+	ft_bzero(&cw, sizeof(t_vm));
 	r1 = cw_vm_parse_opt(ac, av, &cw);
-	if (cw_vm_init(ac, av, r1))
-		return (cw_exit(EXIT_FAILURE, NULL));
-	if (cw_vm_run())
-		return (cw_exit(EXIT_FAILURE, NULL));
-	return (cw_exit(EXIT_SUCCESS, NULL));
+	if (vm_init(ac, av, r1))
+		return (vm_exit(EXIT_FAILURE, NULL));
+	if (vm_run())
+		return (vm_exit(EXIT_FAILURE, NULL));
+	return (vm_exit(EXIT_SUCCESS, NULL));
 }

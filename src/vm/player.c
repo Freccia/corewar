@@ -21,19 +21,19 @@ void		vm_playerload(t_player *player, const char *file, int id)
 	uint8_t	buf[4096];
 
 	if ((fd = open(file, O_RDONLY)) < 0)
-		cw_exit(3, "%m\n");
+		vm_exit(3, "%m\n");
 	if (read(fd, &buf, _CW_HEAD_SZ) < _CW_HEAD_SZ)
-		cw_exit(3, "Failed reading file header: %m\n");
+		vm_exit(3, "Failed reading file header: %m\n");
 	if (*(uint32_t *)buf != swap_uint32(COREWAR_EXEC_MAGIC))
-		cw_exit(3, "Wrong file: magic number.\n");
+		vm_exit(3, "Wrong file: magic number.\n");
 	ft_bzero(player, sizeof(t_player));
 	ft_memcpy((void*)(player->name), buf + sizeof(uint32_t), PROG_NAME_LENGTH);
 	if ((bin_size = read(fd, &buf, CHAMP_MAX_SIZE + 1)) <= 0)
-		cw_exit(3, "Failed reading file binary: %m\n");
+		vm_exit(3, "Failed reading file binary: %m\n");
 	if (bin_size > CHAMP_MAX_SIZE)
-		cw_exit(3, "Champion exceeding size: %d\n", bin_size);
+		vm_exit(3, "Champion exceeding size: %d\n", bin_size);
 	if (close(fd) < 0)
-		cw_exit(3, "%m\n");
+		vm_exit(3, "%m\n");
 	player->id = id;
 	player->size = (size_t)bin_size;
 	ft_memcpy(player->bin, buf, player->size);

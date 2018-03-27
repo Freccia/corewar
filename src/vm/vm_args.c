@@ -20,13 +20,6 @@ t_args		g_arg[MAX_ARGS_NUMBER + 1] =
 	{0x03, 0},
 };
 
-char		*cw_get_opcode_name(uint8_t op)
-{
-	if (op >= 0x1 && op <= MAX_OP)
-		return (g_op_tab[op - 1].name);
-	return (NULL);
-}
-
 void		cw_update_carry(t_proc *proc, int32_t value)
 {
 	if (value)
