@@ -12,7 +12,7 @@
 
 #include "corewar.h"
 
-static void			eval(t_proc *proc)
+static void	eval(t_proc *proc)
 {
 	if (proc->wait > 1)
 		--proc->wait;
@@ -39,7 +39,7 @@ static void			eval(t_proc *proc)
 	}
 }
 
-static int			mem_dump(uint8_t *mem)
+static int	mem_dump(uint8_t *mem)
 {
 	int		k;
 	int		p;
@@ -58,7 +58,7 @@ static int			mem_dump(uint8_t *mem)
 	return (EXIT_SUCCESS);
 }
 
-int					vm_run(void)
+int			vm_run(void)
 {
 	t_proc *proc;
 
