@@ -34,7 +34,7 @@ typedef struct		s_procs
 {
 	t_proc			*head;
 	size_t			len;
-	uint32_t		pids;
+	uint32_t		max_pid;
 }					t_procs;
 
 /*

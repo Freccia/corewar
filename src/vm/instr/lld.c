@@ -25,7 +25,6 @@ int			vm_lld(t_proc *proc, uint8_t *pc)
 		return (EXIT_FAILURE);
 	proc->reg[reg] = value;
 	vm_carry(proc, value);
-	//proc->pc = cw_move_ptr(pc, ptr - pc);
 	proc->pc = ptr;
 	return (EXIT_SUCCESS);
 }

@@ -37,6 +37,20 @@ uint8_t		*vm_map(uint8_t *mem, uint8_t *pc, uint16_t n)
 	return (mem);
 }
 
+
+uint8_t		*vm_move(uint8_t const *pc, int32_t move, uint8_t idx_mod)
+{
+	int32_t abs;
+
+	if (idx_mod)
+		move %= IDX_MOD;
+	abs = (int32_t)(pc - g_vm->mem + move);
+	if (abs < 0)
+		abs = MEM_SIZE + abs;
+	return (g_vm->mem + (abs % MEM_SIZE));
+}
+
+/*
 uint8_t		*vm_move(uint8_t const *pc, int32_t move, uint8_t idx_mod)
 {
 	int32_t abs;
@@ -52,3 +66,4 @@ uint8_t		*vm_move(uint8_t const *pc, int32_t move, uint8_t idx_mod)
 		return (g_vm->mem + (abs % IDX_MOD));
 	return (g_vm->mem + (abs % MEM_SIZE));
 }
+*/

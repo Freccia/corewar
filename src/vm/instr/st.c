@@ -23,7 +23,7 @@ int					vm_st(t_proc *proc, uint8_t *pc)
 	ptr = vm_move(pc, 2, 0);
 	ocp	= vm_move(pc, 1, 0);
 	value = vm_readarg(proc, &ptr, 0, F_REG_VAL);
-	vm_carry(proc, value);
+	//vm_carry(proc, value);
 	if ((*ocp & g_arg[1].mask) >> g_arg[1].shift == REG_CODE)
 	{
 		dst = vm_readarg(proc, &ptr, 1, F_REG);
@@ -40,7 +40,6 @@ int					vm_st(t_proc *proc, uint8_t *pc)
 		vm_write(write, (uint8_t *)&value, sizeof(int32_t),
 			(uint16_t)(proc->owner->idx + VM_COLOR_HINT));
 	}
-	//proc->pc = cw_move_ptr(pc, ptr - pc);
 	proc->pc = ptr;
 	return (EXIT_SUCCESS);
 }

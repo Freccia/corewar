@@ -26,7 +26,6 @@ int			vm_or(t_proc *proc, uint8_t *pc)
 		return (EXIT_FAILURE);
 	proc->reg[reg] = av[0] | av[1];
 	vm_carry(proc, proc->reg[reg]);
-	//proc->pc = cw_move_ptr(pc, ptr - pc);
 	proc->pc = ptr;
 	return (EXIT_SUCCESS);
 }

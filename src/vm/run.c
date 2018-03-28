@@ -12,7 +12,7 @@
 
 #include "corewar.h"
 
-static void	eval(t_proc *proc)
+static void	exec(t_proc *proc)
 {
 	if (proc->wait > 1)
 		--proc->wait;
@@ -32,7 +32,7 @@ static void	eval(t_proc *proc)
 		proc->pc = vm_move(proc->pc, 1, 0);
 		vm_guinotify((uint16_t)(proc->pc - g_vm->mem),
 			(uint16_t)(proc->owner->idx + VM_COLOR_INV), *proc->pc);
-		if (g_vm->opt.v & VM_VERB_DEATH)
+		if (g_vm->opt.v & VM_VERB_DEATH) // this should be in vm_run() when cycle_to_die happens, not here
 			ft_printf("Process %d [%s] hasn't lived for %d cycles... Fuck off!\n",
 				proc->pid, proc->owner->name, g_vm->cycle - proc->lastlive); // TODO math incorrect
 		proc->wait = 0;
@@ -71,7 +71,7 @@ int			vm_run(void)
 			ft_printf("It is now cycle %d\n", g_vm->cycle_total);
 		while (proc)
 		{
-			eval(proc);
+			exec(proc);
 			if (!g_vm->procs.len) // this (else) should never happen
 				break ; // if it happens we should have other problems (see exec)
 			proc = proc->next;

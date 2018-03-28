@@ -28,7 +28,6 @@ int			vm_lldi(t_proc *proc, uint8_t *pc)
 	read = vm_move(pc, av[0] + av[1], 0);
 	proc->reg[reg] = vm_read(read, sizeof(proc->reg[1]));
 	vm_carry(proc, proc->reg[reg]);
-	//proc->pc = cw_move_ptr(pc, 8);
 	proc->pc = ptr;
 	return (EXIT_SUCCESS);
 }

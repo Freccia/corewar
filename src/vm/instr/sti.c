@@ -27,8 +27,6 @@ int			vm_sti(t_proc *proc, uint8_t *pc)
 	val = swap_uint32((uint32_t)val);
 	vm_write(write, (uint8_t *)&(val), sizeof(int32_t),
 		(uint16_t)(proc->owner->idx + VM_COLOR_HINT));
-	vm_carry(proc, val);
-	//proc->pc = cw_move_ptr(pc, ptr - pc);
 	proc->pc = ptr;
 	return (EXIT_SUCCESS);
 }

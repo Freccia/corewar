@@ -43,7 +43,7 @@ void	vm_procspush(t_procs *procs, t_proc *proc)
 	proc->next = procs->head;
 	procs->head = proc;
 	++procs->len;
-	proc->pid = ++procs->pids;
+	proc->pid = ++procs->max_pid;
 	vm_guinotify((uint16_t)(proc->pc - g_vm->mem),
 		(uint16_t)(proc->owner->idx + VM_COLOR_INV), *proc->pc);
 }
