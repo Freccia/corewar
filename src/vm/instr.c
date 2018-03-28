@@ -6,7 +6,7 @@
 /*   By: alucas- <nfinkel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/03/14 19:17:51 by alucas-           #+#    #+#             */
-/*   Updated: 2018/03/27 22:07:14 by nfinkel          ###   ########.fr       */
+/*   Updated: 2018/03/28 21:07:48 by nfinkel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,8 @@ static t_instr	g_instr[MAX_OP] = {
 	vm_lld,
 	vm_lldi,
 	vm_lfork,
-	vm_aff
+	vm_aff,
+	vm_gtmd
 };
 
 static int		check_arg(uint8_t op, uint8_t ocp, uint8_t n_arg)

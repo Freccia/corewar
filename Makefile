@@ -6,7 +6,7 @@
 #    By: alucas- <alucas-@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2017/11/07 09:52:36 by alucas-           #+#    #+#              #
-#    Updated: 2018/03/27 17:01:39 by mc               ###   ########.fr        #
+#    Updated: 2018/03/28 21:08:06 by nfinkel          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -43,7 +43,7 @@ SRCB_NAME = \
 	vm/instr.c vm/instr/add.c vm/instr/aff.c vm/instr/and.c vm/instr/fork.c \
 	vm/instr/ld.c vm/instr/ldi.c vm/instr/lfork.c vm/instr/live.c vm/instr/lld.c \
 	vm/instr/lldi.c vm/instr/or.c vm/instr/st.c vm/instr/sti.c vm/instr/sub.c \
-	vm/instr/xor.c vm/instr/zjmp.c \
+	vm/instr/xor.c vm/instr/zjmp.c vm/instr/gtmd.c\
 	vm/main.c \
 	vm/opt.c \
 	vm/player.c \
