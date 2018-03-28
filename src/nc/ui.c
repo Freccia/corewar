@@ -52,9 +52,9 @@ static void	nc_pause(int *running)
 		if (ch == ERR)
 			continue ;
 		else if (ch == 27)
-			cw_exit(EXIT_SUCCESS, "Good bye!\n");
+			vm_exit(EXIT_SUCCESS, "Good bye!\n");
 		else if ((ch = cw_nc_onkey(ch)) < 0)
-			cw_exit(EXIT_FAILURE, NULL);
+			vm_exit(EXIT_FAILURE, NULL);
 		else if (ch == 1)
 		{
 			g_step = g_stepi - 1;
@@ -78,42 +78,42 @@ void		cw_nc_stats(uint8_t id, int value)
 	wrefresh(g_wstats);
 }
 
-int			cw_nc_update(void)
+int			vm_guiupdate(void)
 {
 	int ch;
 
-	if (!g_cw->opt.g)
+	if (!g_vm->opt.g)
 		return (YEP);
 	if (g_step)
 	{
 		--g_step;
 		return (YEP);
 	}
-	cw_nc_stats(STATS_CYCLE, (int)g_cw->cycle);
-	cw_nc_stats(STATS_CYCLE_TO_DIE, g_cw->cycle_to_die);
-	cw_nc_stats(STATS_PROCS, g_cw->proc_count);
+	cw_nc_stats(STATS_CYCLE, (int)g_vm->cycle_total);
+	cw_nc_stats(STATS_CYCLE_TO_DIE, (int)g_vm->cycle_to_die);
+	cw_nc_stats(STATS_PROCS, (int)g_vm->procs.len);
 	if (!g_running)
 		nc_pause(&g_running);
 	while ((ch = getch()) != ERR)
 	{
 		if (ch == 27)
-			return (cw_exit(EXIT_SUCCESS, "Good bye!\n"));
+			return (vm_exit(EXIT_SUCCESS, "Good bye!\n"));
 		else if (ch == 32)
 			nc_pause(&g_running);
 		else if (cw_nc_onkey(ch))
-			cw_exit(EXIT_FAILURE, NULL);
+			vm_exit(EXIT_FAILURE, NULL);
 	}
 	usleep((useconds_t)(1000000 / g_cyclel));
 	return (YEP);
 }
 
-int			cw_nc_notify(uint16_t i, uint16_t c, uint8_t val)
+int			vm_guinotify(uint16_t i, uint16_t c, uint8_t val)
 {
 	int sq;
 	int x;
 	int y;
 
-	if (!g_cw->opt.g)
+	if (!g_vm->opt.g)
 		return (YEP);
 	sq = getmaxy(g_wboard) - 2;
 	x = 2 + ((i % sq) * 3);

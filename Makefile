@@ -6,7 +6,7 @@
 #    By: alucas- <alucas-@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2017/11/07 09:52:36 by alucas-           #+#    #+#              #
-#    Updated: 2018/03/25 22:05:42 by nfinkel          ###   ########.fr        #
+#    Updated: 2018/03/27 17:01:39 by mc               ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -38,10 +38,18 @@ SRCA_NAME = \
 	asm/parser/parse_args.c
 SRCB_NAME = \
 	$(COMMON_SRC) \
-	vm/vm_main.c vm/vm_exec.c vm/vm_init.c vm/vm_run.c vm/vm_args.c \
-	vm/cw_add.c vm/cw_aff.c vm/cw_and.c vm/cw_fork.c vm/cw_ld.c vm/cw_ldi.c \
-	vm/cw_lfork.c vm/cw_live.c vm/cw_lld.c vm/cw_lldi.c vm/cw_or.c vm/cw_st.c \
-	vm/cw_sti.c vm/cw_sub.c vm/cw_xor.c vm/cw_zjmp.c vm/vm_tools.c vm/vm_exit.c \
+	vm/init.c \
+	vm/instr.c vm/instr/add.c vm/instr/aff.c vm/instr/and.c vm/instr/fork.c \
+  vm/instr/ld.c vm/instr/ldi.c vm/instr/lfork.c vm/instr/live.c vm/instr/lld.c \
+  vm/instr/lldi.c vm/instr/or.c vm/instr/st.c vm/instr/sti.c vm/instr/sub.c \
+  vm/instr/xor.c vm/instr/zjmp.c \
+	vm/main.c \
+  vm/opt.c \
+  vm/player.c \
+  vm/proc.c \
+  vm/read.c \
+  vm/run.c \
+  vm/write.c \
 	nc/exit.c nc/init.c nc/keys.c nc/ui.c
 
 # folder-names of the sources
@@ -197,23 +205,17 @@ re: fclean all
 test: all
 	$(TEST_DIR)/test-asm.sh || true
 	$(TEST_DIR)/test-vm.sh || true
-	+test -d $(TEST_DIR) && $(SUB_MAKE) $(TEST_DIR)
-	@$(PRINTF) "All tests passed!"
 
 #TODO
 # # run tests on project (debug mode)
 # testdev: dev
 # 	$(TEST_DIR)/test-asm.sh $(PROJECTA) || true
 # 	$(TEST_DIR)/test-vm.sh $(PROJECTB) || true
-# 	+test -d $(TEST_DIR) && $(SUB_MAKE) $(TEST_DIR) debug
-# 	@$(PRINTF) "All tests passed!"
 
 # # run tests on project (sanitize mode)
 # testsan: san
 # 	$(TEST_DIR)/test-asm.sh $(PROJECTA) || true
 # 	$(TEST_DIR)/test-vm.sh $(PROJECTB) || true
-# 	+test -d $(TEST_DIR) && $(SUB_MAKE) $(TEST_DIR) sanitize
-# 	@$(PRINTF) "All tests passed!"
 
 # check coding-style
 norme:

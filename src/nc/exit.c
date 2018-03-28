@@ -12,9 +12,9 @@
 
 #include "internal.h"
 
-int	cw_nc_exit(void)
+int	vm_guiexit(void)
 {
-	if (!g_cw->opt.g)
+	if (!g_vm->opt.g)
 		return (YEP);
 	delwin(g_wboard);
 	delwin(g_wstats);
