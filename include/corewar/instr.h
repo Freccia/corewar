@@ -6,7 +6,7 @@
 /*   By: nfinkel <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/03/13 16:16:50 by nfinkel           #+#    #+#             */
-/*   Updated: 2018/03/27 21:51:28 by nfinkel          ###   ########.fr       */
+/*   Updated: 2018/03/28 18:52:12 by nfinkel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -150,6 +150,14 @@ int		vm_lfork(t_proc *proc, uint8_t *pc);
 ** @return     0 If the operation succeed, 1 otherwise.  
 */
 int		vm_aff(t_proc *proc, uint8_t *pc);
+
+/*
+** TODO: Doc
+** @param proc The proc which ask for operation.
+** @param pc   The proc pointer.
+** @return     0 If the operation succeed, 1 otherwise.  
+*/
+int		vm_gtmd(t_proc *proc, uint8_t *pc);
 
 /*
 ** Eval the operation which the pc point to.

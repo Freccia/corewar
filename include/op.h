@@ -6,7 +6,7 @@
 /*   By: zaz <marvin@42.fr>                         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2013/10/04 11:33:27 by zaz               #+#    #+#             */
-/*   Updated: 2018/03/25 03:16:10 by lfabbro          ###   ########.fr       */
+/*   Updated: 2018/03/28 18:50:03 by nfinkel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 
 # include <stdint.h>
 
-# define MAX_OP 16
+# define MAX_OP 17 //Added GTMD
 
 # define IND_SIZE 2
 # define REG_SIZE 4
