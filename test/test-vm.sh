@@ -5,6 +5,7 @@ VERBOSE=
 ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)/.."
 LOG_FOLDER="$ROOT/test/log"
 DATA_FOLDER="$ROOT/test/ressources"
+DUMP_FOLDER="$ROOT/test/ressources/cor_dump"
 
 COR_FILES="$(find "$ROOT/test/ressources/ctrl_cor" -name \*.cor)"
 
@@ -14,8 +15,6 @@ NORMAL="\033[0m"
 
 error() {
 	echo -e "\n$RED$1$NORMAL"
-    tail -n 42 "$2"
-    cat "$3"
 	exit 1
 }
 
@@ -27,15 +26,30 @@ test-vm() {
     cycles="$1"
     core_file="$2"
 
-    # "$ROOT/corewar" -d "$cycles" "$core_file" "$core_file"
-    #TODO: not sure which files to send here?
+    ctrl_file="$DUMP_FOLDER"/"$(basename $core_file)"_"$cycles"-cycles.dump
+
+    # to generate cor dumps:
+    # "$ROOT/ressources/bin/corewar" -d "$cycles" "$core_file" "$core_file" > "$ctrl_file"
+
+    if test -e "$ctrl_file"; then
+        diff -y --width 400 --suppress-common-lines <(grep -vE 'Introducing|Player' "$ctrl_file") <("$ROOT/corewar" -d "$cycles" "$core_file" "$core_file" | grep -vE 'Introducing|Player') \
+            || error "corewar dump failed: with args: -d $cycles $core_file $core_file"
+        success "$core_file $cycles cycles ok!"
+    fi
 }
 
 # functional tests
 mkdir -p "$LOG_FOLDER"
 
-for f in $COR_FILES; do
-    for i in {0..64}; do
-        test-vm "$i" "$f"
+if test -z "$1"; then
+    for f in $COR_FILES; do
+        for i in $(seq 10 10 250); do
+            test-vm "$i" "$f"
+        done
     done
-done
+    success yay
+else
+    for i in $(seq 10 10 250); do
+        test-vm "$i" "$1"
+    done
+fi
