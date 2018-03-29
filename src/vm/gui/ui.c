@@ -97,14 +97,15 @@ void		vm_guiproc(t_proc *proc)
 	reg1 = 0;
 	reg2 = 1;
 	wattr_on(g_wprocs, 0x200000, 0x0);
-	mvwprintw(g_wprocs, ++y, 4, "Process  (%s)% 10c", proc->owner->name, ' ');
-	mvwprintw(g_wprocs, ++y, 4, "  PID    %-20d", proc->pid);
-	mvwprintw(g_wprocs, ++y, 4, "  STATE: %-20s", g_states[proc->state]);
-	mvwprintw(g_wprocs, ++y, 4, "  PC:    %-20hhx", proc->pc);
-	mvwprintw(g_wprocs, ++y, 4, "  CARRY: %-20d", proc->carry);
-	mvwprintw(g_wprocs, ++y, 4, "  LIVE:  %-20d", proc->lastlive);
+	mvwprintw(g_wprocs, ++y, 4, "Processes: [o: reset | p: next]");
+	mvwprintw(g_wprocs, y += 2, 4, "Process    (%s)% 10c", proc->owner->name, ' ');
+	mvwprintw(g_wprocs, ++y, 4, "  PID      %-20d", proc->pid);
+	mvwprintw(g_wprocs, ++y, 4, "  STATE:   %-20s", g_states[proc->state]);
+	mvwprintw(g_wprocs, ++y, 4, "  PC:      %-20hhx", proc->pc);
+	mvwprintw(g_wprocs, ++y, 4, "  CARRY:   %-20d", proc->carry);
+	mvwprintw(g_wprocs, ++y, 4, "  LIVE:    %-20d", proc->lastlive);
 	if (proc->state == STATE_WAITING)
-		mvwprintw(g_wprocs, ++y, 4, "  WAIT:  %-20d", proc->wait);
+		mvwprintw(g_wprocs, ++y, 4, "  WAIT:    %-20d", proc->wait);
 	else
 		++y;
 	++y;
