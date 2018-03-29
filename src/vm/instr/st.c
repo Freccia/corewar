@@ -20,8 +20,8 @@ int					vm_st(t_proc *proc, uint8_t *pc)
 	int32_t		dst;
 	uint8_t		*write;
 
-	ptr = vm_move(pc, 2, 0);
-	ocp	= vm_move(pc, 1, 0);
+	ptr = vm_move(pc, 2, FALSE);
+	ocp	= vm_move(pc, 1, FALSE);
 	value = vm_readarg(proc, &ptr, 0, F_REG_VAL);
 	if ((*ocp & g_arg[1].mask) >> g_arg[1].shift == REG_CODE)
 	{
@@ -33,8 +33,8 @@ int					vm_st(t_proc *proc, uint8_t *pc)
 	else if ((*ocp & g_arg[1].mask) >> g_arg[1].shift == IND_CODE)
 	{
 		dst = vm_read(ptr, 2);
-		ptr = vm_move(ptr, 2, 0);
-		write = vm_move(pc, dst, 1);
+		ptr = vm_move(ptr, 2, FALSE);
+		write = vm_move(pc, dst, TRUE);
 		value = swap_uint32((uint32_t)value);
 		vm_write(write, (uint8_t *)&value, sizeof(int32_t),
 			(uint16_t)(proc->owner->idx + VM_COLOR_HINT));

@@ -29,7 +29,7 @@ static void	exec(t_proc *proc)
 		else
 			vm_guinotify((uint16_t)(proc->pc - g_vm->mem),
 				(uint16_t)(proc->owner->idx + VM_COLOR_DFT), *proc->pc);
-		proc->pc = vm_move(proc->pc, 1, 0);
+		proc->pc = vm_move(proc->pc, 1, FALSE);
 		vm_guinotify((uint16_t)(proc->pc - g_vm->mem),
 			(uint16_t)(proc->owner->idx + VM_COLOR_INV), *proc->pc);
 		if (g_vm->opt.v & VM_VERB_DEATH) // this should be in vm_run() when cycle_to_die happens, not here

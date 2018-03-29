@@ -16,9 +16,9 @@ int			vm_aff(t_proc *proc, uint8_t *pc)
 {
 	char c;
 
-	if (*(pc = vm_move(pc, 1, 0)) == 0x40)
+	if (*(pc = vm_move(pc, 1, FALSE)) == 0x40)
 	{
-		pc = vm_move(pc, 1, 0);
+		pc = vm_move(pc, 1, FALSE);
 		vm_carry(proc, (uint32_t)(c = (char)(*pc % 256)));
 	}
 	else

@@ -16,7 +16,7 @@ int			vm_gtmd(t_proc *proc, uint8_t *pc)
 {
 	int8_t		reg;
 
-	pc = vm_move(pc, 2, 0);
+	pc = vm_move(pc, 2, FALSE);
 	reg = vm_readarg(proc, &pc, 0, F_REG);
 	if (reg < 1 || reg > REG_NUMBER)
 		return (EXIT_FAILURE);

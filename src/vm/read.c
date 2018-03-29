@@ -49,12 +49,12 @@ int32_t		vm_readref(uint8_t **ptr, uint8_t *pc, uint32_t flags)
 		len = (uint16_t)((flags & F_DIR_LONG) ? 4 : 2);
 	}
 	else if (flags & F_IND_RESTRICT)
-		pos = vm_move(pc, vm_read(*ptr, len), 1);
+		pos = vm_move(pc, vm_read(*ptr, len), TRUE);
 	else if (flags & F_IND)
-		pos = vm_move(pc, vm_read(*ptr, len), 0);
+		pos = vm_move(pc, vm_read(*ptr, len), FALSE);
 	else
 		return (0);
-	*ptr = vm_move(*ptr, len, 0);
+	*ptr = vm_move(*ptr, len, FALSE);
 	return (vm_read(pos, len));
 }
 
@@ -64,7 +64,7 @@ int32_t		vm_readarg(t_proc *proc, uint8_t **ptr, uint8_t n, uint32_t flags)
 	int32_t arg;
 	uint8_t reg;
 
-	ocp = (*vm_move(proc->pc, 1, 0) & g_arg[n].mask) >> g_arg[n].shift;
+	ocp = (*vm_move(proc->pc, 1, FALSE) & g_arg[n].mask) >> g_arg[n].shift;
 	arg = 0;
 	if (ocp == REG_CODE)
 	{
@@ -73,7 +73,7 @@ int32_t		vm_readarg(t_proc *proc, uint8_t **ptr, uint8_t n, uint32_t flags)
 			arg = (flags & F_REG_VAL) ? proc->reg[reg] : reg;
 		else
 			proc->crashed = E_WRONG_REG;
-		*ptr = vm_move(*ptr, 1, 0);
+		*ptr = vm_move(*ptr, 1, FALSE);
 	}
 	else if (ocp == DIR_CODE)
 	{
