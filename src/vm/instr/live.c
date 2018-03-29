@@ -27,8 +27,6 @@ int			vm_live(t_proc *proc, uint8_t *pc)
 		player->lastlive = (uint32_t)g_vm->cycle_total;
 		if (g_vm->opt.v & VM_VERB_LIVES)
 			ft_printf("Player %s [%hd] is alive!\n", player->name, player->id);
-		proc->pc = vm_move(pc, 4, FALSE);
-		return (EXIT_SUCCESS);
 	}
 	else if (g_vm->opt.v & VM_VERB_LIVES)
 		ft_printf("Process %d [%s] made a live... But nobody came.\n",
