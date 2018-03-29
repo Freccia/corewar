@@ -78,7 +78,7 @@ int			vm_run(void)
 				break ; // if it happens we should have other problems (see exec)
 			proc = proc->next;
 		}
-		if (g_vm->opt.d > 0 && g_vm->cycle == (size_t)g_vm->opt.d)
+		if (g_vm->opt.d > 0 && g_vm->cycle_total == (size_t)g_vm->opt.d)
 			return (mem_dump(&g_vm->mem[0]));
 		if (g_vm->cycle == g_vm->cycle_to_die)
 		{
