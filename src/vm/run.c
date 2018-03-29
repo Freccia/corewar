@@ -47,7 +47,7 @@ static void	exec(t_proc *proc)
 	}
 }
 
-static int	mem_dump(uint8_t *mem)
+static void	mem_dump(uint8_t *mem)
 {
 	int k;
 	int p;
@@ -64,7 +64,6 @@ static int	mem_dump(uint8_t *mem)
 			ft_printf("%.2x ", *mem++);
 		ft_printf("\n");
 	}
-	return (EXIT_SUCCESS);
 }
 
 static void	cycle_to_die(void)
@@ -86,7 +85,7 @@ static void	cycle_to_die(void)
 	}
 }
 
-int			vm_run(void)
+void		vm_run(void)
 {
 	t_proc *proc;
 	t_proc *next;
@@ -94,7 +93,7 @@ int			vm_run(void)
 	while (g_vm->cycle_to_die > 0 && g_vm->procs.len)
 	{
 		if (vm_guiupdate())
-			return (vm_exit(EXIT_FAILURE, NULL));
+			vm_exit(EXIT_FAILURE, NULL);
 		proc = g_vm->procs.head;
 		++g_vm->cycle;
 		++g_vm->cycle_total;
@@ -113,6 +112,4 @@ int			vm_run(void)
 		if (g_vm->cycle == g_vm->cycle_to_die)
 			cycle_to_die();
 	}
-	// TODO: who won?
-	return (EXIT_SUCCESS);
 }

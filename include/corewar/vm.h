@@ -52,6 +52,6 @@ int				vm_exit(int ecode, char const *fmt, ...);
 ** TODO: Doc
 ** @return 
 */
-int				vm_run(void);
+void			vm_run(void);
 
 #endif
