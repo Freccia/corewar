@@ -27,8 +27,8 @@
 # define STATS_CYCLE_DELTA 5
 # define STATS_NBR_LIVE 6
 # define STATS_MAX_CHECKS 7
-# define STATS_PLAYERS 8
-# define STATS_STEPI 9
+# define STATS_STEPI 8
+# define STATS_PLAYERS 9
 
 typedef int		(t_keyh)(int ch);
 

@@ -40,7 +40,7 @@ static void	exec(t_proc *proc)
 		{
 			proc->state = STATE_RUNNING;
 			if (vm_eval(proc, proc->pc))
-				proc->state = STATE_DIEING;
+				proc->state = STATE_PENDING;
 		}
 	}
 }

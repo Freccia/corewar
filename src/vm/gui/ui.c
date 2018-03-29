@@ -96,11 +96,30 @@ static void	printreg(t_proc *proc, int32_t reg)
 		wattr_off(g_wprocs, (attr_t)COLOR_PAIR(proc->owner->idx + 1), 0x0);
 }
 
+void		vm_guiplayer(t_player *player)
+{
+	int y;
+	int x;
+
+	wattr_on(g_wstats, 0x200000, 0x0);
+	y = g_stats[STATS_PLAYERS][1] + (player->idx * 4);
+	x = g_stats[STATS_PLAYERS][0];
+	mvwprintw(g_wstats, y, x, "Player %d: ", player->id);
+
+	wattr_on(g_wstats, (attr_t)COLOR_PAIR(player->idx + 1), 0x0);
+	wprintw(g_wstats, "%s", player->name);
+	wattr_off(g_wstats, (attr_t)COLOR_PAIR(player->idx + 1), 0x0);
+	mvwprintw(g_wstats, ++y, x, "  Last live : %-20d       ", player->lastlive);
+	wrefresh(g_wstats);
+}
+
 void		vm_guiproc(t_proc *proc)
 {
 	int y;
 	int reg;
 
+	if (!g_vm->opt.g)
+		return ;
 	g_uiproc = proc;
 	y = 1;
 	reg = 0;
@@ -131,7 +150,8 @@ void		vm_guiproc(t_proc *proc)
 
 int			vm_guiupdate(void)
 {
-	int ch;
+	int			ch;
+	t_player	*player;
 
 	if (!g_vm->opt.g)
 		return (YEP);
@@ -144,6 +164,12 @@ int			vm_guiupdate(void)
 	gui_stats(STATS_CYCLE, (int)g_vm->cycle_total);
 	gui_stats(STATS_CYCLE_TO_DIE, (int)g_vm->cycle_to_die);
 	gui_stats(STATS_PROCS, (int)g_vm->procs.len);
+	player = g_vm->players.head;
+	while (player)
+	{
+		vm_guiplayer(player);
+		player = player->next;
+	}
 	if (!g_running || (g_vm->opt.p && g_vm->opt.p == g_vm->cycle_total))
 		nc_pause(&g_running);
 	while ((ch = getch()) != ERR)
