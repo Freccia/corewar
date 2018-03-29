@@ -50,9 +50,28 @@ void	vm_procspush(t_procs *procs, t_proc *proc)
 
 void	vm_procsrem(t_procs *procs, t_proc *proc)
 {
-	//TODO
-	(void)procs;
-	(void)proc;
+	t_proc	*ptr;
+	void	*tmp;
+
+	if (procs->head == proc)
+	{
+		tmp = procs->head->next;
+		free(procs->head);
+		procs->head = (t_proc*)tmp;
+		return ;
+	}
+	ptr = procs->head;
+	while (ptr)
+	{
+		if (ptr->next == proc)
+		{
+			tmp = proc->next;
+			free(proc);
+			ptr->next = (t_proc*)tmp;
+			return ;
+		}
+		ptr = ptr->next;
+	}
 }
 
 void	vm_procsclr(t_procs *procs)

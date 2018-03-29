@@ -83,7 +83,7 @@ int			vm_run(void)
 		if (g_vm->cycle == g_vm->cycle_to_die)
 		{
 		//	We kill processes here, not during execution
-		//	cw_vm_cycle_to_die();
+			//cw_vm_cycle_to_die();
 			g_vm->cycle = 0;
 			g_vm->cycle_to_die -= CYCLE_DELTA;
 			if (g_vm->opt.v & VM_VERB_CYCLE)
