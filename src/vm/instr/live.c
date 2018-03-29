@@ -30,7 +30,7 @@ int			vm_live(t_proc *proc, uint8_t *pc)
 		proc->pc = vm_move(pc, 4, FALSE);
 		return (EXIT_SUCCESS);
 	}
-	if (g_vm->opt.v & VM_VERB_LIVES)
+	else if (g_vm->opt.v & VM_VERB_LIVES)
 		ft_printf("Process %d [%s] made a live... But nobody came.\n",
 			proc->pid, proc->owner->name);
 	proc->pc = vm_move(pc, 4, FALSE);
