@@ -16,6 +16,8 @@
 # include <libft.h>
 # include <ncurses.h>
 
+# include "proc.h"
+
 # define VM_COLOR_DFT 1
 # define VM_COLOR_HINT (VM_COLOR_DFT + 5)
 # define VM_COLOR_INV (VM_COLOR_HINT + 5)
@@ -24,13 +26,19 @@
 ** TODO: Doc
 ** @return 
 */
-int	vm_guiinit(void);
+int		vm_guiinit(void);
 
 /*
 ** TODO: Doc
 ** @return 
 */
-int	vm_guiupdate(void);
+int		vm_guiupdate(void);
+
+/*
+** TODO: Doc
+** @return
+*/
+void	vm_guiproc(t_proc *proc);
 
 /*
 ** TODO: Doc
@@ -39,12 +47,12 @@ int	vm_guiupdate(void);
 ** @param val 
 ** @return 
 */
-int	vm_guinotify(uint16_t i, uint16_t c, uint8_t val);
+int		vm_guinotify(uint16_t i, uint16_t c, uint8_t val);
 
 /*
 ** TODO: Doc
 ** @return 
 */
-int	vm_guiexit(void);
+int		vm_guiexit(void);
 
 #endif

@@ -47,6 +47,30 @@ static int		onnext(int ch)
 	return (NOP);
 }
 
+static int		onp(int ch)
+{
+	(void)ch;
+	if (!g_running)
+	{
+		if (g_uiproc && g_uiproc->next)
+			vm_guiproc(g_uiproc->next);
+		else if (g_vm->procs.head)
+			vm_guiproc(g_vm->procs.head);
+	}
+	return (YEP);
+}
+
+static int		ono(int ch)
+{
+	(void)ch;
+	if (!g_running)
+	{
+		if (g_vm->procs.head)
+			vm_guiproc(g_vm->procs.head);
+	}
+	return (YEP);
+}
+
 static t_keyh	*g_keym[KEY_MAX] = {
 	[KEY_RIGHT] = onarrow,
 	[KEY_LEFT] = onarrow,
@@ -54,6 +78,8 @@ static t_keyh	*g_keym[KEY_MAX] = {
 	[KEY_DOWN] = onarrow,
 	['n'] = onnext,
 	['s'] = onnext,
+	['p'] = onp,
+	['o'] = ono
 };
 
 int				cw_nc_onkey(int ch)

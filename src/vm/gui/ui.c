@@ -15,6 +15,7 @@
 int			g_cyclel = 50;
 int			g_running = 0;
 int			g_stepi = 5;
+t_proc		*g_uiproc = NULL;
 static int	g_step = 0;
 static int	g_stats[STATS_PLAYERS + MAX_PLAYERS][2] = {
 	[STATS_PAUSED] = {4, 2},
@@ -76,6 +77,47 @@ void		cw_nc_stats(uint8_t id, int value)
 	wprintw(g_wstats, g_statsstr[id], value);
 	wattr_off(g_wstats, 0x200000, 0x0);
 	wrefresh(g_wstats);
+}
+
+static char	*g_states[] = {
+	[STATE_RUNNING] = "STATE_RUNNING",
+	[STATE_WAITING] = "STATE_WAITING",
+	[STATE_DIEING] = "STATE_DIEING",
+	[STATE_PENDING] = "STATE_PENDING",
+};
+
+void		vm_guiproc(t_proc *proc)
+{
+	int y;
+	int reg1;
+	int reg2;
+
+	g_uiproc = proc;
+	y = 1;
+	reg1 = 0;
+	reg2 = 1;
+	wattr_on(g_wprocs, 0x200000, 0x0);
+	mvwprintw(g_wprocs, ++y, 4, "Process  (%s)% 10c", proc->owner->name, ' ');
+	mvwprintw(g_wprocs, ++y, 4, "  PID    %-20d", proc->pid);
+	mvwprintw(g_wprocs, ++y, 4, "  STATE: %-20s", g_states[proc->state]);
+	mvwprintw(g_wprocs, ++y, 4, "  PC:    %-20hhx", proc->pc);
+	mvwprintw(g_wprocs, ++y, 4, "  CARRY: %-20d", proc->carry);
+	mvwprintw(g_wprocs, ++y, 4, "  LIVE:  %-20d", proc->lastlive);
+	if (proc->state == STATE_WAITING)
+		mvwprintw(g_wprocs, ++y, 4, "  WAIT:  %-20d", proc->wait);
+	else
+		++y;
+	++y;
+	mvwprintw(g_wprocs, ++y, 4, "  01 | %08x %08x | 02", proc->reg[reg1 += 2], proc->reg[reg2 += 2]);
+	mvwprintw(g_wprocs, ++y, 4, "  03 | %08x %08x | 04", proc->reg[reg1 += 2], proc->reg[reg2 += 2]);
+	mvwprintw(g_wprocs, ++y, 4, "  05 | %08x %08x | 06", proc->reg[reg1 += 2], proc->reg[reg2 += 2]);
+	mvwprintw(g_wprocs, ++y, 4, "  07 | %08x %08x | 08", proc->reg[reg1 += 2], proc->reg[reg2 += 2]);
+	mvwprintw(g_wprocs, ++y, 4, "  09 | %08x %08x | 0A", proc->reg[reg1 += 2], proc->reg[reg2 += 2]);
+	mvwprintw(g_wprocs, ++y, 4, "  0B | %08x %08x | 0C", proc->reg[reg1 += 2], proc->reg[reg2 += 2]);
+	mvwprintw(g_wprocs, ++y, 4, "  0D | %08x %08x | 0E", proc->reg[reg1 += 2], proc->reg[reg2 += 2]);
+	mvwprintw(g_wprocs, ++y, 4, "  0F | %08x %08x | 0G", proc->reg[reg1], proc->reg[reg2]);
+	wattr_off(g_wprocs, 0x200000, 0x0);
+	wrefresh(g_wprocs);
 }
 
 int			vm_guiupdate(void)

@@ -14,6 +14,7 @@
 
 WINDOW			*g_wboard = NULL;
 WINDOW			*g_wstats = NULL;
+WINDOW			*g_wprocs = NULL;
 
 static float	ft_sqrt7(float x)
 {
@@ -104,7 +105,9 @@ int				vm_guiinit(void)
 	sq = (int)ft_sqrt7(MEM_SIZE);
 	if (!(g_wboard = subwin(stdscr, sq + 2, sq * 3 + 3, 0, 0)))
 		return (WUT);
-	if (!(g_wstats = subwin(stdscr, sq + 2, 50, 0, sq * 3 + 2)))
+	if (!(g_wstats = subwin(stdscr, ((sq + 2) / 2) + 14, 50, 0, sq * 3 + 2)))
+		return (WUT);
+	if (!(g_wprocs = subwin(stdscr, ((sq + 2) / 2) - 13, 50, ((sq + 2) / 2) + 13, sq * 3 + 2)))
 		return (WUT);
 	wattr_on(g_wboard, 0x242a00, 0);
 	box(g_wboard, 0x2a, 0x2a);
@@ -112,6 +115,9 @@ int				vm_guiinit(void)
 	wattr_on(g_wstats, 0x242a00, 0);
 	box(g_wstats, 0x2a, 0x2a);
 	wattr_off(g_wstats, 0x242a00, 0);
+	wattr_on(g_wprocs, 0x242a00, 0);
+	box(g_wprocs, 0x2a, 0x2a);
+	wattr_off(g_wprocs, 0x242a00, 0);
 	wrefresh(g_wstats);
 	return (nc_draw());
 }

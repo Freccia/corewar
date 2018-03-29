@@ -34,9 +34,11 @@ typedef int		(t_keyh)(int ch);
 
 extern WINDOW	*g_wboard;
 extern WINDOW	*g_wstats;
+extern WINDOW	*g_wprocs;
 extern int		g_cyclel;
 extern int		g_running;
 extern int		g_stepi;
+extern t_proc	*g_uiproc;
 
 int				cw_nc_onkey(int ch);
 void			cw_nc_stats(uint8_t id, int value);
