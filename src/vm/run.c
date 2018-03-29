@@ -72,6 +72,10 @@ static void	cycle_to_die(void)
 	t_proc *proc;
 	t_proc *next;
 
+	g_vm->cycle = 0;
+	g_vm->cycle_to_die -= CYCLE_DELTA;
+	if (g_vm->opt.v & VM_VERB_CYCLE)
+		ft_printf("Cycle to die is now %d\n", g_vm->cycle_to_die);
 	proc = g_vm->procs.head;
 	while (proc)
 	{
@@ -107,13 +111,7 @@ int			vm_run(void)
 		if (g_vm->opt.d > 0 && g_vm->cycle_total == (size_t)g_vm->opt.d)
 			return (mem_dump(&g_vm->mem[0]));
 		if (g_vm->cycle == g_vm->cycle_to_die)
-		{
 			cycle_to_die();
-			g_vm->cycle = 0;
-			g_vm->cycle_to_die -= CYCLE_DELTA;
-			if (g_vm->opt.v & VM_VERB_CYCLE)
-				ft_printf("Cycle to die is now %d\n", g_vm->cycle_to_die);
-		}
 	}
 	// TODO: who won?
 	return (EXIT_SUCCESS);
