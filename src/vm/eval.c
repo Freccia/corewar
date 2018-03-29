@@ -66,17 +66,18 @@ int				vm_eval(t_proc *proc, uint8_t *pc)
 {
 	if (*pc >= 0x1 && *pc <= MAX_OP)
 	{
+		proc->cont = 0;
 		if (!g_op_tab[*pc - 1].ocp || check_ocp(pc) == EXIT_SUCCESS)
 		{
 			vm_guinotify((uint16_t)(pc - g_vm->mem),
 				(uint16_t)(proc->owner->idx + VM_COLOR_DFT), *pc);
+			if (g_vm->opt.v & VM_VERB_OPERA &&
+				*pc >= 0x1 && *pc <= MAX_OP)
+				ft_printf("Process %d [%s] executing %s\n", proc->pid,
+					proc->owner->name, g_op_tab[*pc - 1].name);
 			g_instr[*pc - 1](proc, pc);
 			vm_guinotify((uint16_t)(proc->pc - g_vm->mem),
 				(uint16_t)(proc->owner->idx + VM_COLOR_INV), *proc->pc);
-			if (g_vm->opt.v & VM_VERB_OPERA &&
-				*proc->pc >= 0x1 && *proc->pc <= MAX_OP)
-				ft_printf("Process %d [%s] executing %s\n", proc->pid,
-					proc->owner->name, g_op_tab[*proc->pc - 1].name);
 			if (g_vm->opt.v & VM_VERB_MOVES)
 				ft_printf("Process %d [%s] PC moves by %td (%p -> %p)\n",\
 					proc->pid, proc->owner->name, proc->pc - pc, pc, proc->pc);

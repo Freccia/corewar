@@ -60,29 +60,44 @@ static uint32_t		dump(void)
 	return ((uint32_t)d);
 }
 
-void				vm_optparse(t_opt *vm, int ac, char **av)
+static uint32_t		pose(void)
 {
-	int opt;
+	int p;
 
-	if (ac < 2)
-		vm_exit(EXIT_FAILURE, g_usage, av[0]);
+	if ((p = ft_atoi(g_optarg)) < 0 && errno)
+		vm_exit(EXIT_FAILURE, "%c: %m\n", 'c');
+	if (p < 0)
+		vm_exit(EXIT_FAILURE, "%c: %d: Invalid pause argument\n", 'p', p);
+	return ((uint32_t)p);
+}
+
+void				vm_optparse(t_opt *opt, int ac, char **av)
+{
+	int o;
+
+	(ac < 2) ? vm_exit(EXIT_FAILURE, g_usage, av[0]) : 0;
 	g_optind = 1;
-	while (!errno && (opt = ft_getopt(ac, av, "gd:v:n:c:")) != WUT)
-		if (opt == 'v')
-			vm->v = verb();
-		else if (opt == 'd')
-			vm->d = dump();
-		else if (opt == 'g')
-			vm->g ^= 1;
-		else if (opt == 'c')
-			vm->ctmo = ctmo();
-		else if (opt == 'n')
+	while (!errno && (o = ft_getopt(ac, av, "gd:v:n:c:p:")) != WUT)
+		if (o == 'v')
+			opt->v = verb();
+		else if (o == 'd')
+			opt->d = dump();
+		else if (o == 'p')
+			opt->p = pose();
+		else if (o == 'g')
+			opt->g ^= 1;
+		else if (o == 'c')
+			opt->ctmo = ctmo();
+		else if (o == 'n')
 		{
 			g_optind -= 2;
 			break ;
 		}
 		else
 			vm_exit(EXIT_FAILURE, g_usage, av[0]);
-	if (errno)
-		vm_exit(EXIT_FAILURE, "%s: %m\n", av[g_optind]);
+	if (opt->g)
+	{
+		opt->v = 0;
+		opt->d = 0;
+	}
 }

@@ -92,7 +92,7 @@ int			vm_guiupdate(void)
 	cw_nc_stats(STATS_CYCLE, (int)g_vm->cycle_total);
 	cw_nc_stats(STATS_CYCLE_TO_DIE, (int)g_vm->cycle_to_die);
 	cw_nc_stats(STATS_PROCS, (int)g_vm->procs.len);
-	if (!g_running)
+	if (!g_running || (g_vm->opt.p && g_vm->opt.p == g_vm->cycle_total))
 		nc_pause(&g_running);
 	while ((ch = getch()) != ERR)
 	{

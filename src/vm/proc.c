@@ -24,6 +24,7 @@ void	vm_procinit(t_proc *proc, t_player *owner)
 		proc->wait = (uint16_t)(g_op_tab[*proc->pc - 1].cycles);
 	else
 		proc->wait = 0;
+	proc->lastlive = g_vm->cycle_total;
 }
 
 void	vm_procfork(t_proc *dst, t_proc *src, uint8_t *pc)
@@ -35,6 +36,7 @@ void	vm_procfork(t_proc *dst, t_proc *src, uint8_t *pc)
 		dst->wait = (uint16_t)(g_op_tab[*dst->pc - 1].cycles);
 	else
 		dst->wait = 0;
+	dst->lastlive = g_vm->cycle_total;
 }
 
 void	vm_procspush(t_procs *procs, t_proc *proc)

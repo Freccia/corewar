@@ -27,6 +27,7 @@ typedef struct		s_opt
 {
 	uint8_t			v;
 	ssize_t			d;
+	size_t			p;
 	uint8_t			g : 1;
 	uint16_t		ctmo;
 }					t_opt;

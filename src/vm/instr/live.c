@@ -20,10 +20,10 @@ int			vm_live(t_proc *proc, uint8_t *pc)
 
 	pc = vm_move(pc, 1, FALSE);
 	id = vm_read(pc, sizeof(id));
-	proc->lastlive = g_vm->cycle;
+	proc->lastlive = g_vm->cycle_total;
 	if ((player = vm_playersfind(&g_vm->players, id)))
 	{
-		player->lastlive = g_vm->cycle;
+		player->lastlive = (uint32_t)g_vm->cycle_total;
 		if (g_vm->opt.v & VM_VERB_LIVES)
 			ft_printf("Player %s [%hd] is alive!\n", player->name, player->id);
 		proc->pc = vm_move(pc, 4, FALSE);
