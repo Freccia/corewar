@@ -34,8 +34,8 @@ static int		onarrow(int ch)
 		g_stepi -= 5;
 	else if (ch == KEY_DOWN && g_stepi > 1)
 		--g_stepi;
-	cw_nc_stats(STATS_CYCLEL, g_cyclel);
-	cw_nc_stats(STATS_STEPI, g_stepi);
+	gui_stats(STATS_CYCLEL, g_cyclel);
+	gui_stats(STATS_STEPI, g_stepi);
 	return (YEP);
 }
 
@@ -82,7 +82,7 @@ static t_keyh	*g_keym[KEY_MAX] = {
 	['o'] = ono
 };
 
-int				cw_nc_onkey(int ch)
+int				gui_onkey(int ch)
 {
 	t_keyh *hook;
 

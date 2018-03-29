@@ -58,7 +58,7 @@ uint8_t			*vm_map(uint8_t *mem, uint8_t *pc, uint16_t n);
 ** @param len
 ** @param p
 */
-void			vm_write(uint8_t *dst, uint8_t *src, size_t len, uint16_t p);
+void			vm_write(uint8_t *dst, uint8_t *src, size_t len, uint8_t color);
 
 /*
 ** TODO: Doc

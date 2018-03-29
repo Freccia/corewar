@@ -31,7 +31,7 @@ static void		nc_colors(void)
 	start_color();
 	init_color(COLOR_WHITE, 0x12c, 0x12c, 0x12c);
 	init_pair(0x2a, 0x8, COLOR_BLACK);
-	init_pair(0, COLOR_WHITE, COLOR_RED);
+	init_pair(0, COLOR_WHITE, COLOR_BLACK);
 	init_pair(1, COLOR_GREEN, COLOR_BLACK);
 	init_pair(2, COLOR_BLUE, COLOR_BLACK);
 	init_pair(3, COLOR_RED, COLOR_BLACK);
@@ -51,22 +51,23 @@ static void		nc_colors(void)
 
 static void		nc_draw_stats(void)
 {
-	cw_nc_stats(STATS_STEPI, g_stepi);
-	cw_nc_stats(STATS_CYCLEL, g_cyclel);
-	cw_nc_stats(STATS_CYCLE, (int)g_vm->cycle);
-	cw_nc_stats(STATS_PROCS, (int)g_vm->procs.len);
-	cw_nc_stats(STATS_CYCLE_TO_DIE, (int)g_vm->cycle_to_die);
-	cw_nc_stats(STATS_CYCLE_DELTA, CYCLE_DELTA);
-	cw_nc_stats(STATS_NBR_LIVE, NBR_LIVE);
-	cw_nc_stats(STATS_MAX_CHECKS, MAX_CHECKS);
+	gui_stats(STATS_STEPI, g_stepi);
+	gui_stats(STATS_CYCLEL, g_cyclel);
+	gui_stats(STATS_CYCLE, (int)g_vm->cycle);
+	gui_stats(STATS_PROCS, (int)g_vm->procs.len);
+	gui_stats(STATS_CYCLE_TO_DIE, (int)g_vm->cycle_to_die);
+	gui_stats(STATS_CYCLE_DELTA, CYCLE_DELTA);
+	gui_stats(STATS_NBR_LIVE, NBR_LIVE);
+	gui_stats(STATS_MAX_CHECKS, MAX_CHECKS);
 }
 
-static int		nc_draw(void)
+void				gui_draw(void)
 {
 	int mx;
 	int my;
 	int x;
 	int y;
+	int a;
 
 	mx = getmaxx(g_wboard);
 	my = getmaxy(g_wboard);
@@ -81,12 +82,29 @@ static int		nc_draw(void)
 			x = 2;
 			++y;
 		}
-		mvwaddch(g_wboard, y, x++, (chtype)DIGITS[(g_vm->mem[i] / 16) % 16]);
-		mvwaddch(g_wboard, y, x++, (chtype)DIGITS[g_vm->mem[i] % 16]);
+		if (g_map[i].attrs & GUI_BOLD)
+			wattr_on(g_wboard, A_BOLD, NULL);
+		if (g_map[i].attrs & GUI_NOCOLOR)
+			a = COLOR_PAIR(0);
+		else if (g_map[i].attrs & GUI_INV)
+			a = COLOR_PAIR(g_map[i].color + VM_COLOR_INV);
+		else if (g_map[i].attrs & GUI_HINT)
+			a = COLOR_PAIR(g_map[i].color + VM_COLOR_HINT);
+		else
+			a = COLOR_PAIR(g_map[i].color);
+		if (g_map[i].attrsl > 0)
+		{
+			if (!--g_map[i].attrsl)
+				g_map[i].attrs = 0;
+		}
+		mvwaddch(g_wboard, y, x++,
+			(chtype)DIGITS[(g_vm->mem[i] / 16) % 16] | a);
+		mvwaddch(g_wboard, y, x++,
+			(chtype)DIGITS[g_vm->mem[i] % 16] | a);
 		mvwaddch(g_wboard, y, x++, ' ');
+		wattr_off(g_wboard, A_BOLD, NULL);
 	}
-	nc_draw_stats();
-	return (YEP);
+	wrefresh(g_wboard);
 }
 
 int				vm_guiinit(void)
@@ -119,5 +137,8 @@ int				vm_guiinit(void)
 	box(g_wprocs, 0x2a, 0x2a);
 	wattr_off(g_wprocs, 0x242a00, 0);
 	wrefresh(g_wstats);
-	return (nc_draw());
+	ft_bzero(g_map, sizeof(g_map));
+	gui_draw();
+	nc_draw_stats();
+	return (YEP);
 }

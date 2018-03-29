@@ -17,6 +17,7 @@ int			g_running = 0;
 int			g_stepi = 5;
 t_proc		*g_uiproc = NULL;
 static int	g_step = 0;
+t_cell		g_map[MEM_SIZE];
 static int	g_stats[STATS_PLAYERS + MAX_PLAYERS][2] = {
 	[STATS_PAUSED] = {4, 2},
 	[STATS_STEPI] = {4, 4},
@@ -54,7 +55,7 @@ static void	nc_pause(int *running)
 			continue ;
 		else if (ch == 27)
 			vm_exit(EXIT_SUCCESS, "Good bye!\n");
-		else if ((ch = cw_nc_onkey(ch)) < 0)
+		else if ((ch = gui_onkey(ch)) < 0)
 			vm_exit(EXIT_FAILURE, NULL);
 		else if (ch == 1)
 		{
@@ -67,7 +68,7 @@ static void	nc_pause(int *running)
 	wattr_off(g_wstats, 0x200000, 0x0);
 }
 
-void		cw_nc_stats(uint8_t id, int value)
+void		gui_stats(uint8_t id, int value)
 {
 	int *pos;
 
@@ -127,14 +128,15 @@ int			vm_guiupdate(void)
 
 	if (!g_vm->opt.g)
 		return (YEP);
+	gui_draw();
 	if (g_step)
 	{
 		--g_step;
 		return (YEP);
 	}
-	cw_nc_stats(STATS_CYCLE, (int)g_vm->cycle_total);
-	cw_nc_stats(STATS_CYCLE_TO_DIE, (int)g_vm->cycle_to_die);
-	cw_nc_stats(STATS_PROCS, (int)g_vm->procs.len);
+	gui_stats(STATS_CYCLE, (int)g_vm->cycle_total);
+	gui_stats(STATS_CYCLE_TO_DIE, (int)g_vm->cycle_to_die);
+	gui_stats(STATS_PROCS, (int)g_vm->procs.len);
 	if (!g_running || (g_vm->opt.p && g_vm->opt.p == g_vm->cycle_total))
 		nc_pause(&g_running);
 	while ((ch = getch()) != ERR)
@@ -143,27 +145,19 @@ int			vm_guiupdate(void)
 			return (vm_exit(EXIT_SUCCESS, "Good bye!\n"));
 		else if (ch == 32)
 			nc_pause(&g_running);
-		else if (cw_nc_onkey(ch))
+		else if (gui_onkey(ch))
 			vm_exit(EXIT_FAILURE, NULL);
 	}
 	usleep((useconds_t)(1000000 / g_cyclel));
 	return (YEP);
 }
 
-int			vm_guinotify(uint16_t i, uint16_t c, uint8_t val)
+int			vm_guinotify(uint16_t i, uint8_t color, int attrs, uint8_t lt)
 {
-	int sq;
-	int x;
-	int y;
-
 	if (!g_vm->opt.g)
 		return (YEP);
-	sq = getmaxy(g_wboard) - 2;
-	x = 2 + ((i % sq) * 3);
-	y = 1 + (i / sq);
-	mvwaddch(g_wboard, y, x++, (chtype)DIGITS[(val / 16) % 16] | COLOR_PAIR(c));
-	mvwaddch(g_wboard, y, x++, (chtype)DIGITS[val % 16] | COLOR_PAIR(c));
-	mvwaddch(g_wboard, y, x++, ' ');
-	wrefresh(g_wboard);
+	g_map[i].color = color;
+	g_map[i].attrs = (uint16_t)attrs;
+	g_map[i].attrsl = lt;
 	return (YEP);
 }

@@ -18,8 +18,7 @@ void	vm_procinit(t_proc *proc, t_player *owner)
 	proc->owner = owner;
 	proc->pc = g_vm->mem + (owner->idx * (MEM_SIZE / g_vm->players.len));
 	proc->reg[1] = owner->id;
-	vm_write(proc->pc, owner->bin, owner->size,
-		(uint16_t)(proc->owner->idx + VM_COLOR_DFT));
+	vm_write(proc->pc, owner->bin, owner->size, proc->owner->idx + 1);
 	proc->lastlive = g_vm->cycle_total;
 }
 
@@ -40,7 +39,7 @@ void	vm_procspush(t_procs *procs, t_proc *proc)
 	++procs->len;
 	proc->pid = ++procs->max_pid;
 	vm_guinotify((uint16_t)(proc->pc - g_vm->mem),
-		(uint16_t)(proc->owner->idx + VM_COLOR_INV), *proc->pc);
+		proc->owner->idx + 1, GUI_INV, 0);
 }
 
 void	vm_procsrem(t_procs *procs, t_proc *proc)
@@ -51,8 +50,8 @@ void	vm_procsrem(t_procs *procs, t_proc *proc)
 	if (g_vm->opt.v & VM_VERB_DEATH)
 		ft_printf("Process %d [%s] hasn't lived for %d cycles... Fuck off!\n",
 			proc->pid, proc->owner->name, g_vm->cycle_total - proc->lastlive);
-	vm_guinotify((uint16_t)(proc->pc - g_vm->mem), (uint16_t)(*proc->pc ?
-		proc->owner->idx + VM_COLOR_DFT : 0), *proc->pc);
+	vm_guinotify((uint16_t)(proc->pc - g_vm->mem),
+		proc->owner->idx + 1, 0, 0);
 	if (procs->head == proc)
 	{
 		tmp = procs->head->next;

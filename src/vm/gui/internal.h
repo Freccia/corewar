@@ -40,7 +40,17 @@ extern int		g_running;
 extern int		g_stepi;
 extern t_proc	*g_uiproc;
 
-int				cw_nc_onkey(int ch);
-void			cw_nc_stats(uint8_t id, int value);
+typedef struct	s_cell
+{
+	uint8_t		color;
+	uint8_t		attrsl;
+	uint16_t	attrs;
+}				t_cell;
+
+extern t_cell	g_map[MEM_SIZE];
+
+int				gui_onkey(int ch);
+void			gui_stats(uint8_t id, int value);
+void			gui_draw(void);
 
 #endif

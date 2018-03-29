@@ -14,11 +14,11 @@
 
 static void	advance(t_proc *proc)
 {
-	vm_guinotify((uint16_t)(proc->pc - g_vm->mem), (uint16_t)(*proc->pc ?
-		proc->owner->idx + VM_COLOR_DFT : 0), *proc->pc);
+	vm_guinotify((uint16_t)(proc->pc - g_vm->mem),
+		proc->owner->idx + 1, 0, 0);
 	proc->pc = vm_move(proc->pc, 1, FALSE);
 	vm_guinotify((uint16_t)(proc->pc - g_vm->mem),
-		(uint16_t)(proc->owner->idx + VM_COLOR_INV), *proc->pc);
+		proc->owner->idx + 1, GUI_INV, 0);
 }
 
 static void	exec(t_proc *proc)

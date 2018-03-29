@@ -36,8 +36,7 @@ int					vm_st(t_proc *proc, uint8_t *pc)
 		ptr = vm_move(ptr, 2, FALSE);
 		write = vm_move(pc, dst, TRUE);
 		value = swap_uint32((uint32_t)value);
-		vm_write(write, (uint8_t *)&value, sizeof(int32_t),
-			(uint16_t)(proc->owner->idx + VM_COLOR_HINT));
+		vm_write(write, (uint8_t *)&value, sizeof(int32_t), proc->owner->idx + 1);
 	}
 	proc->pc = ptr;
 	return (EXIT_SUCCESS);

@@ -12,12 +12,15 @@
 
 #include "corewar.h"
 
-void		vm_write(uint8_t *dst, uint8_t *src, size_t len, uint16_t p)
+void		vm_write(uint8_t *dst, uint8_t *src, size_t len, uint8_t color)
 {
 	while (len--)
 	{
 		*dst = *src;
-		vm_guinotify((uint16_t)(dst - g_vm->mem), p, *src);
+		if (!g_vm->cycle_total)
+			vm_guinotify((uint16_t)(dst - g_vm->mem), color, 0, 0);
+		else
+			vm_guinotify((uint16_t)(dst - g_vm->mem), color, GUI_BOLD, 180);
 		++src;
 		dst = vm_move(dst, 1, FALSE);
 	}

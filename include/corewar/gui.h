@@ -18,9 +18,14 @@
 
 # include "proc.h"
 
-# define VM_COLOR_DFT 1
+# define VM_COLOR_DFT 0
 # define VM_COLOR_HINT (VM_COLOR_DFT + 5)
 # define VM_COLOR_INV (VM_COLOR_HINT + 5)
+
+# define GUI_INV (1 << 0)
+# define GUI_NOCOLOR (1 << 1)
+# define GUI_BOLD (1 << 2)
+# define GUI_HINT (1 << 3)
 
 /*
 ** TODO: Doc
@@ -47,7 +52,7 @@ void	vm_guiproc(t_proc *proc);
 ** @param val 
 ** @return 
 */
-int		vm_guinotify(uint16_t i, uint16_t c, uint8_t val);
+int		vm_guinotify(uint16_t i, uint8_t color, int attrs, uint8_t lt);
 
 /*
 ** TODO: Doc
