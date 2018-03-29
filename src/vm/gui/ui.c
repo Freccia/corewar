@@ -102,7 +102,7 @@ void		vm_guiproc(t_proc *proc)
 	mvwprintw(g_wprocs, y += 2, 4, "Process    (%s)% 10c", proc->owner->name, ' ');
 	mvwprintw(g_wprocs, ++y, 4, "  PID      %-20d", proc->pid);
 	mvwprintw(g_wprocs, ++y, 4, "  STATE:   %-20s", g_states[proc->state]);
-	mvwprintw(g_wprocs, ++y, 4, "  PC:      %-20hhx", proc->pc);
+	mvwprintw(g_wprocs, ++y, 4, "  PC:      %02hhx (%d)% 16c", *proc->pc, proc->pc - g_vm->mem, ' ');
 	mvwprintw(g_wprocs, ++y, 4, "  CARRY:   %-20d", proc->carry);
 	mvwprintw(g_wprocs, ++y, 4, "  LIVE:    %-20d", proc->lastlive);
 	if (proc->state == STATE_WAITING)
