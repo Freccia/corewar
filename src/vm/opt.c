@@ -55,7 +55,7 @@ static uint32_t		dump(void)
 
 	if ((d = ft_atoi(g_optarg)) < 0 && errno)
 		vm_exit(EXIT_FAILURE, "%c: %m\n", 'c');
-	if (d < 0 || d > UINT32_MAX)
+	if (d < 0)
 		vm_exit(EXIT_FAILURE, "%c: %d: Invalid dump argument\n", 'd', d);
 	return ((uint32_t)d);
 }
