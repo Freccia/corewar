@@ -20,7 +20,7 @@ int		ft_throw(int rcode, char const *fn, int line)
 	t_ex_hdl *hdl;
 
 	if (fn && errno != EBADF && errno != EIO)
-		ft_dprintf(2, "In function: "COLOR_BOLD"'%s:%d':\n"COLOR_RESET,
+		ft_dprintf(2, "In function: "CLR_BOLD"'%s:%d':\n"CLR_RESET,
 			fn, line);
 	if ((hdl = ft_exget(errno)))
 		return (hdl->cb(rcode, hdl->arg));
@@ -28,7 +28,7 @@ int		ft_throw(int rcode, char const *fn, int line)
 		exit(rcode);
 	if (errno == ENIMPL)
 	{
-		ft_dprintf(2, COLOR_BRED"error: "COLOR_RESET"%e\n", errno);
+		ft_dprintf(2, CLR_BRED"error: "CLR_RESET"%e\n", errno);
 		exit(rcode);
 	}
 	return (rcode);

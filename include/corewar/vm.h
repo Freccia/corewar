@@ -37,7 +37,7 @@ extern t_vm		*g_vm;
 ** @param r1 
 ** @return 
 */
-int				vm_init(int ac, char **av, int r1);
+int				vm_init(int ac, char **av);
 
 /*
 ** TODO: Doc
