@@ -14,11 +14,9 @@
 
 static void	advance(t_proc *proc)
 {
-	vm_guinotify((uint16_t)(proc->pc - g_vm->mem),
-		proc->owner->idx + 1, 0, 0);
+	vm_guinotify((uint16_t)(proc->pc - g_vm->mem), -1, 0, 0);
 	proc->pc = vm_move(proc->pc, 1, FALSE);
-	vm_guinotify((uint16_t)(proc->pc - g_vm->mem),
-		proc->owner->idx + 1, GUI_INV, 0);
+	vm_guinotify((uint16_t)(proc->pc - g_vm->mem), -1, GUI_INV, 0);
 }
 
 static void	exec(t_proc *proc)

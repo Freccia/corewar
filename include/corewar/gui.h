@@ -52,7 +52,7 @@ void	vm_guiproc(t_proc *proc);
 ** @param val 
 ** @return 
 */
-int		vm_guinotify(uint16_t i, uint8_t color, int attrs, uint8_t lt);
+int		vm_guinotify(uint16_t i, int color, int attrs, uint8_t lt);
 
 /*
 ** TODO: Doc

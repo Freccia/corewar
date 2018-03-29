@@ -152,11 +152,12 @@ int			vm_guiupdate(void)
 	return (YEP);
 }
 
-int			vm_guinotify(uint16_t i, uint8_t color, int attrs, uint8_t lt)
+int			vm_guinotify(uint16_t i, int color, int attrs, uint8_t lt)
 {
 	if (!g_vm->opt.g)
 		return (YEP);
-	g_map[i].color = color;
+	if (color >= 0)
+		g_map[i].color = (uint8_t)color;
 	g_map[i].attrs = (uint16_t)attrs;
 	g_map[i].attrsl = lt;
 	return (YEP);

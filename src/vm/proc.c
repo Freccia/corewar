@@ -39,7 +39,7 @@ void	vm_procspush(t_procs *procs, t_proc *proc)
 	++procs->len;
 	proc->pid = ++procs->max_pid;
 	vm_guinotify((uint16_t)(proc->pc - g_vm->mem),
-		proc->owner->idx + 1, GUI_INV, 0);
+		-1, GUI_INV, 0);
 }
 
 void	vm_procsrem(t_procs *procs, t_proc *proc)
@@ -50,8 +50,7 @@ void	vm_procsrem(t_procs *procs, t_proc *proc)
 	if (g_vm->opt.v & VM_VERB_DEATH)
 		ft_printf("Process %d [%s] hasn't lived for %d cycles... Fuck off!\n",
 			proc->pid, proc->owner->name, g_vm->cycle_total - proc->lastlive);
-	vm_guinotify((uint16_t)(proc->pc - g_vm->mem),
-		proc->owner->idx + 1, 0, 0);
+	vm_guinotify((uint16_t)(proc->pc - g_vm->mem), -1, 0, 0);
 	if (procs->head == proc)
 	{
 		tmp = procs->head->next;

@@ -20,7 +20,7 @@ void		vm_write(uint8_t *dst, uint8_t *src, size_t len, uint8_t color)
 		if (!g_vm->cycle_total)
 			vm_guinotify((uint16_t)(dst - g_vm->mem), color, 0, 0);
 		else
-			vm_guinotify((uint16_t)(dst - g_vm->mem), color, GUI_BOLD, 180);
+			vm_guinotify((uint16_t)(dst - g_vm->mem), color, GUI_BOLD, 100);
 		++src;
 		dst = vm_move(dst, 1, FALSE);
 	}
