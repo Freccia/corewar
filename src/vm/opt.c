@@ -33,8 +33,8 @@ static uint8_t		verboselvl(void)
 
 	if ((v = ft_atoi(g_optarg)) < 0 && errno)
 		vm_exit(EXIT_FAILURE, "%c: %m\n", 'v');
-	if (v < 0 || v > 0xff)
-		vm_exit(EXIT_FAILURE, "%c: %d: Must be positive\n", 'v', v);
+	if ((v & ~VM_VERB))
+		vm_exit(EXIT_FAILURE, "%d: Invalid verbose level\n", v);
 	return ((uint8_t)v);
 }
 
