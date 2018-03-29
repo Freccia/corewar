@@ -18,19 +18,6 @@
 # include "op.h"
 # include "cw_common.h"
 
-/*
-** some colors for pretty printing
-*/
-# define CLR_BLACK "\033[30;01m"
-# define CLR_RED "\033[31;01m"
-# define CLR_GREEN "\033[32;01m"
-# define CLR_YELLOW "\033[33;01m"
-# define CLR_BLUE "\033[34;01m"
-# define CLR_MAGENTA "\033[35;01m"
-# define CLR_CYAN "\033[36;01m"
-# define CLR_WHITE "\033[37;01m"
-# define CLR_RESET "\033[0m"
-
 /* # define ANNOYING_DEBUG			/\* DEBUG *\/ */
 # ifdef ANNOYING_DEBUG
 #  include <stdio.h>

@@ -17,11 +17,9 @@ t_vm		*g_vm = &g_vm_stack;
 
 int 		main(int ac, char **av)
 {
-	int r1;
-
 	ft_bzero(g_vm, sizeof(t_vm));
-	r1 = vm_optparse(&g_vm->opt, ac, av);
-	if (vm_init(ac, av, r1))
+	vm_optparse(&g_vm->opt, ac, av);
+	if (vm_init(ac, av))
 		return (vm_exit(EXIT_FAILURE, NULL));
 	if (vm_run())
 		return (vm_exit(EXIT_FAILURE, NULL));

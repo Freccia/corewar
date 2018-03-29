@@ -36,6 +36,6 @@ typedef struct		s_opt
 ** @param av 
 ** @return 
 */
-int					vm_optparse(t_opt *opt, int ac, char **av);
+void				vm_optparse(t_opt *opt, int ac, char **av);
 
 #endif

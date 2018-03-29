@@ -38,17 +38,14 @@ static uint8_t		verboselvl(void)
 	return ((uint8_t)v);
 }
 
-int					vm_optparse(t_opt *vm, int ac, char **av)
+void				vm_optparse(t_opt *vm, int ac, char **av)
 {
-	int 	opt;
-	int 	r1;
+	int opt;
 
 	if (ac < 2)
 		vm_exit(EXIT_FAILURE, g_usage, av[0]);
 	g_optind = 1;
-	r1 = 0;
-	while ((opt = ft_getopt(ac, av, "gd:v:n:c:")) != -1)
-	{
+	while ((opt = ft_getopt(ac, av, "gd:v:n:c:")) != WUT)
 		if (opt == 'v')
 			vm->v = verboselvl();
 		else if (opt == 'd')
@@ -59,11 +56,9 @@ int					vm_optparse(t_opt *vm, int ac, char **av)
 			vm->ctmo = (uint16_t)ft_atoi(g_optarg);
 		else if (opt == 'n')
 		{
-			r1 = (int)ft_atoi(g_optarg);
+			g_optind -= 2;
 			break ;
 		}
 		else
-			return (ft_printf("%s\n", g_usage));
-	}
-	return (r1);
+			vm_exit(EXIT_FAILURE, g_usage, av[0]);
 }
