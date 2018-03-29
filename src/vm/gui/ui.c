@@ -117,7 +117,7 @@ void		vm_guiproc(t_proc *proc)
 	mvwprintw(g_wprocs, ++y, 4, "  09 | %08x %08x | 0A", proc->reg[reg1 += 2], proc->reg[reg2 += 2]);
 	mvwprintw(g_wprocs, ++y, 4, "  0B | %08x %08x | 0C", proc->reg[reg1 += 2], proc->reg[reg2 += 2]);
 	mvwprintw(g_wprocs, ++y, 4, "  0D | %08x %08x | 0E", proc->reg[reg1 += 2], proc->reg[reg2 += 2]);
-	mvwprintw(g_wprocs, ++y, 4, "  0F | %08x %08x | 0G", proc->reg[reg1], proc->reg[reg2]);
+	mvwprintw(g_wprocs, ++y, 4, "  0F | %08x %08x | 10", proc->reg[reg1], proc->reg[reg2]);
 	wattr_off(g_wprocs, 0x200000, 0x0);
 	wrefresh(g_wprocs);
 }
