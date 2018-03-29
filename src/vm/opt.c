@@ -14,7 +14,7 @@
 
 static const char	*g_usage =
 {
-	"Usage: %s [ options ] <champ.cor> <...>\n"\
+	"Usage: %s [ options ] <[-n <champ.id>] champ.cor> <...>\n"\
 	"	-d N    : Dumps memory after N execution cycles\n"\
 	"	-g      : Ncurses GUI\n"\
 	"	-c N    : CTMO - Cycles till memory opens\n"\
@@ -27,26 +27,37 @@ static const char	*g_usage =
 	"		-16 : Show PC movement\n"\
 };
 
-static uint8_t		verboselvl(void)
+static uint8_t		verb(void)
 {
 	int v;
 
 	if ((v = ft_atoi(g_optarg)) < 0 && errno)
 		vm_exit(EXIT_FAILURE, "%c: %m\n", 'v');
-	if (v < 0 || v > 0xff)
-		vm_exit(EXIT_FAILURE, "%c: %d: Must be positive\n", 'v', v);
+	if ((v & ~VM_VERB))
+		vm_exit(EXIT_FAILURE, "%c: %d: Invalid verbose level\n", 'v', v);
 	return ((uint8_t)v);
 }
 
 static uint16_t		ctmo(void)
 {
-	int v;
+	int ctmo;
 
-	if ((v = ft_atoi(g_optarg)) < 0 && errno)
+	if ((ctmo = ft_atoi(g_optarg)) < 0 && errno)
 		vm_exit(EXIT_FAILURE, "%c: %m\n", 'c');
-	if (v < 0 || v > UINT16_MAX)
-		vm_exit(EXIT_FAILURE, "%c: %d: Must be positive\n", 'c', v);
-	return ((uint16_t)v);
+	if (ctmo < 0 || ctmo > UINT16_MAX)
+		vm_exit(EXIT_FAILURE, "%c: %d: Invalid ctmo argument\n", 'c', ctmo);
+	return ((uint16_t)ctmo);
+}
+
+static uint32_t		dump(void)
+{
+	int d;
+
+	if ((d = ft_atoi(g_optarg)) < 0 && errno)
+		vm_exit(EXIT_FAILURE, "%c: %m\n", 'c');
+	if (d < 0 || d > UINT32_MAX)
+		vm_exit(EXIT_FAILURE, "%c: %d: Invalid dump argument\n", 'd', d);
+	return ((uint32_t)d);
 }
 
 void				vm_optparse(t_opt *vm, int ac, char **av)
@@ -58,9 +69,9 @@ void				vm_optparse(t_opt *vm, int ac, char **av)
 	g_optind = 1;
 	while (!errno && (opt = ft_getopt(ac, av, "gd:v:n:c:")) != WUT)
 		if (opt == 'v')
-			vm->v = verboselvl();
+			vm->v = verb();
 		else if (opt == 'd')
-			vm->d = ft_atoi(g_optarg);
+			vm->d = dump();
 		else if (opt == 'g')
 			vm->g ^= 1;
 		else if (opt == 'c')

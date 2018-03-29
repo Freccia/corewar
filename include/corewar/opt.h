@@ -20,6 +20,8 @@
 # define VM_VERB_OPERA (1 << 2)
 # define VM_VERB_DEATH (1 << 3)
 # define VM_VERB_MOVES (1 << 4)
+# define VM_VERB_ (VM_VERB_LIVES | VM_VERB_CYCLE | VM_VERB_OPERA)
+# define VM_VERB ((VM_VERB_) | VM_VERB_MOVES)
 
 typedef struct		s_opt
 {
