@@ -12,51 +12,40 @@
 
 #include "corewar.h"
 
-static t_proc	*exec(t_proc *proc)
+static void	advance(t_proc *proc)
 {
-	t_proc *next;
+	vm_guinotify((uint16_t)(proc->pc - g_vm->mem), (uint16_t)(*proc->pc ?
+		proc->owner->idx + VM_COLOR_DFT : 0), *proc->pc);
+	proc->pc = vm_move(proc->pc, 1, FALSE);
+	vm_guinotify((uint16_t)(proc->pc - g_vm->mem),
+		(uint16_t)(proc->owner->idx + VM_COLOR_INV), *proc->pc);
+}
 
-	next = proc->next;
-	if (g_vm->cycle >= g_vm->cycle_to_die &&
-		g_vm->cycle_total - proc->lastlive >= g_vm->cycle_to_die)
-	{
-		if (g_vm->opt.v & VM_VERB_DEATH) // this should be in vm_run() when cycle_to_die happens, not here
-			ft_printf("Process %d [%s] hasn't lived for %d cycles... Fuck off!\n",
-				proc->pid, proc->owner->name, g_vm->cycle_total - proc->lastlive);
-		vm_procsrem(&g_vm->procs, proc);
-	}
-	else if (proc->wait > 1)
-		--proc->wait;
-	else if (vm_eval(proc, proc->pc) == EXIT_SUCCESS)
+static void	exec(t_proc *proc)
+{
+	if (proc->state == STATE_RUNNING || proc->state == STATE_PENDING)
 	{
 		if (*proc->pc >= 0x1 && *proc->pc <= MAX_OP)
-			proc->wait = (uint16_t)(g_op_tab[*proc->pc - 1].cycles);
-	}
-	else if (proc->cont || *proc->pc < 0x1 || *proc->pc > MAX_OP)
-	{
-		if (*proc->pc == 0)
-			vm_guinotify((uint16_t)(proc->pc - g_vm->mem),
-				0, *proc->pc);
+		{
+			proc->wait = (uint16_t)(g_op_tab[*proc->pc - 1].cycles - 1);
+			proc->state = STATE_WAITING;
+		}
+		else if (proc->state == STATE_PENDING)
+			advance(proc);
 		else
-			vm_guinotify((uint16_t)(proc->pc - g_vm->mem),
-				(uint16_t)(proc->owner->idx + VM_COLOR_DFT), *proc->pc);
-		proc->pc = vm_move(proc->pc, 1, FALSE);
-		vm_guinotify((uint16_t)(proc->pc - g_vm->mem),
-			(uint16_t)(proc->owner->idx + VM_COLOR_INV), *proc->pc);
-		if (g_vm->opt.v & VM_VERB_DEATH) // this should be in vm_run() when cycle_to_die happens, not here
-			ft_printf("Process %d [%s] hasn't lived for %d cycles... Fuck off!\n",
-				proc->pid, proc->owner->name, g_vm->cycle - proc->lastlive); // TODO math incorrect
-		proc->wait = (uint16_t)((*proc->pc >= 0x1 && *proc->pc <= MAX_OP)
-			? g_op_tab[*proc->pc - 1].cycles : 0);
+			proc->state = STATE_DIEING;
 	}
-	else
+	else if (proc->state == STATE_WAITING)
 	{
-		if (g_vm->opt.v & VM_VERB_DEATH) // this should be in vm_run() when cycle_to_die happens, not here
-			ft_printf("Process %d [%s] hasn't lived for %d cycles... Fuck off!\n",
-				proc->pid, proc->owner->name, g_vm->cycle_total - proc->lastlive);
-		vm_procsrem(&g_vm->procs, proc);
+		if (proc->wait > 1)
+			--proc->wait;
+		else
+		{
+			proc->state = STATE_RUNNING;
+			if (vm_eval(proc, proc->pc))
+				proc->state = STATE_DIEING;
+		}
 	}
-	return (next);
 }
 
 static int	mem_dump(uint8_t *mem)
@@ -79,9 +68,25 @@ static int	mem_dump(uint8_t *mem)
 	return (EXIT_SUCCESS);
 }
 
+static void	cycle_to_die(void)
+{
+	t_proc *proc;
+	t_proc *next;
+
+	proc = g_vm->procs.head;
+	while (proc)
+	{
+		next = proc->next;
+		if (g_vm->cycle_total - proc->lastlive >= g_vm->cycle_to_die)
+			vm_procsrem(&g_vm->procs, proc);
+		proc = next;
+	}
+}
+
 int			vm_run(void)
 {
 	t_proc *proc;
+	t_proc *next;
 
 	while (g_vm->cycle_to_die > 0 && g_vm->procs.len)
 	{
@@ -93,13 +98,18 @@ int			vm_run(void)
 		if (g_vm->opt.v & VM_VERB_CYCLE)
 			ft_printf("It is now cycle %d\n", g_vm->cycle_total);
 		while (g_vm->procs.len && proc)
-			proc = exec(proc);
+		{
+			next = proc->next;
+			exec(proc);
+			if (proc->state == STATE_DIEING)
+				vm_procsrem(&g_vm->procs, proc);
+			proc = next;
+		}
 		if (g_vm->opt.d > 0 && g_vm->cycle_total == (size_t)g_vm->opt.d)
 			return (mem_dump(&g_vm->mem[0]));
 		if (g_vm->cycle == g_vm->cycle_to_die)
 		{
-		//	We kill processes here, not during execution
-			//cw_vm_cycle_to_die();
+			cycle_to_die();
 			g_vm->cycle = 0;
 			g_vm->cycle_to_die -= CYCLE_DELTA;
 			if (g_vm->opt.v & VM_VERB_CYCLE)

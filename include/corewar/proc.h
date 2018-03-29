@@ -17,6 +17,14 @@
 
 # include "player.h"
 
+typedef enum		e_state
+{
+	STATE_RUNNING,
+	STATE_PENDING,
+	STATE_WAITING,
+	STATE_DIEING
+}					t_state;
+
 typedef struct		s_proc
 {
 	struct s_proc	*next;
@@ -27,8 +35,7 @@ typedef struct		s_proc
 	uint8_t			*pc;
 	size_t			lastlive;
 	uint16_t		wait;
-	int8_t			crashed;
-	uint8_t			cont;
+	t_state			state;
 }					t_proc;
 
 typedef struct		s_procs

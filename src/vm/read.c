@@ -72,7 +72,7 @@ int32_t		vm_readarg(t_proc *proc, uint8_t **ptr, uint8_t n, uint32_t flags)
 		if (reg >= 0x1 && reg <= REG_NUMBER)
 			arg = (flags & F_REG_VAL) ? proc->reg[reg] : reg;
 		else
-			proc->crashed = E_WRONG_REG;
+			proc->state = STATE_DIEING;
 		*ptr = vm_move(*ptr, 1, FALSE);
 	}
 	else if (ocp == DIR_CODE)
@@ -86,6 +86,6 @@ int32_t		vm_readarg(t_proc *proc, uint8_t **ptr, uint8_t n, uint32_t flags)
 		arg = vm_readref(ptr, proc->pc, flags);
 	}
 	else
-		proc->crashed = E_WRONG_OCP;
+		proc->state = STATE_DIEING;
 	return (arg);
 }

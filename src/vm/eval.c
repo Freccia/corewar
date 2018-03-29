@@ -66,7 +66,6 @@ int				vm_eval(t_proc *proc, uint8_t *pc)
 {
 	if (*pc >= 0x1 && *pc <= MAX_OP)
 	{
-		proc->cont = 0;
 		if (!g_op_tab[*pc - 1].ocp || check_ocp(pc) == EXIT_SUCCESS)
 		{
 			vm_guinotify((uint16_t)(pc - g_vm->mem),
@@ -83,10 +82,6 @@ int				vm_eval(t_proc *proc, uint8_t *pc)
 					proc->pid, proc->owner->name, proc->pc - pc, pc, proc->pc);
 			return (EXIT_SUCCESS);
 		}
-		else
-			proc->crashed = E_WRONG_OCP;
 	}
-	else
-		proc->crashed = E_WRONG_OP;
 	return (EXIT_FAILURE);
 }

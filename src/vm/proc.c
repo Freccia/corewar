@@ -20,10 +20,6 @@ void	vm_procinit(t_proc *proc, t_player *owner)
 	proc->reg[1] = owner->id;
 	vm_write(proc->pc, owner->bin, owner->size,
 		(uint16_t)(proc->owner->idx + VM_COLOR_DFT));
-	if (*proc->pc >= 0x1 && *proc->pc <= REG_SIZE)
-		proc->wait = (uint16_t)(g_op_tab[*proc->pc - 1].cycles);
-	else
-		proc->wait = 0;
 	proc->lastlive = g_vm->cycle_total;
 }
 
@@ -32,10 +28,7 @@ void	vm_procfork(t_proc *dst, t_proc *src, uint8_t *pc)
 	ft_memcpy(dst, src, sizeof(t_proc));
 	dst->lastlive = 0;
 	dst->pc = pc;
-	if (*dst->pc >= 0x1 && *dst->pc <= REG_SIZE)
-		dst->wait = (uint16_t)(g_op_tab[*dst->pc - 1].cycles);
-	else
-		dst->wait = 0;
+	dst->state = STATE_PENDING;
 	dst->lastlive = g_vm->cycle_total;
 }
 
@@ -55,6 +48,11 @@ void	vm_procsrem(t_procs *procs, t_proc *proc)
 	t_proc	*ptr;
 	void	*tmp;
 
+	if (g_vm->opt.v & VM_VERB_DEATH)
+		ft_printf("Process %d [%s] hasn't lived for %d cycles... Fuck off!\n",
+			proc->pid, proc->owner->name, g_vm->cycle_total - proc->lastlive);
+	vm_guinotify((uint16_t)(proc->pc - g_vm->mem), (uint16_t)(*proc->pc ?
+		proc->owner->idx + VM_COLOR_DFT : 0), *proc->pc);
 	if (procs->head == proc)
 	{
 		tmp = procs->head->next;

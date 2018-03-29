@@ -23,6 +23,6 @@ int			vm_zjmp(t_proc *proc, uint8_t *pc)
 		proc->pc = vm_move(proc->pc, addr, FALSE);
 	else
 		proc->pc = vm_move(proc->pc, 3, FALSE);
-	proc->cont = 1;
+	proc->state = STATE_PENDING;
 	return (EXIT_SUCCESS);
 }
