@@ -6,7 +6,7 @@
 /*   By: lfabbro <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/03/16 16:55:56 by lfabbro           #+#    #+#             */
-/*   Updated: 2018/03/27 22:27:41 by nfinkel          ###   ########.fr       */
+/*   Updated: 2018/03/29 09:35:37 by lfabbro          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,6 +64,8 @@ int			vm_run(void)
 
 	while (g_vm->cycle_to_die > 0 && g_vm->procs.len)
 	{
+		if (vm_guiupdate())
+			return (vm_exit(EXIT_FAILURE, NULL));
 		proc = g_vm->procs.head;
 		++g_vm->cycle;
 		++g_vm->cycle_total;
@@ -76,8 +78,6 @@ int			vm_run(void)
 				break ; // if it happens we should have other problems (see exec)
 			proc = proc->next;
 		}
-		if (vm_guiupdate())
-			return (vm_exit(EXIT_FAILURE, NULL));
 		if (g_vm->opt.d > 0 && g_vm->cycle == (size_t)g_vm->opt.d)
 			return (mem_dump(&g_vm->mem[0]));
 		if (g_vm->cycle == g_vm->cycle_to_die)
