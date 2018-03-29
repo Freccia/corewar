@@ -26,15 +26,13 @@ static void	exec(t_proc *proc)
 	vm_guiproc(proc);
 	if (proc->state == STATE_RUNNING || proc->state == STATE_PENDING)
 	{
-		if (*proc->pc >= 0x1 && *proc->pc <= MAX_OP)
+		if (*proc->pc < 0x1 || *proc->pc > MAX_OP)
+			advance(proc);
+		else
 		{
 			proc->wait = (uint16_t)(g_op_tab[*proc->pc - 1].cycles - 1);
 			proc->state = STATE_WAITING;
 		}
-		else if (proc->state == STATE_PENDING)
-			advance(proc);
-		else
-			proc->state = STATE_DIEING;
 	}
 	else if (proc->state == STATE_WAITING)
 	{

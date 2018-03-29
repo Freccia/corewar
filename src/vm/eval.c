@@ -74,7 +74,8 @@ int				vm_eval(t_proc *proc, uint8_t *pc)
 				*pc >= 0x1 && *pc <= MAX_OP)
 				ft_printf("Process %d [%s] executing %s\n", proc->pid,
 					proc->owner->name, g_op_tab[*pc - 1].name);
-			g_instr[*pc - 1](proc, pc);
+			if (g_instr[*pc - 1](proc, pc) == EXIT_FAILURE)
+				return (EXIT_FAILURE);
 			vm_guinotify((uint16_t)(proc->pc - g_vm->mem),
 				(uint16_t)(proc->owner->idx + VM_COLOR_INV), *proc->pc);
 			if (g_vm->opt.v & VM_VERB_MOVES)
