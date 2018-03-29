@@ -38,17 +38,25 @@ static uint8_t		verboselvl(void)
 	return ((uint8_t)v);
 }
 
-int					vm_optparse(t_opt *vm, int ac, char **av)
+static uint16_t		ctmo(void)
 {
-	int 	opt;
-	int 	r1;
+	int v;
+
+	if ((v = ft_atoi(g_optarg)) < 0 && errno)
+		vm_exit(EXIT_FAILURE, "%c: %m\n", 'c');
+	if (v < 0 || v > UINT16_MAX)
+		vm_exit(EXIT_FAILURE, "%c: %d: Must be positive\n", 'c', v);
+	return ((uint16_t)v);
+}
+
+void				vm_optparse(t_opt *vm, int ac, char **av)
+{
+	int opt;
 
 	if (ac < 2)
 		vm_exit(EXIT_FAILURE, g_usage, av[0]);
 	g_optind = 1;
-	r1 = 0;
-	while ((opt = ft_getopt(ac, av, "gd:v:n:c:")) != -1)
-	{
+	while (!errno && (opt = ft_getopt(ac, av, "gd:v:n:c:")) != WUT)
 		if (opt == 'v')
 			vm->v = verboselvl();
 		else if (opt == 'd')
@@ -56,14 +64,14 @@ int					vm_optparse(t_opt *vm, int ac, char **av)
 		else if (opt == 'g')
 			vm->g ^= 1;
 		else if (opt == 'c')
-			vm->ctmo = (uint16_t)ft_atoi(g_optarg);
+			vm->ctmo = ctmo();
 		else if (opt == 'n')
 		{
-			r1 = (int)ft_atoi(g_optarg);
+			g_optind -= 2;
 			break ;
 		}
 		else
-			return (ft_printf("%s\n", g_usage));
-	}
-	return (r1);
+			vm_exit(EXIT_FAILURE, g_usage, av[0]);
+	if (errno)
+		vm_exit(EXIT_FAILURE, "%s: %m\n", av[g_optind]);
 }
