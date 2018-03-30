@@ -26,6 +26,7 @@ typedef struct		s_player
 	const char		comment[COMMENT_LENGTH + 1];
 	uint8_t			bin[CHAMP_MAX_SIZE + 1];
 	uint32_t		lastlive;
+	uint32_t		lives_in_periode;
 	size_t			size;
 }					t_player;
 

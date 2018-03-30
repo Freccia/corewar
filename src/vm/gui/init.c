@@ -53,7 +53,7 @@ static void		nc_draw_stats(void)
 {
 	gui_stats(STATS_STEPI, g_stepi);
 	gui_stats(STATS_CYCLEL, g_cyclel);
-	gui_stats(STATS_CYCLE, g_vm->cycle_total, g_vm->cycle);
+	gui_stats(STATS_CYCLE, g_vm->cycle_total, g_vm->cycle_to_die - g_vm->cycle);
 	gui_stats(STATS_PROCS, g_vm->procs.len);
 	gui_stats(STATS_CYCLE_TO_DIE, g_vm->cycle_to_die);
 	gui_stats(STATS_CYCLE_DELTA, CYCLE_DELTA);
