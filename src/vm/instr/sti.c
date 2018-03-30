@@ -14,10 +14,10 @@
 
 int			vm_sti(t_proc *proc, uint8_t *pc)
 {
-	uint8_t		*ptr;
-	uint8_t		*write;
-	int32_t		av[2];
-	int32_t		val;
+	uint8_t *ptr;
+	uint8_t *write;
+	int32_t av[2];
+	int32_t val;
 
 	ptr = vm_move(pc, 2, FALSE);
 	val = vm_readarg(proc, &ptr, 0, F_REG_VAL);

@@ -54,12 +54,12 @@ static int32_t		readref(uint8_t **ptr, uint8_t *pc, uint32_t flags)
 	}
 	else if (flags & F_IND_RESTRICT)
 	{
-		pos = vm_move(pc, vm_read(*ptr, len), TRUE);
+		pos = vm_move(pc, vm_read(*ptr, move), TRUE);
 		len = sizeof(int32_t);
 	}
 	else if (flags & F_IND)
 	{
-		pos = vm_move(pc, vm_read(*ptr, len), FALSE);
+		pos = vm_move(pc, vm_read(*ptr, move), FALSE);
 		len = sizeof(int32_t);
 	}
 	else

@@ -28,6 +28,7 @@ static void	exec(t_proc *proc)
 			advance(proc);
 		else
 		{
+			vm_guinotify((uint16_t)(proc->pc - g_vm->mem), -1, GUI_INV, 0);
 			proc->wait = (uint16_t)(g_op_tab[*proc->pc - 1].cycles - 1);
 			proc->state = STATE_WAITING;
 		}
@@ -39,8 +40,10 @@ static void	exec(t_proc *proc)
 		else
 		{
 			proc->state = STATE_RUNNING;
+			vm_guinotify((uint16_t)(proc->pc - g_vm->mem), -1, 0, 0);
 			if (vm_eval(proc, proc->pc))
 				proc->state = STATE_PENDING;
+			vm_guinotify((uint16_t)(proc->pc - g_vm->mem), -1, GUI_INV, 0);
 		}
 	}
 }

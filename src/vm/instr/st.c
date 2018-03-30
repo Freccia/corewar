@@ -14,11 +14,11 @@
 
 int					vm_st(t_proc *proc, uint8_t *pc)
 {
-	uint8_t		*ptr;
-	uint8_t		*ocp;
-	int32_t		value;
-	int32_t		dst;
-	uint8_t		*write;
+	uint8_t *ptr;
+	uint8_t *ocp;
+	int32_t value;
+	int32_t dst;
+	uint8_t *write;
 
 	ptr = vm_move(pc, 2, FALSE);
 	ocp	= vm_move(pc, 1, FALSE);
@@ -27,7 +27,10 @@ int					vm_st(t_proc *proc, uint8_t *pc)
 	{
 		dst = vm_readarg(proc, &ptr, 1, F_REG);
 		if (dst < 0x1 || dst > REG_NUMBER)
+		{
+			proc->pc = ptr;
 			return (EXIT_FAILURE);
+		}
 		proc->reg[dst] = value;
 	}
 	else if ((*ocp & g_arg[1].mask) >> g_arg[1].shift == IND_CODE)

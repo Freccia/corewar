@@ -22,10 +22,10 @@ int			vm_or(t_proc *proc, uint8_t *pc)
 	av[0] = vm_readarg(proc, &ptr, 0, F_IND_RESTRICT | F_DIR_LONG | F_REG_VAL);
 	av[1] = vm_readarg(proc, &ptr, 1, F_IND_RESTRICT | F_DIR_LONG | F_REG_VAL);
 	reg = (int8_t)vm_readarg(proc, &ptr, 2, F_REG);
-	if (!reg ||reg > REG_NUMBER)
+	proc->pc = ptr;
+	if (reg < 0x1 || reg > REG_NUMBER)
 		return (EXIT_FAILURE);
 	proc->reg[reg] = av[0] | av[1];
 	vm_carry(proc, proc->reg[reg]);
-	proc->pc = ptr;
 	return (EXIT_SUCCESS);
 }

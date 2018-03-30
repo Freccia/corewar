@@ -18,7 +18,7 @@ int			vm_live(t_proc *proc, uint8_t *pc)
 	int32_t		id;
 	t_player	*player;
 
-	vm_guinotify((uint16_t)(proc->pc - g_vm->mem), -1, GUI_HINT, 50);
+	vm_guinotify((uint16_t)(proc->pc - g_vm->mem), -1, GUI_HINT | GUI_BOLD, 50);
 	pc = vm_move(pc, 1, FALSE);
 	id = vm_read(pc, sizeof(id));
 	proc->lastlive = g_vm->cycle_total;

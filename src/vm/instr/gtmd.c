@@ -14,13 +14,13 @@
 
 int			vm_gtmd(t_proc *proc, uint8_t *pc)
 {
-	int8_t		reg;
+	int8_t reg;
 
 	pc = vm_move(pc, 2, FALSE);
-	reg = vm_readarg(proc, &pc, 0, F_REG);
+	reg = (int8_t)vm_readarg(proc, &pc, 0, F_REG);
+	proc->pc = pc;
 	if (reg < 1 || reg > REG_NUMBER)
 		return (EXIT_FAILURE);
 	proc->reg[reg] = (int32_t)g_vm->opt.ctmo;
-	proc->pc = pc;
 	return (EXIT_SUCCESS);
 }
