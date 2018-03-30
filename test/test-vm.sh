@@ -33,7 +33,10 @@ test_vm() {
 
     if test -e "$ctrl_file"; then
 
-        diff -y --width 400 --suppress-common-lines <(grep -vE 'Introducing|Player' "$ctrl_file") <("$ROOT/corewar" -d "$cycles" "$core_file" "$core_file" | grep -vE 'Introducing|Player')
+        diff -y --width 400 --suppress-common-lines \
+			<(grep -vE 'Introducing|Player' "$ctrl_file") \
+			<("$ROOT/corewar" -d "$cycles" "$core_file" "$core_file" \
+			| grep -vE 'Introducing|Player')
 
         if [ $? -ne 0 ]; then
             error "corewar dump failed: with args: -d $cycles $core_file $core_file"
@@ -41,6 +44,19 @@ test_vm() {
             success "$core_file $cycles cycles ok!"
         fi
     fi
+}
+
+test_vm_leaks() {
+	core_file_1="$1"
+	core_file_2="$2"
+	valgrind="`which valgrind`"
+	if [ -x "$valgrind" ];then
+		"$valgrind" "$ROOT/corewar"  "core_file_1" "core_file_2" 2>&1 | \
+			grep "definitely lost: 0 bytes in 0 blocks" 1>/dev/null
+		if [ $? -ne 0 ];then
+			echo -e "\n$RED --- LEAKS! $core_file_1 $core_file_2$NORMAL"
+		fi
+	fi
 }
 
 # functional tests
@@ -51,6 +67,8 @@ if test -z "$1"; then
         for i in $(seq 10 250 4000); do
             test_vm "$i" "$f"
         done
+		test_vm_leaks "$f" "$prev"
+		prev=$f
     done
     success yay
 else
