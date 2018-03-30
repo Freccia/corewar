@@ -6,7 +6,7 @@
 /*   By: nfinkel <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/03/13 16:16:50 by nfinkel           #+#    #+#             */
-/*   Updated: 2018/03/26 17:15:36 by lfabbro          ###   ########.fr       */
+/*   Updated: 2018/03/30 10:49:24 by lfabbro          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,14 @@
 
 # include "player.h"
 
+typedef enum		e_state
+{
+	STATE_RUNNING,
+	STATE_PENDING,
+	STATE_WAITING,
+	STATE_DIEING
+}					t_state;
+
 typedef struct		s_proc
 {
 	struct s_proc	*next;
@@ -25,9 +33,9 @@ typedef struct		s_proc
 	uint8_t			carry;
 	int32_t			reg[REG_NUMBER + 1];
 	uint8_t			*pc;
-	size_t			lastlive;
+	int32_t			lastlive;
 	uint16_t		wait;
-	int8_t			crashed;
+	t_state			state;
 }					t_proc;
 
 typedef struct		s_procs

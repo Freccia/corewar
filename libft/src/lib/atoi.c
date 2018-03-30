@@ -12,19 +12,29 @@
 
 #include "libft/lib.h"
 
-inline int64_t	ft_atoi(char const *str)
+inline int		ft_atoi(char const *str)
 {
-	int64_t	result;
-	char	sign;
+	int		neg;
+	long	ret;
 
-	result = 0;
-	while (ft_isspace(*str))
+	neg = 0;
+	ret = 0;
+	if (!ft_isdigit(*str) && *str != '-' && *str != '+')
+		return (ft_error((int)ret, EINVAL));
+	if (*str == '-')
+		neg = ++str > 0;
+	else if (*str == '+')
 		++str;
-	if ((sign = *str) == '+' || sign == '-')
-		++str;
-	while (ft_isdigit(*str))
-		result = result * 10 + *str++ - '0';
-	return ((int64_t)(sign == '-' ? -result : result));
+	if (!ft_isdigit(*str))
+		return (ft_error((int)ret, EINVAL));
+	while (*str)
+	{
+		if (!ft_isdigit(*str))
+			break ;
+		if ((ret = ret * 10 + *str++ - '0') > (neg ? 1L + INT_MAX : INT_MAX))
+			return (ft_error((int)ret, EOVERFLOW));
+	}
+	return ((int)ret * (neg ? -1 : 1));
 }
 
 inline double	ft_atod(char const *str)

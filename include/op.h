@@ -6,7 +6,7 @@
 /*   By: zaz <marvin@42.fr>                         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2013/10/04 11:33:27 by zaz               #+#    #+#             */
-/*   Updated: 2018/03/25 03:16:10 by lfabbro          ###   ########.fr       */
+/*   Updated: 2018/03/28 18:50:03 by nfinkel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 
 # include <stdint.h>
 
-# define MAX_OP 16
+# define MAX_OP 17
 
 # define IND_SIZE 2
 # define REG_SIZE 4
@@ -29,7 +29,7 @@
 # define MAX_PLAYERS 4
 # define MEM_SIZE (4*1024)
 # define IDX_MOD (MEM_SIZE / 8)
-# define CHAMP_MAX_SIZE (MEM_SIZE / 4)  //TODO: this was originally to MEM_SIZE / 6, but it makes sense like this (cf Misaka_Mikoto.s)
+# define CHAMP_MAX_SIZE (MEM_SIZE / 4)
 
 # define COMMENT_CHAR '#'
 # define LABEL_CHAR ':'

@@ -27,18 +27,31 @@
 # define STATS_CYCLE_DELTA 5
 # define STATS_NBR_LIVE 6
 # define STATS_MAX_CHECKS 7
-# define STATS_PLAYERS 8
-# define STATS_STEPI 9
+# define STATS_STEPI 8
+# define STATS_PLAYERS 9
 
 typedef int		(t_keyh)(int ch);
 
 extern WINDOW	*g_wboard;
 extern WINDOW	*g_wstats;
+extern WINDOW	*g_wprocs;
 extern int		g_cyclel;
 extern int		g_running;
 extern int		g_stepi;
+extern int		g_dinstr;
+extern t_proc	*g_uiproc;
 
-int				cw_nc_onkey(int ch);
-void			cw_nc_stats(uint8_t id, int value);
+typedef struct	s_cell
+{
+	uint8_t		color;
+	uint8_t		attrsl;
+	uint16_t	attrs;
+}				t_cell;
+
+extern t_cell	g_map[MEM_SIZE];
+
+int				gui_onkey(int ch);
+void			gui_stats(uint8_t id, int value);
+void			gui_draw(void);
 
 #endif

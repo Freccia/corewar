@@ -6,7 +6,7 @@
 /*   By: mc <mc.maxcanal@gmail.com>                 +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/03/17 22:20:39 by mcanal            #+#    #+#             */
-/*   Updated: 2018/03/24 20:25:49 by mc               ###   ########.fr       */
+/*   Updated: 2018/03/28 19:37:43 by mc               ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -124,7 +124,7 @@ void					encode(t_instruct_read *instruct_r, \
 	size_t				empty_args_pos;
 
 	ft_arrpush(g_cor, (void *)(t_ulong)instruct_p->op->op_code, -1);
-	if (instruct_p->op->param_nb > 1 || instruct_p->op->op_code == 16) // aff
+	if (instruct_p->op->ocp)
 		encode_arg_type(&(instruct_p->arg_type));
 	empty_args_pos = g_cor->length;
 	if (!push_empty_args(instruct_p))

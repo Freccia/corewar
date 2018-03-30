@@ -15,29 +15,38 @@
 
 # include "io.h"
 
-# ifndef COLOR_RESET
-#  define COLOR_RESET "\033[0m"
+# ifndef CLR_RESET
+#  define CLR_RESET "\033[0m"
 # endif
-# ifndef COLOR_RED
-#  define COLOR_RED "\033[31m"
+# ifndef CLR_RED
+#  define CLR_RED "\033[31;01m"
 # endif
-# ifndef COLOR_YELLOW
-#  define COLOR_YELLOW "\033[33m"
+# ifndef CLR_WHITE
+#  define CLR_WHITE "\033[37;01m"
 # endif
-# ifndef COLOR_CYAN
-#  define COLOR_CYAN "\033[36m"
+# ifndef CLR_BLACK
+#  define CLR_BLACK "\033[30;01m"
 # endif
-# ifndef COLOR_BOLD
-#  define COLOR_BOLD "\033[1m"
+# ifndef CLR_YELLOW
+#  define CLR_YELLOW "\033[33;01m"
 # endif
-# ifndef COLOR_BRED
-#  define COLOR_BRED COLOR_BOLD"\033[31m"
+# ifndef CLR_GREEN
+#  define CLR_GREEN "\033[32;01m"
 # endif
-# ifndef COLOR_BYELLOW
-#  define COLOR_BYELLOW COLOR_BOLD"\033[33m"
+# ifndef CLR_CYAN
+#  define CLR_CYAN "\033[36;01m"
 # endif
-# ifndef COLOR_BCYAN
-#  define COLOR_BCYAN COLOR_BOLD"\033[36m"
+# ifndef CLR_BOLD
+#  define CLR_BOLD "\033[1;01m"
+# endif
+# ifndef CLR_BRED
+#  define CLR_BRED CLR_BOLD"\033[31;01m"
+# endif
+# ifndef CLR_BYELLOW
+#  define CLR_BYELLOW CLR_BOLD"\033[33;01m"
+# endif
+# ifndef CLR_BCYAN
+#  define CLR_BCYAN CLR_BOLD"\033[36;01m"
 # endif
 
 extern char	const	*ft_basename(char const *path);

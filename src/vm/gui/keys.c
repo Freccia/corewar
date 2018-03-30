@@ -6,7 +6,7 @@
 /*   By: alucas- <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/03/12 18:15:51 by alucas-           #+#    #+#             */
-/*   Updated: 2018/03/12 18:15:53 by alucas-          ###   ########.fr       */
+/*   Updated: 2018/03/30 10:48:03 by lfabbro          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,14 +28,14 @@ static int		onarrow(int ch)
 		if (g_cyclel > 1)
 			g_cyclel < 50 ? (--g_cyclel) : ((g_cyclel /= 1.2));
 	}
-	else if (ch == KEY_UP && (size_t)g_stepi < g_vm->cycle_to_die)
+	else if (ch == KEY_UP && g_stepi < g_vm->cycle_to_die)
 		g_stepi += 5;
 	else if (ch == KEY_DOWN && g_stepi >= 10)
 		g_stepi -= 5;
 	else if (ch == KEY_DOWN && g_stepi > 1)
 		--g_stepi;
-	cw_nc_stats(STATS_CYCLEL, g_cyclel);
-	cw_nc_stats(STATS_STEPI, g_stepi);
+	gui_stats(STATS_CYCLEL, g_cyclel);
+	gui_stats(STATS_STEPI, g_stepi);
 	return (YEP);
 }
 
@@ -47,6 +47,37 @@ static int		onnext(int ch)
 	return (NOP);
 }
 
+static int		onp(int ch)
+{
+	(void)ch;
+	if (!g_running && g_dinstr)
+	{
+		if (g_uiproc && g_uiproc->next)
+			vm_guiproc(g_uiproc->next);
+		else if (g_vm->procs.head)
+			vm_guiproc(g_vm->procs.head);
+	}
+	return (YEP);
+}
+
+static int		ono(int ch)
+{
+	(void)ch;
+	if (!g_running && g_dinstr)
+	{
+		if (g_vm->procs.head)
+			vm_guiproc(g_vm->procs.head);
+	}
+	return (YEP);
+}
+
+static int		oni(int ch)
+{
+	(void)ch;
+	g_dinstr ^= 1;
+	return (YEP);
+}
+
 static t_keyh	*g_keym[KEY_MAX] = {
 	[KEY_RIGHT] = onarrow,
 	[KEY_LEFT] = onarrow,
@@ -54,9 +85,12 @@ static t_keyh	*g_keym[KEY_MAX] = {
 	[KEY_DOWN] = onarrow,
 	['n'] = onnext,
 	['s'] = onnext,
+	['p'] = onp,
+	['o'] = ono,
+	['i'] = oni
 };
 
-int				cw_nc_onkey(int ch)
+int				gui_onkey(int ch)
 {
 	t_keyh *hook;
 

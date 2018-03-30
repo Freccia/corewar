@@ -14,20 +14,20 @@
 
 int			vm_lldi(t_proc *proc, uint8_t *pc)
 {
-	uint8_t		*ptr;
-	uint8_t		*read;
-	int32_t		av[2];
-	int32_t		reg;
+	uint8_t *ptr;
+	uint8_t *read;
+	int32_t av[2];
+	int32_t reg;
 
-	ptr = vm_move(pc, 2, 0);
+	ptr = vm_move(pc, 2, FALSE);
 	av[0] = vm_readarg(proc, &ptr, 0, F_IND | F_DIR | F_REG_VAL);
 	av[1] = vm_readarg(proc, &ptr, 1, F_IND | F_DIR);
 	reg = vm_readarg(proc, &ptr, 2, F_REG);
+	proc->pc = ptr;
 	if (reg < 0x1 || reg > REG_NUMBER)
 		return (EXIT_FAILURE);
-	read = vm_move(pc, av[0] + av[1], 0);
+	read = vm_move(pc, av[0] + av[1], FALSE);
 	proc->reg[reg] = vm_read(read, sizeof(proc->reg[1]));
 	vm_carry(proc, proc->reg[reg]);
-	proc->pc = ptr;
 	return (EXIT_SUCCESS);
 }

@@ -6,90 +6,118 @@
 /*   By: lfabbro <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/03/16 16:55:56 by lfabbro           #+#    #+#             */
-/*   Updated: 2018/03/27 22:27:41 by nfinkel          ###   ########.fr       */
+/*   Updated: 2018/03/30 11:54:24 by lfabbro          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "corewar.h"
 
+static void	advance(t_proc *proc)
+{
+	vm_guinotify((uint16_t)(proc->pc - g_vm->mem), -1, 0, 0);
+	proc->pc = vm_move(proc->pc, 1, FALSE);
+	vm_guinotify((uint16_t)(proc->pc - g_vm->mem), -1, GUI_INV, 0);
+}
+
 static void	exec(t_proc *proc)
 {
-	if (proc->wait > 1)
-		--proc->wait;
-	else if (vm_eval(proc, proc->pc) == EXIT_SUCCESS)
+	vm_guiproc(proc);
+	if (proc->state == STATE_RUNNING || proc->state == STATE_PENDING)
 	{
-		if (*proc->pc >= 0x1 && *proc->pc <= MAX_OP)
-			proc->wait = (uint16_t)(g_op_tab[*proc->pc - 1].cycles);
-	}
-	else
-	{
-		if (*proc->pc == 0)
-			vm_guinotify((uint16_t)(proc->pc - g_vm->mem),
-				0, *proc->pc);
+		if (*proc->pc < 0x1 || *proc->pc > MAX_OP)
+			advance(proc);
 		else
-			vm_guinotify((uint16_t)(proc->pc - g_vm->mem),
-				(uint16_t)(proc->owner->idx + VM_COLOR_DFT), *proc->pc);
-		proc->pc = vm_move(proc->pc, 1, 0);
-		vm_guinotify((uint16_t)(proc->pc - g_vm->mem),
-			(uint16_t)(proc->owner->idx + VM_COLOR_INV), *proc->pc);
-		if (g_vm->opt.v & VM_VERB_DEATH) // this should be in vm_run() when cycle_to_die happens, not here
-			ft_printf("Process %d [%s] hasn't lived for %d cycles... Fuck off!\n",
-				proc->pid, proc->owner->name, g_vm->cycle - proc->lastlive); // TODO math incorrect
-		proc->wait = 0;
+		{
+			vm_guinotify((uint16_t)(proc->pc - g_vm->mem), -1, GUI_INV, 0);
+			proc->wait = (uint16_t)(g_op_tab[*proc->pc - 1].cycles - 1);
+			proc->state = STATE_WAITING;
+		}
 	}
-}
-
-static int	mem_dump(uint8_t *mem)
-{
-	int		k;
-	int		p;
-	int		q;
-
-	k = -1;
-	q = -0x40;
-	ft_printf("0x");
-	while (++k < MEM_SIZE / 64 && (p = -1))
+	else if (proc->state == STATE_WAITING)
 	{
-		ft_printf("%#.4x : ", (q += 0x40));
-		while (++p < MEM_SIZE / 64)
-			ft_printf("%.2x ", *mem++);
-		ft_printf("\n");
+		if (proc->wait > 1)
+			--proc->wait;
+		else
+		{
+			proc->state = STATE_RUNNING;
+			vm_guinotify((uint16_t)(proc->pc - g_vm->mem), -1, 0, 0);
+			if (vm_eval(proc, proc->pc))
+				proc->state = STATE_PENDING;
+			vm_guinotify((uint16_t)(proc->pc - g_vm->mem), -1, GUI_INV, 0);
+		}
 	}
-	return (EXIT_SUCCESS);
 }
 
-int			vm_run(void)
+static void	cycle_to_die(void)
+{
+	static uint16_t	max_checks = 0;
+	uint32_t		nbr_lives;
+	t_proc			*proc;
+	t_proc			*next;
+
+	g_vm->cycle = 0;
+	nbr_lives = 0;
+	proc = g_vm->procs.head;
+	while (proc)
+	{
+		next = proc->next;
+		if (g_vm->cycle_total - proc->lastlive >= g_vm->cycle_to_die)
+			vm_procsrem(&g_vm->procs, proc);
+		else
+			++nbr_lives;
+		proc = next;
+	}
+	++max_checks;
+	if (nbr_lives >= NBR_LIVE || max_checks == MAX_CHECKS)
+	{
+		g_vm->cycle_to_die -= CYCLE_DELTA;
+		if (g_vm->opt.v & VM_VERB_CYCLE)
+			ft_printf("Cycle to die is now %d\n", g_vm->cycle_to_die);
+		max_checks = 0;
+	}
+}
+
+static void	who_won(void)
+{
+	t_player	*player;
+	t_player	*winner;
+
+	player = g_vm->players.head;
+	winner = player;
+	while (player)
+	{
+		if (player->lastlive > winner->lastlive)
+			winner = player;
+		player = player->next;
+	}
+	ft_printf("Contestant %d, \"%s\", has won !\n", winner->id, winner->name);
+}
+
+void		vm_run(void)
 {
 	t_proc *proc;
+	t_proc *next;
 
 	while (g_vm->cycle_to_die > 0 && g_vm->procs.len)
 	{
+		if (vm_guiupdate())
+			vm_exit(EXIT_FAILURE, NULL);
 		proc = g_vm->procs.head;
 		++g_vm->cycle;
 		++g_vm->cycle_total;
 		if (g_vm->opt.v & VM_VERB_CYCLE)
 			ft_printf("It is now cycle %d\n", g_vm->cycle_total);
-		while (proc)
+		while (g_vm->procs.len && proc)
 		{
+			next = proc->next;
 			exec(proc);
-			if (!g_vm->procs.len) // this (else) should never happen
-				break ; // if it happens we should have other problems (see exec)
-			proc = proc->next;
+			proc->state == STATE_DIEING ? vm_procsrem(&g_vm->procs, proc) : 0;
+			proc = next;
 		}
-		if (vm_guiupdate())
-			return (vm_exit(EXIT_FAILURE, NULL));
-		if (g_vm->opt.d > 0 && g_vm->cycle == (size_t)g_vm->opt.d)
-			return (mem_dump(&g_vm->mem[0]));
-		if (g_vm->cycle == g_vm->cycle_to_die)
-		{
-		//	We kill processes here, not during execution
-		//	cw_vm_cycle_to_die();
-			g_vm->cycle = 0;
-			g_vm->cycle_to_die -= CYCLE_DELTA;
-			if (g_vm->opt.v & VM_VERB_CYCLE)
-				ft_printf("Cycle to die is now %d\n", g_vm->cycle_to_die);
-		}
+		if (g_vm->opt.d > 0 && g_vm->cycle_total == g_vm->opt.d)
+			return (vm_dump(&g_vm->mem[0]));
+		if (g_vm->cycle >= g_vm->cycle_to_die)
+			cycle_to_die();
 	}
-	// TODO: who won?
-	return (EXIT_SUCCESS);
+	who_won();
 }

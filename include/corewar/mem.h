@@ -6,7 +6,7 @@
 /*   By: nfinkel <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/03/13 16:16:50 by nfinkel           #+#    #+#             */
-/*   Updated: 2018/03/26 17:15:36 by lfabbro          ###   ########.fr       */
+/*   Updated: 2018/03/30 11:34:03 by lfabbro          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,7 @@ extern t_args	g_arg[MAX_ARGS_NUMBER + 1];
 ** @param len
 ** @return
 */
-uint8_t			*vm_move(uint8_t const *pc, int32_t len, uint8_t idx_mod);
+uint8_t			*vm_move(uint8_t const *pc, int32_t len, int idx_res);
 
 /*
 ** TODO: Doc
@@ -58,7 +58,7 @@ uint8_t			*vm_map(uint8_t *mem, uint8_t *pc, uint16_t n);
 ** @param len
 ** @param p
 */
-void			vm_write(uint8_t *dst, uint8_t *src, size_t len, uint16_t p);
+void			vm_write(uint8_t *dst, uint8_t *src, size_t len, int color);
 
 /*
 ** TODO: Doc
@@ -74,15 +74,6 @@ void			vm_carry(t_proc *proc, int32_t value);
 ** @return
 */
 int32_t			vm_read(uint8_t *ptr, uint16_t n);
-
-/*
-** TODO: Doc
-** @param pc
-** @param ocp
-** @param flags
-** @return
-*/
-int32_t			vm_readref(uint8_t **pc, uint8_t *ocp, uint32_t flags);
 
 /*
 ** TODO: Doc

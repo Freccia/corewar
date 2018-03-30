@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   instr.c                                            :+:      :+:    :+:   */
+/*   eval.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: alucas- <nfinkel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/03/14 19:17:51 by alucas-           #+#    #+#             */
-/*   Updated: 2018/03/27 22:07:14 by nfinkel          ###   ########.fr       */
+/*   Updated: 2018/03/29 11:21:42 by lfabbro          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,8 @@ static t_instr	g_instr[MAX_OP] = {
 	vm_lld,
 	vm_lldi,
 	vm_lfork,
-	vm_aff
+	vm_aff,
+	vm_gtmd
 };
 
 static int		check_arg(uint8_t op, uint8_t ocp, uint8_t n_arg)
@@ -51,7 +52,7 @@ static int		check_ocp(uint8_t *pc)
 {
 	uint8_t ocp;
 
-	ocp = *vm_move(pc, 1, 0);
+	ocp = *vm_move(pc, 1, FALSE);
 	if (check_arg((uint8_t)(*pc - 1), (uint8_t)((ocp & 0xc0) >> 6), 0))
 		return (EXIT_FAILURE);
 	if (check_arg((uint8_t)(*pc - 1), (uint8_t)((ocp & 0x30) >> 4), 1))
@@ -63,28 +64,23 @@ static int		check_ocp(uint8_t *pc)
 
 int				vm_eval(t_proc *proc, uint8_t *pc)
 {
+	int ret;
+
+	ret = EXIT_FAILURE;
 	if (*pc >= 0x1 && *pc <= MAX_OP)
 	{
-		if (!g_op_tab[*pc - 1].ocp || check_ocp(pc) == EXIT_SUCCESS)
-		{
-			vm_guinotify((uint16_t)(pc - g_vm->mem),
-				(uint16_t)(proc->owner->idx + VM_COLOR_DFT), *pc);
-			g_instr[*pc - 1](proc, pc);
-			vm_guinotify((uint16_t)(proc->pc - g_vm->mem),
-				(uint16_t)(proc->owner->idx + VM_COLOR_INV), *proc->pc);
-			if (g_vm->opt.v & VM_VERB_OPERA &&
-				*proc->pc >= 0x1 && *proc->pc <= MAX_OP)
-				ft_printf("Process %d [%s] executing %s\n", proc->pid,
-					proc->owner->name, g_op_tab[*proc->pc - 1].name);
-			if (g_vm->opt.v & VM_VERB_MOVES)
-				ft_printf("Process %d [%s] PC moves by %td (%p -> %p)\n",\
-					proc->pid, proc->owner->name, proc->pc - pc, pc, proc->pc);
-			return (EXIT_SUCCESS);
-		}
+		if (g_op_tab[*pc - 1].ocp && check_ocp(pc) != EXIT_SUCCESS)
+			proc->pc = vm_move(proc->pc, 2, FALSE);
 		else
-			proc->crashed = E_WRONG_OCP;
+		{
+			if (g_vm->opt.v & VM_VERB_OPERA && *pc >= 0x1 && *pc <= MAX_OP)
+				ft_printf("Process %d [%s] executing %s\n", proc->pid,
+					proc->owner->name, g_op_tab[*pc - 1].name);
+			ret = g_instr[*pc - 1](proc, pc);
+		}
 	}
-	else
-		proc->crashed = E_WRONG_OP;
-	return (EXIT_FAILURE);
+	if (g_vm->opt.v & VM_VERB_MOVES)
+		ft_printf("Process %d [%s] PC moves by %td (%p -> %p)\n",
+			proc->pid, proc->owner->name, proc->pc - pc, pc, proc->pc);
+	return (ret);
 }

@@ -6,7 +6,7 @@
 /*   By: nfinkel <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/03/13 16:16:50 by nfinkel           #+#    #+#             */
-/*   Updated: 2018/03/27 22:26:10 by nfinkel          ###   ########.fr       */
+/*   Updated: 2018/03/30 10:49:49 by lfabbro          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,9 +21,9 @@ typedef struct	s_vm
 {
 	uint8_t		mem[MEM_SIZE];
 	t_opt		opt;
-	uint32_t	cycle;
-	size_t		cycle_to_die;
-	size_t		cycle_total;
+	int32_t		cycle;
+	int32_t		cycle_to_die;
+	int32_t		cycle_total;
 	t_players	players;
 	t_procs		procs;
 }				t_vm;
@@ -32,26 +32,32 @@ extern t_vm		*g_vm;
 
 /*
 ** TODO: Doc
-** @param ac 
-** @param av 
-** @param r1 
-** @return 
+** @param ac
+** @param av
+** @param r1
+** @return
 */
-int				vm_init(int ac, char **av, int r1);
+int				vm_init(int ac, char **av);
 
 /*
 ** TODO: Doc
-** @param ecode 
-** @param fmt 
-** @param ... 
-** @return 
+** @param ecode
+** @param fmt
+** @param ...
+** @return
 */
 int				vm_exit(int ecode, char const *fmt, ...);
 
 /*
 ** TODO: Doc
-** @return 
+** @param mem
 */
-int				vm_run(void);
+void			vm_dump(uint8_t *mem);
+
+/*
+** TODO: Doc
+** @return
+*/
+void			vm_run(void);
 
 #endif

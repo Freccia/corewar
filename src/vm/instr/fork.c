@@ -18,10 +18,10 @@ int			vm_fork(t_proc *proc, uint8_t *pc)
 	uint8_t		*ptr;
 	int32_t		n;
 
-	ptr = vm_move(pc, 1, 0);
+	ptr = vm_move(pc, 1, FALSE);
 	n = vm_read(ptr, 2);
-	vm_procfork(&new, proc, vm_move(pc, n, 1));
+	vm_procfork(&new, proc, vm_move(pc, n, TRUE));
 	vm_procspush(&g_vm->procs, &new);
-	proc->pc = vm_move(pc, 3, 0);
+	proc->pc = vm_move(pc, 3, FALSE);
 	return (EXIT_SUCCESS);
 }

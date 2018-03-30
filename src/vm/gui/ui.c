@@ -6,7 +6,7 @@
 /*   By: alucas- <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/03/12 18:15:51 by alucas-           #+#    #+#             */
-/*   Updated: 2018/03/12 18:15:53 by alucas-          ###   ########.fr       */
+/*   Updated: 2018/03/30 11:03:40 by lfabbro          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,10 @@
 int			g_cyclel = 50;
 int			g_running = 0;
 int			g_stepi = 5;
+int			g_dinstr = 0;
+t_proc		*g_uiproc = NULL;
 static int	g_step = 0;
+t_cell		g_map[MEM_SIZE];
 static int	g_stats[STATS_PLAYERS + MAX_PLAYERS][2] = {
 	[STATS_PAUSED] = {4, 2},
 	[STATS_STEPI] = {4, 4},
@@ -24,9 +27,7 @@ static int	g_stats[STATS_PLAYERS + MAX_PLAYERS][2] = {
 	[STATS_PROCS] = {4, 10},
 	[STATS_CYCLE_TO_DIE] = {4, 12},
 	[STATS_CYCLE_DELTA] = {4, 14},
-	[STATS_NBR_LIVE] = {4, 16},
-	[STATS_MAX_CHECKS] = {4, 18},
-	[STATS_PLAYERS] = {4, 20},
+	[STATS_PLAYERS] = {4, 16},
 };
 static char	*g_statsstr[STATS_PLAYERS + MAX_PLAYERS] = {
 	[STATS_STEPI] = "Cycle by step    [up|down]: %d       ",
@@ -53,7 +54,7 @@ static void	nc_pause(int *running)
 			continue ;
 		else if (ch == 27)
 			vm_exit(EXIT_SUCCESS, "Good bye!\n");
-		else if ((ch = cw_nc_onkey(ch)) < 0)
+		else if ((ch = gui_onkey(ch)) < 0)
 			vm_exit(EXIT_FAILURE, NULL);
 		else if (ch == 1)
 		{
@@ -66,7 +67,7 @@ static void	nc_pause(int *running)
 	wattr_off(g_wstats, 0x200000, 0x0);
 }
 
-void		cw_nc_stats(uint8_t id, int value)
+void		gui_stats(uint8_t id, int value)
 {
 	int *pos;
 
@@ -78,21 +79,98 @@ void		cw_nc_stats(uint8_t id, int value)
 	wrefresh(g_wstats);
 }
 
+static char	*g_states[] = {
+	[STATE_RUNNING] = "STATE_RUNNING",
+	[STATE_WAITING] = "STATE_WAITING",
+	[STATE_DIEING] = "STATE_DIEING",
+	[STATE_PENDING] = "STATE_PENDING",
+};
+
+static void	printreg(t_proc *proc, int32_t reg)
+{
+	if (reg)
+		wattr_on(g_wprocs, (attr_t)COLOR_PAIR(proc->owner->idx + 1), 0x0);
+	wprintw(g_wprocs, "0x%08x ", reg);
+	if (reg)
+		wattr_off(g_wprocs, (attr_t)COLOR_PAIR(proc->owner->idx + 1), 0x0);
+}
+
+void		vm_guiplayer(t_player *player)
+{
+	int y;
+	int x;
+
+	wattr_on(g_wstats, 0x200000, 0x0);
+	y = g_stats[STATS_PLAYERS][1] + (player->idx * 4);
+	x = g_stats[STATS_PLAYERS][0];
+	mvwprintw(g_wstats, y, x, "Player %d: ", player->id);
+
+	wattr_on(g_wstats, (attr_t)COLOR_PAIR(player->idx + 1), 0x0);
+	wprintw(g_wstats, "%s", player->name);
+	wattr_off(g_wstats, (attr_t)COLOR_PAIR(player->idx + 1), 0x0);
+	mvwprintw(g_wstats, ++y, x, "  Last live : %-20d       ", player->lastlive);
+	wrefresh(g_wstats);
+}
+
+void		vm_guiproc(t_proc *proc)
+{
+	int y;
+	int reg;
+
+	if (!g_vm->opt.g || !g_dinstr)
+		return ;
+	g_uiproc = proc;
+	y = 1;
+	reg = 0;
+	wattr_on(g_wprocs, 0x200000, 0x0);
+	mvwprintw(g_wprocs, ++y, 4, "Processes: [o: reset | p: next]");
+	mvwprintw(g_wprocs, y += 2, 4, "Process    %d ", proc->pid);
+	wattr_on(g_wprocs, (attr_t)COLOR_PAIR(proc->owner->idx + 1), 0x0);
+	wprintw(g_wprocs, "(%s)% 10c", proc->owner->name, ' ');
+	wattr_off(g_wprocs, (attr_t)COLOR_PAIR(proc->owner->idx + 1), 0x0);
+	mvwprintw(g_wprocs, ++y, 4, "  STATE:   %-20s", g_states[proc->state]);
+	mvwprintw(g_wprocs, ++y, 4, "  PC:      %02hhx (%d)% 16c", *proc->pc, proc->pc - g_vm->mem, ' ');
+	mvwprintw(g_wprocs, ++y, 4, "  CARRY:   %-20d", proc->carry);
+	mvwprintw(g_wprocs, ++y, 4, "  LIVE:    %-20d", proc->lastlive);
+	if (proc->state == STATE_WAITING)
+		mvwprintw(g_wprocs, ++y, 4, "  WAIT:    %-20d", proc->wait);
+	else
+		++y;
+	++y;
+	wattr_off(g_wprocs, 0x200000, 0x0);
+	while (++reg <= REG_NUMBER)
+	{
+		mvwprintw(g_wprocs, ++y, 4, "  %02x |  ", reg);
+		printreg(proc, proc->reg[reg]);
+		printreg(proc, proc->reg[++reg]);
+		mvwprintw(g_wprocs, y, 33, "  | %02x", reg);
+	}
+	wrefresh(g_wprocs);
+}
+
 int			vm_guiupdate(void)
 {
-	int ch;
+	int			ch;
+	t_player	*player;
 
 	if (!g_vm->opt.g)
 		return (YEP);
+	gui_draw();
 	if (g_step)
 	{
 		--g_step;
 		return (YEP);
 	}
-	cw_nc_stats(STATS_CYCLE, (int)g_vm->cycle_total);
-	cw_nc_stats(STATS_CYCLE_TO_DIE, (int)g_vm->cycle_to_die);
-	cw_nc_stats(STATS_PROCS, (int)g_vm->procs.len);
-	if (!g_running)
+	gui_stats(STATS_CYCLE, (int)g_vm->cycle_total);
+	gui_stats(STATS_CYCLE_TO_DIE, (int)g_vm->cycle_to_die);
+	gui_stats(STATS_PROCS, (int)g_vm->procs.len);
+	player = g_vm->players.head;
+	while (player)
+	{
+		vm_guiplayer(player);
+		player = player->next;
+	}
+	if (!g_running || (g_vm->opt.p && g_vm->opt.p == g_vm->cycle_total))
 		nc_pause(&g_running);
 	while ((ch = getch()) != ERR)
 	{
@@ -100,27 +178,20 @@ int			vm_guiupdate(void)
 			return (vm_exit(EXIT_SUCCESS, "Good bye!\n"));
 		else if (ch == 32)
 			nc_pause(&g_running);
-		else if (cw_nc_onkey(ch))
+		else if (gui_onkey(ch) < 0)
 			vm_exit(EXIT_FAILURE, NULL);
 	}
 	usleep((useconds_t)(1000000 / g_cyclel));
 	return (YEP);
 }
 
-int			vm_guinotify(uint16_t i, uint16_t c, uint8_t val)
+int			vm_guinotify(uint16_t i, int color, int attrs, uint8_t lt)
 {
-	int sq;
-	int x;
-	int y;
-
 	if (!g_vm->opt.g)
 		return (YEP);
-	sq = getmaxy(g_wboard) - 2;
-	x = 2 + ((i % sq) * 3);
-	y = 1 + (i / sq);
-	mvwaddch(g_wboard, y, x++, (chtype)DIGITS[(val / 16) % 16] | COLOR_PAIR(c));
-	mvwaddch(g_wboard, y, x++, (chtype)DIGITS[val % 16] | COLOR_PAIR(c));
-	mvwaddch(g_wboard, y, x++, ' ');
-	wrefresh(g_wboard);
+	if (color >= 0)
+		g_map[i].color = (uint8_t)color;
+	g_map[i].attrs = (uint16_t)attrs;
+	g_map[i].attrsl = lt;
 	return (YEP);
 }
