@@ -15,9 +15,10 @@
 static const char	*g_usage =
 {
 	"Usage: %s [ options ] <[-n <champ.id>] champ.cor> <...>\n"\
-	"	-d N    : Dumps memory after N execution cycles\n"\
 	"	-g      : Ncurses GUI\n"\
+	"	-d N    : Dumps memory after N execution cycles\n"\
 	"	-c N    : CTMO - Cycles till memory opens\n"\
+	"	-p N    : Pause a `N` cycle in GUI\n"\
 	"	-v N    : Sets verbosity level to N (bitwise)\n"\
 	"		- 0 : Show essentials\n"\
 	"		- 1 : Show lives\n"\
@@ -42,7 +43,7 @@ static uint8_t		verb(void)
 static uint16_t		ctmo(void)
 {
 	int ctmo;
-	
+
 	ctmo = ft_atoi(g_optarg);
 	if (errno)
 		vm_exit(EXIT_FAILURE, "%c: %m\n", 'c');

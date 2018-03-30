@@ -12,15 +12,14 @@
 
 #include "corewar.h"
 
-t_args		g_arg[MAX_ARGS_NUMBER + 1] = 
-{
+t_args		g_arg[MAX_ARGS_NUMBER + 1] = {
 	{0xc0, 6},
 	{0x30, 4},
 	{0x0c, 2},
 	{0x03, 0},
 };
 
-void				vm_carry(t_proc *proc, int32_t value)
+void			vm_carry(t_proc *proc, int32_t value)
 {
 	if (value)
 		proc->carry = 0;
@@ -28,7 +27,7 @@ void				vm_carry(t_proc *proc, int32_t value)
 		proc->carry = 1;
 }
 
-int32_t				vm_read(uint8_t *ptr, uint16_t n)
+int32_t			vm_read(uint8_t *ptr, uint16_t n)
 {
 	uint8_t	mem[n + 1];
 
@@ -37,7 +36,7 @@ int32_t				vm_read(uint8_t *ptr, uint16_t n)
 	return ((int32_t)ft_mtoi(vm_map(mem, ptr, n), n));
 }
 
-static int32_t		readref(uint8_t **ptr, uint8_t *pc, uint32_t flags)
+static int32_t	readref(uint8_t **ptr, uint8_t *pc, uint32_t flags)
 {
 	uint8_t		*pos;
 	uint16_t	len;
@@ -63,7 +62,7 @@ static int32_t		readref(uint8_t **ptr, uint8_t *pc, uint32_t flags)
 	return (vm_read(pos, len));
 }
 
-int32_t		vm_readarg(t_proc *proc, uint8_t **ptr, uint8_t n, uint32_t fl)
+int32_t			vm_readarg(t_proc *proc, uint8_t **ptr, uint8_t n, uint32_t fl)
 {
 	uint8_t ocp;
 	int32_t arg;

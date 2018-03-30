@@ -50,20 +50,30 @@ static void	exec(t_proc *proc)
 
 static void	cycle_to_die(void)
 {
-	t_proc *proc;
-	t_proc *next;
+	static uint16_t	max_checks = 0;
+	uint32_t		nbr_lives;
+	t_proc			*proc;
+	t_proc			*next;
 
 	g_vm->cycle = 0;
-	g_vm->cycle_to_die -= CYCLE_DELTA;
-	if (g_vm->opt.v & VM_VERB_CYCLE)
-		ft_printf("Cycle to die is now %d\n", g_vm->cycle_to_die);
+	nbr_lives = 0;
 	proc = g_vm->procs.head;
 	while (proc)
 	{
 		next = proc->next;
 		if (g_vm->cycle_total - proc->lastlive >= g_vm->cycle_to_die)
 			vm_procsrem(&g_vm->procs, proc);
+		else
+			++nbr_lives;
 		proc = next;
+	}
+	++max_checks;
+	if (nbr_lives >= NBR_LIVE || max_checks == MAX_CHECKS)
+	{
+		g_vm->cycle_to_die -= CYCLE_DELTA;
+		if (g_vm->opt.v & VM_VERB_CYCLE)
+			ft_printf("Cycle to die is now %d\n", g_vm->cycle_to_die);
+		max_checks = 0;
 	}
 }
 
