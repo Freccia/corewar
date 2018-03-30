@@ -75,8 +75,6 @@ static void	cycle_to_die(void)
 			ft_printf("Cycle to die is now %d\n", g_vm->cycle_to_die);
 		max_checks = 0;
 	}
-	else if (!nbr_lives)
-		g_vm->cycle_to_die = -1;
 }
 
 static void	who_won(void)
