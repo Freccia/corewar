@@ -27,9 +27,7 @@ static int	g_stats[STATS_PLAYERS + MAX_PLAYERS][2] = {
 	[STATS_PROCS] = {4, 10},
 	[STATS_CYCLE_TO_DIE] = {4, 12},
 	[STATS_CYCLE_DELTA] = {4, 14},
-	[STATS_NBR_LIVE] = {4, 16},
-	[STATS_MAX_CHECKS] = {4, 18},
-	[STATS_PLAYERS] = {4, 20},
+	[STATS_PLAYERS] = {4, 16},
 };
 static char	*g_statsstr[STATS_PLAYERS + MAX_PLAYERS] = {
 	[STATS_STEPI] = "Cycle by step    [up|down]: %d       ",

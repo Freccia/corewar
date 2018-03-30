@@ -57,8 +57,6 @@ static void		nc_draw_stats(void)
 	gui_stats(STATS_PROCS, (int)g_vm->procs.len);
 	gui_stats(STATS_CYCLE_TO_DIE, (int)g_vm->cycle_to_die);
 	gui_stats(STATS_CYCLE_DELTA, CYCLE_DELTA);
-	gui_stats(STATS_NBR_LIVE, NBR_LIVE);
-	gui_stats(STATS_MAX_CHECKS, MAX_CHECKS);
 }
 
 void				gui_draw(void)
