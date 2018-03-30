@@ -6,7 +6,7 @@
 /*   By: alucas- <nfinkel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/03/14 19:17:51 by alucas-           #+#    #+#             */
-/*   Updated: 2018/03/30 15:13:09 by nfinkel          ###   ########.fr       */
+/*   Updated: 2018/03/30 19:25:02 by lfabbro          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,7 +43,7 @@ void	vm_procspush(t_procs *procs, t_proc *proc)
 void	vm_procsrem(t_procs *procs, t_proc *proc)
 {
 	t_proc	*ptr;
-	void	*tmp;
+	t_proc	*tmp;
 
 	if (g_vm->opt.v & VM_VERB_DEATH)
 		ft_printf("Process %d [%s] hasn't lived for %d cycles... Fuck off! "
@@ -51,23 +51,20 @@ void	vm_procsrem(t_procs *procs, t_proc *proc)
 			g_vm->cycle_total - proc->lastlive, g_vm->cycle_to_die);
 	vm_guinotify((uint16_t)(proc->pc - g_vm->mem), -1, 0, 0);
 	--procs->len;
-	if (procs->head == proc)
-	{
-		tmp = procs->head->next;
-		free(procs->head);
-		procs->head = (t_proc*)tmp;
-		return ;
-	}
 	ptr = procs->head;
+	tmp = NULL;
 	while (ptr)
 	{
-		if (ptr->next == proc)
+		if (ptr == proc)
 		{
-			tmp = proc->next;
+			if (tmp == NULL)
+				procs->head = proc->next;
+			else
+				tmp->next = proc->next;
 			free(proc);
-			ptr->next = (t_proc*)tmp;
 			return ;
 		}
+		tmp = ptr;
 		ptr = ptr->next;
 	}
 }
