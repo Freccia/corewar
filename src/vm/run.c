@@ -84,7 +84,7 @@ static void	who_won(void)
 	winner = player;
 	while (player)
 	{
-		if (player->lastlive > winner->lastlive)
+		if (player->lastlive >= winner->lastlive)
 			winner = player;
 		player = player->next;
 	}
