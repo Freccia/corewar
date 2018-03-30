@@ -83,7 +83,7 @@ void		vm_guiwinner(t_player *player)
 	wattr_on(g_wstats, 0x200000, 0x0);
 	mvwprintw(g_wstats, 38, 4, "The winner is: ");
 	wattr_on(g_wstats, (attr_t)COLOR_PAIR(player->idx + 1), 0x0);
-	wprintw(g_wstats, "%s", player->name);
+	wprintw(g_wstats, "%.20s", player->name);
 	wattr_off(g_wstats, (attr_t)COLOR_PAIR(player->idx + 1), 0x0);
 	mvwprintw(g_wstats, 40, 4, "Press any key to exit... ");
 	wattr_off(g_wstats, 0x200000, 0x0);
@@ -106,7 +106,7 @@ void		vm_guiproc(t_proc *proc)
 	mvwprintw(g_wprocs, ++y, 4, "Processes: [o: reset | p: next]");
 	mvwprintw(g_wprocs, y += 2, 4, "Process    %d ", proc->pid);
 	wattr_on(g_wprocs, (attr_t)COLOR_PAIR(proc->owner->idx + 1), 0x0);
-	wprintw(g_wprocs, "(%.20s)% 10c", proc->owner->name, ' ');
+	wprintw(g_wprocs, "(%.20s) 10c", proc->owner->name, ' ');
 	wattr_off(g_wprocs, (attr_t)COLOR_PAIR(proc->owner->idx + 1), 0x0);
 	mvwprintw(g_wprocs, ++y, 4, "  STATE:   %-20s", g_states[proc->state]);
 	mvwprintw(g_wprocs, ++y, 4, "  PC:      %02hhx (%d)% 16c",
