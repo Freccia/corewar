@@ -32,7 +32,6 @@ typedef struct		s_proc
 	pid_t			pid;
 	uint8_t			carry;
 	int32_t			reg[REG_NUMBER + 1];
-	uint8_t			*ctmo_mem_start;
 	uint8_t			*pc;
 	int32_t			lastlive;
 	uint16_t		wait;

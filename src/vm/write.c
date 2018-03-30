@@ -57,8 +57,8 @@ uint8_t		*vm_move(uint8_t const *pc, int32_t move, int idx_res)
 	else
 	{
 		if (abs < 0)
-			abs = (MEM_SIZE / g_vm->players.len) + abs;
+			abs = (int32_t)((MEM_SIZE / g_vm->players.len) + abs);
 		proc = g_vm->procs.current;
-		return (proc->ctmo_mem_start + (abs % (MEM_SIZE / g_vm->players.len)));
+		return (proc->owner->ctmo_mem + (abs % (MEM_SIZE / g_vm->players.len)));
 	}
 }

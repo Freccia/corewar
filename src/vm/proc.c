@@ -18,7 +18,7 @@ void	vm_procinit(t_proc *proc, t_player *owner)
 	ft_bzero(proc, sizeof(t_proc));
 	proc->owner = owner;
 	proc->pc = g_vm->mem + (owner->idx * (MEM_SIZE / g_vm->players.len));
-	proc->ctmo_mem_start = proc->pc;
+	proc->owner->ctmo_mem = proc->pc;
 	proc->reg[1] = owner->id;
 	vm_write(proc->pc, owner->bin, owner->size, proc->owner->idx + 1);
 	proc->lastlive = 0;
