@@ -40,7 +40,6 @@ uint8_t		*vm_map(uint8_t *mem, uint8_t *pc, uint16_t n)
 	return (mem);
 }
 
-
 uint8_t		*vm_move(uint8_t const *pc, int32_t move, int idx_res)
 {
 	int32_t abs;

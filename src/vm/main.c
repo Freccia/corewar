@@ -15,7 +15,7 @@
 static t_vm	g_vm_stack;
 t_vm		*g_vm = &g_vm_stack;
 
-int 		main(int ac, char **av)
+int			main(int ac, char **av)
 {
 	ft_bzero(g_vm, sizeof(t_vm));
 	vm_optparse(&g_vm->opt, ac, av);
