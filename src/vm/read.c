@@ -55,6 +55,8 @@ int32_t		vm_readref(uint8_t **ptr, uint8_t *pc, uint32_t flags)
 	else
 		return (0);
 	*ptr = vm_move(*ptr, len, FALSE);
+	if ((flags & F_IND) || (flags & F_IND_RESTRICT))
+		len = 4;
 	return (vm_read(pos, len));
 }
 
