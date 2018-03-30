@@ -126,7 +126,7 @@ void		vm_guiplayer(t_player *player)
 	x = g_stats[STATS_PLAYERS][0];
 	mvwprintw(g_wstats, y, x, "Player %d: ", player->id);
 	wattr_on(g_wstats, (attr_t)COLOR_PAIR(player->idx + 1), 0x0);
-	wprintw(g_wstats, "%s", player->name);
+	wprintw(g_wstats, "%.20s", player->name);
 	wattr_off(g_wstats, (attr_t)COLOR_PAIR(player->idx + 1), 0x0);
 	mvwprintw(g_wstats, ++y, x, "  Last live : %-20d       ", player->lastlive);
 	mvwprintw(g_wstats, ++y, x, "  Lives in current period : %-6d       ",
@@ -149,7 +149,7 @@ void		vm_guiproc(t_proc *proc)
 	mvwprintw(g_wprocs, ++y, 4, "Processes: [o: reset | p: next]");
 	mvwprintw(g_wprocs, y += 2, 4, "Process    %d ", proc->pid);
 	wattr_on(g_wprocs, (attr_t)COLOR_PAIR(proc->owner->idx + 1), 0x0);
-	wprintw(g_wprocs, "(%s)% 10c", proc->owner->name, ' ');
+	wprintw(g_wprocs, "(%.20s)% 10c", proc->owner->name, ' ');
 	wattr_off(g_wprocs, (attr_t)COLOR_PAIR(proc->owner->idx + 1), 0x0);
 	mvwprintw(g_wprocs, ++y, 4, "  STATE:   %-20s", g_states[proc->state]);
 	mvwprintw(g_wprocs, ++y, 4, "  PC:      %02hhx (%d)% 16c", *proc->pc, proc->pc - g_vm->mem, ' ');
