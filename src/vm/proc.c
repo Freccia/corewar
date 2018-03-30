@@ -25,7 +25,6 @@ void	vm_procinit(t_proc *proc, t_player *owner)
 void	vm_procfork(t_proc *dst, t_proc *src, uint8_t *pc)
 {
 	ft_memcpy(dst, src, sizeof(t_proc));
-	dst->lastlive = 0;
 	dst->pc = pc;
 	dst->state = STATE_PENDING;
 	dst->lastlive = 0;
