@@ -4,6 +4,7 @@
 *.cor
 *.dev
 *.san
+*.dump
 .DS_Store
 
 # Prerequisites
