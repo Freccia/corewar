@@ -58,6 +58,7 @@ static void	cycle_to_die(void)
 	proc = g_vm->procs.head;
 	while (proc)
 	{
+		proc->owner->lives_in_periode = 0;
 		next = proc->next;
 		if (g_vm->cycle_total - proc->lastlive >= g_vm->cycle_to_die)
 			vm_procsrem(&g_vm->procs, proc);

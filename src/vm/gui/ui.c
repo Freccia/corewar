@@ -34,7 +34,7 @@ static int	g_stats[STATS_PLAYERS + MAX_PLAYERS][2] = {
 static char	*g_statsstr[STATS_PLAYERS + MAX_PLAYERS] = {
 	[STATS_STEPI] = "Cycle by step    [up|down]: %d       ",
 	[STATS_CYCLEL] = "Cycles/second limit [<|>]: %d       ",
-	[STATS_CYCLE] = "Cycle : %d (%d)                      ",
+	[STATS_CYCLE] = "Cycle : %-8d (%d)                    ",
 	[STATS_PROCS] = "Processes : %d                       ",
 	[STATS_CYCLE_TO_DIE] = "CYCLE_TO_DIE : %d             ",
 	[STATS_CYCLE_DELTA] = "CYCLE_DELTA : %d               ",
@@ -113,6 +113,8 @@ void		vm_guiplayer(t_player *player)
 	wprintw(g_wstats, "%s", player->name);
 	wattr_off(g_wstats, (attr_t)COLOR_PAIR(player->idx + 1), 0x0);
 	mvwprintw(g_wstats, ++y, x, "  Last live : %-20d       ", player->lastlive);
+	mvwprintw(g_wstats, ++y, x, "  Lives in current period : %-6d       ",
+		player->lives_in_periode);
 	wrefresh(g_wstats);
 }
 
@@ -165,7 +167,7 @@ int			vm_guiupdate(void)
 		--g_step;
 		return (YEP);
 	}
-	gui_stats(STATS_CYCLE, g_vm->cycle_total, g_vm->cycle);
+	gui_stats(STATS_CYCLE, g_vm->cycle_total, g_vm->cycle_to_die - g_vm->cycle);
 	gui_stats(STATS_CYCLE_TO_DIE, g_vm->cycle_to_die);
 	gui_stats(STATS_PROCS, g_vm->procs.len);
 	gui_stats(STATS_NBR_LIVE, g_vm->nbr_lives, NBR_LIVE);
