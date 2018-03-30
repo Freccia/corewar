@@ -6,7 +6,7 @@
 /*   By: lfabbro <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/03/15 15:30:43 by lfabbro           #+#    #+#             */
-/*   Updated: 2018/03/28 21:07:22 by nfinkel          ###   ########.fr       */
+/*   Updated: 2018/03/30 11:17:57 by lfabbro          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,8 +37,8 @@ static int		init_procs(void)
 	vm_guiinit();
 	while (champ)
 	{
-		ft_printf("* Player %hhu, weighing %lu bytes, \"%s\" (\"%s\") !\n",
-			champ->idx + 1, champ->size, champ->name, "COMMENT PLACEHOLDER"); //TODO put comment here
+		ft_printf("* Player %hhu, weighing %lu bytes, \"%s\" (\"%.50s\") !\n",
+			champ->idx + 1, champ->size, champ->name, champ->comment); //TODO put comment here
 		vm_procinit(&proc, champ);
 		vm_procspush(&g_vm->procs, &proc);
 		champ = champ->next;

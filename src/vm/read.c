@@ -6,7 +6,7 @@
 /*   By: lfabbro <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/03/19 12:54:08 by lfabbro           #+#    #+#             */
-/*   Updated: 2018/03/28 21:27:30 by nfinkel          ###   ########.fr       */
+/*   Updated: 2018/03/30 11:35:26 by lfabbro          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,24 +37,34 @@ int32_t		vm_read(uint8_t *ptr, uint16_t n)
 	return ((int32_t)ft_mtoi(vm_map(mem, ptr, n), n));
 }
 
-int32_t		vm_readref(uint8_t **ptr, uint8_t *pc, uint32_t flags)
+static int32_t		readref(uint8_t **ptr, uint8_t *pc, uint32_t flags)
 {
 	uint8_t		*pos;
 	uint16_t	len;
+	uint16_t	move;
 
-	len = 2;
+	len = sizeof(int16_t);
+	move = len;
 	if (flags & F_DIR || flags & F_DIR_LONG)
 	{
 		pos = *ptr;
-		len = (uint16_t)((flags & F_DIR_LONG) ? 4 : 2);
+		len = (uint16_t)((flags & F_DIR_LONG) ?
+				sizeof(int32_t) : sizeof(int16_t));
+		move = len;
 	}
 	else if (flags & F_IND_RESTRICT)
+	{
 		pos = vm_move(pc, vm_read(*ptr, len), TRUE);
+		len = sizeof(int32_t);
+	}
 	else if (flags & F_IND)
+	{
 		pos = vm_move(pc, vm_read(*ptr, len), FALSE);
+		len = sizeof(int32_t);
+	}
 	else
 		return (0);
-	*ptr = vm_move(*ptr, len, FALSE);
+	*ptr = vm_move(*ptr, move, FALSE);
 	return (vm_read(pos, len));
 }
 
@@ -78,12 +88,12 @@ int32_t		vm_readarg(t_proc *proc, uint8_t **ptr, uint8_t n, uint32_t flags)
 	else if (ocp == DIR_CODE)
 	{
 		flags = (flags & F_DIR) | (flags & F_DIR_LONG);
-		arg = vm_readref(ptr, proc->pc, flags);
+		arg = readref(ptr, proc->pc, flags);
 	}
 	else if (ocp == IND_CODE)
 	{
 		flags = (flags & F_IND) | (flags & F_IND_RESTRICT);
-		arg = vm_readref(ptr, proc->pc, flags);
+		arg = readref(ptr, proc->pc, flags);
 	}
 	else
 		proc->state = STATE_DIEING;

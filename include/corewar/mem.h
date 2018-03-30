@@ -6,7 +6,7 @@
 /*   By: nfinkel <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/03/13 16:16:50 by nfinkel           #+#    #+#             */
-/*   Updated: 2018/03/26 17:15:36 by lfabbro          ###   ########.fr       */
+/*   Updated: 2018/03/30 11:34:03 by lfabbro          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,15 +74,6 @@ void			vm_carry(t_proc *proc, int32_t value);
 ** @return
 */
 int32_t			vm_read(uint8_t *ptr, uint16_t n);
-
-/*
-** TODO: Doc
-** @param pc
-** @param ocp
-** @param flags
-** @return
-*/
-int32_t			vm_readref(uint8_t **pc, uint8_t *ocp, uint32_t flags);
 
 /*
 ** TODO: Doc
