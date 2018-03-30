@@ -6,7 +6,7 @@
 /*   By: lfabbro <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/03/16 16:55:56 by lfabbro           #+#    #+#             */
-/*   Updated: 2018/03/27 22:12:39 by nfinkel          ###   ########.fr       */
+/*   Updated: 2018/03/30 15:21:31 by nfinkel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,8 @@ static uint8_t		verb(void)
 {
 	int v;
 
-	if ((v = ft_atoi(g_optarg)) < 0 && errno)
+	v = ft_atoi(g_optarg);
+	if (errno)
 		vm_exit(EXIT_FAILURE, "%c: %m\n", 'v');
 	if ((v & ~VM_VERB))
 		vm_exit(EXIT_FAILURE, "%c: %d: Invalid verbose level\n", 'v', v);
@@ -41,8 +42,9 @@ static uint8_t		verb(void)
 static uint16_t		ctmo(void)
 {
 	int ctmo;
-
-	if ((ctmo = ft_atoi(g_optarg)) < 0 && errno)
+	
+	ctmo = ft_atoi(g_optarg);
+	if (errno)
 		vm_exit(EXIT_FAILURE, "%c: %m\n", 'c');
 	if (ctmo < 0 || ctmo > UINT16_MAX)
 		vm_exit(EXIT_FAILURE, "%c: %d: Invalid ctmo argument\n", 'c', ctmo);
@@ -53,7 +55,8 @@ static uint32_t		dump(void)
 {
 	int d;
 
-	if ((d = ft_atoi(g_optarg)) < 0 && errno)
+	d = ft_atoi(g_optarg);
+	if (errno)
 		vm_exit(EXIT_FAILURE, "%c: %m\n", 'c');
 	if (d < 0)
 		vm_exit(EXIT_FAILURE, "%c: %d: Invalid dump argument\n", 'd', d);
@@ -64,7 +67,8 @@ static uint32_t		pose(void)
 {
 	int p;
 
-	if ((p = ft_atoi(g_optarg)) < 0 && errno)
+	p = ft_atoi(g_optarg);
+	if (errno)
 		vm_exit(EXIT_FAILURE, "%c: %m\n", 'c');
 	if (p < 0)
 		vm_exit(EXIT_FAILURE, "%c: %d: Invalid pause argument\n", 'p', p);
