@@ -32,19 +32,19 @@ extern t_vm		*g_vm;
 
 /*
 ** TODO: Doc
-** @param ac 
-** @param av 
-** @param r1 
-** @return 
+** @param ac
+** @param av
+** @param r1
+** @return
 */
 int				vm_init(int ac, char **av);
 
 /*
 ** TODO: Doc
-** @param ecode 
-** @param fmt 
-** @param ... 
-** @return 
+** @param ecode
+** @param fmt
+** @param ...
+** @return
 */
 int				vm_exit(int ecode, char const *fmt, ...);
 
@@ -56,7 +56,7 @@ void			vm_dump(uint8_t *mem);
 
 /*
 ** TODO: Doc
-** @return 
+** @return
 */
 void			vm_run(void);
 

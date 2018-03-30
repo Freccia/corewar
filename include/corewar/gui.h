@@ -29,13 +29,13 @@
 
 /*
 ** TODO: Doc
-** @return 
+** @return
 */
 int		vm_guiinit(void);
 
 /*
 ** TODO: Doc
-** @return 
+** @return
 */
 int		vm_guiupdate(void);
 
@@ -47,16 +47,16 @@ void	vm_guiproc(t_proc *proc);
 
 /*
 ** TODO: Doc
-** @param i 
-** @param c 
-** @param val 
-** @return 
+** @param i
+** @param c
+** @param val
+** @return
 */
 int		vm_guinotify(uint16_t i, int color, int attrs, uint8_t lt);
 
 /*
 ** TODO: Doc
-** @return 
+** @return
 */
 int		vm_guiexit(void);
 

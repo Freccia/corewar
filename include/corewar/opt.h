@@ -34,10 +34,10 @@ typedef struct		s_opt
 
 /*
 ** TODO: Doc
-** @param opt 
-** @param ac 
-** @param av 
-** @return 
+** @param opt
+** @param ac
+** @param av
+** @return
 */
 void				vm_optparse(t_opt *opt, int ac, char **av);
 
