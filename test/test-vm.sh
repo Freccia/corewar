@@ -22,14 +22,14 @@ success() {
 	echo -e "$GREEN$1$NORMAL"
 }
 
-test-vm() {
+test_vm() {
     cycles="$1"
     core_file="$2"
 
     ctrl_file="$DUMP_FOLDER"/"$(basename $core_file)"_"$cycles"-cycles.dump
 
     # to generate cor dumps:
-    # "$ROOT/ressources/bin/corewar" -d "$cycles" "$core_file" "$core_file" > "$ctrl_file"
+    "$ROOT/ressources/bin/corewar" -d "$cycles" "$core_file" "$core_file" > "$ctrl_file"
 
     if test -e "$ctrl_file"; then
 
@@ -48,13 +48,13 @@ mkdir -p "$LOG_FOLDER"
 
 if test -z "$1"; then
     for f in $COR_FILES; do
-        for i in $(seq 10 10 250); do
-            test-vm "$i" "$f"
+        for i in $(seq 10 250 4000); do
+            test_vm "$i" "$f"
         done
     done
     success yay
 else
-    for i in $(seq 10 10 250); do
-        test-vm "$i" "$1"
+    for i in $(seq 10 250 4000); do
+        test_vm "$i" "$1"
     done
 fi
