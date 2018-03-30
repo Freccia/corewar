@@ -55,7 +55,7 @@ static void	nc_pause(int *running)
 		if (ch == ERR)
 			continue ;
 		else if (ch == 27)
-			vm_exit(EXIT_SUCCESS, "Good bye!\n");
+			vm_exit(EXIT_SUCCESS, NULL);
 		else if ((ch = gui_onkey(ch)) < 0)
 			vm_exit(EXIT_FAILURE, NULL);
 		else if (ch == 1)
@@ -100,6 +100,22 @@ static void	printreg(t_proc *proc, int32_t reg)
 		wattr_off(g_wprocs, (attr_t)COLOR_PAIR(proc->owner->idx + 1), 0x0);
 }
 
+void		vm_guiwinner(t_player *player)
+{
+	if (!g_vm->opt.g)
+		return ;
+	wattr_on(g_wstats, 0x200000, 0x0);
+	mvwprintw(g_wstats, 38, 4, "The winner is: ");
+	wattr_on(g_wstats, (attr_t)COLOR_PAIR(player->idx + 1), 0x0);
+	wprintw(g_wstats, "%s", player->name);
+	wattr_off(g_wstats, (attr_t)COLOR_PAIR(player->idx + 1), 0x0);
+	mvwprintw(g_wstats, 40, 4, "Press any key to exit... ");
+	wattr_off(g_wstats, 0x200000, 0x0);
+	wrefresh(g_wstats);
+	while (getch() == ERR)
+		;
+}
+
 void		vm_guiplayer(t_player *player)
 {
 	int y;
@@ -115,6 +131,7 @@ void		vm_guiplayer(t_player *player)
 	mvwprintw(g_wstats, ++y, x, "  Last live : %-20d       ", player->lastlive);
 	mvwprintw(g_wstats, ++y, x, "  Lives in current period : %-6d       ",
 		player->lives_in_periode);
+	wattr_off(g_wprocs, 0x200000, 0x0);
 	wrefresh(g_wstats);
 }
 
@@ -183,7 +200,7 @@ int			vm_guiupdate(void)
 	while ((ch = getch()) != ERR)
 	{
 		if (ch == 27)
-			return (vm_exit(EXIT_SUCCESS, "Good bye!\n"));
+			return (vm_exit(EXIT_SUCCESS, NULL));
 		else if (ch == 32)
 			nc_pause(&g_running);
 		else if (gui_onkey(ch) < 0)

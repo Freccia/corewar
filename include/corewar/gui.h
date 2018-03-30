@@ -47,6 +47,12 @@ void	vm_guiproc(t_proc *proc);
 
 /*
 ** TODO: Doc
+** @return
+*/
+void	vm_guiwinner(t_player *player);
+
+/*
+** TODO: Doc
 ** @param i
 ** @param c
 ** @param val

@@ -79,17 +79,18 @@ static void	cycle_to_die(void)
 static void	who_won(void)
 {
 	t_player	*player;
-	t_player	*winner;
+	t_player	*w;
 
 	player = g_vm->players.head;
-	winner = player;
+	w = player;
 	while (player)
 	{
-		if (player->lastlive > winner->lastlive)
-			winner = player;
+		if (player->lastlive >= w->lastlive)
+			w = player;
 		player = player->next;
 	}
-	ft_printf("Contestant %d, \"%s\", has won !\n", winner->id, winner->name);
+	vm_guiwinner(w);
+	ft_printf("Contestant %d, \"%s\", has won !\n", w->idx + 1, w->name);
 }
 
 void		vm_run(void)
