@@ -18,6 +18,10 @@ error() {
 	exit 1
 }
 
+error1() {
+    echo -e "\n$RED$1$NORMAL"
+}
+
 success() {
 	echo -e "$GREEN$1$NORMAL"
 }
@@ -33,8 +37,12 @@ test-vm() {
 
     if test -e "$ctrl_file"; then
         diff -y --width 400 --suppress-common-lines <(grep -vE 'Introducing|Player' "$ctrl_file") <("$ROOT/corewar" -d "$cycles" "$core_file" "$core_file" | grep -vE 'Introducing|Player') \
-            || error "corewar dump failed: with args: -d $cycles $core_file $core_file"
-        success "$core_file $cycles cycles ok!"
+            #|| error "corewar dump failed: with args: -d $cycles $core_file $core_file"
+        if [ $? -ne 0 ]; then
+            error1 "corewar dump failed: with args: -d $cycles $core_file $core_file"
+        else
+            success "$core_file $cycles cycles ok!"
+        fi
     fi
 }
 
