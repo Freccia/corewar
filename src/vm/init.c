@@ -63,10 +63,11 @@ int				vm_init(int ac, char **av)
 		{
 			if ((opt = ft_getopt(ac, av, "n:")) != WUT && opt != 'n')
 				vm_exit(EXIT_FAILURE, NULL);
-			opt == 'n' ? check_id(r1 = ft_atoi(g_optarg)) : 0;
+			opt == 'n' ? r1 = ft_atoi(g_optarg) : 0;
 			if (opt == 'n' && g_optind >= ac)
 				vm_exit(EXIT_FAILURE, "n: Missing champion after option\n");
 		}
+		check_id(r1);
 		vm_playerload(&player, av[g_optind++], r1);
 		vm_playerspush(&g_vm->players, &player);
 	}
