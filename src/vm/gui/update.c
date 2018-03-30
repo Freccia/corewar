@@ -68,7 +68,7 @@ static void	drawplayer(t_player *player)
 	x = g_stats[STATS_PLAYERS][0];
 	mvwprintw(g_wstats, y, x, "Player %d: ", player->id);
 	wattr_on(g_wstats, (attr_t)COLOR_PAIR(player->idx + 1), 0x0);
-	wprintw(g_wstats, "%s", player->name);
+	wprintw(g_wstats, "%.20s", player->name);
 	wattr_off(g_wstats, (attr_t)COLOR_PAIR(player->idx + 1), 0x0);
 	mvwprintw(g_wstats, ++y, x, "  Last live : %-20d       ", player->lastlive);
 	mvwprintw(g_wstats, ++y, x, "  Lives in current period : %-6d       ",
