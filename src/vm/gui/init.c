@@ -53,10 +53,12 @@ static void		nc_draw_stats(void)
 {
 	gui_stats(STATS_STEPI, g_stepi);
 	gui_stats(STATS_CYCLEL, g_cyclel);
-	gui_stats(STATS_CYCLE, (int)g_vm->cycle);
-	gui_stats(STATS_PROCS, (int)g_vm->procs.len);
-	gui_stats(STATS_CYCLE_TO_DIE, (int)g_vm->cycle_to_die);
+	gui_stats(STATS_CYCLE, g_vm->cycle_total, g_vm->cycle);
+	gui_stats(STATS_PROCS, g_vm->procs.len);
+	gui_stats(STATS_CYCLE_TO_DIE, g_vm->cycle_to_die);
 	gui_stats(STATS_CYCLE_DELTA, CYCLE_DELTA);
+	gui_stats(STATS_NBR_LIVE, g_vm->nbr_lives, NBR_LIVE);
+	gui_stats(STATS_MAX_CHECKS, g_vm->max_checks, MAX_CHECKS);
 }
 
 void				gui_draw(void)
@@ -80,6 +82,12 @@ void				gui_draw(void)
 			x = 2;
 			++y;
 		}
+		if (g_map[i].print && !g_map[i].attrsl)
+		{
+			x += 3;
+			continue ;
+		}
+		g_map[i].print = 1;
 		if (g_map[i].attrs & GUI_BOLD)
 			wattr_on(g_wboard, A_BOLD, NULL);
 		if (g_map[i].attrs & GUI_NOCOLOR)
@@ -93,7 +101,10 @@ void				gui_draw(void)
 		if (g_map[i].attrsl > 0)
 		{
 			if (!--g_map[i].attrsl)
+			{
 				g_map[i].attrs = 0;
+				g_map[i].print = 0;
+			}
 		}
 		mvwaddch(g_wboard, y, x++,
 			(chtype)DIGITS[(g_vm->mem[i] / 16) % 16] | a);

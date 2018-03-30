@@ -25,7 +25,6 @@ void	vm_procinit(t_proc *proc, t_player *owner)
 void	vm_procfork(t_proc *dst, t_proc *src, uint8_t *pc)
 {
 	ft_memcpy(dst, src, sizeof(t_proc));
-	dst->lastlive = 0;
 	dst->pc = pc;
 	dst->state = STATE_PENDING;
 	dst->lastlive = 0;
@@ -38,8 +37,7 @@ void	vm_procspush(t_procs *procs, t_proc *proc)
 	procs->head = proc;
 	++procs->len;
 	proc->pid = ++procs->max_pid;
-	vm_guinotify((uint16_t)(proc->pc - g_vm->mem),
-		-1, GUI_INV, 0);
+	vm_guinotify((uint16_t)(proc->pc - g_vm->mem), -1, GUI_INV, 0);
 }
 
 void	vm_procsrem(t_procs *procs, t_proc *proc)

@@ -24,6 +24,8 @@ typedef struct	s_vm
 	int32_t		cycle;
 	int32_t		cycle_to_die;
 	int32_t		cycle_total;
+	int32_t		nbr_lives;
+	int32_t		max_checks;
 	t_players	players;
 	t_procs		procs;
 }				t_vm;
