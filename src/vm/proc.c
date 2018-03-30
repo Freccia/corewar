@@ -37,8 +37,7 @@ void	vm_procspush(t_procs *procs, t_proc *proc)
 	procs->head = proc;
 	++procs->len;
 	proc->pid = ++procs->max_pid;
-	vm_guinotify((uint16_t)(proc->pc - g_vm->mem),
-		-1, GUI_INV, 0);
+	vm_guinotify((uint16_t)(proc->pc - g_vm->mem), -1, GUI_INV, 0);
 }
 
 void	vm_procsrem(t_procs *procs, t_proc *proc)
