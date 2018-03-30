@@ -15,7 +15,7 @@
 
 # include <stdint.h>
 
-# define MAX_OP 17 //Added GTMD
+# define MAX_OP 17
 
 # define IND_SIZE 2
 # define REG_SIZE 4
@@ -29,7 +29,7 @@
 # define MAX_PLAYERS 4
 # define MEM_SIZE (4*1024)
 # define IDX_MOD (MEM_SIZE / 8)
-# define CHAMP_MAX_SIZE (MEM_SIZE / 4)  //TODO: this was originally to MEM_SIZE / 6, but it makes sense like this (cf Misaka_Mikoto.s)
+# define CHAMP_MAX_SIZE (MEM_SIZE / 4)
 
 # define COMMENT_CHAR '#'
 # define LABEL_CHAR ':'

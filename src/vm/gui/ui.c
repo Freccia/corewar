@@ -27,17 +27,19 @@ static int	g_stats[STATS_PLAYERS + MAX_PLAYERS][2] = {
 	[STATS_PROCS] = {4, 10},
 	[STATS_CYCLE_TO_DIE] = {4, 12},
 	[STATS_CYCLE_DELTA] = {4, 14},
-	[STATS_PLAYERS] = {4, 16},
+	[STATS_NBR_LIVE] = {4, 16},
+	[STATS_MAX_CHECKS] = {4, 18},
+	[STATS_PLAYERS] = {4, 20},
 };
 static char	*g_statsstr[STATS_PLAYERS + MAX_PLAYERS] = {
 	[STATS_STEPI] = "Cycle by step    [up|down]: %d       ",
 	[STATS_CYCLEL] = "Cycles/second limit [<|>]: %d       ",
-	[STATS_CYCLE] = "Cycle : %d                           ",
+	[STATS_CYCLE] = "Cycle : %d (%d)                      ",
 	[STATS_PROCS] = "Processes : %d                       ",
 	[STATS_CYCLE_TO_DIE] = "CYCLE_TO_DIE : %d             ",
 	[STATS_CYCLE_DELTA] = "CYCLE_DELTA : %d               ",
-	[STATS_NBR_LIVE] = "NBR_LIVE : %d                     ",
-	[STATS_MAX_CHECKS] = "MAX_CHECKS : %d                 ",
+	[STATS_NBR_LIVE] = "NBR_LIVE : %d/%d                  ",
+	[STATS_MAX_CHECKS] = "MAX_CHECKS : %d/%d              ",
 };
 
 static void	nc_pause(int *running)
@@ -67,14 +69,17 @@ static void	nc_pause(int *running)
 	wattr_off(g_wstats, 0x200000, 0x0);
 }
 
-void		gui_stats(uint8_t id, int value)
+void		gui_stats(int id, ...)
 {
-	int *pos;
+	int		*pos;
+	va_list	ap;
 
 	pos = g_stats[id];
 	wmove(g_wstats, pos[1], pos[0]);
 	wattr_on(g_wstats, 0x200000, 0x0);
-	wprintw(g_wstats, g_statsstr[id], value);
+	va_start(ap, id);
+	vwprintw(g_wstats, g_statsstr[id], ap);
+	va_end(ap);
 	wattr_off(g_wstats, 0x200000, 0x0);
 	wrefresh(g_wstats);
 }
@@ -104,7 +109,6 @@ void		vm_guiplayer(t_player *player)
 	y = g_stats[STATS_PLAYERS][1] + (player->idx * 4);
 	x = g_stats[STATS_PLAYERS][0];
 	mvwprintw(g_wstats, y, x, "Player %d: ", player->id);
-
 	wattr_on(g_wstats, (attr_t)COLOR_PAIR(player->idx + 1), 0x0);
 	wprintw(g_wstats, "%s", player->name);
 	wattr_off(g_wstats, (attr_t)COLOR_PAIR(player->idx + 1), 0x0);
@@ -161,9 +165,11 @@ int			vm_guiupdate(void)
 		--g_step;
 		return (YEP);
 	}
-	gui_stats(STATS_CYCLE, (int)g_vm->cycle_total);
-	gui_stats(STATS_CYCLE_TO_DIE, (int)g_vm->cycle_to_die);
-	gui_stats(STATS_PROCS, (int)g_vm->procs.len);
+	gui_stats(STATS_CYCLE, g_vm->cycle_total, g_vm->cycle);
+	gui_stats(STATS_CYCLE_TO_DIE, g_vm->cycle_to_die);
+	gui_stats(STATS_PROCS, g_vm->procs.len);
+	gui_stats(STATS_NBR_LIVE, g_vm->nbr_lives, NBR_LIVE);
+	gui_stats(STATS_MAX_CHECKS, g_vm->max_checks, MAX_CHECKS);
 	player = g_vm->players.head;
 	while (player)
 	{
@@ -191,7 +197,8 @@ int			vm_guinotify(uint16_t i, int color, int attrs, uint8_t lt)
 		return (YEP);
 	if (color >= 0)
 		g_map[i].color = (uint8_t)color;
-	g_map[i].attrs = (uint16_t)attrs;
+	g_map[i].attrs = (uint8_t)attrs;
 	g_map[i].attrsl = lt;
+	g_map[i].print = 0;
 	return (YEP);
 }

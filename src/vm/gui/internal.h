@@ -45,13 +45,14 @@ typedef struct	s_cell
 {
 	uint8_t		color;
 	uint8_t		attrsl;
-	uint16_t	attrs;
+	uint8_t		attrs;
+	uint8_t		print;
 }				t_cell;
 
 extern t_cell	g_map[MEM_SIZE];
 
 int				gui_onkey(int ch);
-void			gui_stats(uint8_t id, int value);
+void			gui_stats(int id, ...);
 void			gui_draw(void);
 
 #endif

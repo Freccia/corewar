@@ -22,18 +22,21 @@ success() {
 	echo -e "$GREEN$1$NORMAL"
 }
 
-test-vm() {
+test_vm() {
     cycles="$1"
     core_file="$2"
 
     ctrl_file="$DUMP_FOLDER"/"$(basename $core_file)"_"$cycles"-cycles.dump
 
     # to generate cor dumps:
-    # "$ROOT/ressources/bin/corewar" -d "$cycles" "$core_file" "$core_file" > "$ctrl_file"
+    "$ROOT/ressources/bin/corewar" -d "$cycles" "$core_file" "$core_file" > "$ctrl_file"
 
     if test -e "$ctrl_file"; then
 
-        diff -y --width 400 --suppress-common-lines <(grep -vE 'Introducing|Player' "$ctrl_file") <("$ROOT/corewar" -d "$cycles" "$core_file" "$core_file" | grep -vE 'Introducing|Player')
+        diff -y --width 400 --suppress-common-lines \
+			<(grep -vE 'Introducing|Player' "$ctrl_file") \
+			<("$ROOT/corewar" -d "$cycles" "$core_file" "$core_file" \
+			| grep -vE 'Introducing|Player')
 
         if [ $? -ne 0 ]; then
             error "corewar dump failed: with args: -d $cycles $core_file $core_file"
@@ -43,18 +46,33 @@ test-vm() {
     fi
 }
 
+test_vm_leaks() {
+	core_file_1="$1"
+	core_file_2="$2"
+	valgrind="`which valgrind`"
+	if [ -x "$valgrind" ];then
+		"$valgrind" "$ROOT/corewar"  "core_file_1" "core_file_2" 2>&1 | \
+			grep "definitely lost: 0 bytes in 0 blocks" 1>/dev/null
+		if [ $? -ne 0 ];then
+			echo -e "\n$RED --- LEAKS! $core_file_1 $core_file_2$NORMAL"
+		fi
+	fi
+}
+
 # functional tests
 mkdir -p "$LOG_FOLDER"
 
 if test -z "$1"; then
     for f in $COR_FILES; do
-        for i in $(seq 10 10 250); do
-            test-vm "$i" "$f"
+        for i in $(seq 10 250 4000); do
+            test_vm "$i" "$f"
         done
+		test_vm_leaks "$f" "$prev"
+		prev=$f
     done
     success yay
 else
-    for i in $(seq 10 10 250); do
-        test-vm "$i" "$1"
+    for i in $(seq 10 250 4000); do
+        test_vm "$i" "$1"
     done
 fi
