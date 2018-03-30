@@ -6,7 +6,7 @@
 /*   By: alucas- <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/03/12 18:15:51 by alucas-           #+#    #+#             */
-/*   Updated: 2018/03/12 18:15:53 by alucas-          ###   ########.fr       */
+/*   Updated: 2018/03/30 10:48:03 by lfabbro          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,7 @@ static int		onarrow(int ch)
 		if (g_cyclel > 1)
 			g_cyclel < 50 ? (--g_cyclel) : ((g_cyclel /= 1.2));
 	}
-	else if (ch == KEY_UP && (size_t)g_stepi < g_vm->cycle_to_die)
+	else if (ch == KEY_UP && g_stepi < g_vm->cycle_to_die)
 		g_stepi += 5;
 	else if (ch == KEY_DOWN && g_stepi >= 10)
 		g_stepi -= 5;

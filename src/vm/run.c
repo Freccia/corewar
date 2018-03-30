@@ -6,7 +6,7 @@
 /*   By: lfabbro <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/03/16 16:55:56 by lfabbro           #+#    #+#             */
-/*   Updated: 2018/03/29 09:35:37 by lfabbro          ###   ########.fr       */
+/*   Updated: 2018/03/30 10:50:09 by lfabbro          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -105,9 +105,9 @@ void		vm_run(void)
 				vm_procsrem(&g_vm->procs, proc);
 			proc = next;
 		}
-		if (g_vm->opt.d > 0 && g_vm->cycle_total == (size_t)g_vm->opt.d)
+		if (g_vm->opt.d > 0 && g_vm->cycle_total == g_vm->opt.d)
 			return (mem_dump(&g_vm->mem[0]));
-		if (g_vm->cycle == g_vm->cycle_to_die)
+		if (g_vm->cycle >= g_vm->cycle_to_die)
 			cycle_to_die();
 	}
 }

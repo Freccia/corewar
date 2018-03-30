@@ -6,7 +6,7 @@
 /*   By: nfinkel <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/03/13 16:16:50 by nfinkel           #+#    #+#             */
-/*   Updated: 2018/03/27 21:38:44 by nfinkel          ###   ########.fr       */
+/*   Updated: 2018/03/30 10:48:49 by lfabbro          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@ typedef struct		s_opt
 {
 	uint8_t			v;
 	ssize_t			d;
-	size_t			p;
+	int32_t			p;
 	uint8_t			g : 1;
 	uint16_t		ctmo;
 }					t_opt;

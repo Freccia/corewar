@@ -6,7 +6,7 @@
 /*   By: nfinkel <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/03/13 16:16:50 by nfinkel           #+#    #+#             */
-/*   Updated: 2018/03/27 22:26:10 by nfinkel          ###   ########.fr       */
+/*   Updated: 2018/03/30 10:49:49 by lfabbro          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,9 +21,9 @@ typedef struct	s_vm
 {
 	uint8_t		mem[MEM_SIZE];
 	t_opt		opt;
-	uint32_t	cycle;
-	size_t		cycle_to_die;
-	size_t		cycle_total;
+	int32_t		cycle;
+	int32_t		cycle_to_die;
+	int32_t		cycle_total;
 	t_players	players;
 	t_procs		procs;
 }				t_vm;
