@@ -106,15 +106,16 @@ void		vm_guiproc(t_proc *proc)
 	mvwprintw(g_wprocs, ++y, 4, "Processes: [o: reset | p: next]");
 	mvwprintw(g_wprocs, y += 2, 4, "Process    %d ", proc->pid);
 	wattr_on(g_wprocs, (attr_t)COLOR_PAIR(proc->owner->idx + 1), 0x0);
-	wprintw(g_wprocs, "(%s)% 10c", proc->owner->name, ' ');
+	wprintw(g_wprocs, "(%.20s)% 10c", proc->owner->name, ' ');
 	wattr_off(g_wprocs, (attr_t)COLOR_PAIR(proc->owner->idx + 1), 0x0);
 	mvwprintw(g_wprocs, ++y, 4, "  STATE:   %-20s", g_states[proc->state]);
 	mvwprintw(g_wprocs, ++y, 4, "  PC:      %02hhx (%d)% 16c",
 		*proc->pc, proc->pc - g_vm->mem, ' ');
 	mvwprintw(g_wprocs, ++y, 4, "  CARRY:   %-20d", proc->carry);
 	mvwprintw(g_wprocs, ++y, 4, "  LIVE:    %-20d", proc->lastlive);
-	mvwprintw(g_wprocs, y += 2, 4, "  WAIT:    %-20d", proc->wait);
+	mvwprintw(g_wprocs, ++y, 4, "  WAIT:    %-20d", proc->wait);
 	wattr_off(g_wprocs, 0x200000, 0x0);
+	++y;
 	while (++reg <= REG_NUMBER)
 		print2reg(proc, &reg, &y);
 	wrefresh(g_wprocs);
