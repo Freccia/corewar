@@ -6,7 +6,7 @@
 /*   By: alucas- <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/03/12 18:15:51 by alucas-           #+#    #+#             */
-/*   Updated: 2018/03/12 18:15:53 by alucas-          ###   ########.fr       */
+/*   Updated: 2018/03/30 22:24:27 by lfabbro          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -106,7 +106,7 @@ void		vm_guiproc(t_proc *proc)
 	mvwprintw(g_wprocs, ++y, 4, "Processes: [o: reset | p: next]");
 	mvwprintw(g_wprocs, y += 2, 4, "Process    %d ", proc->pid);
 	wattr_on(g_wprocs, (attr_t)COLOR_PAIR(proc->owner->idx + 1), 0x0);
-	wprintw(g_wprocs, "(%.20s) 10c", proc->owner->name, ' ');
+	wprintw(g_wprocs, "(%.20s) %10c", proc->owner->name, ' ');
 	wattr_off(g_wprocs, (attr_t)COLOR_PAIR(proc->owner->idx + 1), 0x0);
 	mvwprintw(g_wprocs, ++y, 4, "  STATE:   %-20s", g_states[proc->state]);
 	mvwprintw(g_wprocs, ++y, 4, "  PC:      %02hhx (%d)% 16c",
