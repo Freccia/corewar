@@ -38,6 +38,7 @@ extern WINDOW	*g_wprocs;
 extern int		g_cyclel;
 extern int		g_running;
 extern int		g_stepi;
+extern int		g_dinstr;
 extern t_proc	*g_uiproc;
 
 typedef struct	s_cell

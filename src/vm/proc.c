@@ -6,7 +6,7 @@
 /*   By: alucas- <nfinkel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/03/14 19:17:51 by alucas-           #+#    #+#             */
-/*   Updated: 2018/03/25 03:11:06 by alucas-          ###   ########.fr       */
+/*   Updated: 2018/03/30 15:13:09 by nfinkel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,7 @@ void	vm_procfork(t_proc *dst, t_proc *src, uint8_t *pc)
 	dst->lastlive = 0;
 	dst->pc = pc;
 	dst->state = STATE_PENDING;
-	dst->lastlive = g_vm->cycle_total;
+	dst->lastlive = 0;
 }
 
 void	vm_procspush(t_procs *procs, t_proc *proc)
@@ -48,9 +48,11 @@ void	vm_procsrem(t_procs *procs, t_proc *proc)
 	void	*tmp;
 
 	if (g_vm->opt.v & VM_VERB_DEATH)
-		ft_printf("Process %d [%s] hasn't lived for %d cycles... Fuck off!\n",
-			proc->pid, proc->owner->name, g_vm->cycle_total - proc->lastlive);
+		ft_printf("Process %d [%s] hasn't lived for %d cycles... Fuck off! "
+			"-> Cycle to die was %d\n", proc->pid, proc->owner->name,
+			g_vm->cycle_total - proc->lastlive, g_vm->cycle_to_die);
 	vm_guinotify((uint16_t)(proc->pc - g_vm->mem), -1, 0, 0);
+	--procs->len;
 	if (procs->head == proc)
 	{
 		tmp = procs->head->next;

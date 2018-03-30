@@ -48,42 +48,35 @@ static void	exec(t_proc *proc)
 	}
 }
 
-static void	mem_dump(uint8_t *mem)
-{
-	int k;
-	int p;
-	int q;
-
-	k = -1;
-	q = -0x40;
-	ft_printf("0x");
-	while (++k < MEM_SIZE / 64)
-	{
-		p = -1;
-		ft_printf("%#.4x : ", q += 0x40);
-		while (++p < MEM_SIZE / 64)
-			ft_printf("%.2x ", *mem++);
-		ft_printf("\n");
-	}
-}
-
 static void	cycle_to_die(void)
 {
-	t_proc *proc;
-	t_proc *next;
+	static uint16_t	max_checks = 0;
+	uint32_t		nbr_lives;
+	t_proc			*proc;
+	t_proc			*next;
 
 	g_vm->cycle = 0;
-	g_vm->cycle_to_die -= CYCLE_DELTA;
-	if (g_vm->opt.v & VM_VERB_CYCLE)
-		ft_printf("Cycle to die is now %d\n", g_vm->cycle_to_die);
+	nbr_lives = 0;
 	proc = g_vm->procs.head;
 	while (proc)
 	{
 		next = proc->next;
 		if (g_vm->cycle_total - proc->lastlive >= g_vm->cycle_to_die)
 			vm_procsrem(&g_vm->procs, proc);
+		else
+			++nbr_lives;
 		proc = next;
 	}
+	++max_checks;
+	if (nbr_lives >= NBR_LIVE || max_checks == MAX_CHECKS)
+	{
+		g_vm->cycle_to_die -= CYCLE_DELTA;
+		if (g_vm->opt.v & VM_VERB_CYCLE)
+			ft_printf("Cycle to die is now %d\n", g_vm->cycle_to_die);
+		max_checks = 0;
+	}
+	else if (!nbr_lives)
+		g_vm->cycle_to_die = -1;
 }
 
 static void	who_won(void)
@@ -124,7 +117,7 @@ void		vm_run(void)
 			proc = next;
 		}
 		if (g_vm->opt.d > 0 && g_vm->cycle_total == g_vm->opt.d)
-			return (mem_dump(&g_vm->mem[0]));
+			return (vm_dump(&g_vm->mem[0]));
 		if (g_vm->cycle >= g_vm->cycle_to_die)
 			cycle_to_die();
 	}

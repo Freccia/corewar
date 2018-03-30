@@ -15,13 +15,12 @@
 static t_vm	g_vm_stack;
 t_vm		*g_vm = &g_vm_stack;
 
-int 		main(int ac, char **av)
+int			main(int ac, char **av)
 {
 	ft_bzero(g_vm, sizeof(t_vm));
 	vm_optparse(&g_vm->opt, ac, av);
 	if (vm_init(ac, av))
 		return (vm_exit(EXIT_FAILURE, NULL));
 	vm_run();
-	//TODO: Who won ?
 	return (vm_exit(EXIT_SUCCESS, NULL));
 }

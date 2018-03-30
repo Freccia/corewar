@@ -12,15 +12,14 @@
 
 #include "corewar.h"
 
-t_args		g_arg[MAX_ARGS_NUMBER + 1] = 
-{
+t_args		g_arg[MAX_ARGS_NUMBER + 1] = {
 	{0xc0, 6},
 	{0x30, 4},
 	{0x0c, 2},
 	{0x03, 0},
 };
 
-void		vm_carry(t_proc *proc, int32_t value)
+void			vm_carry(t_proc *proc, int32_t value)
 {
 	if (value)
 		proc->carry = 0;
@@ -28,7 +27,7 @@ void		vm_carry(t_proc *proc, int32_t value)
 		proc->carry = 1;
 }
 
-int32_t		vm_read(uint8_t *ptr, uint16_t n)
+int32_t			vm_read(uint8_t *ptr, uint16_t n)
 {
 	uint8_t	mem[n + 1];
 
@@ -37,7 +36,7 @@ int32_t		vm_read(uint8_t *ptr, uint16_t n)
 	return ((int32_t)ft_mtoi(vm_map(mem, ptr, n), n));
 }
 
-static int32_t		readref(uint8_t **ptr, uint8_t *pc, uint32_t flags)
+static int32_t	readref(uint8_t **ptr, uint8_t *pc, uint32_t flags)
 {
 	uint8_t		*pos;
 	uint16_t	len;
@@ -52,14 +51,9 @@ static int32_t		readref(uint8_t **ptr, uint8_t *pc, uint32_t flags)
 				sizeof(int32_t) : sizeof(int16_t));
 		move = len;
 	}
-	else if (flags & F_IND_RESTRICT)
+	else if ((flags & F_IND) || (flags & F_IND_RESTRICT))
 	{
-		pos = vm_move(pc, vm_read(*ptr, move), TRUE);
-		len = sizeof(int32_t);
-	}
-	else if (flags & F_IND)
-	{
-		pos = vm_move(pc, vm_read(*ptr, move), FALSE);
+		pos = vm_move(pc, vm_read(*ptr, move), flags & F_IND_RESTRICT);
 		len = sizeof(int32_t);
 	}
 	else
@@ -68,7 +62,7 @@ static int32_t		readref(uint8_t **ptr, uint8_t *pc, uint32_t flags)
 	return (vm_read(pos, len));
 }
 
-int32_t		vm_readarg(t_proc *proc, uint8_t **ptr, uint8_t n, uint32_t flags)
+int32_t			vm_readarg(t_proc *proc, uint8_t **ptr, uint8_t n, uint32_t fl)
 {
 	uint8_t ocp;
 	int32_t arg;
@@ -80,21 +74,15 @@ int32_t		vm_readarg(t_proc *proc, uint8_t **ptr, uint8_t n, uint32_t flags)
 	{
 		reg = (uint8_t)**ptr;
 		if (reg >= 0x1 && reg <= REG_NUMBER)
-			arg = (flags & F_REG_VAL) ? proc->reg[reg] : reg;
+			arg = (fl & F_REG_VAL) ? proc->reg[reg] : reg;
 		else
 			proc->state = STATE_DIEING;
 		*ptr = vm_move(*ptr, 1, FALSE);
 	}
 	else if (ocp == DIR_CODE)
-	{
-		flags = (flags & F_DIR) | (flags & F_DIR_LONG);
-		arg = readref(ptr, proc->pc, flags);
-	}
+		arg = readref(ptr, proc->pc, (fl & F_DIR) | (fl & F_DIR_LONG));
 	else if (ocp == IND_CODE)
-	{
-		flags = (flags & F_IND) | (flags & F_IND_RESTRICT);
-		arg = readref(ptr, proc->pc, flags);
-	}
+		arg = readref(ptr, proc->pc, (fl & F_IND) | (fl & F_IND_RESTRICT));
 	else
 		proc->state = STATE_DIEING;
 	return (arg);

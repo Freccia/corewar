@@ -21,7 +21,7 @@ int			vm_ldi(t_proc *proc, uint8_t *pc)
 
 	ptr = vm_move(pc, 2, FALSE);
 	av[0] = vm_readarg(proc, &ptr, 0, F_IND_RESTRICT | F_DIR | F_REG_VAL);
-	av[1] = vm_readarg(proc, &ptr, 1, F_IND_RESTRICT | F_DIR);
+	av[1] = vm_readarg(proc, &ptr, 1, F_IND_RESTRICT | F_DIR | F_REG_VAL);
 	reg = (uint8_t)vm_readarg(proc, &ptr, 2, F_REG);
 	proc->pc = vm_move(pc, (int32_t)(ptr - pc), FALSE);
 	if (reg < 0x1 || reg > REG_NUMBER)
