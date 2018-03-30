@@ -6,7 +6,7 @@
 /*   By: lfabbro <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/03/16 16:55:56 by lfabbro           #+#    #+#             */
-/*   Updated: 2018/03/30 11:54:24 by lfabbro          ###   ########.fr       */
+/*   Updated: 2018/03/30 18:14:28 by nfinkel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -105,10 +105,12 @@ void		vm_run(void)
 		proc = g_vm->procs.head;
 		++g_vm->cycle;
 		++g_vm->cycle_total;
+		g_vm->opt.ctmo -= (g_vm->opt.ctmo ? 1 : 0);
 		if (g_vm->opt.v & VM_VERB_CYCLE)
 			ft_printf("It is now cycle %d\n", g_vm->cycle_total);
 		while (g_vm->procs.len && proc)
 		{
+			g_vm->procs.current = proc;
 			next = proc->next;
 			exec(proc);
 			proc->state == STATE_DIEING ? vm_procsrem(&g_vm->procs, proc) : 0;

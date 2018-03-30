@@ -6,7 +6,7 @@
 /*   By: nfinkel <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/03/13 16:16:50 by nfinkel           #+#    #+#             */
-/*   Updated: 2018/03/30 10:49:24 by lfabbro          ###   ########.fr       */
+/*   Updated: 2018/03/30 17:54:42 by nfinkel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,6 +32,7 @@ typedef struct		s_proc
 	pid_t			pid;
 	uint8_t			carry;
 	int32_t			reg[REG_NUMBER + 1];
+	uint8_t			*ctmo_mem_start;
 	uint8_t			*pc;
 	int32_t			lastlive;
 	uint16_t		wait;
@@ -41,6 +42,7 @@ typedef struct		s_proc
 typedef struct		s_procs
 {
 	t_proc			*head;
+	t_proc			*current;
 	size_t			len;
 	uint32_t		max_pid;
 }					t_procs;
