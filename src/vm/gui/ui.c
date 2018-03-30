@@ -6,7 +6,7 @@
 /*   By: alucas- <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/03/12 18:15:51 by alucas-           #+#    #+#             */
-/*   Updated: 2018/03/12 18:15:53 by alucas-          ###   ########.fr       */
+/*   Updated: 2018/03/30 11:03:40 by lfabbro          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -141,9 +141,10 @@ void		vm_guiproc(t_proc *proc)
 	wattr_off(g_wprocs, 0x200000, 0x0);
 	while (++reg <= REG_NUMBER)
 	{
-		mvwprintw(g_wprocs, ++y, 4, "  %02x | ", reg);
+		mvwprintw(g_wprocs, ++y, 4, "  %02x |  ", reg);
 		printreg(proc, proc->reg[reg]);
 		printreg(proc, proc->reg[++reg]);
+		mvwprintw(g_wprocs, y, 33, "  | %02x", reg);
 	}
 	wrefresh(g_wprocs);
 }
