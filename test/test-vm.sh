@@ -32,11 +32,11 @@ test-vm() {
     # "$ROOT/ressources/bin/corewar" -d "$cycles" "$core_file" "$core_file" > "$ctrl_file"
 
     if test -e "$ctrl_file"; then
-        
+
         diff -y --width 400 --suppress-common-lines <(grep -vE 'Introducing|Player' "$ctrl_file") <("$ROOT/corewar" -d "$cycles" "$core_file" "$core_file" | grep -vE 'Introducing|Player')
 
         if [ $? -ne 0 ]; then
-            error1 "corewar dump failed: with args: -d $cycles $core_file $core_file"
+            error "corewar dump failed: with args: -d $cycles $core_file $core_file"
         else
             success "$core_file $cycles cycles ok!"
         fi
