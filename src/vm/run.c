@@ -50,8 +50,8 @@ static void	exec(t_proc *proc)
 
 static void	cycle_to_die(void)
 {
-	t_proc			*proc;
-	t_proc			*next;
+	t_proc *proc;
+	t_proc *next;
 
 	g_vm->cycle = 0;
 	g_vm->nbr_lives = 0;
