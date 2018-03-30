@@ -178,7 +178,7 @@ int			vm_guiupdate(void)
 			return (vm_exit(EXIT_SUCCESS, "Good bye!\n"));
 		else if (ch == 32)
 			nc_pause(&g_running);
-		else if (gui_onkey(ch))
+		else if (gui_onkey(ch) < 0)
 			vm_exit(EXIT_FAILURE, NULL);
 	}
 	usleep((useconds_t)(1000000 / g_cyclel));

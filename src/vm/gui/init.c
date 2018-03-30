@@ -105,6 +105,24 @@ void				gui_draw(void)
 	wrefresh(g_wboard);
 }
 
+static void		onresize(int sign)
+{
+	(void)sign;
+	clear();
+	wattr_on(g_wboard, 0x242a00, 0);
+	box(g_wboard, 0x2a, 0x2a);
+	wattr_off(g_wboard, 0x242a00, 0);
+	wattr_on(g_wstats, 0x242a00, 0);
+	box(g_wstats, 0x2a, 0x2a);
+	wattr_off(g_wstats, 0x242a00, 0);
+	wattr_on(g_wprocs, 0x242a00, 0);
+	box(g_wprocs, 0x2a, 0x2a);
+	wattr_off(g_wprocs, 0x242a00, 0);
+	wrefresh(g_wstats);
+	gui_draw();
+	nc_draw_stats();
+}
+
 int				vm_guiinit(void)
 {
 	int sq;
@@ -125,18 +143,8 @@ int				vm_guiinit(void)
 		return (WUT);
 	if (!(g_wprocs = subwin(stdscr, ((sq + 2) / 2) - 10, 50, ((sq + 2) / 2) + 10, sq * 3 + 2)))
 		return (WUT);
-	wattr_on(g_wboard, 0x242a00, 0);
-	box(g_wboard, 0x2a, 0x2a);
-	wattr_off(g_wboard, 0x242a00, 0);
-	wattr_on(g_wstats, 0x242a00, 0);
-	box(g_wstats, 0x2a, 0x2a);
-	wattr_off(g_wstats, 0x242a00, 0);
-	wattr_on(g_wprocs, 0x242a00, 0);
-	box(g_wprocs, 0x2a, 0x2a);
-	wattr_off(g_wprocs, 0x242a00, 0);
-	wrefresh(g_wstats);
 	ft_bzero(g_map, sizeof(g_map));
-	gui_draw();
-	nc_draw_stats();
+	onresize(0);
+	signal(SIGWINCH, onresize);
 	return (YEP);
 }
