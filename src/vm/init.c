@@ -6,7 +6,7 @@
 /*   By: lfabbro <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/03/15 15:30:43 by lfabbro           #+#    #+#             */
-/*   Updated: 2018/03/30 11:17:57 by lfabbro          ###   ########.fr       */
+/*   Updated: 2018/03/30 11:55:20 by lfabbro          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,7 @@ static int		init_procs(void)
 	while (champ)
 	{
 		ft_printf("* Player %hhu, weighing %lu bytes, \"%s\" (\"%.50s\") !\n",
-			champ->idx + 1, champ->size, champ->name, champ->comment); //TODO put comment here
+			champ->idx + 1, champ->size, champ->name, champ->comment);
 		vm_procinit(&proc, champ);
 		vm_procspush(&g_vm->procs, &proc);
 		champ = champ->next;

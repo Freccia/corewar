@@ -6,7 +6,7 @@
 /*   By: lfabbro <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/03/16 16:55:56 by lfabbro           #+#    #+#             */
-/*   Updated: 2018/03/30 10:50:09 by lfabbro          ###   ########.fr       */
+/*   Updated: 2018/03/30 11:54:24 by lfabbro          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,6 +86,22 @@ static void	cycle_to_die(void)
 	}
 }
 
+static void	who_won(void)
+{
+	t_player	*player;
+	t_player	*winner;
+
+	player = g_vm->players.head;
+	winner = player;
+	while (player)
+	{
+		if (player->lastlive > winner->lastlive)
+			winner = player;
+		player = player->next;
+	}
+	ft_printf("Contestant %d, \"%s\", has won !\n", winner->id, winner->name);
+}
+
 void		vm_run(void)
 {
 	t_proc *proc;
@@ -113,4 +129,5 @@ void		vm_run(void)
 		if (g_vm->cycle >= g_vm->cycle_to_die)
 			cycle_to_die();
 	}
+	who_won();
 }
