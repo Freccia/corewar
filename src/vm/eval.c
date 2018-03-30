@@ -73,15 +73,14 @@ int				vm_eval(t_proc *proc, uint8_t *pc)
 			proc->pc = vm_move(proc->pc, 2, FALSE);
 		else
 		{
-			if (g_vm->opt.v & VM_VERB_OPERA &&
-				*pc >= 0x1 && *pc <= MAX_OP)
+			if (g_vm->opt.v & VM_VERB_OPERA && *pc >= 0x1 && *pc <= MAX_OP)
 				ft_printf("Process %d [%s] executing %s\n", proc->pid,
 					proc->owner->name, g_op_tab[*pc - 1].name);
 			ret = g_instr[*pc - 1](proc, pc);
 		}
 	}
 	if (g_vm->opt.v & VM_VERB_MOVES)
-		ft_printf("Process %d [%s] PC moves by %td (%p -> %p)\n",\
+		ft_printf("Process %d [%s] PC moves by %td (%p -> %p)\n",
 			proc->pid, proc->owner->name, proc->pc - pc, pc, proc->pc);
 	return (ret);
 }

@@ -22,6 +22,5 @@ int 		main(int ac, char **av)
 	if (vm_init(ac, av))
 		return (vm_exit(EXIT_FAILURE, NULL));
 	vm_run();
-	//TODO: Who won ?
 	return (vm_exit(EXIT_SUCCESS, NULL));
 }
