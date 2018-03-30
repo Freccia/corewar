@@ -18,6 +18,7 @@ int	vm_guiexit(void)
 		return (YEP);
 	delwin(g_wboard);
 	delwin(g_wstats);
+	delwin(g_wprocs);
 	endwin();
 	return (YEP);
 }

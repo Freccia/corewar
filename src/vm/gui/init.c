@@ -116,10 +116,31 @@ void				gui_draw(void)
 	wrefresh(g_wboard);
 }
 
-static void		onresize(int sign)
+static void		setnoprint(void)
 {
-	(void)sign;
+	for (int i = 0; i < MEM_SIZE; ++i)
+		g_map[i].print = 0;
+}
+
+static void		onresize(int sq)
+{
+	endwin();
+	initscr();
+	cbreak();
+	noecho();
+	keypad(stdscr, TRUE);
+	nodelay(stdscr, TRUE);
+	curs_set(FALSE);
+	nc_colors();
 	clear();
+	refresh();
+	sq = (int)ft_sqrt7(MEM_SIZE);
+	if (!(g_wboard = subwin(stdscr, sq + 2, sq * 3 + 3, 0, 0)))
+		return ;
+	if (!(g_wstats = subwin(stdscr, ((sq + 2) / 2) + 11, 50, 0, sq * 3 + 2)))
+		return ;
+	if (!(g_wprocs = subwin(stdscr, ((sq + 2) / 2) - 10, 50, ((sq + 2) / 2) + 10, sq * 3 + 2)))
+		return ;
 	wattr_on(g_wboard, 0x242a00, 0);
 	box(g_wboard, 0x2a, 0x2a);
 	wattr_off(g_wboard, 0x242a00, 0);
@@ -129,31 +150,16 @@ static void		onresize(int sign)
 	wattr_on(g_wprocs, 0x242a00, 0);
 	box(g_wprocs, 0x2a, 0x2a);
 	wattr_off(g_wprocs, 0x242a00, 0);
-	wrefresh(g_wstats);
+	wrefresh(g_wprocs);
+	setnoprint();
 	gui_draw();
 	nc_draw_stats();
 }
 
 int				vm_guiinit(void)
 {
-	int sq;
-
 	if (!g_vm->opt.g)
 		return (YEP);
-	initscr();
-	cbreak();
-	noecho();
-	keypad(stdscr, TRUE);
-	nodelay(stdscr, TRUE);
-	curs_set(FALSE);
-	nc_colors();
-	sq = (int)ft_sqrt7(MEM_SIZE);
-	if (!(g_wboard = subwin(stdscr, sq + 2, sq * 3 + 3, 0, 0)))
-		return (WUT);
-	if (!(g_wstats = subwin(stdscr, ((sq + 2) / 2) + 11, 50, 0, sq * 3 + 2)))
-		return (WUT);
-	if (!(g_wprocs = subwin(stdscr, ((sq + 2) / 2) - 10, 50, ((sq + 2) / 2) + 10, sq * 3 + 2)))
-		return (WUT);
 	ft_bzero(g_map, sizeof(g_map));
 	onresize(0);
 	signal(SIGWINCH, onresize);
