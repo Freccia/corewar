@@ -120,8 +120,7 @@ void		vm_run(void)
 		{
 			next = proc->next;
 			exec(proc);
-			if (proc->state == STATE_DIEING)
-				vm_procsrem(&g_vm->procs, proc);
+			proc->state == STATE_DIEING ? vm_procsrem(&g_vm->procs, proc) : 0;
 			proc = next;
 		}
 		if (g_vm->opt.d > 0 && g_vm->cycle_total == g_vm->opt.d)

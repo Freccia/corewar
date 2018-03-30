@@ -84,7 +84,7 @@ CPPFLAGS =
 
 # compilation/linking flags for the differents public rules
 WFLAGS = -Wextra -Wall  # warnings
-RCFLAGS = $(WFLAGS) -Werror -O2  # release
+RCFLAGS = $(WFLAGS) -Werror -O2 -march=native  # release
 DCFLAGS = $(WFLAGS) -g3 -DDEBUG  # debug
 SCFLAGS = $(DCFLAGS) -fsanitize=address,undefined -ferror-limit=5  # sanitize
 WWFLAGS = $(WFLAGS) -Wpedantic -Wshadow -Wconversion -Wcast-align \
