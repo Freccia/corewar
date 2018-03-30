@@ -50,7 +50,7 @@ static int		onnext(int ch)
 static int		onp(int ch)
 {
 	(void)ch;
-	if (!g_running)
+	if (!g_running && g_dinstr)
 	{
 		if (g_uiproc && g_uiproc->next)
 			vm_guiproc(g_uiproc->next);
@@ -63,11 +63,18 @@ static int		onp(int ch)
 static int		ono(int ch)
 {
 	(void)ch;
-	if (!g_running)
+	if (!g_running && g_dinstr)
 	{
 		if (g_vm->procs.head)
 			vm_guiproc(g_vm->procs.head);
 	}
+	return (YEP);
+}
+
+static int		oni(int ch)
+{
+	(void)ch;
+	g_dinstr ^= 1;
 	return (YEP);
 }
 
@@ -79,7 +86,8 @@ static t_keyh	*g_keym[KEY_MAX] = {
 	['n'] = onnext,
 	['s'] = onnext,
 	['p'] = onp,
-	['o'] = ono
+	['o'] = ono,
+	['i'] = oni
 };
 
 int				gui_onkey(int ch)

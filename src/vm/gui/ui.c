@@ -15,6 +15,7 @@
 int			g_cyclel = 50;
 int			g_running = 0;
 int			g_stepi = 5;
+int			g_dinstr = 0;
 t_proc		*g_uiproc = NULL;
 static int	g_step = 0;
 t_cell		g_map[MEM_SIZE];
@@ -118,7 +119,7 @@ void		vm_guiproc(t_proc *proc)
 	int y;
 	int reg;
 
-	if (!g_vm->opt.g)
+	if (!g_vm->opt.g || !g_dinstr)
 		return ;
 	g_uiproc = proc;
 	y = 1;
