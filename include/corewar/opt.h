@@ -6,7 +6,7 @@
 /*   By: nfinkel <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/03/13 16:16:50 by nfinkel           #+#    #+#             */
-/*   Updated: 2018/03/30 10:48:49 by lfabbro          ###   ########.fr       */
+/*   Updated: 2018/03/30 15:07:53 by nfinkel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@
 # define VM_VERB_DEATH (1 << 3)
 # define VM_VERB_MOVES (1 << 4)
 # define VM_VERB_ (VM_VERB_LIVES | VM_VERB_CYCLE | VM_VERB_OPERA)
-# define VM_VERB ((VM_VERB_) | VM_VERB_MOVES)
+# define VM_VERB ((VM_VERB_) | VM_VERB_DEATH | VM_VERB_MOVES)
 
 typedef struct		s_opt
 {
