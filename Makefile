@@ -38,7 +38,8 @@ SRCA_NAME = \
 	asm/parser/parse_args.c
 SRCB_NAME = \
 	$(COMMON_SRC) \
-	vm/gui/exit.c vm/gui/init.c vm/gui/keys.c vm/gui/ui.c \
+	vm/gui/cell.c vm/gui/draw.c vm/gui/gui.c vm/gui/keys.c vm/gui/notify.c \
+	vm/gui/update.c \
 	vm/init.c \
 	vm/eval.c vm/instr/add.c vm/instr/aff.c vm/instr/and.c vm/instr/fork.c \
 	vm/instr/ld.c vm/instr/ldi.c vm/instr/lfork.c vm/instr/live.c vm/instr/lld.c \

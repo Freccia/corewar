@@ -39,62 +39,48 @@ static int		onarrow(int ch)
 	return (YEP);
 }
 
-static int		onnext(int ch)
+static int		onletter(int ch)
 {
-	(void)ch;
-	if (g_running)
-		return (YEP);
-	return (NOP);
-}
-
-static int		onp(int ch)
-{
-	(void)ch;
-	if (!g_running && g_dinstr)
+	if (ch == 's')
+		return (g_running ? YEP : NOP);
+	if (ch == 'p' && !g_running && g_dinstr)
 	{
 		if (g_uiproc && g_uiproc->next)
 			vm_guiproc(g_uiproc->next);
 		else if (g_vm->procs.head)
 			vm_guiproc(g_vm->procs.head);
 	}
-	return (YEP);
-}
-
-static int		ono(int ch)
-{
-	(void)ch;
-	if (!g_running && g_dinstr)
+	else if (ch == 'o' && !g_running && g_dinstr)
 	{
 		if (g_vm->procs.head)
 			vm_guiproc(g_vm->procs.head);
 	}
+	else if (ch == 'i' && !(g_dinstr ^= 1))
+	{
+		wclear(g_wprocs);
+		wattr_on(g_wprocs, 0x242a00, 0);
+		box(g_wprocs, 0x2a, 0x2a);
+		wattr_off(g_wprocs, 0x242a00, 0);
+		wrefresh(g_wprocs);
+	}
 	return (YEP);
 }
-
-static int		oni(int ch)
-{
-	(void)ch;
-	g_dinstr ^= 1;
-	return (YEP);
-}
-
-static t_keyh	*g_keym[KEY_MAX] = {
-	[KEY_RIGHT] = onarrow,
-	[KEY_LEFT] = onarrow,
-	[KEY_UP] = onarrow,
-	[KEY_DOWN] = onarrow,
-	['n'] = onnext,
-	['s'] = onnext,
-	['p'] = onp,
-	['o'] = ono,
-	['i'] = oni
-};
 
 int				gui_onkey(int ch)
 {
-	t_keyh *hook;
+	t_keyh			*hook;
+	static t_keyh	*keymap[KEY_MAX] = {
+		[KEY_RIGHT] = onarrow,
+		[KEY_LEFT] = onarrow,
+		[KEY_UP] = onarrow,
+		[KEY_DOWN] = onarrow,
+		['s'] = onletter,
+		['p'] = onletter,
+		['o'] = onletter,
+		['i'] = onletter
+	};
 
-	if ((hook = g_keym[ch]))
+	if ((hook = keymap[ch]))
 		return (hook(ch));
 	return (YEP);
 }

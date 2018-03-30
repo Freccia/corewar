@@ -50,9 +50,9 @@ add_executable(corewar ${corewar_HDRS}
   ${vm_SRCS}
   src/vm/gui/internal.h
   src/vm/gui/exit.c
-  src/vm/gui/init.c
+  src/vm/gui/gui.c
   src/vm/gui/keys.c
-  src/vm/gui/ui.c)
+  src/vm/gui/notify.c)
 set_property(TARGET corewar PROPERTY C_STANDARD 90)
 target_include_directories(corewar PUBLIC include)
 target_link_libraries(corewar PUBLIC debug ft ncurses)
