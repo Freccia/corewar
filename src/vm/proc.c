@@ -6,7 +6,7 @@
 /*   By: alucas- <nfinkel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/03/14 19:17:51 by alucas-           #+#    #+#             */
-/*   Updated: 2018/03/30 19:20:01 by lfabbro          ###   ########.fr       */
+/*   Updated: 2018/03/30 19:25:02 by lfabbro          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,9 +58,9 @@ void	vm_procsrem(t_procs *procs, t_proc *proc)
 		if (ptr == proc)
 		{
 			if (tmp == NULL)
-				procs->head = ptr->next;
+				procs->head = proc->next;
 			else
-				tmp->next = ptr->next;
+				tmp->next = proc->next;
 			free(proc);
 			return ;
 		}
