@@ -48,25 +48,6 @@ static void	exec(t_proc *proc)
 	}
 }
 
-static void	mem_dump(uint8_t *mem)
-{
-	int k;
-	int p;
-	int q;
-
-	k = -1;
-	q = -0x40;
-	ft_printf("0x");
-	while (++k < MEM_SIZE / 64)
-	{
-		p = -1;
-		ft_printf("%#.4x : ", q += 0x40);
-		while (++p < MEM_SIZE / 64)
-			ft_printf("%.2x ", *mem++);
-		ft_printf("\n");
-	}
-}
-
 static void	cycle_to_die(void)
 {
 	t_proc *proc;
@@ -124,7 +105,7 @@ void		vm_run(void)
 			proc = next;
 		}
 		if (g_vm->opt.d > 0 && g_vm->cycle_total == g_vm->opt.d)
-			return (mem_dump(&g_vm->mem[0]));
+			return (vm_dump(&g_vm->mem[0]));
 		if (g_vm->cycle >= g_vm->cycle_to_die)
 			cycle_to_die();
 	}

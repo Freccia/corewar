@@ -50,6 +50,12 @@ int				vm_exit(int ecode, char const *fmt, ...);
 
 /*
 ** TODO: Doc
+** @param mem
+*/
+void			vm_dump(uint8_t *mem);
+
+/*
+** TODO: Doc
 ** @return 
 */
 void			vm_run(void);

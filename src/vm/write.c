@@ -12,7 +12,7 @@
 
 #include "corewar.h"
 
-void		vm_write(uint8_t *dst, uint8_t *src, size_t len, uint8_t color)
+void		vm_write(uint8_t *dst, uint8_t *src, size_t len, int color)
 {
 	while (len--)
 	{
@@ -41,11 +41,11 @@ uint8_t		*vm_map(uint8_t *mem, uint8_t *pc, uint16_t n)
 }
 
 
-uint8_t		*vm_move(uint8_t const *pc, int32_t move, uint8_t idx_mod)
+uint8_t		*vm_move(uint8_t const *pc, int32_t move, int idx_res)
 {
 	int32_t abs;
 
-	if (idx_mod)
+	if (idx_res)
 		move %= IDX_MOD;
 	abs = (int32_t)(pc - g_vm->mem + move);
 	if (abs < 0)

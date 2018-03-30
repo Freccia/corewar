@@ -100,8 +100,5 @@ void				vm_optparse(t_opt *opt, int ac, char **av)
 		else
 			vm_exit(EXIT_FAILURE, g_usage, av[0]);
 	if (opt->g)
-	{
-		opt->v = 0;
-		opt->d = 0;
-	}
+		ft_bzero(opt, sizeof(opt->v) + sizeof(opt->d));
 }

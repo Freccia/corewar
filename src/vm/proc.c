@@ -48,10 +48,11 @@ void	vm_procsrem(t_procs *procs, t_proc *proc)
 	void	*tmp;
 
 	if (g_vm->opt.v & VM_VERB_DEATH)
-		ft_printf("Process %d [%s] hasn't lived for %d cycles... Fuck off! "\
-			"-> Cycle to die was %d\n", proc->pid, proc->owner->name,\
+		ft_printf("Process %d [%s] hasn't lived for %d cycles... Fuck off! "
+			"-> Cycle to die was %d\n", proc->pid, proc->owner->name,
 			g_vm->cycle_total - proc->lastlive, g_vm->cycle_to_die);
 	vm_guinotify((uint16_t)(proc->pc - g_vm->mem), -1, 0, 0);
+	--procs->len;
 	if (procs->head == proc)
 	{
 		tmp = procs->head->next;

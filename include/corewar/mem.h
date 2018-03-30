@@ -40,7 +40,7 @@ extern t_args	g_arg[MAX_ARGS_NUMBER + 1];
 ** @param len
 ** @return
 */
-uint8_t			*vm_move(uint8_t const *pc, int32_t len, uint8_t idx_mod);
+uint8_t			*vm_move(uint8_t const *pc, int32_t len, int idx_res);
 
 /*
 ** TODO: Doc
@@ -58,7 +58,7 @@ uint8_t			*vm_map(uint8_t *mem, uint8_t *pc, uint16_t n);
 ** @param len
 ** @param p
 */
-void			vm_write(uint8_t *dst, uint8_t *src, size_t len, uint8_t color);
+void			vm_write(uint8_t *dst, uint8_t *src, size_t len, int color);
 
 /*
 ** TODO: Doc
