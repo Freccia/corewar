@@ -6,7 +6,7 @@
 /*   By: mcanal <zboub@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/06/09 14:24:52 by mcanal            #+#    #+#             */
-/*   Updated: 2018/03/31 03:24:42 by mc               ###   ########.fr       */
+/*   Updated: 2018/03/31 16:43:48 by mcanal           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -104,9 +104,9 @@ static t_progress		read_instruction(char *line,			 \
 	word_start = line;
 	while (!IS_EOL(*line) && !ft_isspace(*line))
 		line++;
-	//TODO: this is just an ugly workaround to skip .extend/.code/etc statements...
 	if (*word_start == '.' && progress == P_NOPROGRESS)
-		return (P_NOPROGRESS);
+		return (error(E_INVALID | E_NOEXIT, ".CMD not found (ignoring).") \
+				|| P_NOPROGRESS);
 	if (*(line - 1) == LABEL_CHAR)
 	{
 		if (progress & P_LABEL || progress & P_OP)

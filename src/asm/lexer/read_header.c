@@ -6,7 +6,7 @@
 /*   By: mcanal <zboub@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/03/12 21:43:56 by mcanal            #+#    #+#             */
-/*   Updated: 2018/03/31 03:25:54 by mc               ###   ########.fr       */
+/*   Updated: 2018/03/31 16:33:21 by mcanal           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,7 +51,7 @@ static t_progress		read_identifier(char *line)
 		return (P_NAME);
 	if (!ft_strncmp(line, COMMENT_CMD_STRING, ft_strlen(COMMENT_CMD_STRING)))
 		return (P_COMMENT);
-	error(E_INVALID, "Invalid header (unknown identifier)."); //TODO: it could be a 'missing header' error
+	error(E_INVALID, "Invalid header (unknown identifier).");
 	return (P_NOPROGRESS);
 }
 
