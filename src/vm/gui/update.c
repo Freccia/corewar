@@ -6,7 +6,7 @@
 /*   By: alucas- <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/03/12 18:15:51 by alucas-           #+#    #+#             */
-/*   Updated: 2018/03/12 18:15:53 by alucas-          ###   ########.fr       */
+/*   Updated: 2018/03/31 18:51:52 by mcanal           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,6 +47,8 @@ void		gui_stats(int id, ...)
 	int		*pos;
 	va_list	ap;
 
+	if (!g_wstats)
+		return ;
 	pos = g_stats[id];
 	wmove(g_wstats, pos[1], pos[0]);
 	wattr_on(g_wstats, 0x200000, 0x0);
@@ -62,6 +64,8 @@ static void	drawplayer(t_player *player)
 	int y;
 	int x;
 
+	if (!g_wstats)
+		return ;
 	wattr_on(g_wstats, 0x200000, 0x0);
 	y = g_stats[STATS_PLAYERS][1] + (player->idx * 4);
 	x = g_stats[STATS_PLAYERS][0];
@@ -72,7 +76,7 @@ static void	drawplayer(t_player *player)
 	mvwprintw(g_wstats, ++y, x, "  Last live : %-20d      ", player->last_live);
 	mvwprintw(g_wstats, ++y, x, "  Lives in current period : %-6d       ",
 		player->lives_in_period);
-	wattr_off(g_wprocs, 0x200000, 0x0);
+	wattr_off(g_wstats, 0x200000, 0x0);
 	wrefresh(g_wstats);
 }
 

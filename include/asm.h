@@ -6,7 +6,7 @@
 /*   By: mcanal <zboub@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2015/12/14 18:21:04 by mcanal            #+#    #+#             */
-/*   Updated: 2018/03/31 17:03:52 by mcanal           ###   ########.fr       */
+/*   Updated: 2018/03/31 18:53:48 by mcanal           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,7 +82,7 @@ enum					e_error
 	E_INVALID = (1 << 6)
 };
 
-#define E_WARNING (E_NOERROR | E_INVALID)
+# define E_WARNING (E_NOERROR | E_INVALID)
 
 /*
 ** globad

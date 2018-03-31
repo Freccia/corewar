@@ -6,7 +6,7 @@
 /*   By: nfinkel <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/03/13 16:16:50 by nfinkel           #+#    #+#             */
-/*   Updated: 2018/03/30 18:04:28 by mc               ###   ########.fr       */
+/*   Updated: 2018/03/31 18:54:36 by mcanal           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@
 /*
 ** for signal / SIGWINCH
 */
-#include <signal.h>
+# include <signal.h>
 
 # include "corewar.h"
 

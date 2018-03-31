@@ -6,7 +6,7 @@
 /*   By: alucas- <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/03/12 18:15:51 by alucas-           #+#    #+#             */
-/*   Updated: 2018/03/31 17:38:09 by nfinkel          ###   ########.fr       */
+/*   Updated: 2018/03/31 18:50:10 by mcanal           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,13 +26,13 @@ void		gui_drawboard(void)
 	int a;
 	int i;
 
+	if (!g_wboard)
+		return ;
 	x = 2;
 	y = 1;
 	i = -1;
-	while (++i < MEM_SIZE)
+	while (++i < MEM_SIZE && y + 1 < getmaxy(g_wboard))
 	{
-		if (y + 1 >= getmaxy(g_wboard))
-			break ;
 		if (x + 4 > getmaxx(g_wboard) && (x = 2))
 			++y;
 		if (g_map[i].print && !g_map[i].lifetime && (x += 3))
@@ -62,6 +62,8 @@ void		gui_drawstats(void)
 
 static void	print2reg(t_proc *proc, int32_t *reg, int *y)
 {
+	if (!g_wprocs)
+		return ;
 	mvwprintw(g_wprocs, ++*y, 4, "  %02x |  ", *reg);
 	if (proc->reg[*reg])
 		wattr_on(g_wprocs, (attr_t)COLOR_PAIR(proc->owner->idx + 1), 0x0);
@@ -78,7 +80,7 @@ static void	print2reg(t_proc *proc, int32_t *reg, int *y)
 
 void		vm_guiwinner(t_player *player)
 {
-	if (!g_vm->opt.g)
+	if (!g_vm->opt.g || !g_wstats)
 		return ;
 	wattr_on(g_wstats, 0x200000, 0x0);
 	mvwprintw(g_wstats, 38, 4, "The winner is: ");
@@ -97,7 +99,7 @@ void		vm_guiproc(t_proc *proc)
 	int y;
 	int reg;
 
-	if (!g_vm->opt.g || !proc)
+	if (!g_vm->opt.g || !proc || !g_wprocs)
 		return ;
 	g_uiproc = proc;
 	y = 1;

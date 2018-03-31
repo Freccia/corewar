@@ -6,7 +6,7 @@
 /*   By: nfinkel <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/03/13 16:16:50 by nfinkel           #+#    #+#             */
-/*   Updated: 2018/03/26 17:15:36 by lfabbro          ###   ########.fr       */
+/*   Updated: 2018/03/31 18:54:09 by mcanal           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,7 +44,6 @@ int		vm_guiupdate(void);
 ** @return
 */
 void	vm_guiproc(t_proc *proc);
-
 
 /*
 ** TODO: Doc
