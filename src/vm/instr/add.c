@@ -12,6 +12,14 @@
 
 #include "corewar.h"
 
+/*
+**
+** This instruction reproduce a zaz behavior which doesn't match the subject:
+**   av[0] F_REG_VAL -> F_REG_VAL | F_IND
+**   av[1] F_REG_VAL -> F_REG_VAL | F_IND
+**   av[2] F_REG_VAL -> F_REG | F_IND
+*/
+
 int			vm_add(t_proc *proc, uint8_t *pc)
 {
 	uint8_t *ptr;
