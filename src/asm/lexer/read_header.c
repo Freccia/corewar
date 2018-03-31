@@ -6,7 +6,7 @@
 /*   By: mcanal <zboub@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/03/12 21:43:56 by mcanal            #+#    #+#             */
-/*   Updated: 2018/03/24 19:59:21 by mc               ###   ########.fr       */
+/*   Updated: 2018/03/31 03:25:54 by mc               ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,9 +17,11 @@
 #include "asm_lexer.h"
 
 /*
+**
 ** identifier (.name/.comment) tokenizer
 */
-static void				parse_header(char *line, \
+
+static void				parse_header(char *line,						\
 									t_progress progress, t_header *header)
 {
 	size_t			len;
@@ -39,22 +41,25 @@ static void				parse_header(char *line, \
 }
 
 /*
+**
 ** identifier (.name/.comment) lexer
 */
+
 static t_progress		read_identifier(char *line)
 {
 	if (!ft_strncmp(line, NAME_CMD_STRING, ft_strlen(NAME_CMD_STRING)))
 		return (P_NAME);
 	if (!ft_strncmp(line, COMMENT_CMD_STRING, ft_strlen(COMMENT_CMD_STRING)))
 		return (P_COMMENT);
-
 	error(E_INVALID, "Invalid header (unknown identifier)."); //TODO: it could be a 'missing header' error
 	return (P_NOPROGRESS);
 }
 
 /*
+**
 ** lex/parse the current header line
 */
+
 static t_progress		check_header(char *line, t_header *header)
 {
 	t_progress	progress;
@@ -63,26 +68,23 @@ static t_progress		check_header(char *line, t_header *header)
 		line++;
 	if (IS_EOL(*line))
 		return (P_NOPROGRESS);
-
 	progress = read_identifier(line);
-
 	while (!IS_EOL(*line) && !ft_isspace(*line))
 		line++;
 	while (!IS_EOL(*line) && ft_isspace(*line))
 		line++;
-
 	read_quoted_string(line, &progress);
 	if (progress & P_MULTILINE_COMMENT)
 		read_multiline_comment(line + 1, header);
-
 	parse_header(line + 1, progress, header);
-
 	return (progress);
 }
 
 /*
+**
 ** read header lines from asm file
 */
+
 void					read_header(t_header *header)
 {
 	t_progress		progress;
@@ -93,10 +95,8 @@ void					read_header(t_header *header)
 	{
 		if (get_next_line(g_err.fd, &(g_err.line)) <= 0)
 			error(E_READ, NULL);
-
 		g_err.line_pos += 1;
 		progress |= check_header(g_err.line, header);
-
 		ft_memdel((void **)&(g_err.line));
 	}
 }

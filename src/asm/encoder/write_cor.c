@@ -6,30 +6,20 @@
 /*   By: mc <mc.maxcanal@gmail.com>                 +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/03/20 00:19:15 by mcanal            #+#    #+#             */
-/*   Updated: 2018/03/24 16:17:46 by mc               ###   ########.fr       */
+/*   Updated: 2018/03/31 03:23:06 by mc               ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "asm_encoder.h"
 
-#ifdef ANNOYING_DEBUG
-static void		debug_cor()
-{
-	DEBUGF("cor.length: %d", (int)g_cor->length);
-	DEBUGF("cor.alloc_len: %d", (int)g_cor->alloc_len);
-	for (size_t i = 0; i < g_cor->length; i++)
-		fprintf(stderr, "0x%x ", *(t_byte *)ft_arrget(g_cor, i));
-	fprintf(stderr, g_cor->length ? "\n" : "");
-}
-#endif	/* DEBUG */
-
-
 /*
+**
 ** push header at the begin of cor
 **
 ** we're doing that at the end of the whole process
 ** so we can update the value of prog_size
 */
+
 static void		add_header(t_header *header)
 {
 	t_byte	*header_ptr;
@@ -43,10 +33,11 @@ static void		add_header(t_header *header)
 		ft_arrpush(g_cor, (void *)(t_ulong)*header_ptr--, 0);
 }
 
-
 /*
+**
 ** return the output filename (malloc'd) based one the input filename
 */
+
 static char		*get_output_name(char *filename)
 {
 	char	*outname;
@@ -64,34 +55,27 @@ static char		*get_output_name(char *filename)
 }
 
 /*
+**
 ** here we're finally gonna write the cor byte array to output file
 */
+
 void			write_cor(char *filename, t_header *header)
 {
 	char	*outname;
 
 	if (!g_cor->length)
 		error(E_INVALID, "You must write at least one byte! (don't be lazy)");
-
 	outname = get_output_name(filename);
 	if (!outname || (g_err.fd = open(outname, O_CREAT | O_WRONLY, 0644)) == -1)
 		error(E_OPEN, outname);
-
 	add_header(header);
-
 	write(1, "Writing output program to ", 26);
 	write(1, outname, ft_strlen(outname));
 	write(1, "\n", 1);
-
 	if ((size_t)write(g_err.fd, g_cor->ptr, g_cor->length) != g_cor->length)
 		error(E_WRITE, outname);
-
 	if (close(g_err.fd) == -1)
 		error(E_CLOSE, outname);
-
-#ifdef ANNOYING_DEBUG
-	debug_cor();
-#endif							/* DEBUG */
 	ft_memdel((void *)&outname);
 	ft_arrdel(&g_cor);
 }

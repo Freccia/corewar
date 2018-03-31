@@ -6,7 +6,7 @@
 /*   By: mcanal <zboub@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2015/12/14 18:21:04 by mcanal            #+#    #+#             */
-/*   Updated: 2018/03/24 14:06:20 by mc               ###   ########.fr       */
+/*   Updated: 2018/03/31 03:20:04 by mc               ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,15 +17,6 @@
 # include "libft.h"
 # include "op.h"
 # include "cw_common.h"
-
-/* # define ANNOYING_DEBUG			/\* DEBUG *\/ */
-# ifdef ANNOYING_DEBUG
-#  include <stdio.h>
-#  define DEBUG_HEADER CLR_MAGENTA "[DEBUG] " CLR_RESET
-#  define DEBUGF(str, ...) fprintf(stderr, DEBUG_HEADER "<" str ">" CLR_RESET "\n", ##__VA_ARGS__)
-# else
-#  define DEBUGF(str, ...) do {} while (0)
-# endif	 /* DEBUG */
 
 # define MAX_ARG_LENGTH		(MAX_LABEL_LENGTH + 3)
 # define MAX_LABEL_LENGTH	23

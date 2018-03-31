@@ -6,7 +6,7 @@
 /*   By: mc <mc.maxcanal@gmail.com>                 +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/03/24 20:18:10 by mc                #+#    #+#             */
-/*   Updated: 2018/03/24 20:21:55 by mc               ###   ########.fr       */
+/*   Updated: 2018/03/31 03:27:34 by mc               ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,5 @@ size_t		check_arg_len(size_t len, t_instruct_read *instruct)
 		error(E_INVALID, "Invalid arg (too long).");
 	if (instruct->argc + 1 > MAX_ARGS_NUMBER)
 		error(E_INVALID, "Invalid arg (too many).");
-
 	return (len);
 }
