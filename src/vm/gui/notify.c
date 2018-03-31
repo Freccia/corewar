@@ -12,7 +12,13 @@
 
 #include "internal.h"
 
-int	vm_guinotify(uint16_t i, int color, int attrs, uint8_t lt)
+void	vm_guimarkdead(t_proc *proc)
+{
+	if (g_uiproc && g_uiproc == proc)
+		g_uiproc = proc->next;
+}
+
+int		vm_guinotify(uint16_t i, int color, int attrs, uint8_t lt)
 {
 	if (!g_vm->opt.g)
 		return (YEP);

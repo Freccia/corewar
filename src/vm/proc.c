@@ -50,11 +50,11 @@ void	vm_procsrem(t_procs *procs, t_proc *proc)
 			"-> Cycle to die was %d\n", proc->pid, proc->owner->name,
 			g_vm->cycle_total - proc->lastlive, g_vm->cycle_to_die);
 	vm_guinotify((uint16_t)(proc->pc - g_vm->mem), -1, 0, 0);
+	vm_guimarkdead(proc);
 	--procs->len;
 	ptr = procs->head;
 	tmp = NULL;
 	while (ptr)
-	{
 		if (ptr == proc)
 		{
 			if (tmp == NULL)
@@ -64,9 +64,8 @@ void	vm_procsrem(t_procs *procs, t_proc *proc)
 			free(proc);
 			return ;
 		}
-		tmp = ptr;
-		ptr = ptr->next;
-	}
+		else if ((tmp = ptr))
+			ptr = ptr->next;
 }
 
 void	vm_procsclr(t_procs *procs)

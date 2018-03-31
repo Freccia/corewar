@@ -45,6 +45,13 @@ int		vm_guiupdate(void);
 */
 void	vm_guiproc(t_proc *proc);
 
+
+/*
+** TODO: Doc
+** @return
+*/
+void	vm_guimarkdead(t_proc *proc);
+
 /*
 ** TODO: Doc
 ** @return
