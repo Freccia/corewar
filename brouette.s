@@ -10,7 +10,7 @@ coquelicot:
 	fork	%:paquerette
 
 fougere:
-	live	%2147643847
+	live	%2764347
 	st		r2, -9
 	st		r2, -18
 	st		r2, -27
@@ -69,10 +69,10 @@ fougere:
 	zjmp	%:fougere
 
 paquerette:					#PROC 2
-	live	%2147643847
+	live	%21763847
 	fork	%:mimosa		#CREATE PROC 3
 	fork	%:tulipe		#CREATE PROC 4
-	live	%2147643847
+	live	%21443847
 	ld		%393727, r7		#00 06 01 ff
 	ld		%12, r8
 	ld		%11, r9
@@ -80,7 +80,7 @@ paquerette:					#PROC 2
 	zjmp	%:lily
 
 mimosa:						#PROC 3
-	live	%2147643847
+	live	%21763847
 	fork	%:hibiscus		#CREATE PROC 5
 	ld		%151220239, r7	#09 03 70 0f
 	ld		%10, r8
@@ -99,7 +99,7 @@ hibiscus:					#PROC 5
 	ld		%190056200, r7	#0b 54 07 08
 	ld		%8, r8
 	ld		%7, r9
-	live	%2147643847
+	live	%214763847
 	ld		%0, r16
 	add		r16, r16, r16
 
