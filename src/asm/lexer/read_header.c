@@ -6,7 +6,7 @@
 /*   By: mcanal <zboub@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/03/12 21:43:56 by mcanal            #+#    #+#             */
-/*   Updated: 2018/03/31 16:33:21 by mcanal           ###   ########.fr       */
+/*   Updated: 2018/03/31 17:00:27 by mcanal           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,11 +17,10 @@
 #include "asm_lexer.h"
 
 /*
-**
 ** identifier (.name/.comment) tokenizer
 */
 
-static void				parse_header(char *line,						\
+static void				parse_header(char *line, \
 									t_progress progress, t_header *header)
 {
 	size_t			len;
@@ -41,7 +40,6 @@ static void				parse_header(char *line,						\
 }
 
 /*
-**
 ** identifier (.name/.comment) lexer
 */
 
@@ -56,7 +54,6 @@ static t_progress		read_identifier(char *line)
 }
 
 /*
-**
 ** lex/parse the current header line
 */
 
@@ -81,7 +78,6 @@ static t_progress		check_header(char *line, t_header *header)
 }
 
 /*
-**
 ** read header lines from asm file
 */
 

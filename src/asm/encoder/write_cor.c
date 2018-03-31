@@ -6,14 +6,13 @@
 /*   By: mc <mc.maxcanal@gmail.com>                 +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/03/20 00:19:15 by mcanal            #+#    #+#             */
-/*   Updated: 2018/03/31 03:23:06 by mc               ###   ########.fr       */
+/*   Updated: 2018/03/31 16:59:57 by mcanal           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "asm_encoder.h"
 
 /*
-**
 ** push header at the begin of cor
 **
 ** we're doing that at the end of the whole process
@@ -30,11 +29,10 @@ static void		add_header(t_header *header)
 	size = (size_t)sizeof(t_header);
 	header_ptr = (t_byte *)header + size - 1;
 	while (size--)
-		ft_arrpush(g_cor, (void *)(t_ulong)*header_ptr--, 0);
+		ft_arrpush(g_cor, (void *)(t_ulong) * header_ptr--, 0);
 }
 
 /*
-**
 ** return the output filename (malloc'd) based one the input filename
 */
 
@@ -50,12 +48,11 @@ static char		*get_output_name(char *filename)
 	if (!outname)
 		return (NULL);
 	ft_memcpy(outname, filename, len - (ext_len + 1));
-	ft_memcpy(outname +	len - (ext_len + 1), COR_EXTENSION, ext_len + 1);
+	ft_memcpy(outname + len - (ext_len + 1), COR_EXTENSION, ext_len + 1);
 	return (outname);
 }
 
 /*
-**
 ** here we're finally gonna write the cor byte array to output file
 */
 

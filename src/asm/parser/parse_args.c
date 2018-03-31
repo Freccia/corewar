@@ -6,14 +6,13 @@
 /*   By: mc <mc.maxcanal@gmail.com>                 +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/03/19 20:43:23 by mcanal            #+#    #+#             */
-/*   Updated: 2018/03/31 16:48:26 by mcanal           ###   ########.fr       */
+/*   Updated: 2018/03/31 16:57:22 by mcanal           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "asm_parser.h"
 
 /*
-**
 ** return the argument length (after encoding) based on its arg_type
 */
 
@@ -29,7 +28,6 @@ static t_byte		parse_arg_length(t_arg_type arg_type, int direct_size)
 }
 
 /*
-**
 ** return the argument type (T_REG/T_IND/T_DIR/T_LAB) flag
 */
 
@@ -59,7 +57,6 @@ static t_arg_type	parse_arg_type(char *arg)
 }
 
 /*
-**
 ** parse the arguments following an op token
 */
 

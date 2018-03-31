@@ -6,14 +6,13 @@
 /*   By: mcanal <zboub@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/06/09 14:24:52 by mcanal            #+#    #+#             */
-/*   Updated: 2018/03/31 03:28:44 by mc               ###   ########.fr       */
+/*   Updated: 2018/03/31 16:57:14 by mcanal           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "asm_parser.h"
 
 /*
-**
 ** check if an op is defined in the op_tab from op.c
 */
 
@@ -32,7 +31,6 @@ static t_op		*parse_op(char *op, t_instruct_parsed *instruct_p)
 }
 
 /*
-**
 ** add a label to the hash table (check if it already exists)
 */
 
@@ -46,7 +44,6 @@ static void		parse_label(char *label, t_dword addr)
 }
 
 /*
-**
 ** -store label as key in labels, with value = cor.len
 ** -push op in cor
 ** -push arg-type in cor

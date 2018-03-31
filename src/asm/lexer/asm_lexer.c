@@ -6,14 +6,13 @@
 /*   By: mc <mc.maxcanal@gmail.com>                 +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/03/17 22:30:58 by mcanal            #+#    #+#             */
-/*   Updated: 2018/03/31 03:27:27 by mc               ###   ########.fr       */
+/*   Updated: 2018/03/31 16:55:56 by mcanal           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "asm_lexer.h"
 
 /*
-**
 ** check if the given file name end with the correct asm extension
 */
 
@@ -29,9 +28,7 @@ static void				check_filename(char *filename)
 		error(E_INVALID, "Invalid file name.");
 }
 
-
 /*
-**
 ** start the file lexing
 */
 

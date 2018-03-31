@@ -6,7 +6,7 @@
 /*   By: mcanal <zboub@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/06/09 14:24:52 by mcanal            #+#    #+#             */
-/*   Updated: 2018/03/31 16:43:48 by mcanal           ###   ########.fr       */
+/*   Updated: 2018/03/31 17:04:03 by mcanal           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,11 +17,10 @@
 #include "asm_lexer.h"
 
 /*
-**
 ** arg tokenizer
 */
 
-static t_progress		read_arg(char *arg, size_t len,		\
+static t_progress		read_arg(char *arg, size_t len, \
 								t_instruct_read *instruct)
 {
 	char	*arg_swap;
@@ -52,7 +51,6 @@ static t_progress		read_arg(char *arg, size_t len,		\
 }
 
 /*
-**
 ** op tokenizer
 */
 
@@ -66,7 +64,6 @@ static t_progress		read_op(char *op, size_t len, t_instruct_read *instruct)
 }
 
 /*
-**
 ** label tokenizer
 */
 
@@ -87,11 +84,10 @@ static t_progress		read_label(char *label, size_t len, \
 }
 
 /*
-**
 ** tokenize the current asm line
 */
 
-static t_progress		read_instruction(char *line,			 \
+static t_progress		read_instruction(char *line, \
 											t_progress progress, \
 											t_instruct_read *instruct)
 {
@@ -105,8 +101,7 @@ static t_progress		read_instruction(char *line,			 \
 	while (!IS_EOL(*line) && !ft_isspace(*line))
 		line++;
 	if (*word_start == '.' && progress == P_NOPROGRESS)
-		return (error(E_INVALID | E_NOEXIT, ".CMD not found (ignoring).") \
-				|| P_NOPROGRESS);
+		return (error(E_WARNING, ".CMD not found (ignoring).") || P_NOPROGRESS);
 	if (*(line - 1) == LABEL_CHAR)
 	{
 		if (progress & P_LABEL || progress & P_OP)
@@ -122,7 +117,6 @@ static t_progress		read_instruction(char *line,			 \
 }
 
 /*
-**
 ** read instruction lines from asm file
 */
 

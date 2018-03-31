@@ -6,7 +6,7 @@
 /*   By: mc <mc.maxcanal@gmail.com>                 +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/03/24 19:55:21 by mc                #+#    #+#             */
-/*   Updated: 2018/03/31 03:26:32 by mc               ###   ########.fr       */
+/*   Updated: 2018/03/31 16:56:06 by mcanal           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,6 @@ static size_t			cpy_comment_portion(char *line, \
 }
 
 /*
-**
 ** copy multiline comment (relou)
 */
 
@@ -63,7 +62,6 @@ void					read_multiline_comment(char *line, t_header *header)
 }
 
 /*
-**
 ** helper function to extract string from a pair of double-quotes
 */
 

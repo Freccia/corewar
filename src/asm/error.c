@@ -6,7 +6,7 @@
 /*   By: mcanal <mcanal@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2015/01/12 03:39:12 by mcanal            #+#    #+#             */
-/*   Updated: 2018/03/31 16:49:35 by mcanal           ###   ########.fr       */
+/*   Updated: 2018/03/31 16:58:44 by mcanal           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,6 @@
 #include <unistd.h>
 
 /*
-**
 ** I'm pretty sure there is another way
 */
 
@@ -44,7 +43,6 @@ static int		get_index(t_byte flag)
 }
 
 /*
-**
 ** print a parsing error in clang-style format
 */
 
@@ -62,7 +60,6 @@ static void		pretty_error(char *error_type)
 }
 
 /*
-**
 ** just a weird error handling function...
 */
 
@@ -98,6 +95,7 @@ t_bool			error(t_byte flag, char *msg)
 int				fatal_atoi(char const *str)
 {
 	int	i;
+
 	i = ft_atoi(str);
 	if (errno)
 		error(E_INVALID, "Overflow.");
