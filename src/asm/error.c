@@ -6,7 +6,7 @@
 /*   By: mcanal <mcanal@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2015/01/12 03:39:12 by mcanal            #+#    #+#             */
-/*   Updated: 2018/03/31 03:28:14 by mc               ###   ########.fr       */
+/*   Updated: 2018/03/31 16:49:35 by mcanal           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -93,4 +93,13 @@ t_bool			error(t_byte flag, char *msg)
 	if (!(flag & E_NOEXIT))
 		exit(EXIT_FAILURE);
 	return (FALSE);
+}
+
+int				fatal_atoi(char const *str)
+{
+	int	i;
+	i = ft_atoi(str);
+	if (errno)
+		error(E_INVALID, "Overflow.");
+	return (i);
 }

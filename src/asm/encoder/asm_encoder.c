@@ -6,7 +6,7 @@
 /*   By: mc <mc.maxcanal@gmail.com>                 +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/03/17 22:20:39 by mcanal            #+#    #+#             */
-/*   Updated: 2018/03/31 03:22:14 by mc               ###   ########.fr       */
+/*   Updated: 2018/03/31 16:47:59 by mcanal           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,7 @@ static void				copy_addr(char *arg,		  \
 		addr = (t_dword)ret - current_addr - 1;
 	}
 	else
-		addr = (t_dword)ft_atoi(arg); //TODO: catch overflow
+		addr = (t_dword)fatal_atoi(arg);
 	cor_swap += addr_size - 1;
 	i = 0;
 	while (i < addr_size)
@@ -59,7 +59,7 @@ static void				encode_arg(t_instruct_read *instruct_r,	   \
 	while (i < MAX_ARGS_NUMBER && (arg_length = *(instruct_p->arg_length + i)))
 	{
 		if (arg_length == sizeof(t_byte))
-			*cor_swap++ = (t_byte)ft_atoi(*(instruct_r->argv + i) + 1);
+			*cor_swap++ = (t_byte)fatal_atoi(*(instruct_r->argv + i) + 1);
 		else
 		{
 			copy_addr(*(instruct_r->argv + i), cor_swap, arg_length, instruct_p->addr);

@@ -6,7 +6,7 @@
 /*   By: mcanal <zboub@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2015/12/14 18:21:04 by mcanal            #+#    #+#             */
-/*   Updated: 2018/03/31 03:20:04 by mc               ###   ########.fr       */
+/*   Updated: 2018/03/31 16:48:53 by mcanal           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -99,6 +99,7 @@ void					init_error_report(char *exec_name);
 ** error.c
 */
 t_bool					error(t_byte flag, char *msg);
+int						fatal_atoi(char const *str);
 
 /*
 ** LEXER

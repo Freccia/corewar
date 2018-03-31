@@ -6,7 +6,7 @@
 /*   By: mc <mc.maxcanal@gmail.com>                 +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/03/19 20:43:23 by mcanal            #+#    #+#             */
-/*   Updated: 2018/03/31 03:29:19 by mc               ###   ########.fr       */
+/*   Updated: 2018/03/31 16:48:26 by mcanal           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,7 @@ static t_arg_type	parse_arg_type(char *arg)
 	ret = T_IND;
 	if (*arg == 'r')
 	{
-		i = ft_atoi(++arg);
+		i = fatal_atoi(++arg);
 		if (i < 1 || i > REG_NUMBER)
 			error(E_INVALID, "Invalid register (REG_NUMBER not in range).");
 		ret = T_REG;
