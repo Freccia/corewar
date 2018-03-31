@@ -33,7 +33,7 @@ typedef struct		s_proc
 	uint8_t			carry;
 	int32_t			reg[REG_NUMBER + 1];
 	uint8_t			*pc;
-	int32_t			lastlive;
+	int32_t			last_live;
 	uint16_t		wait;
 	t_state			state;
 }					t_proc;

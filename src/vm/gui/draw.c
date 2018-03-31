@@ -112,7 +112,7 @@ void		vm_guiproc(t_proc *proc)
 	mvwprintw(g_wprocs, ++y, 4, "  PC:      %02hhx (%d)% 16c",
 		*proc->pc, proc->pc - g_vm->mem, ' ');
 	mvwprintw(g_wprocs, ++y, 4, "  CARRY:   %-20d", proc->carry);
-	mvwprintw(g_wprocs, ++y, 4, "  LIVE:    %-20d", proc->lastlive);
+	mvwprintw(g_wprocs, ++y, 4, "  LIVE:    %-20d", proc->last_live);
 	mvwprintw(g_wprocs, ++y, 4, "  WAIT:    %-20d", proc->wait);
 	wattr_off(g_wprocs, 0x200000, 0x0);
 	++y;

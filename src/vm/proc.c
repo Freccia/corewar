@@ -19,7 +19,7 @@ void	vm_procinit(t_proc *proc, t_player *owner)
 	proc->pc = g_vm->mem + (owner->idx * (MEM_SIZE / g_vm->players.len));
 	proc->reg[1] = owner->id;
 	vm_write(proc->pc, owner->bin, owner->size, proc->owner->idx + 1);
-	proc->lastlive = 0;
+	proc->last_live = 0;
 }
 
 void	vm_procfork(t_proc *dst, t_proc *src, uint8_t *pc)
@@ -27,7 +27,7 @@ void	vm_procfork(t_proc *dst, t_proc *src, uint8_t *pc)
 	ft_memcpy(dst, src, sizeof(t_proc));
 	dst->pc = pc;
 	dst->state = STATE_PENDING;
-	dst->lastlive = 0;
+	dst->last_live = 0;
 }
 
 void	vm_procspush(t_procs *procs, t_proc *proc)
@@ -48,7 +48,7 @@ void	vm_procsrem(t_procs *procs, t_proc *proc)
 	if (g_vm->opt.v & VM_VERB_DEATH)
 		ft_printf("Process %d [%s] hasn't lived for %d cycles... Fuck off! "
 			"-> Cycle to die was %d\n", proc->pid, proc->owner->name,
-			g_vm->cycle_total - proc->lastlive, g_vm->cycle_to_die);
+			g_vm->cycle_total - proc->last_live, g_vm->cycle_to_die);
 	vm_guinotify((uint16_t)(proc->pc - g_vm->mem), -1, 0, 0);
 	vm_guimarkdead(proc);
 	--procs->len;

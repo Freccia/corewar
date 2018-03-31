@@ -56,9 +56,9 @@ static void	cycle_to_die(void)
 	proc = g_vm->procs.head;
 	while (proc)
 	{
-		proc->owner->lives_in_periode = 0;
+		proc->owner->lives_in_period = 0;
 		next = proc->next;
-		if (g_vm->cycle_total - proc->lastlive >= g_vm->cycle_to_die)
+		if (g_vm->cycle_total - proc->last_live >= g_vm->cycle_to_die)
 			vm_procsrem(&g_vm->procs, proc);
 		proc = next;
 	}
@@ -81,7 +81,7 @@ static void	who_won(void)
 	w = player;
 	while (player)
 	{
-		if (player->lastlive >= w->lastlive)
+		if (player->last_live >= w->last_live)
 			w = player;
 		player = player->next;
 	}
