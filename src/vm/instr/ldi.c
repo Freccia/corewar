@@ -13,7 +13,7 @@
 #include "corewar.h"
 
 /*
-**
+** @Zaz
 ** This instruction reproduce a zaz behavior which doesn't match the subject:
 **   av[1] F_IND_RESTRICT | F_DIR -> F_IND_RESTRICT | F_DIR | F_REG_VAL
 */
