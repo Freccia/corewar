@@ -29,7 +29,9 @@ test_vm() {
     ctrl_file="$DUMP_FOLDER"/"$(basename $core_file)"_"$cycles"-cycles.dump
 
     # to generate cor dumps:
-    "$ROOT/ressources/bin/corewar" -d "$cycles" "$core_file" "$core_file" > "$ctrl_file"
+	if [ "$(uname -s)" != "Linux" ]; then
+		"$ROOT/ressources/bin/corewar" -d "$cycles" "$core_file" "$core_file" > "$ctrl_file"
+	fi
 
     if test -e "$ctrl_file"; then
 

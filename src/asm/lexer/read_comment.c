@@ -6,7 +6,7 @@
 /*   By: mc <mc.maxcanal@gmail.com>                 +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/03/24 19:55:21 by mc                #+#    #+#             */
-/*   Updated: 2018/03/24 20:00:45 by mc               ###   ########.fr       */
+/*   Updated: 2018/03/31 16:56:06 by mcanal           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,16 +28,15 @@ static size_t			cpy_comment_portion(char *line, \
 	line_len = ft_strlen(line);
 	if (line_len + comment_len + 1 > COMMENT_LENGTH)
 		error(E_INVALID, "Invalid header (comment too long).");
-
 	ft_memcpy(header->comment + comment_len, line, line_len);
 	*(header->comment + comment_len + line_len) = '\n';
-
 	return (line_len + 1);
 }
 
 /*
 ** copy multiline comment (relou)
 */
+
 void					read_multiline_comment(char *line, t_header *header)
 {
 	size_t	comment_len;
@@ -49,7 +48,6 @@ void					read_multiline_comment(char *line, t_header *header)
 		if (get_next_line(g_err.fd, &(g_err.line)) <= 0)
 			error(E_INVALID, "Invalid header (missing 2nd quote).");
 		g_err.line_pos += 1;
-
 		if ((line = ft_strchr(g_err.line, '"')))
 		{
 			*line = '\0';
@@ -58,7 +56,6 @@ void					read_multiline_comment(char *line, t_header *header)
 			*(header->comment + comment_len - 1) = '\0';
 			break ;
 		}
-
 		comment_len += cpy_comment_portion(g_err.line, header, comment_len);
 	}
 	ft_memdel((void **)&(g_err.line));
@@ -67,6 +64,7 @@ void					read_multiline_comment(char *line, t_header *header)
 /*
 ** helper function to extract string from a pair of double-quotes
 */
+
 void					read_quoted_string(char *line, t_progress *progress)
 {
 	if (*line != '"')
