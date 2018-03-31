@@ -64,7 +64,7 @@ mkdir -p "$LOG_FOLDER"
 
 if test -z "$1"; then
     for f in $COR_FILES; do
-        for i in $(seq 10 250 4000); do
+        for i in $(seq 10 250 2000); do
             test_vm "$i" "$f"
         done
 		test_vm_leaks "$f" "$prev"
@@ -72,7 +72,7 @@ if test -z "$1"; then
     done
     success yay
 else
-    for i in $(seq 10 250 4000); do
+    for i in $(seq 10 250 2000); do
         test_vm "$i" "$1"
     done
 fi
