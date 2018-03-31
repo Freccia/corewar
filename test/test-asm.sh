@@ -57,6 +57,18 @@ test_valid_asm() {
 	success "$base_f (valid file) ok!"
 }
 
+test_leaks_asm() {
+	base_f="$1"
+	valgrind="`which valgrind`"
+	if [ -x "$valgrind" ];then
+		"$valgrind" "$ROOT/asm"  "$base_f" 2>&1 | \
+			grep "definitely lost: 0 bytes in 0 blocks" 1>/dev/null
+		if [ $? -ne 0 ];then
+			echo -e "\n$RED --- LEAKS! $base_f $NORMAL"
+		fi
+	fi
+}
+
 # functional tests
 mkdir -p "$LOG_FOLDER"
 rm -f "$DATA_FOLDER"/test_asm/*.cor
@@ -64,13 +76,16 @@ rm -f "$DATA_FOLDER"/test_asm/*.cor
 if test -z "$1"; then
 	for f in $INVALID_FILES; do
 		test_invalid_asm "$f"
+		test_leaks_asm "$f"
 	done
 
 	for f in $VALID_FILES; do
 		test_valid_asm "$f"
+		test_leaks_asm "$f"
 	done
 else
 	test_valid_asm "$1"
+	test_leaks_asm "$f"
 fi
 
 success "yay"

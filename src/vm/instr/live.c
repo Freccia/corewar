@@ -1,7 +1,7 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   cw_live.c                                          :+:      :+:    :+:   */
+/*   live.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: nfinkel <nfinkel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
@@ -20,10 +20,12 @@ int			vm_live(t_proc *proc, uint8_t *pc)
 	vm_guinotify((uint16_t)(proc->pc - g_vm->mem), -1, GUI_HINT | GUI_BOLD, 50);
 	pc = vm_move(pc, 1, FALSE);
 	id = vm_read(pc, sizeof(id));
-	proc->lastlive = g_vm->cycle_total;
+	proc->last_live = g_vm->cycle_total;
 	if ((player = vm_playersfind(&g_vm->players, id)))
 	{
-		player->lastlive = (uint32_t)g_vm->cycle_total;
+		player->last_live = (uint32_t)g_vm->cycle_total;
+		++player->lives_in_period;
+		++g_vm->nbr_lives;
 		if (g_vm->opt.v & VM_VERB_LIVES)
 			ft_printf("Player %s [%hd] is alive!\n", player->name, player->id);
 	}

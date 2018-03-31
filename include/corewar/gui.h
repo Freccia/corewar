@@ -18,9 +18,9 @@
 
 # include "proc.h"
 
-# define VM_COLOR_DFT 0
-# define VM_COLOR_HINT (VM_COLOR_DFT + 5)
-# define VM_COLOR_INV (VM_COLOR_HINT + 5)
+# define GUI_COLOR_DFT 0
+# define GUI_COLOR_HINT (GUI_COLOR_DFT + 5)
+# define GUI_COLOR_INV (GUI_COLOR_HINT + 5)
 
 # define GUI_INV (1 << 0)
 # define GUI_NOCOLOR (1 << 1)
@@ -44,6 +44,19 @@ int		vm_guiupdate(void);
 ** @return
 */
 void	vm_guiproc(t_proc *proc);
+
+
+/*
+** TODO: Doc
+** @return
+*/
+void	vm_guimarkdead(t_proc *proc);
+
+/*
+** TODO: Doc
+** @return
+*/
+void	vm_guiwinner(t_player *player);
 
 /*
 ** TODO: Doc

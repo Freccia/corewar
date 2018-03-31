@@ -31,7 +31,7 @@ void		vm_playerload(t_player *player, const char *file, int id)
 	ft_bzero(player, sizeof(t_player));
 	ft_memcpy((void*)(player->name), buf + sizeof(uint32_t), PROG_NAME_LENGTH);
 	ft_memcpy((void*)(player->comment),
-			buf + sizeof(uint32_t) + PROG_NAME_LENGTH + 9, COMMENT_LENGTH + 1);
+			buf + sizeof(uint32_t) + PROG_NAME_LENGTH + 8, COMMENT_LENGTH + 1);
 	if ((sz = read(fd, &buf, CHAMP_MAX_SIZE + 1)) <= 0)
 		vm_exit(EXIT_FAILURE, "%s: %m\n", file, !errno ? (errno = EINVAL) : 0);
 	if (sz > CHAMP_MAX_SIZE)

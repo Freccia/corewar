@@ -25,7 +25,8 @@ typedef struct		s_player
 	const char		name[PROG_NAME_LENGTH + 1];
 	const char		comment[COMMENT_LENGTH + 1];
 	uint8_t			bin[CHAMP_MAX_SIZE + 1];
-	uint32_t		lastlive;
+	uint32_t		last_live;
+	uint32_t		lives_in_period;
 	size_t			size;
 }					t_player;
 

@@ -105,4 +105,6 @@ extern t_bool	ft_szeq(ssize_t a, ssize_t b);
 extern t_bool	ft_uszeq(size_t a, size_t b);
 extern t_bool	ft_streq(char const *a, char const *b);
 
+extern float	ft_sqrt(float x);
+
 #endif

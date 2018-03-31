@@ -47,12 +47,7 @@ endif ()
 add_executable(corewar ${corewar_HDRS}
   src/op.c
   src/utils.c
-  ${vm_SRCS}
-  src/vm/gui/internal.h
-  src/vm/gui/exit.c
-  src/vm/gui/init.c
-  src/vm/gui/keys.c
-  src/vm/gui/ui.c)
+  ${vm_SRCS})
 set_property(TARGET corewar PROPERTY C_STANDARD 90)
 target_include_directories(corewar PUBLIC include)
 target_link_libraries(corewar PUBLIC debug ft ncurses)
