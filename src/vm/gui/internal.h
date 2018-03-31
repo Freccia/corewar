@@ -17,7 +17,7 @@
 
 # include "corewar.h"
 
-# define DIGITS "0123456789abcdefg"
+# define DGTS "0123456789abcdefg"
 
 # define STATS_PAUSED 0
 # define STATS_CYCLEL 1
@@ -38,13 +38,12 @@ extern WINDOW	*g_wprocs;
 extern int		g_cyclel;
 extern int		g_running;
 extern int		g_stepi;
-extern int		g_dinstr;
 extern t_proc	*g_uiproc;
 
 typedef struct	s_cell
 {
 	uint8_t		color;
-	uint8_t		attrsl;
+	uint8_t		lifetime;
 	uint8_t		attrs;
 	uint8_t		print;
 }				t_cell;
@@ -53,6 +52,8 @@ extern t_cell	g_map[MEM_SIZE];
 
 int				gui_onkey(int ch);
 void			gui_stats(int id, ...);
-void			gui_draw(void);
+void			gui_drawboard(void);
+void			gui_drawstats(void);
+int				gui_cellattrs(t_cell *cell);
 
 #endif

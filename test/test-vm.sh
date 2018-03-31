@@ -51,7 +51,7 @@ test_vm_leaks() {
 	core_file_2="$2"
 	valgrind="`which valgrind`"
 	if [ -x "$valgrind" ];then
-		"$valgrind" "$ROOT/corewar"  "core_file_1" "core_file_2" 2>&1 | \
+		"$valgrind" "$ROOT/corewar"  "$core_file_1" "$core_file_2" 2>&1 | \
 			grep "definitely lost: 0 bytes in 0 blocks" 1>/dev/null
 		if [ $? -ne 0 ];then
 			echo -e "\n$RED --- LEAKS! $core_file_1 $core_file_2$NORMAL"
@@ -64,7 +64,7 @@ mkdir -p "$LOG_FOLDER"
 
 if test -z "$1"; then
     for f in $COR_FILES; do
-        for i in $(seq 10 250 4000); do
+        for i in $(seq 10 250 2000); do
             test_vm "$i" "$f"
         done
 		test_vm_leaks "$f" "$prev"
@@ -72,7 +72,7 @@ if test -z "$1"; then
     done
     success yay
 else
-    for i in $(seq 10 250 4000); do
+    for i in $(seq 10 250 2000); do
         test_vm "$i" "$1"
     done
 fi

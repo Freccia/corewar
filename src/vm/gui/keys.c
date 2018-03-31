@@ -26,7 +26,7 @@ static int		onarrow(int ch)
 	else if (ch == KEY_LEFT)
 	{
 		if (g_cyclel > 1)
-			g_cyclel < 50 ? (--g_cyclel) : ((g_cyclel /= 1.2));
+			g_cyclel < 50 ? (--g_cyclel) : (g_cyclel /= 1.2);
 	}
 	else if (ch == KEY_UP && g_stepi < g_vm->cycle_to_die)
 		g_stepi += 5;
@@ -39,18 +39,13 @@ static int		onarrow(int ch)
 	return (YEP);
 }
 
-static int		onnext(int ch)
+static int		onletter(int ch)
 {
-	(void)ch;
-	if (g_running)
-		return (YEP);
-	return (NOP);
-}
-
-static int		onp(int ch)
-{
-	(void)ch;
-	if (!g_running && g_dinstr)
+	if (ch == 's')
+		return (g_running ? YEP : NOP);
+	if (ch == 'o')
+		vm_guiproc(g_vm->procs.head);
+	else if (ch == 'p')
 	{
 		if (g_uiproc && g_uiproc->next)
 			vm_guiproc(g_uiproc->next);
@@ -60,41 +55,20 @@ static int		onp(int ch)
 	return (YEP);
 }
 
-static int		ono(int ch)
-{
-	(void)ch;
-	if (!g_running && g_dinstr)
-	{
-		if (g_vm->procs.head)
-			vm_guiproc(g_vm->procs.head);
-	}
-	return (YEP);
-}
-
-static int		oni(int ch)
-{
-	(void)ch;
-	g_dinstr ^= 1;
-	return (YEP);
-}
-
-static t_keyh	*g_keym[KEY_MAX] = {
-	[KEY_RIGHT] = onarrow,
-	[KEY_LEFT] = onarrow,
-	[KEY_UP] = onarrow,
-	[KEY_DOWN] = onarrow,
-	['n'] = onnext,
-	['s'] = onnext,
-	['p'] = onp,
-	['o'] = ono,
-	['i'] = oni
-};
-
 int				gui_onkey(int ch)
 {
-	t_keyh *hook;
+	t_keyh			*hook;
+	static t_keyh	*keymap[KEY_MAX] = {
+		[KEY_RIGHT] = onarrow,
+		[KEY_LEFT] = onarrow,
+		[KEY_UP] = onarrow,
+		[KEY_DOWN] = onarrow,
+		['s'] = onletter,
+		['p'] = onletter,
+		['o'] = onletter
+	};
 
-	if ((hook = g_keym[ch]))
+	if ((hook = keymap[ch]))
 		return (hook(ch));
 	return (YEP);
 }

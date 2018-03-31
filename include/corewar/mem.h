@@ -15,10 +15,6 @@
 
 # include "proc.h"
 
-# define E_WRONG_OP		(-0x0a)
-# define E_WRONG_OCP	(-0x0b)
-# define E_WRONG_REG	(-0x0c)
-
 # define F_DIR			1
 # define F_DIR_LONG		2
 # define F_IND			4
