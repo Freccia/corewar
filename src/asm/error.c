@@ -6,7 +6,7 @@
 /*   By: mcanal <mcanal@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2015/01/12 03:39:12 by mcanal            #+#    #+#             */
-/*   Updated: 2018/03/31 16:58:44 by mcanal           ###   ########.fr       */
+/*   Updated: 2018/03/31 18:29:27 by mcanal           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,6 +27,19 @@
 ** close
 */
 #include <unistd.h>
+
+static int		clean(void)
+{
+	if (g_cor)
+		ft_arrdel(&g_cor);
+	if (g_labels)
+		ft_hdel(&g_labels);
+	if (g_err.line)
+		ft_memdel((void **)&g_err.line);
+	if (g_err.fd != -1)
+		close(g_err.fd);
+	return (0);
+}
 
 /*
 ** I'm pretty sure there is another way
@@ -88,7 +101,7 @@ t_bool			error(t_byte flag, char *msg)
 	else
 		ft_dprintf(2, "%s\n", error[get_index(flag & (t_byte)~E_NOEXIT)]);
 	if (!(flag & E_NOEXIT))
-		exit(EXIT_FAILURE);
+		exit(clean() || EXIT_FAILURE);
 	return (FALSE);
 }
 

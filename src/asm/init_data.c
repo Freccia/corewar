@@ -6,7 +6,7 @@
 /*   By: mc <mc.maxcanal@gmail.com>                 +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/03/19 20:49:51 by mcanal            #+#    #+#             */
-/*   Updated: 2018/03/31 16:58:03 by mcanal           ###   ########.fr       */
+/*   Updated: 2018/03/31 18:24:27 by mcanal           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@
 */
 #include <stdlib.h>
 
-t_error_report			g_err;
+t_error_report			g_err = {NULL, NULL, NULL, 0, 0};
 t_arr					*g_cor = NULL;
 t_htable				*g_labels = NULL;
 
