@@ -1,0 +1,2 @@
+src/mtoi.c:21:22: runtime error: signed integer overflow: 255 * 16777216 cannot be represented in type 'int'
+SUMMARY: UndefinedBehaviorSanitizer: undefined-behavior src/mtoi.c:21:22 in 

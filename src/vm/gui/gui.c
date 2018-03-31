@@ -6,7 +6,7 @@
 /*   By: alucas- <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/03/12 18:15:51 by alucas-           #+#    #+#             */
-/*   Updated: 2018/03/30 22:22:03 by lfabbro          ###   ########.fr       */
+/*   Updated: 2018/03/31 19:54:27 by mcanal           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,6 +62,8 @@ static void	redraw(void)
 
 static void	onresize(int sq)
 {
+	if (sq)
+		usleep(600000);
 	endwin();
 	initscr();
 	cbreak();
