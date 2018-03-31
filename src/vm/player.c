@@ -6,7 +6,7 @@
 /*   By: alucas- <nfinkel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/03/14 19:17:51 by alucas-           #+#    #+#             */
-/*   Updated: 2018/03/30 11:19:31 by lfabbro          ###   ########.fr       */
+/*   Updated: 2018/03/31 19:11:05 by mcanal           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@ void		vm_playerload(t_player *player, const char *file, int id)
 	if ((fd = open(file, O_RDONLY)) < 0)
 		vm_exit(EXIT_FAILURE, "%s: %m\n", file);
 	if (read(fd, &buf, HEADER_SZ) < HEADER_SZ)
-		vm_exit(EXIT_FAILURE, "%s: %m\n", file, !errno ? (errno = EINVAL) : 0);
+		vm_exit(EXIT_FAILURE, "%s: Invalid header.\n", file);
 	if (*(uint32_t *)buf != swap_uint32(COREWAR_EXEC_MAGIC))
 		vm_exit(EXIT_FAILURE, "%s: Wrong file: magic number.\n", file);
 	ft_bzero(player, sizeof(t_player));
@@ -33,7 +33,7 @@ void		vm_playerload(t_player *player, const char *file, int id)
 	ft_memcpy((void*)(player->comment),
 			buf + sizeof(uint32_t) + PROG_NAME_LENGTH + 8, COMMENT_LENGTH + 1);
 	if ((sz = read(fd, &buf, CHAMP_MAX_SIZE + 1)) <= 0)
-		vm_exit(EXIT_FAILURE, "%s: %m\n", file, !errno ? (errno = EINVAL) : 0);
+		vm_exit(EXIT_FAILURE, "%s: %m: Void champion.\n", file);
 	if (sz > CHAMP_MAX_SIZE)
 		vm_exit(EXIT_FAILURE, "%s: Champion exceeding size: %d\n", file, sz);
 	if (close(fd) < 0)
