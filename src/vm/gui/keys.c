@@ -43,25 +43,14 @@ static int		onletter(int ch)
 {
 	if (ch == 's')
 		return (g_running ? YEP : NOP);
-	if (ch == 'p' && !g_running && g_dinstr)
+	if (ch == 'o')
+		vm_guiproc(g_vm->procs.head);
+	else if (ch == 'p')
 	{
 		if (g_uiproc && g_uiproc->next)
 			vm_guiproc(g_uiproc->next);
 		else if (g_vm->procs.head)
 			vm_guiproc(g_vm->procs.head);
-	}
-	else if (ch == 'o' && !g_running && g_dinstr)
-	{
-		if (g_vm->procs.head)
-			vm_guiproc(g_vm->procs.head);
-	}
-	else if (ch == 'i' && !(g_dinstr ^= 1))
-	{
-		wclear(g_wprocs);
-		wattr_on(g_wprocs, 0x242a00, 0);
-		box(g_wprocs, 0x2a, 0x2a);
-		wattr_off(g_wprocs, 0x242a00, 0);
-		wrefresh(g_wprocs);
 	}
 	return (YEP);
 }

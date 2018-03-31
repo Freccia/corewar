@@ -21,7 +21,6 @@ static void	advance(t_proc *proc)
 
 static void	exec(t_proc *proc)
 {
-	vm_guiproc(proc);
 	if (proc->state == STATE_RUNNING || proc->state == STATE_PENDING)
 	{
 		if (*proc->pc < 0x1 || *proc->pc > MAX_OP)

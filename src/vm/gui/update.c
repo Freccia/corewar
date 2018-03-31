@@ -15,7 +15,6 @@
 int			g_cyclel = 50;
 int			g_running = 0;
 int			g_stepi = 5;
-int			g_dinstr = 0;
 t_proc		*g_uiproc = NULL;
 t_cell		g_map[MEM_SIZE];
 static int	g_step = 0;
@@ -128,6 +127,7 @@ int			vm_guiupdate(void)
 		return (YEP);
 	}
 	gui_drawstats();
+	vm_guiproc(g_uiproc ? g_uiproc : g_vm->procs.head);
 	player = g_vm->players.head;
 	while (player)
 	{

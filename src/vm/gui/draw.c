@@ -97,7 +97,7 @@ void		vm_guiproc(t_proc *proc)
 	int y;
 	int reg;
 
-	if (!g_vm->opt.g || !g_dinstr)
+	if (!g_vm->opt.g || !proc)
 		return ;
 	g_uiproc = proc;
 	y = 1;
