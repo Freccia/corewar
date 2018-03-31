@@ -65,8 +65,7 @@ int				gui_onkey(int ch)
 		[KEY_DOWN] = onarrow,
 		['s'] = onletter,
 		['p'] = onletter,
-		['o'] = onletter,
-		['i'] = onletter
+		['o'] = onletter
 	};
 
 	if ((hook = keymap[ch]))
