@@ -54,7 +54,6 @@ static void	cycle_to_die(void)
 	t_proc *next;
 
 	g_vm->cycle = 0;
-	g_vm->nbr_lives = 0;
 	proc = g_vm->procs.head;
 	while (proc)
 	{
@@ -62,18 +61,16 @@ static void	cycle_to_die(void)
 		next = proc->next;
 		if (g_vm->cycle_total - proc->lastlive >= g_vm->cycle_to_die)
 			vm_procsrem(&g_vm->procs, proc);
-		else
-			++g_vm->nbr_lives;
 		proc = next;
 	}
-	++g_vm->max_checks;
-	if (g_vm->nbr_lives >= NBR_LIVE || g_vm->max_checks == MAX_CHECKS)
+	if (g_vm->nbr_lives >= NBR_LIVE || ++g_vm->max_checks == MAX_CHECKS)
 	{
 		g_vm->cycle_to_die -= CYCLE_DELTA;
 		if (g_vm->opt.v & VM_VERB_CYCLE)
 			ft_printf("Cycle to die is now %d\n", g_vm->cycle_to_die);
 		g_vm->max_checks = 0;
 	}
+	g_vm->nbr_lives = 0;
 }
 
 static void	who_won(void)

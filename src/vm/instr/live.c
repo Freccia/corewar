@@ -24,7 +24,8 @@ int			vm_live(t_proc *proc, uint8_t *pc)
 	if ((player = vm_playersfind(&g_vm->players, id)))
 	{
 		player->lastlive = (uint32_t)g_vm->cycle_total;
-		++proc->owner->lives_in_periode;
+		++player->lives_in_periode;
+		++g_vm->nbr_lives;
 		if (g_vm->opt.v & VM_VERB_LIVES)
 			ft_printf("Player %s [%hd] is alive!\n", player->name, player->id);
 	}

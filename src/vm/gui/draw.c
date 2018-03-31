@@ -57,7 +57,7 @@ void		gui_drawstats(void)
 	gui_stats(STATS_CYCLE_TO_DIE, g_vm->cycle_to_die);
 	gui_stats(STATS_CYCLE_DELTA, CYCLE_DELTA);
 	gui_stats(STATS_NBR_LIVE, g_vm->nbr_lives, NBR_LIVE);
-	gui_stats(STATS_MAX_CHECKS, g_vm->max_checks + 1, MAX_CHECKS);
+	gui_stats(STATS_MAX_CHECKS, g_vm->max_checks, MAX_CHECKS);
 }
 
 static void	print2reg(t_proc *proc, int32_t *reg, int *y)
