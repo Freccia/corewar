@@ -6,11 +6,13 @@
 /*   By: alucas- <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/03/12 18:15:51 by alucas-           #+#    #+#             */
-/*   Updated: 2018/03/12 18:15:53 by alucas-          ###   ########.fr       */
+/*   Updated: 2018/03/31 09:48:24 by lfabbro          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "internal.h"
+
+#include <signal.h>
 
 WINDOW			*g_wboard = NULL;
 WINDOW			*g_wstats = NULL;
