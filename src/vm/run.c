@@ -6,7 +6,7 @@
 /*   By: lfabbro <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/03/16 16:55:56 by lfabbro           #+#    #+#             */
-/*   Updated: 2018/03/31 17:14:44 by nfinkel          ###   ########.fr       */
+/*   Updated: 2018/03/31 17:32:15 by nfinkel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,7 @@ static void	advance(t_proc *proc)
 
 static void	exec(t_proc *proc)
 {
+	g_vm->procs.current = proc;
 	if (proc->state == STATE_RUNNING || proc->state == STATE_PENDING)
 	{
 		if (*proc->pc < 0x1 || *proc->pc > MAX_OP)
@@ -91,8 +92,8 @@ static void	who_won(void)
 
 void		vm_run(void)
 {
-	t_proc *proc;
-	t_proc *next;
+	t_proc		*proc;
+	t_proc		*next;
 
 	while (g_vm->cycle_to_die > 0 && g_vm->procs.len)
 	{
@@ -106,7 +107,6 @@ void		vm_run(void)
 			ft_printf("It is now cycle %d\n", g_vm->cycle_total);
 		while (g_vm->procs.len && proc)
 		{
-			g_vm->procs.current = proc;
 			next = proc->next;
 			exec(proc);
 			proc->state == STATE_DIEING ? vm_procsrem(&g_vm->procs, proc) : 0;
@@ -114,8 +114,7 @@ void		vm_run(void)
 		}
 		if (g_vm->opt.d > 0 && g_vm->cycle_total == g_vm->opt.d)
 			return (vm_dump(&g_vm->mem[0]));
-		if (g_vm->cycle >= g_vm->cycle_to_die)
-			cycle_to_die();
+		g_vm->cycle >= g_vm->cycle_to_die ? cycle_to_die() : 0;
 	}
 	who_won();
 }
