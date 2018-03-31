@@ -6,7 +6,7 @@
 /*   By: lfabbro <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/03/16 16:55:56 by lfabbro           #+#    #+#             */
-/*   Updated: 2018/03/31 17:32:15 by nfinkel          ###   ########.fr       */
+/*   Updated: 2018/03/31 17:38:50 by nfinkel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -109,7 +109,7 @@ void		vm_run(void)
 		{
 			next = proc->next;
 			exec(proc);
-			proc->state == STATE_DIEING ? vm_procsrem(&g_vm->procs, proc) : 0;
+			proc->state == STATE_DYING ? vm_procsrem(&g_vm->procs, proc) : 0;
 			proc = next;
 		}
 		if (g_vm->opt.d > 0 && g_vm->cycle_total == g_vm->opt.d)

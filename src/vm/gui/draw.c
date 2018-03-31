@@ -6,7 +6,7 @@
 /*   By: alucas- <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/03/12 18:15:51 by alucas-           #+#    #+#             */
-/*   Updated: 2018/03/30 22:24:27 by lfabbro          ###   ########.fr       */
+/*   Updated: 2018/03/31 17:38:09 by nfinkel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,8 +15,8 @@
 static char	*g_states[] = {
 	[STATE_RUNNING] = "Running",
 	[STATE_WAITING] = "Waiting",
-	[STATE_DIEING] = "Dieing",
-	[STATE_PENDING] = "Pending",
+	[STATE_DYING] = "Dying",
+	[STATE_PENDING] = "Pending"
 };
 
 void		gui_drawboard(void)
