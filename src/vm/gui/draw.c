@@ -13,10 +13,10 @@
 #include "internal.h"
 
 static char	*g_states[] = {
-	[STATE_RUNNING] = "STATE_RUNNING",
-	[STATE_WAITING] = "STATE_WAITING",
-	[STATE_DIEING] = "STATE_DIEING",
-	[STATE_PENDING] = "STATE_PENDING",
+	[STATE_RUNNING] = "Running",
+	[STATE_WAITING] = "Waiting",
+	[STATE_DIEING] = "Dieing",
+	[STATE_PENDING] = "Pending",
 };
 
 void		gui_drawboard(void)
