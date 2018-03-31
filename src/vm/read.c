@@ -6,7 +6,7 @@
 /*   By: lfabbro <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/03/19 12:54:08 by lfabbro           #+#    #+#             */
-/*   Updated: 2018/03/30 11:36:47 by lfabbro          ###   ########.fr       */
+/*   Updated: 2018/03/31 17:38:31 by nfinkel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,7 +76,7 @@ int32_t			vm_readarg(t_proc *proc, uint8_t **ptr, uint8_t n, uint32_t fl)
 		if (reg >= 0x1 && reg <= REG_NUMBER)
 			arg = (fl & F_REG_VAL) ? proc->reg[reg] : reg;
 		else
-			proc->state = STATE_DIEING;
+			proc->state = STATE_DYING;
 		*ptr = vm_move(*ptr, 1, FALSE);
 	}
 	else if (ocp == DIR_CODE)
@@ -84,6 +84,6 @@ int32_t			vm_readarg(t_proc *proc, uint8_t **ptr, uint8_t n, uint32_t fl)
 	else if (ocp == IND_CODE)
 		arg = readref(ptr, proc->pc, (fl & F_IND) | (fl & F_IND_RESTRICT));
 	else
-		proc->state = STATE_DIEING;
+		proc->state = STATE_DYING;
 	return (arg);
 }

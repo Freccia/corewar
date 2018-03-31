@@ -6,7 +6,7 @@
 /*   By: nfinkel <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/03/13 16:16:50 by nfinkel           #+#    #+#             */
-/*   Updated: 2018/03/30 10:49:24 by lfabbro          ###   ########.fr       */
+/*   Updated: 2018/03/31 17:37:08 by nfinkel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ typedef enum		e_state
 	STATE_RUNNING,
 	STATE_PENDING,
 	STATE_WAITING,
-	STATE_DIEING
+	STATE_DYING
 }					t_state;
 
 typedef struct		s_proc
@@ -41,6 +41,7 @@ typedef struct		s_proc
 typedef struct		s_procs
 {
 	t_proc			*head;
+	t_proc			*current;
 	size_t			len;
 	uint32_t		max_pid;
 }					t_procs;

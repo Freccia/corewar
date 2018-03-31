@@ -6,7 +6,7 @@
 /*   By: alucas- <nfinkel@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/03/14 19:17:51 by alucas-           #+#    #+#             */
-/*   Updated: 2018/03/30 19:25:02 by lfabbro          ###   ########.fr       */
+/*   Updated: 2018/03/31 17:14:59 by nfinkel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,9 +14,11 @@
 
 void	vm_procinit(t_proc *proc, t_player *owner)
 {
+	g_vm->procs.current = proc;
 	ft_bzero(proc, sizeof(t_proc));
 	proc->owner = owner;
 	proc->pc = g_vm->mem + (owner->idx * (MEM_SIZE / g_vm->players.len));
+	proc->owner->ctmo_mem = proc->pc;
 	proc->reg[1] = owner->id;
 	vm_write(proc->pc, owner->bin, owner->size, proc->owner->idx + 1);
 	proc->last_live = 0;
