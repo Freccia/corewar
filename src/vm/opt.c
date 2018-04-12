@@ -6,7 +6,7 @@
 /*   By: lfabbro <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/03/16 16:55:56 by lfabbro           #+#    #+#             */
-/*   Updated: 2018/03/30 15:21:31 by nfinkel          ###   ########.fr       */
+/*   Updated: 2018/04/12 15:45:55 by lfabbro          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,11 @@ static const char	*g_usage =
 {
 	"Usage: %s [ options ] <[-n <champ.id>] champ.cor> <...>\n"\
 	"	-g      : Ncurses GUI\n"\
+	"		- space      : pause/resume execution\n"\
+	"		- o/p        : navigate through processes (show registers)\n"\
+	"		- s          : step by step\n"\
+	"		- up/down    : cycles by step\n"\
+	"		- left/right : cycles/second\n"\
 	"	-d N    : Dumps memory after N execution cycles\n"\
 	"	-c N    : CTMO - Cycles till memory opens\n"\
 	"	-p N    : Pause a `N` cycle in GUI\n"\
