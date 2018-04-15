@@ -1,7 +1,5 @@
 # COREWAR - @42born2code
 
-[![asciicast](https://asciinema.org/a/QVLSe7pcstSVOrRS1hnSqB28J.png)](https://asciinema.org/a/QVLSe7pcstSVOrRS1hnSqB28J?speed=2&autoplay=1&preload=1&loop=1)
-
 "Core War (or Core Wars) is a Programming game in which two or more battle programs (called warriors) compete for the control of the MARS virtual computer (Memory Array Redcode Simulator). These battle programs are written in an abstract Assembly language called Redcode. The goal of the game is to cause all processes of the opposing program(s) to terminate, leaving your program in sole possession of the machine." (from: Wikipedia)
 
 Corewar is the final project of the inner circle algorithm branch at [42][2].
@@ -10,6 +8,7 @@ The assembler compiles the _redcode_ in a ``.cor`` file, which can be run with t
 
 You can find pre-compiled programs in `test/ressources/ctrl_cor`, and redcode examples in `test/ressources/test_asm`.
 
+[![asciicast](https://asciinema.org/a/QVLSe7pcstSVOrRS1hnSqB28J.png)](https://asciinema.org/a/QVLSe7pcstSVOrRS1hnSqB28J?speed=2&autoplay=1&preload=1&loop=1&theme=monokai)
 
 ## The implementation
 This Corewar implementation follows the directives of the 42's Corewar. This means the project is a little different from a classical Corewar. For instance, the champions are not charged randomly in the memory, there are more instructions and each processes have their own registers.
