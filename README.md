@@ -19,5 +19,5 @@ $ ./corewar -g brouette.cor test/ressources/ctrl_cor/helltrain.cor
 ```
 
 
-![Alt text](g.recordit.co/IVM8xLYxWF.gif "Corewar")
+![Alt text](http://g.recordit.co/IVM8xLYxWF.gif "Corewar")
 
