@@ -1,26 +1,27 @@
 # Corewar
-"Core War (or Core Wars) is a Programming game in which two or more battle programs (called warriors) compete for the control of the MARS virtual computer (Memory Array Redcode Simulator). These battle programs are written in an abstract Assembly language called Redcode. The object of the game is to cause all processes of the opposing program(s) to terminate, leaving your program in sole possession of the machine." (from: Wikipedia)
+"Core War (or Core Wars) is a Programming game in which two or more battle programs (called warriors) compete for the control of the MARS virtual computer (Memory Array Redcode Simulator). These battle programs are written in an abstract Assembly language called Redcode. The goal of the game is to cause all processes of the opposing program(s) to terminate, leaving your program in sole possession of the machine." (from: Wikipedia)
 
-This project is made of two parts, an *assembler* and a *virtual machine*.
+Corewar is the final project of the inner circle algorithm branch at [42][2].
+It is made of two parts, an *assembler* and a *virtual machine*.
 The assembler compiles the _redcode_ in a ``.cor`` file, which can be run with the virtual machine.
 
-You can find already builded programs in `test/ressources/ctrl_cor`, and redcode examples in `test/ressources/test_asm`.
+You can find pre-compiled programs in `test/ressources/ctrl_cor`, and redcode examples in `test/ressources/test_asm`.
 
 
 ## The implementation
-This Corewar implementation follows the directives of 42's school Corewars. This means the project is a little different from a classical Corewar. For example the champions are not charged randomly in the memory, there are more instructions and some registers are availables for the processes.
-You can find the 42's project directives pdf in: `test/ressources/ress_42/pdf/corewar.pdf`
+This Corewar implementation follows the directives of the 42's Corewar. This means the project is a little different from a classical Corewar. For instance, the champions are not charged randomly in the memory, there are more instructions and each processes have their own registers.
+For more information, refer to the [project instructions][1].
 
 ### GUI
-The GUI allows easy debugging with a step by step mode and showing the processes registers on the bottom right box.
-You can use ' _space_ ' to launch/pause the VM, ' _s_ ' to make a step, up/down arrows to adjust 'Cycles by Step', and ' _o/p_ ' to iterate through the processes registers.
+The GUI allows easy debugging with a step by step mode and shows various informations about the processes (registers and so on).
+You can use ' _space_ ' to start/pause the VM, ' _s_ ' to go to the next cycle, up/down arrows to adjust 'Cycles by Step', and ' _o/p_ ' to iterate through the processes.
 The left/right arrows adjusts the speed of the execution.
 
 ## The code
-We tryied to keep the code simple and easy to modify.
+The code is very straightforward and easy to maintain.
 
-In the VM for example all instructions use the function ``int32_t vm_readarg()`` to get the arguments, so adding an instruction should be easy.
-Mooving a pointer in the VM is done with ``uint8_t *vm_move()`` which allows the memory to be circular (overflows ends on the memory low addresses).
+In the VM, all instructions use the function ``int32_t vm_readarg()`` to get the arguments, so adding an instruction should be easy.
+Moving a pointer in the VM is done with ``uint8_t *vm_move()`` which allows the memory to be circular, meaning there cannot be overflows.
 All writings are done with ``void vm_write()`` which writes in the memory and notifies the gui at the same time.
 
 The instructions structure is in `src/vm/op.c` and the header is in 'includes/op.h'.
@@ -88,7 +89,6 @@ $ ./corewar -g brouette.cor test/ressources/test_asm/bee_gees.cor test/ressource
 
 ### Usage
 ```
-./corewar: -: illegal option
 corewar: Usage: ./corewar [ options ] <[-n <champ.id>] champ.cor> <...>
 	-g      : Ncurses GUI
 		- space      : pause/resume execution
@@ -108,3 +108,5 @@ corewar: Usage: ./corewar [ options ] <[-n <champ.id>] champ.cor> <...>
 		-16 : Show PC movement
 ```
 
+[1]: https://github.com/jon-finkel/corewar/blob/master/test/ressources/ress_42/pdf/corewar.pdf;
+[2]: http://42.fr
