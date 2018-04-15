@@ -1,6 +1,6 @@
 # COREWAR - @42born2code
 
-![](https://media.giphy.com/media/2UFVtsBESHuzfnVos2/giphy.gif)
+[![asciicast](https://asciinema.org/a/QVLSe7pcstSVOrRS1hnSqB28J.png)](https://asciinema.org/a/QVLSe7pcstSVOrRS1hnSqB28J?speed=2&autoplay=1&preload=1&loop=1)
 
 "Core War (or Core Wars) is a Programming game in which two or more battle programs (called warriors) compete for the control of the MARS virtual computer (Memory Array Redcode Simulator). These battle programs are written in an abstract Assembly language called Redcode. The goal of the game is to cause all processes of the opposing program(s) to terminate, leaving your program in sole possession of the machine." (from: Wikipedia)
 
