@@ -15,7 +15,7 @@ For more information, refer to the [project instructions][1].
 ### GUI
 The GUI allows easy debugging with a step by step mode and shows various informations about the processes (registers and so on).
 You can use ' _space_ ' to start/pause the VM, ' _s_ ' to go to the next cycle, up/down arrows to adjust 'Cycles by Step', and ' _o/p_ ' to iterate through the processes.
-The left/right arrows adjusts the speed of the execution.
+The left/right arrows adjusts the speed of the match.
 
 ## The code
 The code is very straightforward and easy to maintain.
@@ -108,5 +108,5 @@ corewar: Usage: ./corewar [ options ] <[-n <champ.id>] champ.cor> <...>
 		-16 : Show PC movement
 ```
 
-[1]: https://github.com/jon-finkel/corewar/blob/master/test/ressources/ress_42/pdf/corewar.pdf
+[1]: https://github.com/jon-finkel/corewar/blob/master/project_instructions/corewar.en.pdf
 [2]: http://42.fr
