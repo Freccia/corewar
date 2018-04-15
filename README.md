@@ -108,5 +108,5 @@ corewar: Usage: ./corewar [ options ] <[-n <champ.id>] champ.cor> <...>
 		-16 : Show PC movement
 ```
 
-[1]: https://github.com/jon-finkel/corewar/blob/master/test/ressources/ress_42/pdf/corewar.pdf;
+[1]: https://github.com/jon-finkel/corewar/blob/master/test/ressources/ress_42/pdf/corewar.pdf
 [2]: http://42.fr
