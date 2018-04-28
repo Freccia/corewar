@@ -77,6 +77,7 @@ typedef struct		s_op
 	char			*description;
 	int				ocp;
 	int				direct_size;
+	int				label_size;
 }					t_op;
 
 #endif

@@ -29,7 +29,7 @@ void			vm_carry(t_proc *proc, int32_t value)
 
 int32_t			vm_read(uint8_t *ptr, uint16_t n)
 {
-	uint8_t	mem[n + 1];
+	uint8_t	mem[5];
 
 	if (n == sizeof(int16_t))
 		return ((int32_t)(int16_t)ft_mtoi(vm_map(mem, ptr, n), n));

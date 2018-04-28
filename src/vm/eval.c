@@ -62,6 +62,26 @@ static int		check_ocp(uint8_t *pc)
 	return (EXIT_SUCCESS);
 }
 
+static int		inst_len(t_op *op)
+{
+	int i;
+	int len;
+
+	len = 0;
+	i = 0;
+	while (i < op->param_nb)
+	{
+		if (op->param_type[i] & T_REG)
+			++len;
+		else if (op->param_type[i] & T_IND)
+			len += 2;
+		else if (op->param_type[i] & T_DIR)
+			len += op->label_size;
+		++i;
+	}
+	return (len);
+}
+
 int				vm_eval(t_proc *proc, uint8_t *pc)
 {
 	int ret;
@@ -70,7 +90,7 @@ int				vm_eval(t_proc *proc, uint8_t *pc)
 	if (*pc >= 0x1 && *pc <= MAX_OP)
 	{
 		if (g_op_tab[*pc - 1].ocp && check_ocp(pc) != EXIT_SUCCESS)
-			proc->pc = vm_move(proc->pc, 2, FALSE);
+			proc->pc = vm_move(proc->pc, 2 + inst_len(g_op_tab + *pc - 1), 0);
 		else
 		{
 			if (g_vm->opt.v & VM_VERB_OPERA && *pc >= 0x1 && *pc <= MAX_OP)

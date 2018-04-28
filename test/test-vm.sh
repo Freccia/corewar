@@ -30,17 +30,17 @@ test_vm() {
 
     # to generate cor dumps:
 	if [ "$(uname -s)" != "Linux" ]; then
-		"$ROOT/ressources/bin/corewar" -d "$cycles" "$core_file" "$core_file" > "$ctrl_file"
+		"$ROOT/test/ressources/ress_42/bin/corewar" -d "$cycles" "$core_file" "$core_file" > "$ctrl_file"
 	fi
 
     if test -e "$ctrl_file"; then
 
-        diff -y --width 400 --suppress-common-lines \
+        local lol=$(diff -y --width 400 --suppress-common-lines \
 			<(grep -vE 'Introducing|Player' "$ctrl_file") \
 			<("$ROOT/corewar" -d "$cycles" "$core_file" "$core_file" \
-			| grep -vE 'Introducing|Player')
+      | grep -vE 'Introducing|Player'))
 
-        if [ $? -ne 0 ]; then
+        if [ $lol ]; then
             error "corewar dump failed: with args: -d $cycles $core_file $core_file"
         else
             success "$core_file $cycles cycles ok!"
@@ -66,7 +66,7 @@ mkdir -p "$LOG_FOLDER"
 
 if test -z "$1"; then
     for f in $COR_FILES; do
-        for i in $(seq 10 250 2000); do
+        for i in $(seq 1 1250 20000); do
             test_vm "$i" "$f"
         done
 		test_vm_leaks "$f" "$prev"
