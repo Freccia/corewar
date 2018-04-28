@@ -29,7 +29,6 @@ void	vm_procfork(t_proc *dst, t_proc *src, uint8_t *pc)
 	ft_memcpy(dst, src, sizeof(t_proc));
 	dst->pc = pc;
 	dst->state = STATE_PENDING;
-	dst->last_live = 0;
 }
 
 void	vm_procspush(t_procs *procs, t_proc *proc)
