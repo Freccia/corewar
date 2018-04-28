@@ -58,7 +58,6 @@ int					ft_getopt(int ac, char *av[], char const *fmt)
 {
 	char *s;
 
-	g_place = EMSG;
 	s = NULL;
 	if (g_optreset || *g_place == 0)
 	{
