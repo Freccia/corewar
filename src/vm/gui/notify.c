@@ -22,6 +22,8 @@ int		vm_guinotify(uint16_t i, int color, int attrs, uint8_t lt)
 {
 	if (!g_vm->opt.g)
 		return (YEP);
+	if (i > MEM_SIZE)
+		return (YEP);
 	if (color >= 0)
 		g_map[i].color = (uint8_t)color;
 	g_map[i].attrs = (uint8_t)attrs;
